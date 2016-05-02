@@ -15,16 +15,4 @@ public class Assistant extends Sellable {
     public Assistant() {
     }
 
-    /**
-     * 
-     */
-    private Set<Assistant> assistants;
-
-    /**
-     * 
-     */
-    public void Sell() {
-        // TODO implement here
-    }
-
 }

@@ -11,6 +11,4 @@ public class NobilityTrack {
     public NobilityTrack() {
     }
 
-
-
 }

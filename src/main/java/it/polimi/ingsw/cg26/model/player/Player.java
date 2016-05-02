@@ -1,10 +1,14 @@
 package it.polimi.ingsw.cg26.model.player;
 
-import it.polimi.ingsw.cg26.model.GameLogic;
-import it.polimi.ingsw.cg26.model.board.City;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -12,97 +16,143 @@ import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 public class Player {
 
     /**
-     * @param  coins
-     * @param  assistants
+     *
      */
-    public void Player(int coins, int assistants) {
-        // TODO implement here
+    VictoryPoints victoryPoints = new VictoryPoints();
+
+    /**
+     *
+     */
+    Coins coins = new Coins();
+
+    /**
+     *
+     */
+    Actions mainActions = new MainActions();
+
+    /**
+     *
+     */
+    Actions quickactions = new QuickActions();
+
+    /**
+     *
+     */
+    NobilityCell currentNobilityCell;
+
+    /**
+     *
+     */
+    Set<Assistant> assistants = new HashSet<Assistant>();
+
+    /**
+     *
+     */
+    Set<PoliticCard> cards = new HashSet<PoliticCard>();
+
+    /**
+     *
+     */
+    Set<BusinessPermissionTile> tiles = new HashSet<BusinessPermissionTile>();
+
+    /**
+     * @param  coins number of coins the player have
+     */
+    public void Player(int coins, Set<Assistant> assistants) {
+        try {
+            this.coins.modifyCoins(coins);
+        } catch (NotEnoughMoneyException e) {
+            e.printStackTrace();
+        }
+
+        this.assistants.addAll(assistants);
     }
 
     /**
      * 
      */
-    public void performMainAction() {
-        // TODO implement here
+    public void performMainAction() throws NoRemainingActionsException {
+        this.mainActions.perform();
     }
 
     /**
      * 
      */
-    public void performQuickAction() {
-        // TODO implement here
+    public void performQuickAction() throws NoRemainingActionsException {
+        this.quickactions.perform();
     }
 
     /**
      * @param
      */
     public void setRemainingMainActions(int i) {
-        // TODO implement here
+        this.mainActions.setRemaining(i);
     }
 
     /**
      * @param
      */
     public void setRemainingQuickActions(int i) {
-        // TODO implement here
+        this.quickactions.setRemaining(i);
     }
 
     /**
      * @return
      */
     public NobilityCell getNobilityCell() {
-        // TODO implement here
-        return null;
+        return this.currentNobilityCell;
     }
 
     /**
      * @return
      */
-    public Assistant takeAssistant() {
-        // TODO implement here
-        return null;
+    public Assistant takeAssistant() throws NoRemainingAssistantsException {
+        if (this.assistants.iterator().hasNext()) {
+            return this.assistants.iterator().next();
+        } else {
+            throw new NoRemainingAssistantsException();
+        }
     }
 
     /**
      * @param
      */
-    public void receiveAssistant(Assistant a) {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void takeCoin() {
-        // TODO implement here
+    public void receiveAssistant(Assistant assistant) {
+        if (assistant != null) {
+            this.assistants.add(assistant);
+        }
     }
 
     /**
      * @param
      */
-    public void receiveCoins(int i) {
-        // TODO implement here
+    public void receiveCoins(int i) throws NotEnoughMoneyException {
+        this.coins.modifyCoins(i);
     }
 
     /**
      * @param
      */
     public void receiveVictoryPoints(int i) {
-        // TODO implement here
+        this.victoryPoints.addPoints(i);
     }
 
     /**
      * @param
      */
     public void receivePoliticCard(PoliticCard c) {
-        // TODO implement here
+        if (c != null) {
+            this.cards.add(c);
+        }
     }
 
     /**
      * @param
      */
-    public void receivePermissionTile(BusinessPermissionTile b) {
-        // TODO implement here
+    public void receivePermissionTile(BusinessPermissionTile bpt) {
+        if (bpt != null) {
+            this.tiles.add(bpt);
+        }
     }
 
 }
