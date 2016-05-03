@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.exceptions;
 /**
  *
  */
-public class NotEnoughMoneyException extends Exception {
+public class NotEnoughMoneyException extends RuntimeException {
 
     /**
      * Default constructor

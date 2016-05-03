@@ -20,14 +20,28 @@ public class Coins {
     }
 
     /**
-     * incrementally modifies the number of coins
-     * @param increment if positive is the increment but can also be a decrement if negative
+     *
+     * @param increment
      */
-    public synchronized void addCoins(int increment) throws NotEnoughMoneyException {
-        if (this.value + increment < 0) {
-            throw new NotEnoughMoneyException();
+    public synchronized void addCoins(int increment) {
+        if (increment < 0) {
+            throw new IllegalArgumentException();
         }
         this.value += increment;
+    }
+
+    /**
+     *
+     * @param decrement
+     */
+    public synchronized void removeCoins(int decrement) {
+        if (decrement < 0) {
+            throw new IllegalArgumentException();
+        }
+        if (this.value - decrement < 0) {
+            throw new NotEnoughMoneyException();
+        }
+        this.value -= decrement;
     }
 
     /**

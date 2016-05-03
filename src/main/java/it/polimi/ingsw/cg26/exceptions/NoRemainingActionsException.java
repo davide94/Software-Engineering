@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.exceptions;
 /**
  *
  */
-public class NoRemainingActionsException extends Exception {
+public class NoRemainingActionsException extends RuntimeException {
 
     /**
      * Default constructor

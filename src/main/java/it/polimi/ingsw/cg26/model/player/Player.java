@@ -117,6 +117,14 @@ public class Player {
     }
 
     /**
+     *
+     */
+    public void incrementNobility() {
+        this.currentNobilityCell = this.currentNobilityCell.next();
+        // TODO prendere i bonus nella nuova cella, che per ora non posso fare perché NobilityCell non è ancora implementato
+    }
+
+    /**
      * @return
      */
     public NobilityCell getNobilityCell() {
@@ -144,10 +152,25 @@ public class Player {
     }
 
     /**
-     * @param
+     * @param increment
      */
-    public void addCoins(int increment) throws NotEnoughMoneyException {
-        this.coins.addCoins(increment);
+    public void addCoins(int increment) {
+        if (increment < 0) {
+            throw new IllegalArgumentException();
+        } else {
+            this.coins.addCoins(increment);
+        }
+    }
+
+    /**
+     * @param decrement
+     */
+    public void removeCoins(int decrement) {
+        if (decrement < 0) {
+            throw new IllegalArgumentException();
+        } else {
+            this.coins.removeCoins(decrement);
+        }
     }
 
     /**
