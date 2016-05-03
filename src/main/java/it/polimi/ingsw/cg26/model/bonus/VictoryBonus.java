@@ -10,14 +10,16 @@ public class VictoryBonus extends Bonus {
     /**
      * Default constructor
      */
-    public VictoryBonus() {
+    public VictoryBonus(int multilplicity) {
+    	super(multilplicity);
     }
 
     /**
-     * @param to
+     * add to a player the number of victory points equal to the multiplicity
+     * @param player the player to apply the bonus
      */
-    public void apply(Player to) {
-        // TODO implement here
+    public void apply(Player player) {
+        player.addVictoryPoints(getMultiplicity());
     }
 
 }

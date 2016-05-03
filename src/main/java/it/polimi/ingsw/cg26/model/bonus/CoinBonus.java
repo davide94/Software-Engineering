@@ -10,13 +10,15 @@ public class CoinBonus extends Bonus {
     /**
      * Default constructor
      */
-    public CoinBonus() {
+    public CoinBonus(int multilplicity) {
+    	super(multilplicity);
     }
 
     /**
-     * @param to
+     * add to a player the number of coins equal to the multiplicity
+     * @param player the player to apply the bonus
      */
-    public void apply(Player to) {
-        // TODO implement here
+    public void apply(Player player) {
+        player.addCoins(this.getMultiplicity());
     }
 }

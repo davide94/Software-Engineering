@@ -5,19 +5,21 @@ import it.polimi.ingsw.cg26.model.player.Player;
 /**
  * 
  */
-public class ActionBonus extends Bonus {
+public class MainActionBonus extends Bonus {
 
     /**
      * Default constructor
      */
-    public ActionBonus() {
+    public MainActionBonus(int multilplicity) {
+    	super(multilplicity);
     }
 
     /**
-     * @param to
+     * gives to a player the number of extra main action equal to the multiplicity
+     * @param player the player to apply the bonus
      */
-    public void apply(Player to) {
-        // TODO implement here
+    public void apply(Player player) {
+        player.addRemainingMainActions(getMultiplicity());
     }
 
 }

@@ -10,14 +10,16 @@ public class CardBonus extends Bonus {
     /**
      * Default constructor
      */
-    public CardBonus() {
+    public CardBonus(int multilplicity) {
+    	super(multilplicity);
     }
 
     /**
-     * @param to
+     * the player draws multiplicity cards
+     * @param player
      */
-    public void apply(Player to) {
-        // TODO implement here
+    public void apply(Player player) {
+        
     }
 
 }

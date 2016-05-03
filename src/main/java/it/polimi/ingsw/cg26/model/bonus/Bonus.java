@@ -14,17 +14,25 @@ public abstract class Bonus {
     /**
      * Default constructor
      */
-    public Bonus() {
+    public Bonus(int multiplicity) {
+    	this.multiplicity=multiplicity;
     }
 
     /**
-     * 
+     * number of times that the bonus has to be applied
      */
-    private int multiplicity;
+    private final int multiplicity;
 
+	/**
+	 * @return the multiplicity of the bonus
+	 */
+	public int getMultiplicity() {
+		return multiplicity;
+	}
     /**
-     * @param to
+     * @param player the player to apply the bonus
      */
-    public abstract void apply(Player to);
+    public abstract void apply(Player player);
+
 
 }
