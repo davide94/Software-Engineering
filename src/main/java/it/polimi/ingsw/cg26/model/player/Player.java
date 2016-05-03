@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.model.player;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
+import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
@@ -18,49 +19,54 @@ public class Player {
     /**
      *
      */
-    VictoryPoints victoryPoints = new VictoryPoints();
+    private GameLogic gameLogic;
 
     /**
      *
      */
-    Coins coins = new Coins();
+    private VictoryPoints victoryPoints = new VictoryPoints();
 
     /**
      *
      */
-    Actions mainActions = new MainActions();
+    private Coins coins = new Coins();
 
     /**
      *
      */
-    Actions quickactions = new QuickActions();
+    private Actions mainActions = new MainActions();
 
     /**
      *
      */
-    NobilityCell currentNobilityCell;
+    private Actions quickactions = new QuickActions();
 
     /**
      *
      */
-    Set<Assistant> assistants = new HashSet<Assistant>();
+    private NobilityCell currentNobilityCell;
 
     /**
      *
      */
-    Set<PoliticCard> cards = new HashSet<PoliticCard>();
+    private Set<Assistant> assistants = new HashSet<Assistant>();
 
     /**
      *
      */
-    Set<BusinessPermissionTile> tiles = new HashSet<BusinessPermissionTile>();
+    private Set<PoliticCard> cards = new HashSet<PoliticCard>();
+
+    /**
+     *
+     */
+    private Set<BusinessPermissionTile> tiles = new HashSet<BusinessPermissionTile>();
 
     /**
      * @param  coins number of coins the player have
      */
     public void Player(int coins, Set<Assistant> assistants) {
         try {
-            this.coins.modifyCoins(coins);
+            this.coins.addCoins(coins);
         } catch (NotEnoughMoneyException e) {
             e.printStackTrace();
         }
@@ -97,6 +103,20 @@ public class Player {
     }
 
     /**
+     *
+     */
+    public void addRemainingMainActions(int increment) {
+        this.mainActions.addActions(increment);
+    }
+
+    /**
+     *
+     */
+    public void addRemainingQuickActions(int increment) {
+        this.quickactions.addActions(increment);
+    }
+
+    /**
      * @return
      */
     public NobilityCell getNobilityCell() {
@@ -117,7 +137,7 @@ public class Player {
     /**
      * @param
      */
-    public void receiveAssistant(Assistant assistant) {
+    public void addAssistant(Assistant assistant) {
         if (assistant != null) {
             this.assistants.add(assistant);
         }
@@ -126,21 +146,21 @@ public class Player {
     /**
      * @param
      */
-    public void receiveCoins(int i) throws NotEnoughMoneyException {
-        this.coins.modifyCoins(i);
+    public void addCoins(int increment) throws NotEnoughMoneyException {
+        this.coins.addCoins(increment);
     }
 
     /**
      * @param
      */
-    public void receiveVictoryPoints(int i) {
-        this.victoryPoints.addPoints(i);
+    public void addVictoryPoints(int increment) {
+        this.victoryPoints.addPoints(increment);
     }
 
     /**
      * @param
      */
-    public void receivePoliticCard(PoliticCard c) {
+    public void addPoliticCard(PoliticCard c) {
         if (c != null) {
             this.cards.add(c);
         }
@@ -149,7 +169,7 @@ public class Player {
     /**
      * @param
      */
-    public void receivePermissionTile(BusinessPermissionTile bpt) {
+    public void addPermissionTile(BusinessPermissionTile bpt) {
         if (bpt != null) {
             this.tiles.add(bpt);
         }

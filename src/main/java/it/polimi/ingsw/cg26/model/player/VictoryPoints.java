@@ -21,7 +21,7 @@ public class VictoryPoints {
      * incrementally modifies the number of victory points
      * @param increment can only be positive
      */
-    public void addPoints(int increment) {
+    public synchronized void addPoints(int increment) {
         if (increment > 0) {
             this.value += increment;
         }

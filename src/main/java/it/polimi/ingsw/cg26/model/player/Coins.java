@@ -23,7 +23,7 @@ public class Coins {
      * incrementally modifies the number of coins
      * @param increment if positive is the increment but can also be a decrement if negative
      */
-    public void modifyCoins(int increment) throws NotEnoughMoneyException {
+    public synchronized void addCoins(int increment) throws NotEnoughMoneyException {
         if (this.value + increment < 0) {
             throw new NotEnoughMoneyException();
         }

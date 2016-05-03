@@ -39,4 +39,13 @@ public abstract class Actions {
         }
     }
 
+    /**
+     *
+     */
+    public synchronized void addActions(int increment) {
+        if (increment > 0) {
+            this.remaining += increment;
+        }
+    }
+
 }
