@@ -35,6 +35,7 @@ public class Market {
         	sellable.setPrice(price);
         	onSale.add(sellable);
         }
+        
     }
 
     /**

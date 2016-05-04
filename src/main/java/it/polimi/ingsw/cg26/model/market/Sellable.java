@@ -16,6 +16,7 @@ public abstract class Sellable {
      */
     private int price;
     
+    
     /**
 	 * @return the price
 	 */
