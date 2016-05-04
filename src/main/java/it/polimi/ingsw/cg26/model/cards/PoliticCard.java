@@ -1,12 +1,14 @@
 package it.polimi.ingsw.cg26.model.cards;
 
-import it.polimi.ingsw.cg26.model.player.Player;
-import it.polimi.ingsw.cg26.model.market.Sellable;
+        import it.polimi.ingsw.cg26.model.player.Player;
+        import it.polimi.ingsw.cg26.model.market.Sellable;
 
 /**
- * 
+ *
  */
 public class PoliticCard extends Sellable {
+
+    private CouncillorColor color;
 
     /**
      * Default constructor
@@ -23,7 +25,7 @@ public class PoliticCard extends Sellable {
     }
 
     /**
-     * 
+     *
      */
     public void Sell() {
         // TODO implement here

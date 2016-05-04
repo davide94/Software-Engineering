@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.model.cards;
 
 import it.polimi.ingsw.cg26.model.board.City;
-import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.model.market.Sellable;
 
 /**
