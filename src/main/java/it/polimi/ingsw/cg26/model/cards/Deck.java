@@ -1,49 +1,61 @@
 package it.polimi.ingsw.cg26.model.cards;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import it.polimi.ingsw.cg26.exceptions.NoMoreCardsException;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * 
  */
-public class Deck {
+public class Deck<E> {
 
     /**
      *
      */
-    private ArrayList<PoliticCard> cards;
-    private ArrayList<PoliticCard> discarded;
+    private LinkedList<E> cards;
 
     /**
      * Default constructor
      */
     public Deck() {
-        this.cards = new ArrayList<PoliticCard>();
-        this.discarded = new ArrayList<PoliticCard>();
+        this.cards = new LinkedList<E>();
     }
 
+    /**
+     *
+     */
+    public Boolean hasNext() {
+        return this.cards.size() != 0;
+    }
 
     /**
      * @return
      */
-    public synchronized PoliticCard draw() {
-        if (!this.cards.iterator().hasNext()) {
-            this.shuffle();
+    public synchronized E draw() {
+        if (!hasNext()) {
+            throw new NoMoreCardsException();
         }
-        return this.cards.iterator().next();
+        return this.cards.poll();
     }
 
     /**
-     * @param
+     *
      */
-    public void discard(PoliticCard card) {
-        if (card != null) {
-            this.discarded.add(card);
+    public void add(E e) {
+        if (e == null) {
+            throw new NullPointerException();
         }
+        this.cards.add(e);
     }
 
-    private void shuffle() {
-        Collections.shuffle(this.discarded);
+    /**
+     *
+     */
+    public void addAll(Collection<E> c) {
+        if (c == null) {
+            throw new NullPointerException();
+        }
+        this.cards.addAll(c);
     }
-
 }
