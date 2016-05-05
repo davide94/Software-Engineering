@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.model.player;
 
-import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.model.GameLogic;
@@ -8,8 +7,8 @@ import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * 
@@ -49,22 +48,26 @@ public class Player {
     /**
      *
      */
-    private Set<Assistant> assistants = new HashSet<Assistant>();
+    private LinkedList<Assistant> assistants = new LinkedList<Assistant>();
 
     /**
      *
      */
-    private Set<PoliticCard> cards = new HashSet<PoliticCard>();
+    private LinkedList<PoliticCard> cards = new LinkedList<PoliticCard>();
 
     /**
      *
      */
-    private Set<BusinessPermissionTile> tiles = new HashSet<BusinessPermissionTile>();
+    private LinkedList<BusinessPermissionTile> tiles = new LinkedList<BusinessPermissionTile>();
 
     /**
      * @param  coins number of coins the player have
      */
-    public void Player(int coins, Set<Assistant> assistants) {
+    public void Player(GameLogic gameLogic, int coins, Collection<Assistant> assistants) {
+        // TODO
+
+        this.gameLogic = gameLogic;
+
         try {
             this.coins.addCoins(coins);
         } catch (NotEnoughMoneyException e) {
@@ -77,14 +80,14 @@ public class Player {
     /**
      * 
      */
-    public void performMainAction() throws NoRemainingActionsException {
+    public void performMainAction() {
         this.mainActions.perform();
     }
 
     /**
      * 
      */
-    public void performQuickAction() throws NoRemainingActionsException {
+    public void performQuickAction() {
         this.quickactions.perform();
     }
 
@@ -120,8 +123,11 @@ public class Player {
      *
      */
     public void incrementNobility() {
-        this.currentNobilityCell = this.currentNobilityCell.next();
-        // TODO prendere i bonus nella nuova cella, che per ora non posso fare perché NobilityCell non è ancora implementato
+        if (this.currentNobilityCell.hasNext()) {
+            this.currentNobilityCell = this.currentNobilityCell.next();
+            // TODO prendere i bonus nella nuova cella, che per ora non posso fare perché NobilityCell non è ancora implementato
+        }
+        // TODO if not next?
     }
 
     /**
@@ -134,9 +140,9 @@ public class Player {
     /**
      * @return
      */
-    public Assistant takeAssistant() throws NoRemainingAssistantsException {
+    public Assistant takeAssistant() {
         if (this.assistants.iterator().hasNext()) {
-            return this.assistants.iterator().next();
+            return this.assistants.poll();
         } else {
             throw new NoRemainingAssistantsException();
         }
@@ -184,18 +190,20 @@ public class Player {
      * @param
      */
     public void addPoliticCard(PoliticCard c) {
-        if (c != null) {
-            this.cards.add(c);
+        if (c == null) {
+            throw new NullPointerException();
         }
+        this.cards.add(c);
     }
 
     /**
      * @param
      */
     public void addPermissionTile(BusinessPermissionTile bpt) {
-        if (bpt != null) {
-            this.tiles.add(bpt);
+        if (bpt == null) {
+            throw new NullPointerException();
         }
+        this.tiles.add(bpt);
     }
 
 }

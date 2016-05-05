@@ -20,7 +20,23 @@ public class CouncillorColor {
     /**
      * @return
      */
-    public String getColor() {
+    public String colorString() {
         return this.color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CouncillorColor that = (CouncillorColor) o;
+
+        return color != null ? color.equals(that.color) : that.color == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return color != null ? color.hashCode() : 0;
     }
 }

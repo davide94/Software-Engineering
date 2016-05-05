@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.model.cards;
 
 import it.polimi.ingsw.cg26.exceptions.NoMoreCardsException;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -24,6 +25,13 @@ public class PoliticDeck extends Deck<PoliticCard> {
 
     /**
      *
+     */
+    public PoliticDeck(Collection<PoliticCard> c) {
+        this.discarded = new LinkedList<PoliticCard>();
+        addAll(c);
+    }
+
+    /**
      * @return
      */
     public synchronized PoliticCard draw() {

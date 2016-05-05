@@ -13,7 +13,15 @@ public class Councillor {
     /**
      * Default constructor
      */
-    public Councillor() {
+    public Councillor(CouncillorColor color) {
+        this.color = color;
+    }
+
+    /**
+     *
+     */
+    public CouncillorColor getColor() {
+        return this.color;
     }
 
 }

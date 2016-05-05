@@ -25,6 +25,14 @@ public class Deck<E> {
     /**
      *
      */
+    public Deck(Collection<E> c) {
+        this.cards = new LinkedList<E>();
+        addAll(c);
+    }
+
+    /**
+     *
+     */
     public Boolean hasNext() {
         return this.cards.size() != 0;
     }
@@ -37,6 +45,13 @@ public class Deck<E> {
             throw new NoMoreCardsException();
         }
         return this.cards.poll();
+    }
+
+    /**
+     *
+     */
+    public E draw(int index) {
+        return this.cards.remove(index);
     }
 
     /**
