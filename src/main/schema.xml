@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!---->
+	<xs:complexType name="bonusType">
+		<xs:attribute name="draw"       type="xs:integer" default="0" />
+		<xs:attribute name="earn"       type="xs:integer" default="0" />
+		<xs:attribute name="assistants" type="xs:integer" default="0" />
+		<xs:attribute name="nobility"   type="xs:integer" default="0" />
+		<xs:attribute name="victory"    type="xs:integer" default="0" />
+		<xs:attribute name="action"     type="xs:integer" default="0" />
+	</xs:complexType>
+	<!---->
+	<!---->
+	<xs:complexType name="region">
+		<xs:sequence>
+			<xs:element name="cities">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="city">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="near">
+										<xs:complexType>
+											<xs:attribute name="city" type="xs:string" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="name"     type="xs:string" />
+								<xs:attribute name="position" type="xs:string" />
+								<xs:attribute name="color"    type="xs:string" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="permissionTiles">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="permissionTile">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="cities">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="city">
+													<xs:complexType>
+														<xs:attribute name="name" type="xs:string" />
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="bonus" type="bonusType" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!---->
+
+	<xs:element name="game">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cityBonuses">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="bonus" type="bonusType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				
+				<xs:element name="nobilityTrack">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="bonus">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="bonusType">
+											<xs:attribute name="position" type="xs:integer" />
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="kingsRewardTiles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="bonus">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="bonusType">
+											<xs:attribute name="position" type="xs:integer" />
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="councillors">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="councillorsColor">
+								<xs:complexType>
+									<xs:attribute name="color"  type="xs:string" />
+									<xs:attribute name="number" type="xs:integer" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="coast"     type="region" />
+				<xs:element name="hills"     type="region" />
+				<xs:element name="mountains" type="region" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

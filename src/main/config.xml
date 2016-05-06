@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<game>
+    <cityBonuses>
+        <bonus earn="2" />
+    </cityBonuses>
+
+    <nobilityTrack len="4">
+        <bonus position="2" earn="2" />
+    </nobilityTrack>
+
+    <politic>
+        <color name="aaa" councillors="16" cards="20" />
+    </politic>
+
+    <coast>
+        <cities>
+            <city name="sms" position="fps" color="efe">
+                <near city="did" />
+            </city>
+        </cities>
+
+        <permissionTiles>
+            <permissionTile>
+                <cities>
+                    <city name="ddd" />
+                </cities>
+
+                <bonus earn="2" />
+            </permissionTile>
+        </permissionTiles>
+
+
+    </coast>
+
+    <hills>
+        <cities>
+            <city name="dee" position="eee" color="dedd">
+                <near city="ddd" />
+            </city>
+        </cities>
+
+        <permissionTiles>
+            <permissionTile>
+                <cities>
+                    <city name="ddd" />
+                </cities>
+
+                <bonus earn="2" />
+            </permissionTile>
+        </permissionTiles>
+    </hills>
+
+    <mountains>
+        <cities>
+            <city name="ddd" position="ddd" color="ddd">
+                <near city="ddd" />
+            </city>
+        </cities>
+
+        <permissionTiles>
+            <permissionTile>
+                <cities>
+                    <city name="ddd" />
+                </cities>
+
+                <bonus earn="2" />
+            </permissionTile>
+        </permissionTiles>
+    </mountains>
+
+</game>

@@ -15,7 +15,7 @@ public class BusinessPermissionTile extends Sellable {
     /**
      *
      */
-    private boolean used; // TODO usiamo questo flag oppure teniamo separate le carte usate e quelle non?
+    private Boolean used; // TODO usiamo questo flag oppure teniamo separate le carte usate e quelle non?
 
     /**
      *

@@ -11,9 +11,9 @@ public class PoliticCard extends Sellable {
     private CouncillorColor color;
 
     /**
-     * Default constructor
+     *
      */
-    public PoliticCard() {
+    public PoliticCard(CouncillorColor color) {
     }
 
     /**

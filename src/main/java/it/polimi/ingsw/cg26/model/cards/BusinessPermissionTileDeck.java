@@ -8,6 +8,13 @@ import java.util.Collection;
 public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
 
     /**
+     *
+     */
+    public  BusinessPermissionTileDeck(Collection<BusinessPermissionTile> c) {
+        super(c);
+    }
+
+    /**
      * @return
      */
     public synchronized BusinessPermissionTile drawSecond() {

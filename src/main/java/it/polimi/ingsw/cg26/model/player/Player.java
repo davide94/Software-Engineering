@@ -63,7 +63,7 @@ public class Player {
     /**
      * @param  coins number of coins the player have
      */
-    public void Player(GameLogic gameLogic, int coins, Collection<Assistant> assistants) {
+    public Player(GameLogic gameLogic, int coins, Collection<Assistant> assistants) {
         // TODO
 
         this.gameLogic = gameLogic;

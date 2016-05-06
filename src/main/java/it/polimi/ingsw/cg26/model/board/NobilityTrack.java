@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.model.board;
 
+import java.util.List;
+
 /**
  * 
  */
@@ -14,9 +16,9 @@ public class NobilityTrack {
 	
 
     /**
-     * Default constructor
+     *
      */
-    public NobilityTrack() {
+    public NobilityTrack(List<NobilityCell> cells) {
     }
 
 }
