@@ -8,22 +8,34 @@ import java.util.*;
  * 
  */
 public class City {
-
-    /**
-     * Default constructor
+	
+	 /**
+     * 
      */
-    public City() {
-    }
+    private String name;
 
+    
     /**
      * 
      */
-    private String Name;
-
+    private CityColor color;
+    
     /**
      * 
      */
     private Set<City> nearCities;
+    
+
+    /**
+     * Default constructor
+     */
+    public City(String name, CityColor color) {
+    	this.name=name;
+    	this.color=color;
+    	this.nearCities= new HashSet<City>();
+    }
+
+     
 
     /**
      * @param

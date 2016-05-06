@@ -16,7 +16,7 @@ public class King {
     /**
      * @param
      */
-    public void Move(City to) {
+    public void Move(City city) {
         // TODO implement here
     }
 
