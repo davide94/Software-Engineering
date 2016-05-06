@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
+import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 /**
@@ -8,6 +9,8 @@ import it.polimi.ingsw.cg26.model.player.Player;
  */
 public class GameBoard {
 
+	private PoliticDeck politicDeck;
+	
     /**
      * @param
      */
@@ -64,4 +67,10 @@ public class GameBoard {
         return 0;
     }
 
+	/**
+	 * @return the politicDeck
+	 */
+	public PoliticDeck getPoliticDeck() {
+		return politicDeck;
+	}
 }
