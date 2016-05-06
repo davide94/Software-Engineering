@@ -99,16 +99,22 @@ public class ModelCreator {
             BusinessPermissionTileDeck hillsTilesDeck = new BusinessPermissionTileDeck(hillsTiles);
             BusinessPermissionTileDeck mountainsTilesDeck = new BusinessPermissionTileDeck(mountainsTiles);
 
+            // TODO create regional bonus
             // create regions
             Region coast = new Region(coastCities, coastTilesDeck, coastBalcony, null);
             Region hills = new Region(hillsCities, hillsTilesDeck, hillsBalcony, null);
             Region mountains = new Region(mountainsCities, mountainsTilesDeck, mountainsBalcony, null);
 
+            LinkedList<Region> regions = new LinkedList<Region>();
+            regions.add(coast);
+            regions.add(hills);
+            regions.add(mountains);
+
             // create nobility track
             NobilityTrack nobilityTrack = createNobilityTrack(nobilityTrackRoot);
 
             // create gameBoard
-            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, coast, hills, mountains, nobilityTrack, king);
+            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
 
             // create market
             Market market = new Market();

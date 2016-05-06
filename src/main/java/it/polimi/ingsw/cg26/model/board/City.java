@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.model.board;
 
+import it.polimi.ingsw.cg26.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 import java.util.*;
@@ -24,6 +25,13 @@ public class City {
      * 
      */
     private Set<City> nearCities;
+
+    public City(String name, CityColor color, Collection<Bonus> bonuses) {
+    }
+
+    public String getName() {
+        return "";
+    }
 
     /**
      * @param
