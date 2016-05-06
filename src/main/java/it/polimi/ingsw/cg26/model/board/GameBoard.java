@@ -1,5 +1,10 @@
 package it.polimi.ingsw.cg26.model.board;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.player.Player;
@@ -11,19 +16,28 @@ public class GameBoard {
 
 	private PoliticDeck politicDeck;
 	
+	private List<Region> regions;
+	
     /**
      * @param
      */
-    public void GameBoard() {
+    public GameBoard() {
+    	this.regions = new ArrayList<Region>();
         // TODO implement here
     }
 
     /**
-     * @param region 
-     * @param color
+     * @param region in which the player wants to elect a councillor
+     * @param councillor the councillor that the player wants to elect
      */
-    public void elect(String region, String color) {
-        // TODO implement here
+    public Councillor elect(String region, Councillor councillor) {
+    	for (Iterator<Region> iterator = regions.iterator(); iterator.hasNext();) {
+			Region iterRegion = iterator.next();
+			if(iterRegion.getName()==region){
+				return iterRegion.elect(councillor);
+			}
+		}
+    	return null;
     }
 
     /**

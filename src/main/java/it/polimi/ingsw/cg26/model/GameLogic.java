@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.model;
 
+import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
-import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.model.cards.PoliticCard;
+import it.polimi.ingsw.cg26.model.cards.*;
 import it.polimi.ingsw.cg26.model.market.Sellable;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
@@ -16,17 +16,20 @@ import java.util.Set;
  */
 public class GameLogic extends Observable {
 	
+	private GameBoard gameboard;
+	
 	private Player currentPlayer;
 	
 	private List<Player> players;
 	
-	private GameBoard gameboard;
+	private List<Councillor> councillorsPool;
 
     /**
      * 
      */
     public GameLogic() {
-    	players = new ArrayList<Player>();
+    	this.players = new ArrayList<Player>();
+    	this.councillorsPool = new ArrayList<Councillor>();
         // TODO implement here
     }
 
@@ -56,7 +59,15 @@ public class GameLogic extends Observable {
      * @param color
      */
     public void elect(String region, String color) {
-        // TODO implement here
+    	for(Councillor councillor : councillorsPool){
+    		if(councillor.getColor().colorString()==color){
+    			Councillor droppedCouncillor = this.gameboard.elect(region, councillor);
+    			councillorsPool.remove(councillor);
+    			councillorsPool.add(droppedCouncillor);
+    			return;
+    		}
+    	}
+    	throw new NotExistingCouncillorException();
     }
 
     /**

@@ -18,7 +18,7 @@ public class Region {
     /**
      * @param
      */
-    public void Region() {
+    public Region() {
         // TODO implement here
     }
 
@@ -34,8 +34,9 @@ public class Region {
     /**
      * @param councillor
      */
-    public void elect(Councillor councillor) {
-        // TODO implement here
+    public Councillor elect(Councillor councillor) {
+    	// TODO implement here
+    	return null;
     }
 
     /**
@@ -55,5 +56,12 @@ public class Region {
         // TODO implement here
         return null;
     }
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
 }
