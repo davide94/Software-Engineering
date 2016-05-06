@@ -1,11 +1,8 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.player.Player;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -19,9 +16,9 @@ public class Region {
     private String name;
 
     /**
-     *
+     * @param
      */
-    public Region(Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Bonus bonus) {
+    public void Region() {
         // TODO implement here
     }
 

@@ -1,10 +1,8 @@
 package it.polimi.ingsw.cg26.model;
 
-import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.model.market.Sellable;
-import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
 
 import java.util.Set;
@@ -17,14 +15,14 @@ public class GameLogic extends Observable {
     /**
      * 
      */
-    public GameLogic(GameBoard gameBoard) {
+    public void GameLogic() {
         // TODO implement here
     }
 
     /**
      * 
      */
-    public void addPlayer(Player player) {
+    public void newPlayer() {
         // TODO implement here
     }
 

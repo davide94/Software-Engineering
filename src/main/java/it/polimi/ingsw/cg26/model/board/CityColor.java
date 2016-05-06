@@ -6,9 +6,9 @@ package it.polimi.ingsw.cg26.model.board;
 public class CityColor {
 
     /**
-     *
+     * Default constructor
      */
-    public CityColor(String color) {
+    public CityColor() {
     }
 
     /**

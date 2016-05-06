@@ -1,11 +1,7 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.player.Player;
-
-import java.util.Collection;
 
 /**
  * 
@@ -13,9 +9,9 @@ import java.util.Collection;
 public class GameBoard {
 
     /**
-     *
+     * @param
      */
-    public GameBoard(PoliticDeck deck, Collection<Councillor> councillors, Balcony kingsBalcony, Region coast, Region hills, Region mountains, NobilityTrack nobilityTrack, King king) {
+    public void GameBoard() {
         // TODO implement here
     }
 

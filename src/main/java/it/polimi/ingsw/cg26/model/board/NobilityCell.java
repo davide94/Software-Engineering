@@ -39,8 +39,9 @@ public class NobilityCell {
     /**
      * Default constructor
      */
-    public NobilityCell(int CellNumber) {
+    public NobilityCell(int CellNumber,List<Bonus> bonuses) {
     	this.CellNuber= CellNumber;
+    	this.bonuses=bonuses;
     }
 
    
