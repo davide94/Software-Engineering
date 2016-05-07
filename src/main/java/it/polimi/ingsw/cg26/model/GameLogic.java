@@ -7,17 +7,26 @@ import it.polimi.ingsw.cg26.model.market.Sellable;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
  * 
  */
 public class GameLogic extends Observable {
-
+	
+	private Player currentPlayer;
+	
+	private List<Player> players;
+	
+	private GameBoard gameboard;
+	
     /**
      * 
      */
     public GameLogic(GameBoard gameBoard) {
+    	players = new ArrayList<Player>();
         // TODO implement here
     }
 
@@ -38,9 +47,8 @@ public class GameLogic extends Observable {
     /**
      * @return
      */
-    public PoliticCard draw() {
-        // TODO implement here
-        return null;
+    public void draw() {
+    	currentPlayer.addPoliticCard(this.gameboard.getPoliticDeck().draw());
     }
 
     /**
@@ -48,7 +56,7 @@ public class GameLogic extends Observable {
      * @param color
      */
     public void elect(String region, String color) {
-        // TODO implement here
+        this.gameboard.elect(region, color);
     }
 
     /**
