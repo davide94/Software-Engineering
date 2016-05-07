@@ -10,16 +10,11 @@ import java.util.*;
  */
 public class City {
 
-    /**
-     * Default constructor
-     */
-    public City() {
-    }
 
     /**
      * 
      */
-    private String Name;
+    private String name;
 
     /**
      * 
@@ -30,7 +25,7 @@ public class City {
     }
 
     public String getName() {
-        return "";
+        return this.name;
     }
 
     /**
