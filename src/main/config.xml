@@ -3,6 +3,9 @@
 <game>
     <cityBonuses>
         <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
     </cityBonuses>
 
     <nobilityTrack len="4">
@@ -13,9 +16,61 @@
         <color name="aaa" councillors="16" cards="20" />
     </politic>
 
+    <regions>
+        <region name="coast">
+            <cities>
+                <city name="ddd" position="fps" color="efe">
+                    <near city="did" />
+                </city>
+            </cities>
+            <permissionTiles>
+                <permissionTile>
+                    <cities>
+                        <city name="ddd" />
+                    </cities>
+
+                    <bonus earn="2" />
+                </permissionTile>
+            </permissionTiles>
+        </region>
+        <region name="hills">
+            <cities>
+                <city name="ddd" position="fps" color="efe">
+                    <near city="did" />
+                </city>
+            </cities>
+            <permissionTiles>
+                <permissionTile>
+                    <cities>
+                        <city name="ddd" />
+                    </cities>
+
+                    <bonus earn="2" />
+                </permissionTile>
+            </permissionTiles>
+        </region>
+        <region name="mountains">
+            <cities>
+                <city name="ddd" position="fps" color="efe">
+                    <near city="did" />
+                </city>
+            </cities>
+            <permissionTiles>
+                <permissionTile>
+                    <cities>
+                        <city name="ddd" />
+                    </cities>
+
+                    <bonus earn="2" />
+                </permissionTile>
+            </permissionTiles>
+        </region>
+    </regions>
+
+    <!--
     <coast>
         <cities>
-            <city name="sms" position="fps" color="efe">
+            <city name="ddd" position="fps" color="efe">
                 <near city="did" />
             </city>
         </cities>
@@ -35,7 +90,7 @@
 
     <hills>
         <cities>
-            <city name="dee" position="eee" color="dedd">
+            <city name="ddd" position="eee" color="dedd">
                 <near city="ddd" />
             </city>
         </cities>
@@ -68,5 +123,5 @@
             </permissionTile>
         </permissionTiles>
     </mountains>
-
+    -->
 </game>

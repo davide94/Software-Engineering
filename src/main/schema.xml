@@ -59,6 +59,7 @@
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
+		<xs:attribute name="name"     type="xs:string" />
 	</xs:complexType>
 	<!---->
 
@@ -117,9 +118,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="coast"     type="region" />
-				<xs:element name="hills"     type="region" />
-				<xs:element name="mountains" type="region" />
+				<xs:element name="regions">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="region" type="region" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
