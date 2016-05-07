@@ -62,7 +62,9 @@ public class GameLogic extends Observable {
     /**
      * @param
      */
-    public void acquireBPT(PoliticCard[] c, String regions, int i) {
+    public void acquireBPT(String[] politicCardsColors, String regions, int numberBPT) {
+    	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
+    	gameboard.acquireBPT(usedPoliticCards, regions, numberBPT);
         // TODO implement here
     }
 

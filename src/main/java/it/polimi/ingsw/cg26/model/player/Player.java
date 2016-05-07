@@ -1,14 +1,15 @@
 package it.polimi.ingsw.cg26.model.player;
 
-import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
+import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 
@@ -204,6 +205,30 @@ public class Player {
             throw new NullPointerException();
         }
         this.tiles.add(bpt);
+    }
+    
+    /**
+     * 
+     * @param politicCardsColors
+     * @return list of card selected by the player to be used
+     */
+    public List<PoliticCard> getCards(String[] politicCardsColors){
+    	List<PoliticCard> usedPoliticCards = new ArrayList<PoliticCard>();
+    	for(PoliticCard iterCard : this.cards){
+    		for(String iterColor : politicCardsColors){
+    			if(iterCard.getColor().colorString()==iterColor){
+    				usedPoliticCards.add(iterCard);
+    				iterColor=null;
+    				break;
+    			}
+    		}
+    	}
+    	for(String iterColor : politicCardsColors){
+    		if(iterColor!=null){
+    			throw new InvalidCardsException();
+    		}
+    	}
+    	return usedPoliticCards;
     }
 
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.cards.*;
 import it.polimi.ingsw.cg26.model.player.Player;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -54,7 +55,7 @@ public class GameBoard {
      * @param
      * @return
      */
-    public Boolean acquireBPT(PoliticCard[] cards, String regions, int l) {
+    public Boolean acquireBPT(List<PoliticCard> cards, String regions, int numberBPT) {
         // TODO implement here
         return null;
     }
