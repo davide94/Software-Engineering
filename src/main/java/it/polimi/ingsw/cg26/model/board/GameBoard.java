@@ -16,6 +16,8 @@ public class GameBoard {
 	private Collection<Region> regions;
 	
 	private Collection<Councillor> councillorsPool;
+	
+	private Balcony kingBalcony;
 
 
     public GameBoard(PoliticDeck deck, Collection<Councillor> councillors, Balcony balcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
@@ -80,7 +82,7 @@ public class GameBoard {
     /**
      * @param city
      */
-    public void buildKing(String city) {
+    public void buildKing(List<PoliticCard> cards, String city) {
         // TODO implement here
     }
 

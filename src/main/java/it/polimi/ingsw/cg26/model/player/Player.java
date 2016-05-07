@@ -137,6 +137,10 @@ public class Player {
     public NobilityCell getNobilityCell() {
         return this.currentNobilityCell;
     }
+    
+    public int numberOfAssistants(){
+    	return this.assistants.size();
+    }
 
     /**
      * @return

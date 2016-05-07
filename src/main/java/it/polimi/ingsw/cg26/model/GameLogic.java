@@ -1,9 +1,11 @@
 package it.polimi.ingsw.cg26.model;
 
+import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.model.market.Sellable;
+import it.polimi.ingsw.cg26.model.player.Assistant;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
 
@@ -48,15 +50,25 @@ public class GameLogic extends Observable {
      * @return
      */
     public void draw() {
-    	currentPlayer.addPoliticCard(this.gameboard.getPoliticDeck().draw());
+    	this.currentPlayer.addPoliticCard(this.gameboard.getPoliticDeck().draw());
     }
 
     /**
      * @param region 
      * @param color
      */
-    public void elect(String region, String color) {
+    private void elect(String region, String color) {
         this.gameboard.elect(region, color);
+    }
+    
+    /**
+     * 
+     * @param region
+     * @param color
+     */
+    public void electAsMainAction(String region, String color){
+    	this.elect(region, color);
+    	this.currentPlayer.addCoins(4);
     }
 
     /**
@@ -64,7 +76,7 @@ public class GameLogic extends Observable {
      */
     public void acquireBPT(String[] politicCardsColors, String regions, int numberBPT) {
     	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
-    	gameboard.acquireBPT(usedPoliticCards, regions, numberBPT);
+    	this.gameboard.acquireBPT(usedPoliticCards, regions, numberBPT);
         // TODO implement here
     }
 
@@ -78,7 +90,9 @@ public class GameLogic extends Observable {
     /**
      * @param city 
      */
-    public void buildKing(String city, PoliticCard[] c) {
+    public void buildKing(String city, String[] politicCardsColors) {
+    	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
+    	this.gameboard.buildKing(usedPoliticCards, city);
         // TODO implement here
     }
 
@@ -86,14 +100,17 @@ public class GameLogic extends Observable {
      * 
      */
     public void engageAssistant() {
-        // TODO implement here
+    	this.currentPlayer.addAssistant(new Assistant());
+    	this.currentPlayer.performQuickAction();
     }
 
     /**
      * @param region
      */
     public void changeBPT(String region) {
-        // TODO implement here
+    	if(this.gameboard.changeBPT(region)){
+    		this.currentPlayer.performQuickAction();
+    	}
     }
 
     /**
@@ -101,6 +118,8 @@ public class GameLogic extends Observable {
      * @param color
      */
     public void electWithAssistant(String region, String color) {
+    	this.currentPlayer.takeAssistant();
+    	this.elect(region, color);
         // TODO implement here
     }
 
@@ -108,7 +127,15 @@ public class GameLogic extends Observable {
      * 
      */
     public void additionalMainAction() {
-        // TODO implement here
+    	if(currentPlayer.numberOfAssistants()>=3){
+    		for (int i=0; i<3; i++) {
+    			this.currentPlayer.takeAssistant();
+			}
+    		this.currentPlayer.addRemainingMainActions(1);
+    		this.currentPlayer.performQuickAction();
+    	} else {
+    		throw new NoRemainingActionsException();
+    	}
     }
 
     /**
