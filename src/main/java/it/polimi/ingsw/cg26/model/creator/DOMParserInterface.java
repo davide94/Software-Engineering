@@ -14,11 +14,6 @@ public interface DOMParserInterface {
     /**
      *
      */
-    Boolean validate(String file, String schema);
-
-    /**
-     *
-     */
-    Document parse(String s) throws IOException, SAXException, ParserConfigurationException;
+    Document parse(String file, String schema) throws IOException, SAXException, ParserConfigurationException;
 
 }

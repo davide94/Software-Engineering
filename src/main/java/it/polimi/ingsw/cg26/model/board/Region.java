@@ -18,7 +18,7 @@ public class Region {
      */
     private String name;
 
-    public Region(Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Bonus bonus) {
+    public Region(Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
     }
 
     /**

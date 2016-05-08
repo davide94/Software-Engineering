@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -18,6 +18,10 @@ public class NobilityTrack {
     /**
      *
      */
-	public NobilityTrack(Collection<NobilityCell> cells) {
+	public NobilityTrack(int len, List<NobilityCell> cells) {
+	}
+
+	public NobilityCell getFirstCell() {
+		return null;
 	}
 }

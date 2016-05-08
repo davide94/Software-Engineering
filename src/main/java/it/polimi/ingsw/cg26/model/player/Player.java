@@ -49,25 +49,26 @@ public class Player {
     /**
      *
      */
-    private LinkedList<Assistant> assistants = new LinkedList<Assistant>();
+    private LinkedList<Assistant> assistants = new LinkedList<>();
 
     /**
      *
      */
-    private LinkedList<PoliticCard> cards = new LinkedList<PoliticCard>();
+    private LinkedList<PoliticCard> cards = new LinkedList<>();
 
     /**
      *
      */
-    private LinkedList<BusinessPermissionTile> tiles = new LinkedList<BusinessPermissionTile>();
+    private LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
 
     /**
      * @param  coins number of coins the player have
      */
-    public Player(GameLogic gameLogic, int coins, Collection<Assistant> assistants) {
+    public Player(GameLogic gameLogic, NobilityCell nobilityCell, int coins, Collection<Assistant> assistants) {
         // TODO
 
         this.gameLogic = gameLogic;
+        this.currentNobilityCell = nobilityCell;
 
         try {
             this.coins.addCoins(coins);
@@ -146,7 +147,7 @@ public class Player {
      * @return
      */
     public Assistant takeAssistant() {
-        if (this.assistants.iterator().hasNext()) {
+        if (this.assistants.size() > 0) {
             return this.assistants.poll();
         } else {
             throw new NoRemainingAssistantsException();

@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -43,17 +44,13 @@ public class ModelCreator {
         try {
             DOMParserInterface parserInterface = new XMLAdapter();
 
-            if (!parserInterface.validate(file, "src/main/schema.xml"))
-                throw new BadInputFileException();
-
-            Document document = parserInterface.parse(file);
+            Document document = parserInterface.parse(file, "src/main/schema.xsd");
 
             Node game = document.getFirstChild();
 
-            if (!hasNode("nobilitytrack", game) || !hasNode("politic", game))
+            if (!hasNode("politic", game))
                 throw new BadInputFileException();
 
-            Node nobilityTrackRoot = getNode("nobilitytrack", game);
             Node politicRoot = getNode("politic", game);
 
             // create king
@@ -74,7 +71,7 @@ public class ModelCreator {
             electCouncillors(kingsBalcony, regions, councillors);
 
             // create nobility track
-            NobilityTrack nobilityTrack = createNobilityTrack(nobilityTrackRoot);
+            NobilityTrack nobilityTrack = createNobilityTrack(game);
 
             // create gameBoard
             GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
@@ -86,15 +83,15 @@ public class ModelCreator {
             GameLogic gameLogic = new GameLogic(gameBoard);
 
             // create players
-            createPlayers(playersNumber, gameLogic);
-
+            createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
 
         } catch (FactoryConfigurationError e) {
             System.out.printf("unable to get a document builder factory");
         } catch (ParserConfigurationException e){
             System.out.printf("parser was unable to be configured");
         } catch (SAXException e) {
-            System.out.printf("parsing error");
+            System.out.println(e.getMessage());
+            throw new BadInputFileException();
         }
 
     }
@@ -126,8 +123,9 @@ public class ModelCreator {
         LinkedList<BusinessPermissionTile> tiles = createTiles(getNode("permissionTiles", regionRoot), cities);
         BusinessPermissionTileDeck tilesDeck = new BusinessPermissionTileDeck(tiles);
         Balcony balcony = new Balcony();
-        Bonus bonus = null;
-        // TODO create bonus
+        if (!hasNode("bonus", regionRoot))
+            throw new BadInputFileException();
+        LinkedList<Bonus> bonus = createBonus(getNode("bonus", regionRoot));
         Region region = new Region(cities, tilesDeck, balcony, bonus);
         return region;
     }
@@ -143,7 +141,6 @@ public class ModelCreator {
         for (Node node: getNodes("city", root)) {
             if (!hasAttribute("color", node) || !hasAttribute("name", node) || bonuses.size() == 0)
                 throw new BadInputFileException();
-
             CityColor color = new CityColor(getAttribute("color", node));
             String name = getAttribute("name", node);
             cities.add(new City(name, color, bonuses.poll()));
@@ -157,13 +154,12 @@ public class ModelCreator {
      * @return the collection of bonus
      */
     private LinkedList<LinkedList<Bonus>> createBonuses(Node root) {
-        LinkedList<LinkedList<Bonus>> bonuses = new LinkedList<LinkedList<Bonus>>();
+        LinkedList<LinkedList<Bonus>> bonuses = new LinkedList<>();
         NodeList l = root.getChildNodes();
         for (int i = 0; i < l.getLength(); i++) {
             Node node = l.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equalsIgnoreCase("bonus"))
                 bonuses.add(createBonus(node));
-
         }
         return bonuses;
     }
@@ -202,8 +198,8 @@ public class ModelCreator {
      * @return
      */
     private Pair<LinkedList<Councillor>, LinkedList<PoliticCard>> createPolitic(Node root) {
-        LinkedList<Councillor> councillors = new LinkedList<Councillor>();
-        LinkedList<PoliticCard> cards = new LinkedList<PoliticCard>();
+        LinkedList<Councillor> councillors = new LinkedList<>();
+        LinkedList<PoliticCard> cards = new LinkedList<>();
         for (Node node: getNodes("color", root)) {
             String colorString = getAttribute("name", node);
             int councillorsNumber = Integer.parseInt(getAttribute("councillors", node));
@@ -228,7 +224,7 @@ public class ModelCreator {
      * @return
      */
     private LinkedList<BusinessPermissionTile> createTiles(Node root, LinkedList<City> cities) {
-        LinkedList<BusinessPermissionTile> tiles = new LinkedList<BusinessPermissionTile>();
+        LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
         for (Node node: getNodes("permissionTile", root)) {
             LinkedList<City> c = getCities(getNode("cities", node), cities);
             LinkedList<Bonus> b = createBonus(getNode("bonus", node));
@@ -260,21 +256,33 @@ public class ModelCreator {
      * @return
      */
     private NobilityTrack createNobilityTrack(Node root) {
-        LinkedList<NobilityCell> cells = new LinkedList<NobilityCell>();
-        // TODO implement
-        return new NobilityTrack(cells);
+        if (!hasNode("nobilitytrack", root))
+            throw new BadInputFileException();
+        Node nobilityTrackRoot = getNode("nobilitytrack", root);
+        if (!hasAttribute("len", nobilityTrackRoot))
+            throw new BadInputFileException();
+        int len = Integer.parseInt(getAttribute("len", nobilityTrackRoot));
+        ArrayList<NobilityCell> cells = new ArrayList<>();
+        for (int i = 0; i < len; i++)
+            cells.add(i, new NobilityCell(i, null));
+        for (Node node: getNodes("bonus", nobilityTrackRoot)) {
+            int position = Integer.parseInt(getAttribute("position", node));
+            LinkedList<Bonus> bonus = createBonus(node);
+            cells.add(position, new NobilityCell(position, bonus));
+        }
+        return new NobilityTrack(len, cells);
     }
 
     /**
      *
      */
-    private void createPlayers(int n, GameLogic gameLogic) {
+    private void createPlayers(int n, GameLogic gameLogic, NobilityCell firstCell) {
         for (int i = 0 ; i < n; i++) {
-            LinkedList<Assistant> assistants = new LinkedList<Assistant>();
+            LinkedList<Assistant> assistants = new LinkedList<>();
             for (int j = 0; j <= i; j++) {
                 assistants.add(new Assistant());
             }
-            Player player = new Player(gameLogic, i + 10, assistants);
+            Player player = new Player(gameLogic, firstCell, i + 10, assistants);
             gameLogic.addPlayer(player);
         }
     }
@@ -286,7 +294,7 @@ public class ModelCreator {
      * @return
      */
     private LinkedList<City> getCities(Node root, LinkedList<City> allCities) {
-        LinkedList<City> cities = new LinkedList<City>();
+        LinkedList<City> cities = new LinkedList<>();
         for (Node node: getNodes("city", root)) {
             String name = getAttribute("name", node);
             for (City city: allCities) {

@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <game>
     <cityBonuses>
         <bonus earn="2" />
         <bonus earn="2" />
         <bonus earn="2" />
         <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
+        <bonus earn="2" />
     </cityBonuses>
-
     <nobilityTrack len="4">
         <bonus position="2" earn="2" />
     </nobilityTrack>
-
     <politic>
-        <color name="aaa" councillors="16" cards="20" />
+        <color name="uno" councillors="4" cards="20" />
+        <color name="due" councillors="4" cards="20" />
+        <color name="tre" councillors="4" cards="20" />
+        <color name="quattro" councillors="4" cards="20" />
+        <color name="cinque" councillors="4" cards="20" />
+        <color name="sei" councillors="4" cards="20" />
     </politic>
 
     <regions>
         <region name="coast">
+            <bonus earn="2" />
             <cities>
-                <city name="ddd" position="fps" color="efe">
-                    <near city="did" />
+                <city name="a" position="fps" color="efe">
+                    <!--<near city="did" />-->
+
                 </city>
+                <city name="b" position="fps" color="efe" />
+                <city name="c" position="fps" color="efe" />
+                <city name="d" position="fps" color="efe" />
+                <city name="e" position="fps" color="efe" />
             </cities>
             <permissionTiles>
                 <permissionTile>
                     <cities>
-                        <city name="ddd" />
+                        <city name="a" />
+                        <city name="a" />
+                        <city name="a" />
                     </cities>
 
                     <bonus earn="2" />
@@ -34,15 +55,19 @@
             </permissionTiles>
         </region>
         <region name="hills">
+            <bonus earn="2" />
             <cities>
-                <city name="ddd" position="fps" color="efe">
-                    <near city="did" />
-                </city>
+                <city name="f" position="fps" color="efe" />
+                <city name="g" position="fps" color="efe" />
+                <city name="h" position="fps" color="efe" />
+                <city name="i" position="fps" color="efe" />
+                <city name="l" position="fps" color="efe" />
+
             </cities>
             <permissionTiles>
                 <permissionTile>
                     <cities>
-                        <city name="ddd" />
+                        <city name="f" />
                     </cities>
 
                     <bonus earn="2" />
@@ -50,15 +75,19 @@
             </permissionTiles>
         </region>
         <region name="mountains">
+            <bonus earn="2" />
             <cities>
-                <city name="ddd" position="fps" color="efe">
-                    <near city="did" />
-                </city>
+                <city name="m" position="fps" color="efe" />
+                <city name="n" position="fps" color="efe" />
+                <city name="o" position="fps" color="efe" />
+                <city name="p" position="fps" color="efe" />
+                <city name="q" position="fps" color="efe" />
+
             </cities>
             <permissionTiles>
                 <permissionTile>
                     <cities>
-                        <city name="ddd" />
+                        <city name="n" />
                     </cities>
 
                     <bonus earn="2" />
@@ -66,62 +95,4 @@
             </permissionTiles>
         </region>
     </regions>
-
-    <!--
-    <coast>
-        <cities>
-            <city name="ddd" position="fps" color="efe">
-                <near city="did" />
-            </city>
-        </cities>
-
-        <permissionTiles>
-            <permissionTile>
-                <cities>
-                    <city name="ddd" />
-                </cities>
-
-                <bonus earn="2" />
-            </permissionTile>
-        </permissionTiles>
-
-
-    </coast>
-
-    <hills>
-        <cities>
-            <city name="ddd" position="eee" color="dedd">
-                <near city="ddd" />
-            </city>
-        </cities>
-
-        <permissionTiles>
-            <permissionTile>
-                <cities>
-                    <city name="ddd" />
-                </cities>
-
-                <bonus earn="2" />
-            </permissionTile>
-        </permissionTiles>
-    </hills>
-
-    <mountains>
-        <cities>
-            <city name="ddd" position="ddd" color="ddd">
-                <near city="ddd" />
-            </city>
-        </cities>
-
-        <permissionTiles>
-            <permissionTile>
-                <cities>
-                    <city name="ddd" />
-                </cities>
-
-                <bonus earn="2" />
-            </permissionTile>
-        </permissionTiles>
-    </mountains>
-    -->
 </game>

@@ -22,6 +22,7 @@ public class City {
     private Set<City> nearCities;
 
     public City(String name, CityColor color, Collection<Bonus> bonuses) {
+        this.name = name;
     }
 
     public String getName() {
