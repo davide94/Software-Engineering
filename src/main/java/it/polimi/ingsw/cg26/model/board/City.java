@@ -11,32 +11,70 @@ import java.util.*;
 public class City {
 
 
-    /**
-     * 
-     */
     private String name;
+    
+    private CityColor color;
+    
+    //private Region region;
+    
+    private List<Player> emporiums;
+    
+    private List<Bonus> bonuses;
+    
+    //private Set<City> nearCities;
+    
+    
 
-    /**
-     * 
-     */
-    private Set<City> nearCities;
-
-    public City(String name, CityColor color, Collection<Bonus> bonuses) {
+    public City(String name, CityColor color,/*Set<City> nearCities,*/ List<Bonus> bonuses) {
         this.name = name;
+        this.color=color;
+        //this.nearCities=nearCities;
+        this.bonuses=bonuses;
+        
+        emporiums= new ArrayList<Player>();
+        
     }
-
-    public String getName() {
-        return this.name;
-    }
-
+    
+    
     /**
      * @param
      */
     public void build(Player p) {
-        // TODO implement here
+        emporiums.add(p);
+    }
+    
+        
+    public String getName() {
+        return this.name;
     }
 
-    /**
+    
+    
+    public CityColor getColor() {
+		return color;
+	}
+
+
+   
+	public List<Player> getEmporiums() {
+		return emporiums;
+	}
+
+
+	
+	public List<Bonus> getBonuses() {
+		return bonuses;
+	}
+
+/*
+	public Set<City> getNearCities() {
+		return nearCities;
+	}
+*/
+
+	
+
+	/**
      * @param
      */
     private void takeBonus(Player p) {
