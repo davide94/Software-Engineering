@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.model.creator;
+package it.polimi.ingsw.cg26.creator;
 
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
@@ -23,15 +23,15 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
- * The ModelCreator class is used to create the initial game structure.
+ * The Creator class is used to create the initial game structure.
  * To build all the classes required to start a game use newGame(String file, int playersNumber).
  */
-public class ModelCreator {
+public class Creator {
 
     /**
      * Default constructor
      */
-    public ModelCreator() {
+    public Creator() {
     }
 
     /**

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26;
 
+import it.polimi.ingsw.cg26.creator.Creator;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
-import it.polimi.ingsw.cg26.model.creator.ModelCreator;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -15,7 +15,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        ModelCreator creator = new ModelCreator();
+        Creator creator = new Creator();
         try {
 
             Instant before = Instant.now();

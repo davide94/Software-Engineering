@@ -1,31 +1,29 @@
 package it.polimi.ingsw.cg26.controller;
 
 import it.polimi.ingsw.cg26.model.GameLogic;
-import it.polimi.ingsw.cg26.observer.Observable;
+import it.polimi.ingsw.cg26.observer.Observer;
 
 /**
  * 
  */
-public class Controller extends Observable {
+public class Controller implements Observer {
 
     /**
-     * Default constructor
+     *
      */
-    public Controller() {
-    }
-
+    private GameLogic gameLogic;
 
     /**
      * @param
      */
     public void Controller(GameLogic gameLogic) {
-        // TODO implement here
+        this.gameLogic = gameLogic;
     }
 
     /**
-     * @param comando
+     *
      */
-    public void update(String comando) {
+    public void update() {
         // TODO implement here
     }
 

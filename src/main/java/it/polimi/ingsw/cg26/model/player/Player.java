@@ -235,6 +235,7 @@ public class Player {
     
     /**
      * Returns a collection of politic cards that match with the required
+     * @param requiredCards is a collection of strings that represents the required cards
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
@@ -249,9 +250,8 @@ public class Player {
                 }
             }
         }
-        if (!requiredCards.isEmpty()) {
+        if (!requiredCards.isEmpty())
             throw new InvalidCardsException();
-        }
         return cards;
     }
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.model.creator;
+package it.polimi.ingsw.cg26.creator;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
