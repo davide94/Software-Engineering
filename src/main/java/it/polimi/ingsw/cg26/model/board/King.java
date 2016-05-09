@@ -8,20 +8,20 @@ import it.polimi.ingsw.cg26.model.GameLogic;
 public class King {
 	
 	
-	private City city;
+	private City currentCity;
 
     /**
      * Default constructor
      */
-    public King() {
-    	//this.city=
+    public King(City currentCity) {
+    	this.currentCity = currentCity;
     }
 
     /**
      * @param
      */
     public void Move(City city) {
-        this.city=city;
+        this.currentCity = city;
     }
 
 }

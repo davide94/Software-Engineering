@@ -12,6 +12,7 @@ public class View extends Observable implements Observer {
      * Default constructor
      */
     public View() {
+
     }
 
     /**

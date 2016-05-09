@@ -140,9 +140,8 @@ public class Player {
     public void incrementNobility() {
         if (this.currentNobilityCell.hasNext()) {
             this.currentNobilityCell = this.currentNobilityCell.next();
-            // TODO prendere i bonus nella nuova cella, che per ora non posso fare perché NobilityCell non è ancora implementato
+            this.currentNobilityCell.apply(this);
         }
-        // TODO if not next?
     }
 
     /**
@@ -264,6 +263,14 @@ public class Player {
         if (!this.cards.containsAll(cards))
             throw new InvalidCardsException();
         this.cards.removeAll(cards);
+    }
+
+    /**
+     * Returns the number of coins owned by the player
+     * @return the number of coins owned by the player
+     */
+    public int getCoinsNumber() {
+        return this.coins.getValue();
     }
 
 

@@ -21,9 +21,10 @@
 								<xs:sequence>
 									<xs:element name="near" minOccurs='0' maxOccurs='unbounded'>
 										<xs:complexType>
-											<xs:attribute name="city" type="xs:string" />
+											<xs:attribute name="name" type="xs:string" />
 										</xs:complexType>
 									</xs:element>
+									<xs:element name="king" minOccurs='0' maxOccurs='1' />
 								</xs:sequence>
 								<xs:attribute name="name"     type="xs:string" />
 								<xs:attribute name="position" type="xs:string" />
@@ -39,6 +40,7 @@
 						<xs:element name="permissionTile" minOccurs='0' maxOccurs='unbounded'>
 							<xs:complexType>
 								<xs:sequence>
+									<xs:element name="bonus" type="bonusType" />
 									<xs:element name="cities">
 										<xs:complexType>
 											<xs:sequence>
@@ -50,7 +52,6 @@
 											</xs:sequence>
 										</xs:complexType>
 									</xs:element>
-									<xs:element name="bonus" type="bonusType" />
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>

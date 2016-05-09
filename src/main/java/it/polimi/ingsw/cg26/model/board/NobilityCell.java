@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.bonus.*;
+import it.polimi.ingsw.cg26.model.player.Player;
 
 import java.util.Collection;
 
@@ -58,6 +59,11 @@ public class NobilityCell {
      */
     public int getIndex() {
         return this.index;
+    }
+
+    public void apply(Player player) {
+        for (Bonus bonus: this.bonuses)
+            bonus.apply(player);
     }
 
 }

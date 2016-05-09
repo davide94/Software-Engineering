@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.model.board;
 
+import it.polimi.ingsw.cg26.model.Dijkstra;
 import it.polimi.ingsw.cg26.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.player.Player;
@@ -9,30 +10,34 @@ import java.util.*;
 /**
  * 
  */
-public class City {
+public class City implements Comparable<City> {
 
+    public double distance = Double.POSITIVE_INFINITY;
+    public City previous;
+    public int compareTo(City other) {
+        return Double.compare(distance, other.distance);
+    }
 
     private String name;
     
     private CityColor color;
-    
-    //private Region region;
-    
+
     private List<Emporium> emporiums;
     
     private List<Bonus> bonuses;
     
-    private Set<City> nearCities;
-    
+    public List<City> nearCities;
+
+    private boolean visited = false;
     
 
     public City(String name, CityColor color,List<Bonus> bonuses) {
         this.name = name;
-        this.color=color;
-        this.bonuses=bonuses;
+        this.color = color;
+        this.bonuses = bonuses;
         
-        emporiums= new ArrayList<Emporium>();
-        
+        this.emporiums = new ArrayList<Emporium>();
+        this.nearCities = new LinkedList<>();
     }
     
     
@@ -74,12 +79,6 @@ public class City {
 		return bonuses;
 	}
 
-/*
-	public Set<City> getNearCities() {
-		return nearCities;
-	}
-*/
-
 	
 
 	/**
@@ -90,27 +89,29 @@ public class City {
     	   iterBonus.apply(p);
     	   }
     }
-
+    
     /**
-     * @param
-     */
-    public void distanceFrom(String s) {
-        // TODO implement here
-    }
-    
-    
-    /*
-     * @param city this method add a city to nearCities
+     * @param c this method add a city to nearCities
      */
     public void link(City c){
-    	if(c==null){ 
-    		throw new NotValidCityException();
-    	}
-    	else{
-    		this.nearCities.add(c);
-    	}
+    	if (c == null)
+    		throw new NullPointerException();
+        if (!this.nearCities.contains(c))
+            this.nearCities.add(c);
     }
-    
-    
+
+    private void initDistance() {
+        if (this.distance == Double.POSITIVE_INFINITY)
+            return;
+        this.distance = Double.POSITIVE_INFINITY;
+        for (City city: this.nearCities)
+            city.initDistance();
+    }
+
+    public int distanceFrom(City city) {
+        this.initDistance();
+        Dijkstra.computePaths(this);
+        return (int) city.distance;
+    }
 
 }

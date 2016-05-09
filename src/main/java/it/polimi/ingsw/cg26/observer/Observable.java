@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg26.observer;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * 
  */
