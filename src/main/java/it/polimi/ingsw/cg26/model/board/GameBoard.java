@@ -32,33 +32,56 @@ public class GameBoard {
     	this.nobilityTrack=nobilityTrack;
     	this.king=king;
     }
+    
+    /**
+     * 
+     * @param city
+     * @return
+     */
+    public Region getCityRegion(String city){
+    	if(city == null){
+    		throw new NullPointerException();
+    	} else {
+    		for(Region iterRegion : regions){
+    			try{
+    				iterRegion.getCity(city);
+    				return iterRegion;
+    			} catch (NotValidCityException cne) {}
+    		}
+    		throw new NotValidCityException();
+    	}
+    }
 
     /**
      * @param region 
      * @param color
      */
     public void elect(String region, String color) {
-    	Councillor addCouncillor=null;
-    	Councillor droppedCouncillor;
-    	
-    	for(Councillor councillor : councillorsPool){
-    		if(councillor.getColor().colorString().equalsIgnoreCase(color)){
-    		addCouncillor = councillor;
-    		break;
-    		}
-    	}
-    	if(addCouncillor==null){
-    		throw new NotExistingCouncillorException();
+    	if(region == null || color == null){
+    		throw new NullPointerException();
     	} else {
-    		for (Region iterRegion : regions) {
-    			if(iterRegion.getName().equalsIgnoreCase(region)){
-    				droppedCouncillor = iterRegion.elect(addCouncillor);
-    				this.councillorsPool.add(droppedCouncillor);
-    				this.councillorsPool.remove(addCouncillor);
-    				return;
+    		Councillor addCouncillor=null;
+    		Councillor droppedCouncillor;
+    	
+    		for(Councillor councillor : councillorsPool){
+    			if(councillor.getColor().colorString().equalsIgnoreCase(color)){
+    				addCouncillor = councillor;
+    				break;
     			}
     		}
-    		throw new NotValidRegionException();
+    		if(addCouncillor==null){
+    			throw new NotExistingCouncillorException();
+    		} else {
+    			for (Region iterRegion : regions) {
+    				if(iterRegion.getName().equalsIgnoreCase(region)){
+    					droppedCouncillor = iterRegion.elect(addCouncillor);
+    					this.councillorsPool.add(droppedCouncillor);
+    					this.councillorsPool.remove(addCouncillor);
+    					return;
+    				}
+    			}
+    			throw new NotValidRegionException();
+    		}
     	}
     }
 
@@ -67,13 +90,17 @@ public class GameBoard {
      * @return
      */
     public BusinessPermissionTile acquireBPT(List<PoliticCard> politicCards, String region, int numberBPT) {
-        for(Region iterRegion : regions) {
-        	if(iterRegion.getName().equalsIgnoreCase(region)){
-        		BusinessPermissionTile acquiredBPT = iterRegion.acquireBPT(politicCards, numberBPT);
-        		for(PoliticCard iterCard : politicCards){
-        			this.politicDeck.discard(iterCard);
+        if(politicCards == null || region == null){
+        	throw new NullPointerException();
+        } else {
+        	for(Region iterRegion : regions) {
+        		if(iterRegion.getName().equalsIgnoreCase(region)){
+        			BusinessPermissionTile acquiredBPT = iterRegion.acquireBPT(politicCards, numberBPT);
+        			for(PoliticCard iterCard : politicCards){
+        				this.politicDeck.discard(iterCard);
+        			}
+        			return acquiredBPT;
         		}
-        		return acquiredBPT;
         	}
         }
         throw new NotValidRegionException();
@@ -82,8 +109,12 @@ public class GameBoard {
     /**
      * @return
      */
-    public void build(Player p, String city) {
-        // TODO implement here
+    public void build(Player player, String city) {
+        if(player == null || city == null){
+        	throw new NullPointerException();
+        } else {
+        	this.getCityRegion(city).build(player, city);
+        }
     }
 
     /**
@@ -105,7 +136,10 @@ public class GameBoard {
     }
 
     /**
+     * 
+     * @param politicCards
      * @param city
+     * @param player
      */
     public void buildKing(List<PoliticCard> politicCards, String city, Player player) {
         if(politicCards == null || city == null){
@@ -113,7 +147,7 @@ public class GameBoard {
         } else {
         	if(kingBalcony.checkPoliticCardsCouncillors(politicCards)){
         		//controllo distanza quindi monete del giocatore
-        		City nextCity = null;
+        		/*City nextCity = null;
         		for(Region iterRegion : regions){
         			try{
         				nextCity = iterRegion.getCity(city);
@@ -124,10 +158,10 @@ public class GameBoard {
         		}
         		if(nextCity == null){
         			throw new NotValidCityException();
-        		} else {
-        			this.king.Move(nextCity);
-        			//chiama metodo build da verificare
-        		}
+        		} else {*/
+        		Region nextCityRegion = this.getCityRegion(city);
+        		this.king.Move(nextCityRegion.getCity(city));
+        		nextCityRegion.build(player, city);
         	}
         }
     }

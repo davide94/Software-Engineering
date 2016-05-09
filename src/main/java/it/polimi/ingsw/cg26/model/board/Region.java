@@ -41,11 +41,11 @@ public class Region {
      */
     public City getCity(String city) {
         for(City iterCity: cities){
-         if(iterCity.getName().equalsIgnoreCase(city)){
-        	 return iterCity;
-         }
-         
-        }throw new NotValidCityException();
+        	if(iterCity.getName().equalsIgnoreCase(city)){
+        		return iterCity;
+        	}
+        }
+        throw new NotValidCityException();
     }
 
     
@@ -54,7 +54,7 @@ public class Region {
      * @param councillor
      */
     public Councillor elect(Councillor councillor) {
-    	Councillor droppedCouncillor= balcony.elect(councillor);
+    	Councillor droppedCouncillor = balcony.elect(councillor);
     	return droppedCouncillor;
     }
 
