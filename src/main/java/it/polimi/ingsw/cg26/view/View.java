@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.observer.Observer;
 /**
  * 
  */
-public class View extends Observer {
+public class View implements Observer {
 
     /**
      * Default constructor

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.observer;
 
-import java.util.*;
-
 /**
  * 
  */

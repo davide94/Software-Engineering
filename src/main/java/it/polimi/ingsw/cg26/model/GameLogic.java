@@ -33,7 +33,6 @@ public class GameLogic extends Observable {
     public GameLogic(GameBoard gameBoard) {
     	players = new ArrayList<Player>();
         this.gameboard=gameBoard;
-        //this.addObserver(o);
     }
 
     /**
@@ -72,7 +71,11 @@ public class GameLogic extends Observable {
      * @param color
      */
     private void elect(String region, String color) {
-        this.gameboard.elect(region, color);
+        if(region == null || color == null){
+        	throw new NullPointerException();
+        } else {
+        	this.gameboard.elect(region, color);
+        }
     }
     
     /**
@@ -81,36 +84,51 @@ public class GameLogic extends Observable {
      * @param color
      */
     public void electAsMainAction(String region, String color){
-    	this.elect(region, color);
-    	this.currentPlayer.addCoins(4);
-    	this.currentPlayer.performMainAction();
+    	if(region == null || color == null){
+    		throw new NullPointerException();
+    	} else {
+    		this.elect(region, color);
+    		this.currentPlayer.addCoins(4);
+    		this.currentPlayer.performMainAction();
+    	}
     }
 
     /**
      * @param
      */
-    public void acquireBPT(Collection<String> politicCardsColors, String regions, int numberBPT) {
-    	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
-    	this.gameboard.acquireBPT(usedPoliticCards, regions, numberBPT);
-    	
-        this.currentPlayer.performMainAction();
+    public void acquireBPT(Collection<String> politicCardsColors, String region, int numberBPT) {
+    	if(politicCardsColors == null || region == null){
+    		throw new NullPointerException();
+    	} else {
+    		List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
+    		this.gameboard.acquireBPT(usedPoliticCards, region, numberBPT);
+    		this.currentPlayer.performMainAction();
+    	}
     }
 
     /**
      * @param city 
      */
     public void build(String city) {
-        this.gameboard.build(currentPlayer, city);
-        this.currentPlayer.performMainAction();
+    	if(city == null){
+    		throw new NullPointerException();
+    	} else {
+    		this.gameboard.build(currentPlayer, city);
+    		this.currentPlayer.performMainAction();
+    	}
     }
 
     /**
      * @param city 
      */
     public void buildKing(String city, Collection<String> politicCardsColors) {
-    	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
-    	this.gameboard.buildKing(usedPoliticCards, city);
-        this.currentPlayer.performMainAction();
+    	if(city == null){
+    		throw new NullPointerException();
+    	} else {
+    		List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
+    		this.gameboard.buildKing(usedPoliticCards, city);
+    		this.currentPlayer.performMainAction();
+    	}
     }
 
     /**
@@ -125,7 +143,10 @@ public class GameLogic extends Observable {
      * @param region
      */
     public void changeBPT(String region) {
-    	if(this.gameboard.changeBPT(region)){
+    	if(region == null){
+    		throw new NullPointerException();
+    	} else {
+    		this.gameboard.changeBPT(region);
     		this.currentPlayer.performQuickAction();
     	}
     }
@@ -135,9 +156,13 @@ public class GameLogic extends Observable {
      * @param color
      */
     public void electWithAssistant(String region, String color) {
-    	this.currentPlayer.takeAssistant();
-    	this.elect(region, color);
-        this.currentPlayer.performQuickAction();
+    	if(region == null || color == null){
+    		throw new NullPointerException();
+    	} else {
+    		this.currentPlayer.takeAssistant();
+    		this.elect(region, color);
+    		this.currentPlayer.performQuickAction();
+    	}
     }
 
     /**
