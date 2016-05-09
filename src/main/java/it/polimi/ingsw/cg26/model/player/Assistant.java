@@ -2,15 +2,13 @@ package it.polimi.ingsw.cg26.model.player;
 
 import it.polimi.ingsw.cg26.model.market.Sellable;
 
-import java.util.Set;
-
 /**
- * 
+ * The Assistant class models a single assistant
  */
 public class Assistant extends Sellable {
 
     /**
-     * Default constructor
+     * Constructs an Assistant
      */
     public Assistant() {
     }
