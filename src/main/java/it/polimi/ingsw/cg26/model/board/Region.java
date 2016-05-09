@@ -4,7 +4,7 @@ import it.polimi.ingsw.cg26.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.player.Player;
-
+import it.polimi.ingsw.cg26.exceptions.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -43,10 +43,11 @@ public class Region {
         	 return x;
          }
          
-        }return null;
-        //scrivere eccezione città non presente
+        }throw new NotValidCityException();
     }
 
+    
+    
     /**
      * @param councillor
      */

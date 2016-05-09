@@ -49,7 +49,7 @@ public class GameBoard {
     				break;
     			}
     		}
-    		// TODO implement here aggiungere eccezione per regione non valida
+    		throw new NotValidRegionException();
     	}
     }
 
