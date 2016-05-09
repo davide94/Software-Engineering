@@ -97,5 +97,20 @@ public class City {
     public void distanceFrom(String s) {
         // TODO implement here
     }
+    
+    
+    /*
+     * @param city this method add a city to nearCities
+     */
+    public void link(City c){
+    	if(c==null){ 
+    		throw new NotValidCityException();
+    	}
+    	else{
+    		this.nearCities.add(c);
+    	}
+    }
+    
+    
 
 }

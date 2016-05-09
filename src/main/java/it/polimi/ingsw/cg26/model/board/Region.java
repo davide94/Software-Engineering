@@ -40,9 +40,9 @@ public class Region {
      * @return
      */
     public City getCity(String city) {
-        for(City x: cities){
-         if(x.getName()==city){
-        	 return x;
+        for(City iterCity: cities){
+         if(iterCity.getName().equalsIgnoreCase(city)){
+        	 return iterCity;
          }
          
         }throw new NotValidCityException();
@@ -67,18 +67,17 @@ public class Region {
         getCity(city).build(p);
     }
 
-    /**
-     * @return
-     */
+
     
     /*public Set<City> getCities() {
-        // TODO implement here
+        //implement here
         return null;
     }
-*/
+    */
+    
     
 	/**
-	 * @return the name
+	 * @return the name of the region
 	 */
 	public String getName() {
 		return name;

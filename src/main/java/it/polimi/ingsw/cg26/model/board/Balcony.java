@@ -30,9 +30,11 @@ public class Balcony {
     	if(c==null){
     		throw new NullPointerException();
     	}
+    	else{
     	balcony.add(c);
     	Councillor droppedCouncillor= balcony.poll();
     	return droppedCouncillor;
+    	}
     }
 
 }
