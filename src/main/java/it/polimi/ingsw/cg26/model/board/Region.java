@@ -24,6 +24,8 @@ public class Region {
     
 
     public Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonuses) {
+    	if(name==null || cities==null || deck==null || balcony==null || bonuses==null)
+    	{throw new NullPointerException();}
     	this.name=name;
     	this.cities=cities;
     	this.deck=deck;
@@ -68,11 +70,13 @@ public class Region {
     /**
      * @return
      */
-    public Set<City> getCities() {
+    
+    /*public Set<City> getCities() {
         // TODO implement here
         return null;
     }
-
+*/
+    
 	/**
 	 * @return the name
 	 */
