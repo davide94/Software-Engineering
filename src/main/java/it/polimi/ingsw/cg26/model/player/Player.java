@@ -238,7 +238,7 @@ public class Player {
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
-    public Collection<PoliticCard> getCards(Collection<String> requiredCards) {
+    public LinkedList<PoliticCard> getCards(Collection<String> requiredCards) {
         LinkedList<PoliticCard> cards = new LinkedList<>();
         for (String requiredCard: requiredCards) {
             for (PoliticCard card: this.cards) {

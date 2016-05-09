@@ -10,6 +10,9 @@ import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,21 +32,32 @@ public class GameLogic extends Observable {
      */
     public GameLogic(GameBoard gameBoard) {
     	players = new ArrayList<Player>();
-        // TODO implement here
+        this.gameboard=gameBoard;
+        //this.addObserver(o);
     }
 
     /**
      * 
      */
     public void addPlayer(Player player) {
-        // TODO implement here
+        this.players.add(player);
     }
 
     /**
      * 
      */
     public void start() {
-        // TODO implement here
+        boolean endgame = false;
+        int i=0;
+        while(!endgame){
+        	currentPlayer = players.get(i);
+        	//turno
+        	if(i==players.size()-1){
+        		i=0;
+        	} else {
+        		i++;
+        	}
+        }
     }
 
     /**
@@ -69,31 +83,34 @@ public class GameLogic extends Observable {
     public void electAsMainAction(String region, String color){
     	this.elect(region, color);
     	this.currentPlayer.addCoins(4);
+    	this.currentPlayer.performMainAction();
     }
 
     /**
      * @param
      */
-    public void acquireBPT(String[] politicCardsColors, String regions, int numberBPT) {
+    public void acquireBPT(Collection<String> politicCardsColors, String regions, int numberBPT) {
     	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
     	this.gameboard.acquireBPT(usedPoliticCards, regions, numberBPT);
-        // TODO implement here
+    	
+        this.currentPlayer.performMainAction();
     }
 
     /**
      * @param city 
      */
-    public void build(String city, BusinessPermissionTile b) {
-        // TODO implement here
+    public void build(String city) {
+        this.gameboard.build(currentPlayer, city);
+        this.currentPlayer.performMainAction();
     }
 
     /**
      * @param city 
      */
-    public void buildKing(String city, String[] politicCardsColors) {
+    public void buildKing(String city, Collection<String> politicCardsColors) {
     	List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
     	this.gameboard.buildKing(usedPoliticCards, city);
-        // TODO implement here
+        this.currentPlayer.performMainAction();
     }
 
     /**
@@ -120,7 +137,7 @@ public class GameLogic extends Observable {
     public void electWithAssistant(String region, String color) {
     	this.currentPlayer.takeAssistant();
     	this.elect(region, color);
-        // TODO implement here
+        this.currentPlayer.performQuickAction();
     }
 
     /**
