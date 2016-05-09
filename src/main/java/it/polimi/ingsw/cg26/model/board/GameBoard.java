@@ -13,15 +13,24 @@ public class GameBoard {
 	
 	private final PoliticDeck politicDeck;
 	
-	private Collection<Region> regions;
-	
 	private Collection<Councillor> councillorsPool;
 	
 	private Balcony kingBalcony;
+	
+	private Collection<Region> regions;
+	
+	private NobilityTrack nobilityTrack;
+	
+	private King king;
 
 
-    public GameBoard(PoliticDeck deck, Collection<Councillor> councillors, Balcony balcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
+    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingbalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
     	this.politicDeck=deck;
+    	this.councillorsPool=councillorsPool;
+    	this.kingBalcony=kingbalcony;
+    	this.regions=regions;
+    	this.nobilityTrack=nobilityTrack;
+    	this.king=king;
     }
 
     /**
@@ -33,7 +42,7 @@ public class GameBoard {
     	Councillor droppedCouncillor;
     	
     	for(Councillor councillor : councillorsPool){
-    		if(councillor.getColor().colorString()==color){
+    		if(councillor.getColor().colorString().equalsIgnoreCase(color)){
     		addCouncillor = councillor;
     		break;
     		}
@@ -42,11 +51,11 @@ public class GameBoard {
     		throw new NotExistingCouncillorException();
     	} else {
     		for (Region iterRegion : regions) {
-    			if(iterRegion.getName()==region){
+    			if(iterRegion.getName().equalsIgnoreCase(region)){
     				droppedCouncillor = iterRegion.elect(addCouncillor);
-    				councillorsPool.add(droppedCouncillor);
-    				councillorsPool.remove(addCouncillor);
-    				break;
+    				this.councillorsPool.add(droppedCouncillor);
+    				this.councillorsPool.remove(addCouncillor);
+    				return;
     			}
     		}
     		throw new NotValidRegionException();
@@ -57,33 +66,70 @@ public class GameBoard {
      * @param
      * @return
      */
-    public Boolean acquireBPT(List<PoliticCard> cards, String regions, int numberBPT) {
-        // TODO implement here
-        return null;
+    public BusinessPermissionTile acquireBPT(List<PoliticCard> politicCards, String region, int numberBPT) {
+        for(Region iterRegion : regions) {
+        	if(iterRegion.getName().equalsIgnoreCase(region)){
+        		BusinessPermissionTile acquiredBPT = iterRegion.acquireBPT(politicCards, numberBPT);
+        		for(PoliticCard iterCard : politicCards){
+        			this.politicDeck.discard(iterCard);
+        		}
+        		return acquiredBPT;
+        	}
+        }
+        throw new NotValidRegionException();
     }
 
     /**
      * @return
      */
-    public Boolean build(Player p, String city) {
+    public void build(Player p, String city) {
         // TODO implement here
-        return null;
     }
 
     /**
      * @param region 
      * @return
      */
-    public Boolean changeBPT(String region) {
-        // TODO implement here
-        return null;
+    public void changeBPT(String region) {
+        if(region == null){
+        	throw new NullPointerException();
+        } else {
+        	for(Region iterRegion : regions){
+        		if(iterRegion.getName().equalsIgnoreCase(region)){
+        			iterRegion.changeBPT();
+        			return;
+        		}
+        	}
+        	throw new NotValidCityException();
+        }
     }
 
     /**
      * @param city
      */
-    public void buildKing(List<PoliticCard> cards, String city) {
-        // TODO implement here
+    public void buildKing(List<PoliticCard> politicCards, String city, Player player) {
+        if(politicCards == null || city == null){
+        	throw new NullPointerException();
+        } else {
+        	if(kingBalcony.checkPoliticCardsCouncillors(politicCards)){
+        		//controllo distanza quindi monete del giocatore
+        		City nextCity = null;
+        		for(Region iterRegion : regions){
+        			try{
+        				nextCity = iterRegion.getCity(city);
+        				break;
+        			} catch (NotValidCityException cne) {
+        				nextCity = null; //necessario?
+        			}
+        		}
+        		if(nextCity == null){
+        			throw new NotValidCityException();
+        		} else {
+        			this.king.Move(nextCity);
+        			//chiama metodo build da verificare
+        		}
+        	}
+        }
     }
 
     /**

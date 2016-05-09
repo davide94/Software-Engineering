@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTileDeck;
-import it.polimi.ingsw.cg26.model.cards.Councillor;
+import it.polimi.ingsw.cg26.model.cards.*;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.exceptions.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +19,7 @@ public class Region {
     private String name;
     private Collection<City> cities;
     private Balcony balcony;
-    private BusinessPermissionTileDeck deck;
+    private BusinessPermissionTileDeck BPTdeck;
     private Collection<Bonus> bonuses;
     
 
@@ -28,7 +28,7 @@ public class Region {
     	{throw new NullPointerException();}
     	this.name=name;
     	this.cities=cities;
-    	this.deck=deck;
+    	this.BPTdeck=deck;
     	this.balcony=balcony;
     	this.bonuses=bonuses;
     	
@@ -66,9 +66,30 @@ public class Region {
     public void build(Player p, String city) {
         getCity(city).build(p);
     }
-
-
     
+    public BusinessPermissionTile acquireBPT(List<PoliticCard> politicCards, int numberBPT){
+    	if(politicCards == null){
+    		throw new NullPointerException();
+    	} else if(balcony.checkPoliticCardsCouncillors(politicCards)){
+    		if(numberBPT == 1){
+    			return BPTdeck.draw();
+    		} else if(numberBPT == 2) {
+    			return BPTdeck.drawSecond();
+    		} else {
+    			throw new IllegalArgumentException();
+    		}
+    	} else {
+    		throw new InvalidCardsException();
+    	}
+    }
+    
+    /**
+     * 
+     */
+    public void changeBPT(){
+    	//this.BPTDeck.changeTiles; metodo da aggiungere in BPTDeck
+    }
+
     /*public Set<City> getCities() {
         //implement here
         return null;

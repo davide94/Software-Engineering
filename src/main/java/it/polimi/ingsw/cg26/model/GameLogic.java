@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.model;
 
 import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
@@ -11,8 +12,6 @@ import it.polimi.ingsw.cg26.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -100,8 +99,11 @@ public class GameLogic extends Observable {
     	if(politicCardsColors == null || region == null){
     		throw new NullPointerException();
     	} else {
+    		//controlla se player ha monete sufficienti per effettuare l'azione, seve metodo in player
     		List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
-    		this.gameboard.acquireBPT(usedPoliticCards, region, numberBPT);
+    		BusinessPermissionTile addedBPT = this.gameboard.acquireBPT(usedPoliticCards, region, numberBPT);
+    		this.currentPlayer.addPermissionTile(addedBPT);
+    		this.currentPlayer.useCards(usedPoliticCards);
     		this.currentPlayer.performMainAction();
     	}
     }
@@ -122,11 +124,12 @@ public class GameLogic extends Observable {
      * @param city 
      */
     public void buildKing(String city, Collection<String> politicCardsColors) {
-    	if(city == null){
+    	if(city == null || politicCardsColors == null){
     		throw new NullPointerException();
     	} else {
     		List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
-    		this.gameboard.buildKing(usedPoliticCards, city);
+    		this.gameboard.buildKing(usedPoliticCards, city, currentPlayer);
+    		this.currentPlayer.useCards(usedPoliticCards);
     		this.currentPlayer.performMainAction();
     	}
     }
@@ -135,6 +138,7 @@ public class GameLogic extends Observable {
      * 
      */
     public void engageAssistant() {
+    	this.currentPlayer.removeCoins(3);
     	this.currentPlayer.addAssistant(new Assistant());
     	this.currentPlayer.performQuickAction();
     }
@@ -146,8 +150,13 @@ public class GameLogic extends Observable {
     	if(region == null){
     		throw new NullPointerException();
     	} else {
-    		this.gameboard.changeBPT(region);
-    		this.currentPlayer.performQuickAction();
+    		if(currentPlayer.numberOfAssistants()>0){
+    			this.gameboard.changeBPT(region);
+    			this.currentPlayer.takeAssistant();
+    			this.currentPlayer.performQuickAction();
+    		} else {
+    			throw new NoRemainingAssistantsException();
+    		}
     	}
     }
 
@@ -159,9 +168,13 @@ public class GameLogic extends Observable {
     	if(region == null || color == null){
     		throw new NullPointerException();
     	} else {
-    		this.currentPlayer.takeAssistant();
-    		this.elect(region, color);
-    		this.currentPlayer.performQuickAction();
+    		if(currentPlayer.numberOfAssistants()>0){
+    			this.elect(region, color);
+    			this.currentPlayer.takeAssistant();
+    			this.currentPlayer.performQuickAction();
+    		} else {
+    			throw new NoRemainingAssistantsException();
+    		}
     	}
     }
 

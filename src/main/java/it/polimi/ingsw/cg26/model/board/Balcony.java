@@ -1,8 +1,10 @@
 package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.cards.Councillor;
+import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.List;
 
 
 
@@ -12,12 +14,12 @@ import java.util.LinkedList;
 public class Balcony {
 	
 	
-	private Queue<Councillor> balcony;
+	private Queue<Councillor> councillors;
 	
 	
 
     public Balcony() {
-    	this.balcony=new LinkedList<Councillor>();
+    	this.councillors = new LinkedList<Councillor>();
     	 
     }
     
@@ -31,9 +33,27 @@ public class Balcony {
     		throw new NullPointerException();
     	}
     	else{
-    	balcony.add(c);
-    	Councillor droppedCouncillor= balcony.poll();
+    	councillors.add(c);
+    	Councillor droppedCouncillor= councillors.poll();
     	return droppedCouncillor;
+    	}
+    }
+    
+    public boolean checkPoliticCardsCouncillors(List<PoliticCard> politicCards){
+    	if(politicCards == null){
+    		throw new NullPointerException();
+    	} else {
+    		for(Councillor iterCouncillor : councillors){
+    			for(PoliticCard iterPoliticCard : politicCards){
+    				if(iterCouncillor.getColor().equals(iterPoliticCard.getColor())){
+    					politicCards.remove(iterPoliticCard);
+    				}
+    				if(politicCards.size() == 0){
+    					return true;
+    				}
+    			}
+    		}
+    		return false;
     	}
     }
 
