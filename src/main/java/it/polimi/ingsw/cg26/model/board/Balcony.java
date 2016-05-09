@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.cards.Councillor;
 import java.util.Queue;
+import java.util.LinkedList;
+
 
 
 /**
@@ -15,6 +17,7 @@ public class Balcony {
 	
 
     public Balcony() {
+    	this.balcony=new LinkedList<Councillor>();
     	 
     }
     
@@ -24,8 +27,12 @@ public class Balcony {
      * @return
      */
     public Councillor elect(Councillor c) {
-        //TODO da implementare
-        return null;
+    	if(c==null){
+    		throw new NullPointerException();
+    	}
+    	balcony.add(c);
+    	Councillor droppedCouncillor= balcony.poll();
+    	return droppedCouncillor;
     }
 
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 import java.util.*;
@@ -17,21 +18,20 @@ public class City {
     
     //private Region region;
     
-    private List<Player> emporiums;
+    private List<Emporium> emporiums;
     
     private List<Bonus> bonuses;
     
-    //private Set<City> nearCities;
+    private Set<City> nearCities;
     
     
 
-    public City(String name, CityColor color,/*Set<City> nearCities,*/ List<Bonus> bonuses) {
+    public City(String name, CityColor color,List<Bonus> bonuses) {
         this.name = name;
         this.color=color;
-        //this.nearCities=nearCities;
         this.bonuses=bonuses;
         
-        emporiums= new ArrayList<Player>();
+        emporiums= new ArrayList<Emporium>();
         
     }
     
@@ -40,7 +40,15 @@ public class City {
      * @param
      */
     public void build(Player p) {
-        emporiums.add(p);
+    	
+    	for(Emporium x:emporiums){
+    	if(x.getPlayer()==p){
+    		throw new ExistingEmporiumException();
+    		}
+    	}
+    	
+        emporiums.add(new Emporium(p));
+        takeBonus(p);
     }
     
         
@@ -56,7 +64,7 @@ public class City {
 
 
    
-	public List<Player> getEmporiums() {
+	public List<Emporium> getEmporiums() {
 		return emporiums;
 	}
 
@@ -78,7 +86,9 @@ public class City {
      * @param
      */
     private void takeBonus(Player p) {
-        // TODO implement here
+       for(Bonus iterBonus:bonuses){
+    	   iterBonus.apply(p);
+    	   }
     }
 
     /**

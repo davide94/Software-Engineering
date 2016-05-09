@@ -19,6 +19,10 @@ public class Emporium {
     public Emporium(Player player) {
     	this.player=player;
     }
+    
+    public Player getPlayer(){
+    	return this.player;
+    }
 
 
 }

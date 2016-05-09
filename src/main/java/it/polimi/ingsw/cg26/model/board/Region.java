@@ -17,8 +17,20 @@ public class Region {
      * 
      */
     private String name;
+    private Collection<City> cities;
+    private Balcony balcony;
+    private BusinessPermissionTileDeck deck;
+    private Collection<Bonus> bonuses;
+    
 
-    public Region(Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
+    public Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonuses) {
+    	this.name=name;
+    	this.cities=cities;
+    	this.deck=deck;
+    	this.balcony=balcony;
+    	this.bonuses=bonuses;
+    	
+    	
     }
 
     /**
@@ -26,16 +38,21 @@ public class Region {
      * @return
      */
     public City getCity(String city) {
-        // TODO implement here
-        return null;
+        for(City x: cities){
+         if(x.getName()==city){
+        	 return x;
+         }
+         
+        }return null;
+        //scrivere eccezione città non presente
     }
 
     /**
      * @param councillor
      */
     public Councillor elect(Councillor councillor) {
-        // TODO implement here
-    	return null;
+    	Councillor droppedCouncillor= balcony.elect(councillor);
+    	return droppedCouncillor;
     }
 
     /**
@@ -43,9 +60,8 @@ public class Region {
      * @param city 
      * @return
      */
-    public Boolean build(Player p, String city) {
-        // TODO implement here
-        return null;
+    public void build(Player p, String city) {
+        getCity(city).build(p);
     }
 
     /**
