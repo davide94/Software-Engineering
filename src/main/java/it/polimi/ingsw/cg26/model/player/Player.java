@@ -234,9 +234,9 @@ public class Player {
     }
     
     /**
-     * 
-     * @param politicCardsColors
-     * @return list of card selected by the player to be used
+     * Returns and removes from the player's property a collection of politic cards that match with the required
+     * @return a collection of politic cards that match with the required
+     * @throws InvalidCardsException if the player does not owns all the cards required
      */
     public List<PoliticCard> getCards(String[] politicCardsColors){
     	List<PoliticCard> usedPoliticCards = new ArrayList<PoliticCard>();
