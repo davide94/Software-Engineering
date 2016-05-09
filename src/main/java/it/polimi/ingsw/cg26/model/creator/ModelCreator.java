@@ -118,7 +118,7 @@ public class ModelCreator {
      *
      */
     private Region createRegion(Node root, Node regionRoot, LinkedList<LinkedList<Bonus>> cityBonuses) {
-
+        String name = getAttribute("name", root);
         LinkedList<City> cities = createCities(getNode("cities", regionRoot), cityBonuses);
         LinkedList<BusinessPermissionTile> tiles = createTiles(getNode("permissionTiles", regionRoot), cities);
         BusinessPermissionTileDeck tilesDeck = new BusinessPermissionTileDeck(tiles);
@@ -126,7 +126,7 @@ public class ModelCreator {
         if (!hasNode("bonus", regionRoot))
             throw new BadInputFileException();
         LinkedList<Bonus> bonus = createBonus(getNode("bonus", regionRoot));
-        Region region = new Region(cities, tilesDeck, balcony, bonus);
+        Region region = new Region(name, cities, tilesDeck, balcony, bonus);
         return region;
     }
 

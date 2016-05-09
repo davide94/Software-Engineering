@@ -234,27 +234,37 @@ public class Player {
     }
     
     /**
-     * Returns and removes from the player's property a collection of politic cards that match with the required
+     * Returns a collection of politic cards that match with the required
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
-    public List<PoliticCard> getCards(String[] politicCardsColors){
-    	List<PoliticCard> usedPoliticCards = new ArrayList<PoliticCard>();
-    	for(PoliticCard iterCard : this.cards){
-    		for(String iterColor : politicCardsColors){
-    			if(iterCard.getColor().colorString()==iterColor){
-    				usedPoliticCards.add(iterCard);
-    				iterColor=null;
-    				break;
-    			}
-    		}
-    	}
-    	for(String iterColor : politicCardsColors){
-    		if(iterColor!=null){
-    			throw new InvalidCardsException();
-    		}
-    	}
-    	return usedPoliticCards;
+    public Collection<PoliticCard> getCards(Collection<String> requiredCards) {
+        LinkedList<PoliticCard> cards = new LinkedList<>();
+        for (String requiredCard: requiredCards) {
+            for (PoliticCard card: this.cards) {
+                if (card.getColor().colorString().equalsIgnoreCase(requiredCard)) {
+                    cards.add(card);
+                    requiredCards.remove(requiredCard);
+                    break;
+                }
+            }
+        }
+        if (!requiredCards.isEmpty()) {
+            throw new InvalidCardsException();
+        }
+        return cards;
     }
+
+    /**
+     * Removes a collection of politic cards from the cards owned by the player
+     * @throws InvalidCardsException if the player does not have any of the required cards
+     * @throws NullPointerException if the parameter is null or if contains one or more null elements
+     */
+    public synchronized void useCards(Collection<PoliticCard> cards) {
+        if (!this.cards.containsAll(cards))
+            throw new InvalidCardsException();
+        this.cards.removeAll(cards);
+    }
+
 
 }
