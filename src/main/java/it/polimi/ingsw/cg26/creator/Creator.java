@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.creator;
 
+import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.*;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.cg26.model.cards.*;
 import it.polimi.ingsw.cg26.model.market.Market;
 import it.polimi.ingsw.cg26.model.player.Assistant;
 import it.polimi.ingsw.cg26.model.player.Player;
+import it.polimi.ingsw.cg26.view.View;
 import javafx.util.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -19,6 +21,7 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -84,6 +87,12 @@ public class Creator {
 
             // create players
             createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
+
+            View view = new View();
+            Controller controller = new Controller(gameLogic);
+
+            gameLogic.addObserver(view);
+            view.addObserver(controller);
 
         } catch (FactoryConfigurationError e) {
             System.out.printf("unable to get a document builder factory");
@@ -155,12 +164,8 @@ public class Creator {
      */
     private LinkedList<LinkedList<Bonus>> createBonuses(Node root) {
         LinkedList<LinkedList<Bonus>> bonuses = new LinkedList<>();
-        NodeList l = root.getChildNodes();
-        for (int i = 0; i < l.getLength(); i++) {
-            Node node = l.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equalsIgnoreCase("bonus"))
-                bonuses.add(createBonus(node));
-        }
+        for (Node node: getNodes("bonus", root))
+            bonuses.add(createBonus(node));
         return bonuses;
     }
 
@@ -256,21 +261,20 @@ public class Creator {
      * @return
      */
     private NobilityTrack createNobilityTrack(Node root) {
-        if (!hasNode("nobilitytrack", root))
-            throw new BadInputFileException();
         Node nobilityTrackRoot = getNode("nobilitytrack", root);
-        if (!hasAttribute("len", nobilityTrackRoot))
-            throw new BadInputFileException();
         int len = Integer.parseInt(getAttribute("len", nobilityTrackRoot));
-        ArrayList<NobilityCell> cells = new ArrayList<>();
-        for (int i = 0; i < len; i++)
-            cells.add(i, new NobilityCell(i, null));
+        ArrayList<LinkedList<Bonus>> bonuses = new ArrayList<>(Collections.nCopies(len, new LinkedList<>()));
         for (Node node: getNodes("bonus", nobilityTrackRoot)) {
-            int position = Integer.parseInt(getAttribute("position", node));
-            LinkedList<Bonus> bonus = createBonus(node);
-            cells.add(position, new NobilityCell(position, bonus));
+            int position = Integer.parseInt(getAttribute("position", node)) - 1;
+            bonuses.set(position, createBonus(node));
         }
-        return new NobilityTrack(len, cells);
+        NobilityCell last = new NobilityCell(len - 1, null, bonuses.get(len - 1));
+        for (int i = len - 2; i >= 0; i--) {
+            LinkedList<Bonus> bonus = bonuses.get(i);
+            NobilityCell cell = new NobilityCell(i, last, bonus);
+            last = cell;
+        }
+        return new NobilityTrack(last);
     }
 
     /**

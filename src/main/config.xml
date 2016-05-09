@@ -17,8 +17,10 @@
         <bonus earn="2" />
         <bonus earn="2" />
     </cityBonuses>
-    <nobilityTrack len="4">
+    <nobilityTrack len="6">
         <bonus position="2" earn="2" />
+        <bonus position="3" earn="3" />
+        <bonus position="5" earn="5" />
     </nobilityTrack>
     <politic>
         <color name="uno" councillors="4" cards="20" />

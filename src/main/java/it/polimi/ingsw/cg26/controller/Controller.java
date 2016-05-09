@@ -11,12 +11,14 @@ public class Controller implements Observer {
     /**
      *
      */
-    private GameLogic gameLogic;
+    private final GameLogic gameLogic;
 
     /**
      * @param
      */
-    public void Controller(GameLogic gameLogic) {
+    public Controller(GameLogic gameLogic) {
+        if (gameLogic == null)
+            throw new NullPointerException();
         this.gameLogic = gameLogic;
     }
 

@@ -1,64 +1,63 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import java.util.HashSet;
-import java.util.Set;
-import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.model.bonus.*;
 
-import java.util.List;
-import java.util.ArrayList;
-
-
+import java.util.Collection;
 
 /**
  * 
  */
 public class NobilityCell {
-	
-	
-	 /**
-     * The number of the Cell
-     */
-    private int CellNuber;
 
-    
-   /**
-    * The players on the nobility cell
-    */
-    private Set<Player> players= new HashSet<Player>();
-    
     /**
-     * The bonus on the nobility cell
+     *
      */
-    private List<Bonus> bonuses=new ArrayList<Bonus>();
-    
-    
-    
-    
+    private int index;
+
+    /**
+     *
+     */
+    private NobilityCell next;
+
+    /**
+     *
+     */
+    private Collection<Bonus> bonuses;
+
 
     /**
      * Default constructor
      */
-    public NobilityCell(int CellNumber,List<Bonus> bonuses) {
-    	this.CellNuber= CellNumber;
-    	this.bonuses=bonuses;
+    public NobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
+        if (index < 0)
+            throw new IllegalArgumentException();
+        if (bonuses == null)
+            throw new NullPointerException();
+        this.index = index;
+        this.next = next;
+    	this.bonuses = bonuses;
     }
-
 
     /**
      * @return
      */
     public NobilityCell next() {
-        // TODO implement here
-        return null;
+        return this.next;
     }
 
     /**
      * @return
      */
     public Boolean hasNext() {
-        // TODO implement here
-        return null;
+        return this.next != null;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getIndex() {
+        return this.index;
     }
 
 }
