@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.creator;
 
-import com.sun.tools.javac.util.Pair;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
@@ -56,21 +55,21 @@ public class Creator {
             Node politicRoot = getNode("politic", game);
 
             // create councillors + PoliticCardsDeck
-            Pair<LinkedList<Councillor>, LinkedList<PoliticCard>> politic = createPolitic(politicRoot);
-            LinkedList<Councillor> councillors = politic.fst;
-            PoliticDeck politicDeck = new PoliticDeck(politic.snd);
+            //Pair<LinkedList<Councillor>, LinkedList<PoliticCard>> politic = createPolitic(politicRoot);
+            LinkedList<Councillor> councillors = createCouncillors(politicRoot);
+            PoliticDeck politicDeck = new PoliticDeck(createCards(politicRoot));
 
             // create regions
-            Pair<LinkedList<City>, LinkedList<Region>> pair = createRegions(game);
-            LinkedList<City> cities = pair.fst;
-            LinkedList<Region> regions = pair.snd;
-
+            //Pair<LinkedList<City>, LinkedList<Region>> pair = createRegions(game);
+            //LinkedList<City> cities = pair.fst;
+            LinkedList<Region> regions = createRegions(game);
+            /*
             for (City c1: cities) {
                 for(City c2: cities) {
                     System.out.println("Distance from " + c1.getName() + " to " + c2.getName() + " is: " + c1.distanceFrom(c2));
                 }
             }
-
+            */
             // create balcony
             Balcony kingsBalcony = new Balcony(4);
 
@@ -81,7 +80,7 @@ public class Creator {
             NobilityTrack nobilityTrack = createNobilityTrack(game);
 
             // create king
-            King king = createKing(game, cities);
+            King king = createKing(game, null);
 
             // create gameBoard
             GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
@@ -113,7 +112,7 @@ public class Creator {
     /**
      *
      */
-    private Pair<LinkedList<City>, LinkedList<Region>> createRegions(Node root) {
+    private LinkedList<Region> createRegions(Node root) {
         if (!hasChild("citybonuses", root) || !hasChild("regions", root))
             throw new BadInputFileException();
 
@@ -122,11 +121,12 @@ public class Creator {
         LinkedList<LinkedList<Bonus>> cityBonuses = createBonuses(getNode("citybonuses", root));
         Node regionsRoot = getNode("regions", root);
         for (Node regionRoot: getNodes("region", regionsRoot)) {
-            Pair<LinkedList<City>, Region> pair = createRegion(root, regionRoot, cityBonuses);
-            cities.addAll(pair.fst);
-            Region region = pair.snd;
+            //Pair<LinkedList<City>, Region> pair = createRegion(root, regionRoot, cityBonuses);
+            //cities.addAll(pair.fst);
+            Region region = createRegion(root, regionRoot, cityBonuses);
             regions.add(region);
         }
+        /*
         // TODO tre for annidati non si possono vedere
         for (Node regionRoot: getNodes("region", regionsRoot)) {
             for (Node node: getNodes("city", getNode("cities", regionRoot))) {
@@ -151,14 +151,14 @@ public class Creator {
                     }
                 }
             }
-        }
-        return new Pair<>(cities, regions);
+        }*/
+        return regions;
     }
 
     /**
      *
      */
-    private Pair<LinkedList<City>, Region> createRegion(Node root, Node regionRoot, LinkedList<LinkedList<Bonus>> cityBonuses) {
+    private Region createRegion(Node root, Node regionRoot, LinkedList<LinkedList<Bonus>> cityBonuses) {
         String name = getAttribute("name", regionRoot);
         LinkedList<City> cities = createCities(getNode("cities", regionRoot), cityBonuses);
         LinkedList<BusinessPermissionTile> tiles = createTiles(getNode("permissionTiles", regionRoot), cities);
@@ -168,7 +168,7 @@ public class Creator {
             throw new BadInputFileException();
         LinkedList<Bonus> bonus = createBonus(getNode("bonus", regionRoot));
         Region region = new Region(name, cities, tilesDeck, balcony, bonus);
-        return new Pair<>(cities, region);
+        return region;
     }
 
     /**
@@ -235,24 +235,33 @@ public class Creator {
      * @param root
      * @return
      */
-    private Pair<LinkedList<Councillor>, LinkedList<PoliticCard>> createPolitic(Node root) {
+    private LinkedList<Councillor> createCouncillors(Node root) {
         LinkedList<Councillor> councillors = new LinkedList<>();
-        LinkedList<PoliticCard> cards = new LinkedList<>();
         for (Node node: getNodes("color", root)) {
             String colorString = getAttribute("name", node);
             int councillorsNumber = Integer.parseInt(getAttribute("councillors", node));
-            int cardsNumber = Integer.parseInt(getAttribute("cards", node));
             CouncillorColor color = new CouncillorColor(colorString);
             for ( ; councillorsNumber > 0; councillorsNumber--) {
                 Councillor councillor = new Councillor(color);
                 councillors.add(councillor);
             }
+        }
+        return councillors;
+    }
+
+    private LinkedList<PoliticCard> createCards(Node root) {
+        LinkedList<PoliticCard> cards = new LinkedList<>();
+        for (Node node: getNodes("color", root)) {
+            String colorString = getAttribute("name", node);
+            int cardsNumber = Integer.parseInt(getAttribute("cards", node));
+            CouncillorColor color = new CouncillorColor(colorString);
+
             for ( ; cardsNumber > 0; cardsNumber--) {
                 PoliticCard card = new PoliticCard(color);
                 cards.add(card);
             }
         }
-        return new Pair(councillors, cards);
+        return cards;
     }
 
     /**
