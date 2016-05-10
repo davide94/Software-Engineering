@@ -44,7 +44,7 @@ public class Creator {
         try {
             DOMParserInterface parserInterface = new XMLAdapter();
 
-            Document document = parserInterface.parse(file, "src/main/schema.xsd");
+            Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
 
             Node game = document.getFirstChild();
 

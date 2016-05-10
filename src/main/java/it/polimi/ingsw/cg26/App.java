@@ -20,7 +20,7 @@ public class App
 
             Instant before = Instant.now();
 
-            creator.newGame("src/main/config.xml", 1);
+            creator.newGame("src/main/resources/config.xml", 1);
 
             Instant after = Instant.now();
             long delta = Duration.between(before, after).toMillis();
