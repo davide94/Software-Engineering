@@ -9,7 +9,8 @@ import it.polimi.ingsw.cg26.model.player.Player;
 public class AssistantBonus extends Bonus {
 
     /**
-     * Default constructor
+     * Create an AssistantBonus
+     * @param multilplicity of the bonus
      */
     public AssistantBonus(int multilplicity) {
     	super(multilplicity);
@@ -19,6 +20,7 @@ public class AssistantBonus extends Bonus {
      * add to a player the number of assistants equal to the multiplicity
      * @param player the player to apply the bonus
      */
+    @Override
     public void apply(Player player) {
     	for(int i=0; i<this.getMultiplicity(); i++){
         	player.addAssistant(new Assistant());

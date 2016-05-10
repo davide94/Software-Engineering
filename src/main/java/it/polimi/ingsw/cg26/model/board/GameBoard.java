@@ -46,7 +46,9 @@ public class GameBoard {
     			try{
     				iterRegion.getCity(city);
     				return iterRegion;
-    			} catch (NotValidCityException cne) {}
+    			} catch (NotValidCityException cne) {
+    				
+    			}
     		}
     		throw new NotValidCityException();
     	}
@@ -146,19 +148,7 @@ public class GameBoard {
         	throw new NullPointerException();
         } else {
         	if(kingBalcony.checkPoliticCardsCouncillors(politicCards)){
-        		//controllo distanza quindi monete del giocatore
-        		/*City nextCity = null;
-        		for(Region iterRegion : regions){
-        			try{
-        				nextCity = iterRegion.getCity(city);
-        				break;
-        			} catch (NotValidCityException cne) {
-        				nextCity = null; //necessario?
-        			}
-        		}
-        		if(nextCity == null){
-        			throw new NotValidCityException();
-        		} else {*/
+        		//TODO controllo distanza quindi monete del giocatore
         		Region nextCityRegion = this.getCityRegion(city);
         		this.king.Move(nextCityRegion.getCity(city));
         		nextCityRegion.build(player, city);

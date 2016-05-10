@@ -8,7 +8,8 @@ import it.polimi.ingsw.cg26.model.player.Player;
 public class CoinBonus extends Bonus {
 
     /**
-     * Default constructor
+     * Create a CoinBonus
+     * @param multilplicity of the bonus
      */
     public CoinBonus(int multilplicity) {
     	super(multilplicity);
@@ -18,6 +19,7 @@ public class CoinBonus extends Bonus {
      * add to a player the number of coins equal to the multiplicity
      * @param player the player to apply the bonus
      */
+    @Override
     public void apply(Player player) {
         player.addCoins(this.getMultiplicity());
     }

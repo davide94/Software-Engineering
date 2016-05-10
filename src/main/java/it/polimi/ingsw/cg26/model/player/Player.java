@@ -6,10 +6,8 @@ import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The Player class models a player
