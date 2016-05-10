@@ -9,21 +9,21 @@ import java.util.List;
 
 
 /**
- * 
+ *
  */
 public class Balcony {
 
 	private final int capacity;
-	
+
 	private Queue<Councillor> councillors;
 
     public Balcony(int capacity) {
 		if (capacity < 1)
 			throw new IllegalArgumentException();
 		this.capacity = capacity;
-    	this.councillors = new LinkedList<Councillor>();
-    }
-    
+		this.councillors = new LinkedList<>();
+	}
+
 
     /**
      * @param
@@ -37,7 +37,7 @@ public class Balcony {
 			return null;
     	return this.councillors.poll();
     }
-    
+
     public boolean checkPoliticCardsCouncillors(List<PoliticCard> politicCards){
     	if (politicCards == null)
     		throw new NullPointerException();
@@ -45,7 +45,7 @@ public class Balcony {
 			for(PoliticCard iterPoliticCard : politicCards) {
 				if(iterCouncillor.getColor().equals(iterPoliticCard.getColor()))
 					politicCards.remove(iterPoliticCard);
-				if(politicCards.size() == 0)
+				if(politicCards.isEmpty())
 					return true;
 
 			}

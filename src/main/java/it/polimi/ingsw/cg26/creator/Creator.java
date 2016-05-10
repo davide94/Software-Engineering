@@ -47,52 +47,41 @@ public class Creator {
 
             Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
 
-            Node game = document.getFirstChild();
-
-            if (!hasChild("politic", game))
-                throw new BadInputFileException();
-
-            Node politicRoot = getNode("politic", game);
+            Node root = document.getFirstChild();
 
             // create councillors + PoliticCardsDeck
-            //Pair<LinkedList<Councillor>, LinkedList<PoliticCard>> politic = createPolitic(politicRoot);
-            LinkedList<Councillor> councillors = createCouncillors(politicRoot);
-            PoliticDeck politicDeck = new PoliticDeck(createCards(politicRoot));
+            LinkedList<PoliticCard> cards = createCards(root);
+            LinkedList<Councillor> councillors = createCouncillors(root);
+            PoliticDeck politicDeck = new PoliticDeck(cards);
+
+            LinkedList<City> cities = createCities(root);
 
             // create regions
-            //Pair<LinkedList<City>, LinkedList<Region>> pair = createRegions(game);
-            //LinkedList<City> cities = pair.fst;
-            LinkedList<Region> regions = createRegions(game);
-            /*
-            for (City c1: cities) {
-                for(City c2: cities) {
-                    System.out.println("Distance from " + c1.getName() + " to " + c2.getName() + " is: " + c1.distanceFrom(c2));
-                }
-            }
-            */
+            LinkedList<Region> regions = createRegions(root, cities);
+
             // create balcony
             Balcony kingsBalcony = new Balcony(4);
 
-            // elect councillors
+            // Elect councillors
             electCouncillors(kingsBalcony, regions, councillors);
 
             // create nobility track
-            NobilityTrack nobilityTrack = createNobilityTrack(game);
+            NobilityTrack nobilityTrack = createNobilityTrack(root);
 
             // create king
-            King king = createKing(game, null);
+            King king = createKing(root, cities);
 
             // create gameBoard
             GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
 
             // create market
-            Market market = new Market();
+            //Market market = new Market();
 
             // create GameLogic
             GameLogic gameLogic = new GameLogic(gameBoard);
 
             // create players
-            LinkedList<Player> players = createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
+            createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
 
             View view = new View();
             Controller controller = new Controller(gameLogic);
@@ -109,137 +98,25 @@ public class Creator {
 
     }
 
-    /**
-     *
-     */
-    private LinkedList<Region> createRegions(Node root) {
-        if (!hasChild("citybonuses", root) || !hasChild("regions", root))
-            throw new BadInputFileException();
-
-        LinkedList<City> cities = new LinkedList<>();
-        LinkedList<Region> regions = new LinkedList<>();
-        LinkedList<LinkedList<Bonus>> cityBonuses = createBonuses(getNode("citybonuses", root));
-        Node regionsRoot = getNode("regions", root);
-        for (Node regionRoot: getNodes("region", regionsRoot)) {
-            //Pair<LinkedList<City>, Region> pair = createRegion(root, regionRoot, cityBonuses);
-            //cities.addAll(pair.fst);
-            Region region = createRegion(root, regionRoot, cityBonuses);
-            regions.add(region);
-        }
-        /*
-        // TODO tre for annidati non si possono vedere
-        for (Node regionRoot: getNodes("region", regionsRoot)) {
-            for (Node node: getNodes("city", getNode("cities", regionRoot))) {
-                String name = getAttribute("name", node);
-                City city = null;
-                for (City c: cities) {
-                    if (c.getName().equalsIgnoreCase(name)) {
-                        city = c;
-                    }
-                }
-                for (Node near: getNodes("near", node)) {
-                    String nameNear = getAttribute("name", near);
-                    City nearCity = null;
-                    for (City c: cities) {
-                        if (c.getName().equalsIgnoreCase(nameNear)) {
-                            nearCity = c;
-                        }
-                    }
-                    if (city != null && nearCity != null) {
-                        city.link(nearCity);
-                        nearCity.link(city);
-                    }
-                }
+    private LinkedList<PoliticCard> createCards(Node root) {
+        LinkedList<PoliticCard> cards = new LinkedList<>();
+        for (Node node: getNodes(getNode(root, "politic"), "color")) {
+            String colorString = getAttribute(node, "name");
+            int cardsNumber = Integer.parseInt(getAttribute(node, "cards"));
+            CouncillorColor color = new CouncillorColor(colorString);
+            for ( ; cardsNumber > 0; cardsNumber--) {
+                PoliticCard card = new PoliticCard(color);
+                cards.add(card);
             }
-        }*/
-        return regions;
-    }
-
-    /**
-     *
-     */
-    private Region createRegion(Node root, Node regionRoot, LinkedList<LinkedList<Bonus>> cityBonuses) {
-        String name = getAttribute("name", regionRoot);
-        LinkedList<City> cities = createCities(getNode("cities", regionRoot), cityBonuses);
-        LinkedList<BusinessPermissionTile> tiles = createTiles(getNode("permissionTiles", regionRoot), cities);
-        BusinessPermissionTileDeck tilesDeck = new BusinessPermissionTileDeck(tiles);
-        Balcony balcony = new Balcony(4);
-        if (!hasChild("bonus", regionRoot))
-            throw new BadInputFileException();
-        LinkedList<Bonus> bonus = createBonus(getNode("bonus", regionRoot));
-        Region region = new Region(name, cities, tilesDeck, balcony, bonus);
-        return region;
-    }
-
-    /**
-     *
-     * @param root
-     * @param bonuses
-     * @return
-     */
-    private LinkedList<City> createCities(Node root, LinkedList<LinkedList<Bonus>> bonuses) {
-
-        LinkedList<City> cities = new LinkedList<>();
-        for (Node node: getNodes("city", root)) {
-            CityColor color = new CityColor(getAttribute("color", node));
-            String name = getAttribute("name", node);
-            City city = new City(name, color, bonuses.poll());
-            cities.add(city);
         }
-
-        return cities;
+        return cards;
     }
 
-    /**
-     * creates a collection of bonus
-     * @param root the root node that may have the bonus elements as childes
-     * @return the collection of bonus
-     */
-    private LinkedList<LinkedList<Bonus>> createBonuses(Node root) {
-        LinkedList<LinkedList<Bonus>> bonuses = new LinkedList<>();
-        for (Node node: getNodes("bonus", root))
-            bonuses.add(createBonus(node));
-        return bonuses;
-    }
-
-    /**
-     *
-     * @param root
-     * @return
-     */
-    private LinkedList<Bonus> createBonus(Node root) {
-        LinkedList<Bonus> bonuses = new LinkedList<Bonus>();
-        if (hasAttribute("draw", root))
-            bonuses.add(new CardBonus(Integer.parseInt(getAttribute("draw", root))));
-
-        if (hasAttribute("earn", root))
-            bonuses.add(new CoinBonus(Integer.parseInt(getAttribute("earn", root))));
-
-        if (hasAttribute("assistants", root))
-            bonuses.add(new AssistantBonus(Integer.parseInt(getAttribute("assistants", root))));
-
-        if (hasAttribute("nobility", root))
-            bonuses.add(new NoblityBonus(Integer.parseInt(getAttribute("nobility", root))));
-
-        if (hasAttribute("victory", root))
-            bonuses.add(new VictoryBonus(Integer.parseInt(getAttribute("victory", root))));
-
-        if (hasAttribute("action", root))
-            bonuses.add(new MainActionBonus(Integer.parseInt(getAttribute("action", root))));
-
-        return bonuses;
-    }
-
-    /**
-     *
-     * @param root
-     * @return
-     */
     private LinkedList<Councillor> createCouncillors(Node root) {
         LinkedList<Councillor> councillors = new LinkedList<>();
-        for (Node node: getNodes("color", root)) {
-            String colorString = getAttribute("name", node);
-            int councillorsNumber = Integer.parseInt(getAttribute("councillors", node));
+        for (Node node: getNodes(getNode(root, "politic"), "color")) {
+            String colorString = getAttribute(node, "name");
+            int councillorsNumber = Integer.parseInt(getAttribute(node, "councillors"));
             CouncillorColor color = new CouncillorColor(colorString);
             for ( ; councillorsNumber > 0; councillorsNumber--) {
                 Councillor councillor = new Councillor(color);
@@ -249,85 +126,111 @@ public class Creator {
         return councillors;
     }
 
-    private LinkedList<PoliticCard> createCards(Node root) {
-        LinkedList<PoliticCard> cards = new LinkedList<>();
-        for (Node node: getNodes("color", root)) {
-            String colorString = getAttribute("name", node);
-            int cardsNumber = Integer.parseInt(getAttribute("cards", node));
-            CouncillorColor color = new CouncillorColor(colorString);
-
-            for ( ; cardsNumber > 0; cardsNumber--) {
-                PoliticCard card = new PoliticCard(color);
-                cards.add(card);
+    private LinkedList<City> createCities(Node root) {
+        LinkedList<LinkedList<Bonus>> bonuses = createBonuses(getNode(root, "cityBonuses"));
+        LinkedList<City> cities = new LinkedList<>();
+        Random random = new Random();
+        for (Node region: getNodes(getNode(root, "regions"), "region"))
+            for (Node node: getNodes(getNode(region, "cities"), "city")) {
+                String colorString = getAttribute(node, "color");
+                String name = getAttribute(node, "name");
+                CityColor color = new CityColor(colorString);
+                LinkedList<Bonus> bonus = new LinkedList<>();
+                if (!colorString.equalsIgnoreCase("viola"))
+                    bonus.addAll(bonuses.remove(random.nextInt(bonuses.size())));
+                City city = new City(name, color, bonus);
+                cities.add(city);
             }
-        }
-        return cards;
+        for (Node region: getNodes(getNode(root, "regions"), "region"))
+            linkCities(region, cities);
+        return cities;
     }
 
-    /**
-     *
-     * @param root
-     * @param cities
-     * @return
-     */
+    private void linkCities(Node root, LinkedList<City> cities) {
+        for (Node node: getNodes(getNode(root, "cities"), "city")) {
+            String name = getAttribute(node, "name");
+            City city = null;
+            for (City c: cities)
+                if (c.getName().equalsIgnoreCase(name))
+                    city = c;
+            for (Node near: getNodes(node, "near")) {
+                String nameNear = getAttribute(near, "name");
+                City nearCity = getCity(nameNear, cities);
+                if (city != null && nearCity != null) {
+                    city.link(nearCity);
+                    nearCity.link(city);
+                }
+            }
+        }
+    }
+
+    private LinkedList<LinkedList<Bonus>> createBonuses(Node root) {
+        LinkedList<LinkedList<Bonus>> bonuses = new LinkedList<>();
+        for (Node node: getNodes(root, "bonus"))
+            bonuses.add(createBonus(node));
+        return bonuses;
+    }
+
+    private LinkedList<Bonus> createBonus(Node root) {
+        LinkedList<Bonus> bonuses = new LinkedList<>();
+        if (hasAttribute(root, "draw"))
+            bonuses.add(new CardBonus(Integer.parseInt(getAttribute(root, "draw"))));
+        if (hasAttribute(root, "earn"))
+            bonuses.add(new CoinBonus(Integer.parseInt(getAttribute(root, "earn"))));
+        if (hasAttribute(root, "assistants"))
+            bonuses.add(new AssistantBonus(Integer.parseInt(getAttribute(root, "assistants"))));
+        if (hasAttribute(root, "nobility"))
+            bonuses.add(new NoblityBonus(Integer.parseInt(getAttribute(root, "nobility"))));
+        if (hasAttribute(root, "victory"))
+            bonuses.add(new VictoryBonus(Integer.parseInt(getAttribute(root, "victory"))));
+        if (hasAttribute(root, "action"))
+            bonuses.add(new MainActionBonus(Integer.parseInt(getAttribute(root, "action"))));
+        return bonuses;
+    }
+
+    private LinkedList<Region> createRegions(Node root, LinkedList<City> cities) {
+        LinkedList<Region> regions = new LinkedList<>();
+        for (Node regionRoot: getNodes(getNode(root, "regions"), "region")) {
+            String name = getAttribute(regionRoot, "name");
+            LinkedList<BusinessPermissionTile> tiles = createTiles(getNode(regionRoot, "permissionTiles"), cities);
+            BusinessPermissionTileDeck tilesDeck = new BusinessPermissionTileDeck(tiles);
+            Balcony balcony = new Balcony(4);
+            LinkedList<Bonus> bonus = createBonus(getNode(regionRoot, "bonus"));
+            regions.add(new Region(name, cities, tilesDeck, balcony, bonus));
+        }
+        return regions;
+    }
+
     private LinkedList<BusinessPermissionTile> createTiles(Node root, LinkedList<City> cities) {
         LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
-        for (Node node: getNodes("permissionTile", root)) {
-            LinkedList<City> c = getCities(getNode("cities", node), cities);
-            LinkedList<Bonus> b = createBonus(getNode("bonus", node));
+        for (Node node: getNodes(root, "permissionTile")) {
+            LinkedList<City> c = getCities(getNode(node, "cities"), cities);
+            LinkedList<Bonus> b = createBonus(getNode(node, "bonus"));
             tiles.add(new BusinessPermissionTile(c, b));
         }
         return tiles;
     }
 
-    private King createKing(Node root, LinkedList<City> cities) {
-        King king = null;
-        for (Node region: getNodes("region", getNode("regions", root))) {
-            for (Node cityNode: getNodes("city", getNode("cities", region))) {
-                String name = getAttribute("name", cityNode);
-                if (hasChild("king", cityNode)) {
-                    for (City city: cities) {
-                        if (city.getName().equalsIgnoreCase(name)) {
-                            king = new King(city);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if (king == null)
-            throw new BadInputFileException();
-        return king;
-    }
-
-    /**
-     *
-     */
     private void electCouncillors(Balcony kingsBalcony, LinkedList<Region> regions, LinkedList<Councillor> councillors) {
         Random random = new Random();
         for (int i = 0; i < 4; i++) {
-            if (councillors.size() == 0)
+            if (councillors.isEmpty())
                 throw new BadInputFileException();
             kingsBalcony.elect(councillors.remove(random.nextInt(councillors.size())));
             for (Region region: regions) {
-                if (councillors.size() == 0)
+                if (councillors.isEmpty())
                     throw new BadInputFileException();
                 region.elect(councillors.remove(random.nextInt(councillors.size())));
             }
         }
     }
 
-    /**
-     *
-     * @param root
-     * @return
-     */
     private NobilityTrack createNobilityTrack(Node root) {
-        Node nobilityTrackRoot = getNode("nobilitytrack", root);
-        int len = Integer.parseInt(getAttribute("len", nobilityTrackRoot));
+        Node nobilityTrackRoot = getNode(root, "nobilitytrack");
+        int len = Integer.parseInt(getAttribute(nobilityTrackRoot, "len"));
         ArrayList<LinkedList<Bonus>> bonuses = new ArrayList<>(Collections.nCopies(len, new LinkedList<>()));
-        for (Node node: getNodes("bonus", nobilityTrackRoot)) {
-            int position = Integer.parseInt(getAttribute("position", node)) - 1;
+        for (Node node: getNodes(nobilityTrackRoot, "bonus")) {
+            int position = Integer.parseInt(getAttribute(node, "position")) - 1;
             bonuses.set(position, createBonus(node));
         }
         NobilityCell last = new NobilityCell(len - 1, null, bonuses.get(len - 1));
@@ -339,49 +242,47 @@ public class Creator {
         return new NobilityTrack(last);
     }
 
-    /**
-     *
-     */
-    private LinkedList<Player> createPlayers(int n, GameLogic gameLogic, NobilityCell firstCell) {
-        LinkedList<Player> players = new LinkedList<>();
-        for (int i = 0 ; i < n; i++) {
-            LinkedList<Assistant> assistants = new LinkedList<>();
-            for (int j = 0; j <= i; j++) {
-                assistants.add(new Assistant());
-            }
-            Player player = new Player(gameLogic, firstCell, i + 10, assistants);
-            players.add(player);
-            gameLogic.addPlayer(player);
-        }
-        return players;
+    private King createKing(Node root, LinkedList<City> cities) {
+        King king = null;
+        for (Node region: getNodes(getNode(root, "regions"), "region"))
+            for (Node city: getNodes(getNode(region, "cities"), "city"))
+                if (hasChild("king", city)) {
+                    String name = getAttribute(city, "name");
+                    king = new King(getCity(name, cities));
+                }
+        if (king == null)
+            throw new BadInputFileException();
+        return king;
     }
 
-    /**
-     *
-     * @param root
-     * @param allCities
-     * @return
-     */
+    private void createPlayers(int n, GameLogic gameLogic, NobilityCell firstCell) {
+        for (int i = 0 ; i < n; i++) {
+            LinkedList<Assistant> assistants = new LinkedList<>();
+            for (int j = 0; j <= i; j++)
+                assistants.add(new Assistant());
+            Player player = new Player(gameLogic, firstCell, i + 10, assistants);
+            gameLogic.addPlayer(player);
+        }
+    }
+
     private LinkedList<City> getCities(Node root, LinkedList<City> allCities) {
         LinkedList<City> cities = new LinkedList<>();
-        for (Node node: getNodes("city", root)) {
-            String name = getAttribute("name", node);
-            for (City city: allCities) {
-                if (city.getName().equalsIgnoreCase(name)) {
-                    cities.add(city);
-                    break;
-                }
-            }
+        for (Node node: getNodes(root, "city")) {
+            String name = getAttribute(node, "name");
+            City city = getCity(name, allCities);
+            if (city != null)
+                cities.add(city);
         }
         return cities;
     }
 
-    /**
-     *
-     * @param name
-     * @param root
-     * @return
-     */
+    private City getCity(String name, LinkedList<City> allCities) {
+        for (City city: allCities)
+            if (city.getName().equalsIgnoreCase(name))
+                return city;
+        return null;
+    }
+
     private Boolean hasChild(String name, Node root) {
         NodeList l = root.getChildNodes();
         for (int i = 0; i < l.getLength(); i++) {
@@ -392,30 +293,8 @@ public class Creator {
         return false;
     }
 
-    /**
-     *
-     * @param name
-     * @param root
-     * @return
-     */
-    private Node getNode(String name, Node root) {
-        NodeList l = root.getChildNodes();
-        for (int i = 0; i < l.getLength(); i++) {
-            Node node = l.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equalsIgnoreCase(name))
-                return node;
-        }
-        return null;
-    }
-
-    /**
-     * 
-     * @param name
-     * @param root
-     * @return
-     */
-    private LinkedList<Node> getNodes(String name, Node root) {
-        LinkedList<Node> nodes = new LinkedList<Node>();
+    private LinkedList<Node> getNodes(Node root, String name) {
+        LinkedList<Node> nodes = new LinkedList<>();
         NodeList l = root.getChildNodes();
         for (int i = 0; i < l.getLength(); i++) {
             Node node = l.item(i);
@@ -426,14 +305,12 @@ public class Creator {
         return nodes;
     }
 
-    /**
-     *
-     * @param name
-     * @param node
-     * @return
-     */
-    private Boolean hasAttribute(String name, Node node) {
-        NamedNodeMap attributes = node.getAttributes();
+    private Node getNode(Node root, String name) {
+        return getNodes(root, name).poll();
+    }
+
+    private Boolean hasAttribute(Node root, String name) {
+        NamedNodeMap attributes = root.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
             Node attr = attributes.item(i);
             if (attr.getNodeName().equalsIgnoreCase(name))
@@ -442,38 +319,14 @@ public class Creator {
         return false;
     }
 
-    /**
-     *
-     * @param name
-     * @param node
-     * @return
-     */
-    private String getAttribute(String name, Node node) {
-        NamedNodeMap attributes = node.getAttributes();
+    private String getAttribute(Node root, String name) {
+        NamedNodeMap attributes = root.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++ ) {
             Node attr = attributes.item(i);
             if (attr.getNodeName().equalsIgnoreCase(name))
                 return attr.getNodeValue();
         }
         return "";
-    }
-
-    /**
-     *
-     */
-    private void dump(Node root, int rientro) {
-        NodeList l = root.getChildNodes();
-        for (int i = 0; i < l.getLength(); i++) {
-            Node node = l.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                for (int j = 0; j < rientro; j++) {
-                    System.out.print("  ");
-                }
-                System.out.println(node.getNodeName());
-                if (node.hasChildNodes())
-                    dump(node, rientro + 1);
-            }
-        }
     }
 
 }
