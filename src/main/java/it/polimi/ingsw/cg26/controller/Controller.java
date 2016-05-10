@@ -23,12 +23,15 @@ public class Controller implements Observer {
     }
 
     public void update(String arg) {
-        switch (arg.toLowerCase()) {
-            case "":
-                break;
 
-            default:
-                break;
-        }
+    }
+
+    public void start() {
+
+    }
+
+    @Override
+    public void update() {
+
     }
 }

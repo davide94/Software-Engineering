@@ -22,12 +22,9 @@ public class View extends Observable implements Observer {
         // TODO implement here
     }
 
-    public void input(String inputString) {
-        notifyObservers(inputString);
-    }
+    /**
+     * 
+     */
 
-    @Override
-    public void update(String arg) {
 
-    }
 }

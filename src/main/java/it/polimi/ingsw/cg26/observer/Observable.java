@@ -26,15 +26,7 @@ public class Observable {
      */
     public void notifyObservers() {
         for (Observer o: this.observers)
-            o.update("");
-    }
-
-    /**
-     *
-     */
-    public void notifyObservers(String arg) {
-        for (Observer o: this.observers)
-            o.update(arg);
+            o.update();
     }
 
     /**
