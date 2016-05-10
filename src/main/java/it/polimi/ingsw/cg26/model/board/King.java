@@ -14,6 +14,8 @@ public class King {
      * Default constructor
      */
     public King(City currentCity) {
+        if (currentCity == null)
+            throw new NullPointerException();
     	this.currentCity = currentCity;
     }
 
@@ -21,6 +23,8 @@ public class King {
      * @param
      */
     public void Move(City city) {
+        if (city == null)
+            throw new NullPointerException();
         this.currentCity = city;
     }
 

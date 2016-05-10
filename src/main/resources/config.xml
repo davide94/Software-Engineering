@@ -178,7 +178,6 @@
                 <city name="graden" position="" color="grigio">
                     <near name="dorful" />
                     <near name="juvelar" />
-                    <king />
                 </city>
                 <city name="hellar" position="" color="giallo">
                     <near name="esti" />
@@ -195,6 +194,7 @@
 					<near name="lyram" />
 					<near name="hellar" />
 					<near name="graden" />
+					<king />
 				</city>
 
 			</cities>
