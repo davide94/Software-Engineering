@@ -21,7 +21,7 @@ public class Balcony {
 		if (capacity < 1)
 			throw new IllegalArgumentException();
 		this.capacity = capacity;
-    	this.councillors = new LinkedList<>();
+    	this.councillors = new LinkedList<Councillor>();
     }
     
 
@@ -45,7 +45,7 @@ public class Balcony {
 			for(PoliticCard iterPoliticCard : politicCards) {
 				if(iterCouncillor.getColor().equals(iterPoliticCard.getColor()))
 					politicCards.remove(iterPoliticCard);
-				if(politicCards.isEmpty())
+				if(politicCards.size() == 0)
 					return true;
 
 			}
