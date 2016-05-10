@@ -1,7 +1,9 @@
 package it.polimi.ingsw.cg26.model;
 
+import it.polimi.ingsw.cg26.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.cg26.model.player.Assistant;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
 
+import java.awt.geom.NoninvertibleTransformException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -79,6 +82,44 @@ public class GameLogic extends Observable {
     
     /**
      * 
+     * @param politicCardsColors
+     * @return
+     */
+    private int necessaryCoins(Collection<String> politicCardsColors){
+    	int i = 0; //i=numero di carte colore bonus (arcobaleno)
+    	int usedCoins = 0;
+    	switch(politicCardsColors.size()) {
+			case 1 : if(currentPlayer.getCoinsNumber()<10+i) {
+				throw new NotEnoughMoneyException();
+			} else {
+				usedCoins = 10+i;
+				break;
+			}
+			case 2 : if(currentPlayer.getCoinsNumber()<7+i) {
+				throw new NotEnoughMoneyException();
+			} else {
+				usedCoins = 7+i;
+				break;
+			}
+			case 3 : if(currentPlayer.getCoinsNumber()<4+i) {
+				throw new NotEnoughMoneyException();
+			} else {
+				usedCoins = 4+i;
+				break;
+			}
+			case 4 : if(currentPlayer.getCoinsNumber()<i) {
+				throw new NotEnoughMoneyException();
+			} else {
+				usedCoins = i;
+				break;
+			}
+			default : throw new InvalidCardsException();
+    	}
+    	return usedCoins;
+    }
+    
+    /**
+     * 
      * @param region
      * @param color
      */
@@ -93,17 +134,21 @@ public class GameLogic extends Observable {
     }
 
     /**
-     * @param
+     * 
+     * @param politicCardsColors
+     * @param region
+     * @param numberBPT
      */
     public void acquireBPT(Collection<String> politicCardsColors, String region, int numberBPT) {
     	if(politicCardsColors == null || region == null){
     		throw new NullPointerException();
     	} else {
-    		//controlla se player ha monete sufficienti per effettuare l'azione, seve metodo in player
+    		int usedCoins = necessaryCoins(politicCardsColors);
     		List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
     		BusinessPermissionTile addedBPT = this.gameboard.acquireBPT(usedPoliticCards, region, numberBPT);
     		this.currentPlayer.addPermissionTile(addedBPT);
     		this.currentPlayer.useCards(usedPoliticCards);
+    		this.currentPlayer.removeCoins(usedCoins);
     		this.currentPlayer.performMainAction();
     	}
     }
@@ -121,15 +166,19 @@ public class GameLogic extends Observable {
     }
 
     /**
-     * @param city 
+     * 
+     * @param city
+     * @param politicCardsColors
      */
     public void buildKing(String city, Collection<String> politicCardsColors) {
     	if(city == null || politicCardsColors == null){
     		throw new NullPointerException();
     	} else {
+    		int usedCoins = necessaryCoins(politicCardsColors);
     		List<PoliticCard> usedPoliticCards = currentPlayer.getCards(politicCardsColors);
     		this.gameboard.buildKing(usedPoliticCards, city, currentPlayer);
     		this.currentPlayer.useCards(usedPoliticCards);
+    		this.currentPlayer.removeCoins(usedCoins);
     		this.currentPlayer.performMainAction();
     	}
     }
@@ -189,7 +238,7 @@ public class GameLogic extends Observable {
     		this.currentPlayer.addRemainingMainActions(1);
     		this.currentPlayer.performQuickAction();
     	} else {
-    		throw new NoRemainingActionsException();
+    		throw new NoRemainingAssistantsException();
     	}
     }
 
