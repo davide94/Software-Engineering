@@ -22,11 +22,13 @@ public class Controller implements Observer {
         this.gameLogic = gameLogic;
     }
 
-    /**
-     *
-     */
-    public void update() {
-        // TODO implement here
-    }
+    public void update(String arg) {
+        switch (arg.toLowerCase()) {
+            case "":
+                break;
 
+            default:
+                break;
+        }
+    }
 }

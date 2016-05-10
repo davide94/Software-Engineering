@@ -63,8 +63,14 @@ public class Creator {
             LinkedList<City> cities = pair.getKey();
             LinkedList<Region> regions = pair.getValue();
 
+            for (City c1: cities) {
+                for(City c2: cities) {
+                    System.out.println("Distance from " + c1.getName() + " to " + c2.getName() + " is: " + c1.distanceFrom(c2));
+                }
+            }
+
             // create balcony
-            Balcony kingsBalcony = new Balcony();
+            Balcony kingsBalcony = new Balcony(4);
 
             // elect councillors
             electCouncillors(kingsBalcony, regions, councillors);
@@ -85,13 +91,20 @@ public class Creator {
             GameLogic gameLogic = new GameLogic(gameBoard);
 
             // create players
-            createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
+            LinkedList<Player> players = createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
 
             View view = new View();
             Controller controller = new Controller(gameLogic);
 
             gameLogic.addObserver(view);
             view.addObserver(controller);
+
+            Scanner in = new Scanner(System.in);
+            while (true) {
+                System.out.printf("Dimmi il comando:\n");
+                String comando = in.nextLine();
+                view.input(comando);
+            }
 
         } catch (FactoryConfigurationError e) {
             System.out.printf("unable to get a document builder factory");
@@ -157,7 +170,7 @@ public class Creator {
         LinkedList<City> cities = createCities(getNode("cities", regionRoot), cityBonuses);
         LinkedList<BusinessPermissionTile> tiles = createTiles(getNode("permissionTiles", regionRoot), cities);
         BusinessPermissionTileDeck tilesDeck = new BusinessPermissionTileDeck(tiles);
-        Balcony balcony = new Balcony();
+        Balcony balcony = new Balcony(4);
         if (!hasChild("bonus", regionRoot))
             throw new BadInputFileException();
         LinkedList<Bonus> bonus = createBonus(getNode("bonus", regionRoot));
@@ -327,15 +340,18 @@ public class Creator {
     /**
      *
      */
-    private void createPlayers(int n, GameLogic gameLogic, NobilityCell firstCell) {
+    private LinkedList<Player> createPlayers(int n, GameLogic gameLogic, NobilityCell firstCell) {
+        LinkedList<Player> players = new LinkedList<>();
         for (int i = 0 ; i < n; i++) {
             LinkedList<Assistant> assistants = new LinkedList<>();
             for (int j = 0; j <= i; j++) {
                 assistants.add(new Assistant());
             }
             Player player = new Player(gameLogic, firstCell, i + 10, assistants);
+            players.add(player);
             gameLogic.addPlayer(player);
         }
+        return players;
     }
 
     /**

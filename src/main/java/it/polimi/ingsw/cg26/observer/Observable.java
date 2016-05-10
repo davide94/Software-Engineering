@@ -22,11 +22,19 @@ public class Observable {
 
 
     /**
-     * 
+     *
      */
     public void notifyObservers() {
         for (Observer o: this.observers)
-            o.update();
+            o.update("");
+    }
+
+    /**
+     *
+     */
+    public void notifyObservers(String arg) {
+        for (Observer o: this.observers)
+            o.update(arg);
     }
 
     /**
@@ -35,6 +43,7 @@ public class Observable {
     public void addObserver(Observer o) {
         if (o == null)
             throw new NullPointerException();
+        this.observers.add(o);
     }
 
 }

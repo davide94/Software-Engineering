@@ -12,15 +12,16 @@ import java.util.List;
  * 
  */
 public class Balcony {
-	
+
+	private final int capacity;
 	
 	private Queue<Councillor> councillors;
-	
-	
 
-    public Balcony() {
+    public Balcony(int capacity) {
+		if (capacity < 1)
+			throw new IllegalArgumentException();
+		this.capacity = capacity;
     	this.councillors = new LinkedList<Councillor>();
-    	 
     }
     
 
@@ -29,32 +30,27 @@ public class Balcony {
      * @return
      */
     public Councillor elect(Councillor c) {
-    	if(c==null){
+    	if (c == null)
     		throw new NullPointerException();
-    	}
-    	else{
-    	councillors.add(c);
-    	Councillor droppedCouncillor= councillors.poll();
-    	return droppedCouncillor;
-    	}
+    	this.councillors.add(c);
+    	if (this.councillors.size() < capacity)
+			return null;
+    	return this.councillors.poll();
     }
     
     public boolean checkPoliticCardsCouncillors(List<PoliticCard> politicCards){
-    	if(politicCards == null){
+    	if (politicCards == null)
     		throw new NullPointerException();
-    	} else {
-    		for(Councillor iterCouncillor : councillors){
-    			for(PoliticCard iterPoliticCard : politicCards){
-    				if(iterCouncillor.getColor().equals(iterPoliticCard.getColor())){
-    					politicCards.remove(iterPoliticCard);
-    				}
-    				if(politicCards.size() == 0){
-    					return true;
-    				}
-    			}
-    		}
-    		return false;
-    	}
+    	for(Councillor iterCouncillor : councillors) {
+			for(PoliticCard iterPoliticCard : politicCards) {
+				if(iterCouncillor.getColor().equals(iterPoliticCard.getColor()))
+					politicCards.remove(iterPoliticCard);
+				if(politicCards.size() == 0)
+					return true;
+
+			}
+		}
+		return false;
     }
 
 }

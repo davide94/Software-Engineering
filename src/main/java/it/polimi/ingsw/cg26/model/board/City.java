@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.Dijkstra;
 import it.polimi.ingsw.cg26.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.player.Player;
@@ -26,7 +25,7 @@ public class City implements Comparable<City> {
     
     private List<Bonus> bonuses;
     
-    public List<City> nearCities;
+    private List<City> nearCities;
 
     private boolean visited = false;
     
@@ -40,7 +39,6 @@ public class City implements Comparable<City> {
         this.nearCities = new LinkedList<>();
     }
     
-    
     /**
      * @param
      */
@@ -53,7 +51,7 @@ public class City implements Comparable<City> {
     	}
     	
         emporiums.add(new Emporium(p));
-        takeBonus(p);
+        takeRecursivelyBonus(p);
     }
     
         
@@ -79,17 +77,42 @@ public class City implements Comparable<City> {
 		return bonuses;
 	}
 
+    public boolean hasEmporium(Player p) {
+        for (Emporium e: this.emporiums)
+            if (e.getPlayer().equals(p))
+                return true;
+        return false;
+    }
 	
 
 	/**
      * @param
      */
     private void takeBonus(Player p) {
-       for(Bonus iterBonus:bonuses){
-    	   iterBonus.apply(p);
-    	   }
+        for(Bonus iterBonus:bonuses){
+            iterBonus.apply(p);
+        }
     }
-    
+
+    /**
+     *
+     */
+    private void takeRecursivelyBonus(Player p) {
+        PriorityQueue<City> queue = new PriorityQueue<>();
+        LinkedList<City> taken = new LinkedList<>();
+        queue.add(this);
+
+        while (!queue.isEmpty()) {
+            City u = queue.poll();
+            if (u.hasEmporium(p) && !taken.contains(u)) {
+                u.takeBonus(p);
+                taken.add(u);
+                queue.addAll(u.nearCities);
+            }
+
+        }
+    }
+
     /**
      * @param c this method add a city to nearCities
      */
@@ -110,7 +133,25 @@ public class City implements Comparable<City> {
 
     public int distanceFrom(City city) {
         this.initDistance();
-        Dijkstra.computePaths(this);
+        this.distance = 0.;
+        PriorityQueue<City> vertexQueue = new PriorityQueue<>();
+        vertexQueue.add(this);
+
+        while (!vertexQueue.isEmpty()) {
+            City u = vertexQueue.poll();
+
+            for (City v: u.nearCities)
+            {
+                double distanceThroughU = u.distance + 1;
+                if (distanceThroughU < v.distance) {
+                    vertexQueue.remove(v);
+
+                    v.distance = distanceThroughU;
+                    v.previous = u;
+                    vertexQueue.add(v);
+                }
+            }
+        }
         return (int) city.distance;
     }
 

@@ -218,7 +218,7 @@
 					<bonus earn="2" victory="1" />
 					<cities>
 						<city name="framek" />
-						<city name="osium" />
+						<city name="graden" />
 						<city name="juvelar" />
 					</cities>
 				</permissionTile>
@@ -260,13 +260,13 @@
 					<bonus assistants="3" />
 					<cities>
 						<city name="hellar" />
-						<city name="osium" />
+						<city name="graden" />
 					</cities>
 				</permissionTile>
 				<permissionTile>
 					<bonus assistants="2" nobility="1" victory="2" />
 					<cities>
-						<city name="osium" />
+						<city name="graden" />
 					</cities>
 				</permissionTile>
 				<permissionTile>
