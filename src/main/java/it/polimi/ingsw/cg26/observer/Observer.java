@@ -8,6 +8,6 @@ public interface Observer {
     /**
      *
      */
-    void update(String arg);
+    void update();
 
 }

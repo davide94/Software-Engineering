@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.creator;
 
+import com.sun.tools.javac.util.Pair;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
@@ -10,17 +11,18 @@ import it.polimi.ingsw.cg26.model.market.Market;
 import it.polimi.ingsw.cg26.model.player.Assistant;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.view.View;
-import javafx.util.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * The Creator class is used to create the initial game structure.
@@ -39,7 +41,7 @@ public class Creator {
      * @param file is the path+name of the configuration file
      * @param playersNumber is the number of players
      */
-    public void newGame(String file, int playersNumber) throws IOException {
+    public Controller newGame(String file, int playersNumber) throws IOException, ParserConfigurationException {
 
         try {
             DOMParserInterface parserInterface = new XMLAdapter();
@@ -55,13 +57,13 @@ public class Creator {
 
             // create councillors + PoliticCardsDeck
             Pair<LinkedList<Councillor>, LinkedList<PoliticCard>> politic = createPolitic(politicRoot);
-            LinkedList<Councillor> councillors = politic.getKey();
-            PoliticDeck politicDeck = new PoliticDeck(politic.getValue());
+            LinkedList<Councillor> councillors = politic.fst;
+            PoliticDeck politicDeck = new PoliticDeck(politic.snd);
 
             // create regions
             Pair<LinkedList<City>, LinkedList<Region>> pair = createRegions(game);
-            LinkedList<City> cities = pair.getKey();
-            LinkedList<Region> regions = pair.getValue();
+            LinkedList<City> cities = pair.fst;
+            LinkedList<Region> regions = pair.snd;
 
             for (City c1: cities) {
                 for(City c2: cities) {
@@ -99,17 +101,8 @@ public class Creator {
             gameLogic.addObserver(view);
             view.addObserver(controller);
 
-            Scanner in = new Scanner(System.in);
-            while (true) {
-                System.out.printf("Dimmi il comando:\n");
-                String comando = in.nextLine();
-                view.input(comando);
-            }
+            return controller;
 
-        } catch (FactoryConfigurationError e) {
-            System.out.printf("unable to get a document builder factory");
-        } catch (ParserConfigurationException e){
-            System.out.printf("parser was unable to be configured");
         } catch (SAXException e) {
             System.out.println(e.getMessage());
             throw new BadInputFileException();
@@ -130,8 +123,8 @@ public class Creator {
         Node regionsRoot = getNode("regions", root);
         for (Node regionRoot: getNodes("region", regionsRoot)) {
             Pair<LinkedList<City>, Region> pair = createRegion(root, regionRoot, cityBonuses);
-            cities.addAll(pair.getKey());
-            Region region = pair.getValue();
+            cities.addAll(pair.fst);
+            Region region = pair.snd;
             regions.add(region);
         }
         // TODO tre for annidati non si possono vedere
