@@ -18,7 +18,7 @@ public class Region {
     private String name;
     private Collection<City> cities;
     private Balcony balcony;
-    private BusinessPermissionTileDeck BPTdeck;
+    private BusinessPermissionTileDeck deck;
     private Collection<Bonus> bonuses;
     
 
@@ -27,7 +27,7 @@ public class Region {
     	{throw new NullPointerException();}
     	this.name=name;
     	this.cities=cities;
-    	this.BPTdeck=deck;
+    	this.deck=deck;
     	this.balcony=balcony;
     	this.bonuses=bonuses;
     	
@@ -94,9 +94,9 @@ public class Region {
     		throw new NullPointerException();
     	} else if(balcony.checkPoliticCardsCouncillors(politicCards)){
     		if(numberBPT == 1){
-    			return BPTdeck.draw();
+    			return deck.draw();
     		} else if(numberBPT == 2) {
-    			return BPTdeck.drawSecond();
+    			return deck.drawSecond();
     		} else {
     			throw new IllegalArgumentException();
     		}
@@ -109,7 +109,7 @@ public class Region {
      * 
      */
     public void changeBPT(){
-    	//this.BPTDeck.changeTiles; metodo da aggiungere in BPTDeck
+    	this.deck.change();
     }
 
     /*public Set<City> getCities() {

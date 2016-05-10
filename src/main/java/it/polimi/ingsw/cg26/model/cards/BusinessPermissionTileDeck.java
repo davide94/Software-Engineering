@@ -21,4 +21,12 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
         // TODO if it's only one card in the deck?
         return draw(1);
     }
+
+    /**
+     *
+     */
+    public synchronized void change() {
+        add(draw());
+        add(draw());
+    }
 }
