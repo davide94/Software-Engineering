@@ -6,7 +6,6 @@ import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.exceptions.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 
@@ -33,6 +32,23 @@ public class Region {
     	this.bonuses=bonuses;
     	
     	
+    }
+    
+    /**
+     * 
+     * @param player
+     * @return
+     */
+    private boolean checkRegionBonuses(Player player){
+    	if(bonuses.isEmpty()){
+    		return false;
+    	}
+    	for(City iterCity : cities){
+    		if(iterCity.hasEmporium(player)){
+    			return false;
+    		}
+    	}
+    	return true;
     }
 
     /**
@@ -65,6 +81,12 @@ public class Region {
      */
     public void build(Player p, String city) {
         getCity(city).build(p);
+        if(checkRegionBonuses(p)){
+        	for(Bonus iterBonus : bonuses){
+        		iterBonus.apply(p);
+        		bonuses.remove(iterBonus);
+        	}
+        }
     }
     
     public BusinessPermissionTile acquireBPT(List<PoliticCard> politicCards, int numberBPT){

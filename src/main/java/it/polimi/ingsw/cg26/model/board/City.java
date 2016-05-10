@@ -27,9 +27,6 @@ public class City implements Comparable<City> {
     
     private List<City> nearCities;
 
-    private boolean visited = false;
-    
-
     public City(String name, CityColor color,List<Bonus> bonuses) {
         this.name = name;
         this.color = color;
