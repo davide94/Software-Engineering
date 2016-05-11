@@ -10,7 +10,8 @@ public class EngageAssistant extends Action {
 
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("Engaged");
+        gameLogic.engageAssistant();
+        //gameLogic.log("Engaged");
     }
 
 }

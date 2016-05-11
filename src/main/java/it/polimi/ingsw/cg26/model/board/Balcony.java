@@ -33,9 +33,9 @@ public class Balcony {
     	if (c == null)
     		throw new NullPointerException();
     	this.councillors.add(c);
-    	if (this.councillors.size() < capacity)
-			return null;
-    	return this.councillors.poll();
+    	if (this.councillors.size() > capacity)
+			return this.councillors.poll();
+		return null;
     }
 
     public boolean checkPoliticCardsCouncillors(List<PoliticCard> politicCards){

@@ -41,6 +41,8 @@ public class GameLogic extends Observable {
      * 
      */
     public void addPlayer(Player player) {
+		if (this.players.isEmpty())
+			this.currentPlayer = player;
         this.players.add(player);
     }
 
@@ -64,8 +66,8 @@ public class GameLogic extends Observable {
     /**
      * @return
      */
-    public void draw() {
-    	this.currentPlayer.addPoliticCard(this.gameboard.getPoliticDeck().draw());
+    public PoliticCard draw() {
+    	return this.gameboard.getPoliticDeck().draw();
     }
 
     /**
@@ -78,6 +80,7 @@ public class GameLogic extends Observable {
         } else {
         	this.gameboard.elect(region, color);
         }
+		int a = 0;
     }
     
     /**

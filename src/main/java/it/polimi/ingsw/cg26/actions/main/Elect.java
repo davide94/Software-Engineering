@@ -21,7 +21,8 @@ public class Elect extends Action {
 
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("Elected a " + this.assistantColor + " councillor in " + this.region);
+        gameLogic.electAsMainAction(this.region, this.assistantColor);
+        //gameLogic.log("Elected a " + this.assistantColor + " councillor in " + this.region);
     }
 
 }

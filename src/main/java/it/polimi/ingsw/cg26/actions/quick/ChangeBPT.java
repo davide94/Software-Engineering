@@ -11,12 +11,15 @@ public class ChangeBPT extends Action {
     private final String region;
 
     public ChangeBPT(String region) {
+        if (region == null)
+            throw new NullPointerException();
         this.region = region;
     }
 
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("Changed tile in " + this.region);
+        gameLogic.changeBPT(this.region);
+        //gameLogic.log("Changed tile in " + this.region);
     }
 
 }
