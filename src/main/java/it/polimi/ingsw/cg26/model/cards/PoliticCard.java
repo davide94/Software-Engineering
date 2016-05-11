@@ -8,20 +8,22 @@ package it.polimi.ingsw.cg26.model.cards;
  */
 public class PoliticCard extends Sellable {
 
-    private CouncillorColor color;
+    private final CouncillorColor color;
 
     /**
      *
      */
     public PoliticCard(CouncillorColor color) {
+        if (color == null)
+            throw new NullPointerException();
+        this.color = color;
     }
 
     /**
      * @return
      */
     public CouncillorColor getColor() {
-        // TODO implement here
-        return null;
+        return this.color;
     }
 
     /**

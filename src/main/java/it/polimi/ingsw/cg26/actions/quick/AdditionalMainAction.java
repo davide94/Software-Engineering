@@ -10,7 +10,8 @@ public class AdditionalMainAction extends Action {
 
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("AdditionalMainAction");
+        gameLogic.additionalMainAction();
+        //gameLogic.log("AdditionalMainAction");
     }
 
 }

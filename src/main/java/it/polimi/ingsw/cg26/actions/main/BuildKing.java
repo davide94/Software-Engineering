@@ -23,7 +23,8 @@ public class BuildKing extends Action {
 
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("Built w/ king in " + this.city + " with " + this.politicCardsColors.size() + " cards");
+        gameLogic.buildKing(this.city, this.politicCardsColors);
+        //gameLogic.log("Built w/ king in " + this.city + " with " + this.politicCardsColors.size() + " cards");
     }
 
 }

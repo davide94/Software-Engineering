@@ -21,9 +21,10 @@ public class App
         Creator creator = new Creator();
         try {
 
-            System.out.print("How many players? ");
+            /*System.out.print("How many players? ");
             Scanner scanner = new Scanner(System.in);
-            int playersNumber = scanner.nextInt();
+            int playersNumber = scanner.nextInt();*/
+            int playersNumber = 1;
 
             creator.newGame("src/main/resources/config.xml", playersNumber);
 

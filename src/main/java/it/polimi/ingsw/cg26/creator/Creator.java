@@ -113,6 +113,7 @@ public class Creator {
                 cards.add(card);
             }
         }
+        Collections.shuffle(cards);
         return cards;
     }
 

@@ -26,7 +26,8 @@ public class Acquire extends Action {
 
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("Acquired " + (this.position == 0 ? "right" : "left") + " tile in " + this.region + " with " + this.politicCardsColors.size() + " cards");
+        gameLogic.acquireBPT(this.politicCardsColors, this.region, this.position);
+        //gameLogic.log("Acquired " + (this.position == 0 ? "right" : "left") + " tile in " + this.region + " with " + this.politicCardsColors.size() + " cards");
     }
 
 }

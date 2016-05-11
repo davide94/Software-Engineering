@@ -14,30 +14,32 @@ import java.util.LinkedList;
  */
 public class Player {
 
+    private static final int INITIAL_CARDS_NUMBER = 6;
+
     /**
      * Reference to the game logic class
      */
-    private GameLogic gameLogic;
+    private final GameLogic gameLogic;
 
     /**
      * Reference to the victory points manager
      */
-    private VictoryPoints victoryPoints = new VictoryPoints();
+    private final VictoryPoints victoryPoints = new VictoryPoints();
 
     /**
      * Reference to the coins manager
      */
-    private Coins coins = new Coins();
+    private final Coins coins = new Coins();
 
     /**
      * Reference to the main actions manager
      */
-    private Actions mainActions = new MainActions();
+    private final Actions mainActions = new MainActions();
 
     /**
      * Reference to the quick actions manager
      */
-    private Actions quickActions = new QuickActions();
+    private final Actions quickActions = new QuickActions();
 
     /**
      * Reference to the current cell in the nobility track
@@ -47,17 +49,17 @@ public class Player {
     /**
      * The collection of assistants owned by the player
      */
-    private LinkedList<Assistant> assistants = new LinkedList<>();
+    private final LinkedList<Assistant> assistants = new LinkedList<>();
 
     /**
      * The collection of politic cards owned by the player
      */
-    private LinkedList<PoliticCard> cards = new LinkedList<>();
+    private final LinkedList<PoliticCard> cards = new LinkedList<>();
 
     /**
      * The collection of business permission tiles owned by the player, already used or not
      */
-    private LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
+    private final LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
 
     /**
      * Constructs a Player
@@ -78,6 +80,8 @@ public class Player {
         this.currentNobilityCell = nobilityCell;
         this.coins.addCoins(coins);
         this.assistants.addAll(assistants);
+        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
+            this.cards.add(this.gameLogic.draw());
     }
 
     /**
@@ -236,7 +240,7 @@ public class Player {
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
-    public LinkedList<PoliticCard> getCards(Collection<String> requiredCards) {
+    public synchronized LinkedList<PoliticCard> getCards(Collection<String> requiredCards) {
         LinkedList<PoliticCard> cards = new LinkedList<>();
         for (String requiredCard: requiredCards) {
             for (PoliticCard card: this.cards) {
