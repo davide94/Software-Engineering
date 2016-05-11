@@ -15,6 +15,8 @@ public class GameBoard {
 	
 	private Collection<Councillor> councillorsPool;
 	
+	//private KingDeck kingDeck;
+	
 	private Balcony kingBalcony;
 	
 	private Collection<Region> regions;
