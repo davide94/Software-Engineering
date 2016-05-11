@@ -18,6 +18,8 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -33,6 +35,7 @@ public class Creator {
      * Default constructor
      */
     public Creator() {
+        // nothing to do here
     }
 
     /**
@@ -40,60 +43,61 @@ public class Creator {
      * @param file is the path+name of the configuration file
      * @param playersNumber is the number of players
      */
-    public Controller newGame(String file, int playersNumber) throws IOException, ParserConfigurationException {
+    public void newGame(String file, int playersNumber) throws IOException, ParserConfigurationException {
 
         try {
+            Instant before = Instant.now();
+
             DOMParserInterface parserInterface = new XMLAdapter();
 
             Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
 
             Node root = document.getFirstChild();
 
-            // create councillors + PoliticCardsDeck
             LinkedList<PoliticCard> cards = createCards(root);
             LinkedList<Councillor> councillors = createCouncillors(root);
             PoliticDeck politicDeck = new PoliticDeck(cards);
 
             LinkedList<City> cities = createCities(root);
 
-            // create regions
+            /*for (City c1: cities)
+                for (City c2: cities)
+                    System.out.println("Distance from " + c1.getName() + " to " +c2.getName() + " = " + c1.distanceFrom(c2));
+            */
             LinkedList<Region> regions = createRegions(root, cities);
 
-            // create balcony
             Balcony kingsBalcony = new Balcony(4);
 
-            // Elect councillors
             electCouncillors(kingsBalcony, regions, councillors);
 
-            // create nobility track
             NobilityTrack nobilityTrack = createNobilityTrack(root);
 
-            // create king
             King king = createKing(root, cities);
 
-            // create gameBoard
             GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
 
-            // create market
             //Market market = new Market();
 
-            // create GameLogic
             GameLogic gameLogic = new GameLogic(gameBoard);
 
-            // create players
             createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
 
             View view = new View();
+            Thread view1 = new Thread(view, "Player1");
             Controller controller = new Controller(gameLogic);
 
-            gameLogic.addObserver(view);
-            view.addObserver(controller);
+            gameLogic.registerObserver(view);
+            view.registerObserver(controller);
 
-            return controller;
+            Instant after = Instant.now();
+            long delta = Duration.between(before, after).toMillis();
+            System.out.println("Game created in " + delta + " ms");
+
+            view1.start();
 
         } catch (SAXException e) {
             System.out.println(e.getMessage());
-            throw new BadInputFileException();
+            throw new BadInputFileException(e);
         }
 
     }

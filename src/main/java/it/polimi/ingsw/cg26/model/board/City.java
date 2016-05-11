@@ -9,13 +9,9 @@ import java.util.*;
 /**
  * 
  */
-public class City implements Comparable<City> {
+public class City {
 
-    public double distance = Double.POSITIVE_INFINITY;
-    public City previous;
-    public int compareTo(City other) {
-        return Double.compare(distance, other.distance);
-    }
+    private Double distance = Double.POSITIVE_INFINITY;
 
     private String name;
     
@@ -32,7 +28,7 @@ public class City implements Comparable<City> {
         this.color = color;
         this.bonuses = bonuses;
         
-        this.emporiums = new ArrayList<Emporium>();
+        this.emporiums = new ArrayList<>();
         this.nearCities = new LinkedList<>();
     }
     
@@ -121,7 +117,7 @@ public class City implements Comparable<City> {
     }
 
     private void initDistance() {
-        if (this.distance == Double.POSITIVE_INFINITY)
+        if (this.distance.isInfinite())
             return;
         this.distance = Double.POSITIVE_INFINITY;
         for (City city: this.nearCities)
@@ -131,25 +127,21 @@ public class City implements Comparable<City> {
     public int distanceFrom(City city) {
         this.initDistance();
         this.distance = 0.;
-        PriorityQueue<City> vertexQueue = new PriorityQueue<>();
-        vertexQueue.add(this);
-
-        while (!vertexQueue.isEmpty()) {
-            City u = vertexQueue.poll();
-
+        LinkedList<City> queue = new LinkedList<>();
+        queue.add(this);
+        while (!queue.isEmpty()) {
+            City u = queue.poll();
             for (City v: u.nearCities)
             {
-                double distanceThroughU = u.distance + 1;
+                Double distanceThroughU = u.distance + 1;
                 if (distanceThroughU < v.distance) {
-                    vertexQueue.remove(v);
-
+                    queue.remove(v);
                     v.distance = distanceThroughU;
-                    v.previous = u;
-                    vertexQueue.add(v);
+                    queue.add(v);
                 }
             }
         }
-        return (int) city.distance;
+        return city.distance.intValue();
     }
 
 }

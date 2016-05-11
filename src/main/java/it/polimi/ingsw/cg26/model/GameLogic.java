@@ -33,6 +33,10 @@ public class GameLogic extends Observable {
         this.gameboard=gameBoard;
     }
 
+	public void log(String s) {
+        System.out.println(s);
+    }
+
     /**
      * 
      */

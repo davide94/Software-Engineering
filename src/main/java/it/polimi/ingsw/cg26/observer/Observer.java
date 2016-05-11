@@ -3,11 +3,10 @@ package it.polimi.ingsw.cg26.observer;
 /**
  * 
  */
-public interface Observer {
+public interface Observer<C> {
 
-    /**
-     *
-     */
-    void update();
+    default void update(C o){
+        // TODO
+    }
 
 }
