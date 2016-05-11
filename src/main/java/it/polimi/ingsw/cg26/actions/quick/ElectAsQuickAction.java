@@ -8,8 +8,20 @@ import it.polimi.ingsw.cg26.model.GameLogic;
  */
 public class ElectAsQuickAction extends Action {
 
+    private final String region;
+
+    private final String assistantColor;
+
+    public ElectAsQuickAction(String region, String assistantColor) {
+        if (region == null || assistantColor == null)
+            throw new NullPointerException();
+        this.region = region;
+        this.assistantColor = assistantColor;
+    }
+
     @Override
     public void apply(GameLogic gameLogic) {
-        gameLogic.log("ElectQuick");
+        gameLogic.log("Elected a " + this.assistantColor + " councillor in " + this.region +" as quick action");
     }
+
 }

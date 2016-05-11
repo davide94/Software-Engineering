@@ -12,7 +12,6 @@ import java.util.Scanner;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
- * Hello world!
  *
  */
 public class App 

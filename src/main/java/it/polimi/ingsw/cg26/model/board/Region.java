@@ -93,9 +93,9 @@ public class Region {
     	if(politicCards == null){
     		throw new NullPointerException();
     	} else if(balcony.checkPoliticCardsCouncillors(politicCards)){
-    		if(numberBPT == 1){
+    		if(numberBPT == 0){
     			return deck.draw();
-    		} else if(numberBPT == 2) {
+    		} else if(numberBPT == 1) {
     			return deck.drawSecond();
     		} else {
     			throw new IllegalArgumentException();

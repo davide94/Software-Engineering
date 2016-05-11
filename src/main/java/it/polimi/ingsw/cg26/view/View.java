@@ -13,6 +13,7 @@ import it.polimi.ingsw.cg26.observer.Observable;
 import it.polimi.ingsw.cg26.observer.Observer;
 import it.polimi.ingsw.cg26.update.Update;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -87,42 +88,77 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
     }
 
     private void elect() {
-
-        notifyObservers(new Elect());
+        System.out.println("In which region? ");
+        String region = scanner.nextLine();
+        System.out.println("Assistant color? ");
+        String assistantColor = scanner.nextLine();
+        notifyObservers(new Elect(region, assistantColor));
     }
 
     private void acquire() {
-
-        notifyObservers(new Acquire());
+        System.out.println("In which region? ");
+        String region = scanner.nextLine();
+        LinkedList<String> cards = new LinkedList<>();
+        for (int i = 1; i <= 4; i++) {
+            System.out.println(i + "° Card color? ");
+            cards.add(scanner.nextLine());
+            if (i == 4)
+                break;
+            System.out.println("Do you have any more? (y, N) ");
+            String response = scanner.nextLine();
+            if (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("yes"))
+                break;
+        }
+        System.out.println("Do you want the left(l) or the right(R) one? ");
+        String response = scanner.nextLine();
+        int position = 0;
+        if (!response.equalsIgnoreCase("l") && !response.equalsIgnoreCase("left"))
+            position = 1;
+        notifyObservers(new Acquire(region, cards, position));
     }
 
     private void build() {
-
-        notifyObservers(new Build());
+        System.out.println("In which city? ");
+        String city = scanner.nextLine();
+        notifyObservers(new Build(city));
     }
 
     private void buildKing() {
-
-        notifyObservers(new BuildKing());
+        System.out.println("In which city? ");
+        String city = scanner.nextLine();
+        LinkedList<String> cards = new LinkedList<>();
+        for (int i = 1; i <= 4; i++) {
+            System.out.println(i + "° Card color? ");
+            cards.add(scanner.nextLine());
+            if (i == 4)
+                break;
+            System.out.println("Do you have any more? (y, N) ");
+            String response = scanner.nextLine();
+            if (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("yes"))
+                break;
+        }
+        notifyObservers(new BuildKing(city, cards));
     }
 
     private void engageAssistant() {
-
         notifyObservers(new EngageAssistant());
     }
 
     private void changeBPT() {
-
-        notifyObservers(new ChangeBPT());
+        System.out.println("In which region? ");
+        String region = scanner.nextLine();
+        notifyObservers(new ChangeBPT(region));
     }
 
     private void electAsQuickAction() {
-
-        notifyObservers(new ElectAsQuickAction());
+        System.out.println("In which region? ");
+        String region = scanner.nextLine();
+        System.out.println("Assistant color? ");
+        String assistantColor = scanner.nextLine();
+        notifyObservers(new ElectAsQuickAction(region, assistantColor));
     }
 
     private void additionalMainAction() {
-
         notifyObservers(new AdditionalMainAction());
     }
 

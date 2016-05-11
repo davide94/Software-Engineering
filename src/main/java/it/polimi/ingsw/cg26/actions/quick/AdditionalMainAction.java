@@ -12,4 +12,5 @@ public class AdditionalMainAction extends Action {
     public void apply(GameLogic gameLogic) {
         gameLogic.log("AdditionalMainAction");
     }
+
 }
