@@ -1,27 +1,42 @@
 package it.polimi.ingsw.cg26.actions.quick;
 
-import it.polimi.ingsw.cg26.actions.Action;
+import it.polimi.ingsw.cg26.actions.Elect;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
+import it.polimi.ingsw.cg26.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.model.player.Player;
 
 /**
  *
  */
-public class ElectAsQuickAction extends Action {
+public class ElectAsQuickAction extends Elect {
 
-    private final String region;
+	/**
+	 * 
+	 * @param region
+	 * @param councillorColor
+	 */
+	public ElectAsQuickAction(String region, PoliticColor councillorColor) {
+		super(region, councillorColor);
+	}
 
-    private final String assistantColor;
-
-    public ElectAsQuickAction(String region, String assistantColor) {
-        if (region == null || assistantColor == null)
-            throw new NullPointerException();
-        this.region = region;
-        this.assistantColor = assistantColor;
-    }
-
-    @Override
+	/**
+	 * 
+	 */
+	@Override
     public void apply(GameBoard gameBoard) {
-        // TODO
+        
+    	Player currentPlayer = gameBoard.getCurrentPlayer();
+    	if (!currentPlayer.canPerformQuickAction())
+    		throw new NoRemainingActionsException();
+    	if(currentPlayer.getAssistantsNumber()<1){
+    		throw new NoRemainingAssistantsException();
+    	}
+    	
+    	super.apply(gameBoard);
+    	
+    	currentPlayer.takeAssistants(1);
+    	currentPlayer.performQuickAction();
     }
-
 }

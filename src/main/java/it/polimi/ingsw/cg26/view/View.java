@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.view;
 
 import it.polimi.ingsw.cg26.actions.Action;
+import it.polimi.ingsw.cg26.actions.Elect;
 import it.polimi.ingsw.cg26.actions.main.Acquire;
 import it.polimi.ingsw.cg26.actions.main.Build;
 import it.polimi.ingsw.cg26.actions.main.BuildKing;
-import it.polimi.ingsw.cg26.actions.main.Elect;
 import it.polimi.ingsw.cg26.actions.quick.AdditionalMainAction;
 import it.polimi.ingsw.cg26.actions.quick.ChangeBPT;
 import it.polimi.ingsw.cg26.actions.quick.ElectAsQuickAction;
@@ -93,8 +93,8 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         String region = scanner.nextLine();
         System.out.println("Assistant color? ");
         String colorString = scanner.nextLine();
-        PoliticColor color = new PoliticColor(colorString);
-        notifyObservers(new Elect(region, color));
+        PoliticColor politicColor = new PoliticColor(colorString);
+        notifyObservers(new Elect(region, politicColor));
     }
 
     private void acquire() {
@@ -157,8 +157,9 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         System.out.println("In which region? ");
         String region = scanner.nextLine();
         System.out.println("Assistant color? ");
-        String assistantColor = scanner.nextLine();
-        notifyObservers(new ElectAsQuickAction(region, assistantColor));
+        String colorString = scanner.nextLine();
+        PoliticColor politicColor = new PoliticColor(colorString);
+        notifyObservers(new ElectAsQuickAction(region, politicColor));
     }
 
     private void additionalMainAction() {

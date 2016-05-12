@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cg26.actions.quick;
 
 import it.polimi.ingsw.cg26.actions.Action;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
+import it.polimi.ingsw.cg26.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
+import it.polimi.ingsw.cg26.model.player.Player;
 
 /**
  *
@@ -16,9 +19,22 @@ public class ChangeBPT extends Action {
         this.region = region;
     }
 
+    /**
+     * 
+     */
     @Override
     public void apply(GameBoard gameBoard) {
-        // TODO
+    	
+    	Player currentPlayer = gameBoard.getCurrentPlayer();
+    	if (!currentPlayer.canPerformQuickAction())
+    		throw new NoRemainingActionsException();
+    	if(currentPlayer.getAssistantsNumber()<1)
+    		throw new NoRemainingAssistantsException();
+    	
+    	gameBoard.getRegion(region).getBPTDeck().change();
+    	
+    	currentPlayer.takeAssistants(1);
+    	currentPlayer.performQuickAction();
     }
 
 }

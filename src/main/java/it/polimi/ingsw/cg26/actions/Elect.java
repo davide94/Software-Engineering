@@ -1,12 +1,9 @@
-package it.polimi.ingsw.cg26.actions.main;
+package it.polimi.ingsw.cg26.actions;
 
-import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.model.player.Player;
 
 /**
  *
@@ -17,6 +14,11 @@ public class Elect extends Action {
 
     private final PoliticColor councillorColor;
 
+    /**
+     * 
+     * @param region
+     * @param councillorColor
+     */
     public Elect(String region, PoliticColor councillorColor) {
         if (region == null || councillorColor == null)
             throw new NullPointerException();
@@ -30,10 +32,6 @@ public class Elect extends Action {
     @Override
     public void apply(GameBoard gameBoard) {
         
-    	Player currentPlayer = gameBoard.getCurrentPlayer();
-    	
-    	if (!currentPlayer.canPerformMainAction())
-    		throw new NoRemainingActionsException();
     	Councillor addCouncillor=null;
     	for(Councillor iterCouncillor : gameBoard.getCouncillorsPool()){
     		if(iterCouncillor.getColor().equals(this.councillorColor)){
@@ -52,8 +50,6 @@ public class Elect extends Action {
     	}
     	gameBoard.getCouncillorsPool().remove(addCouncillor);
     	gameBoard.getCouncillorsPool().add(droppedCouncillor);
-    	currentPlayer.addCoins(4);
-    	currentPlayer.performMainAction();
     }
 
 }
