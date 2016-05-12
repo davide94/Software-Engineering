@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
+import it.polimi.ingsw.cg26.model.cards.CouncillorColor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
 import java.util.Collection;
@@ -80,8 +81,9 @@ public class Player {
         this.currentNobilityCell = nobilityCell;
         this.coins.addCoins(coins);
         this.assistants.addAll(assistants);
-        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
-            this.cards.add(this.gameLogic.draw());
+        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++);
+            //this.cards.add(this.gameLogic.draw());
+        	//TODO chiamare metodo per pescare
     }
 
     public boolean canPerformMainAction() {
@@ -250,8 +252,8 @@ public class Player {
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
-    public synchronized LinkedList<PoliticCard> getCards(Collection<String> requiredCards) {
-        LinkedList<PoliticCard> cards = new LinkedList<>();
+    public synchronized LinkedList<PoliticCard> getCards(Collection<CouncillorColor> requiredCards) {
+        /*LinkedList<PoliticCard> cards = new LinkedList<>();
         for (String requiredCard: requiredCards) {
             for (PoliticCard card: this.cards) {
                 if (card.getColor().colorString().equalsIgnoreCase(requiredCard)) {
@@ -263,7 +265,9 @@ public class Player {
         }
         if (!requiredCards.isEmpty())
             throw new InvalidCardsException();
-        return cards;
+        return cards;*/
+    	return null;
+    	//TODO 
     }
 
     /**

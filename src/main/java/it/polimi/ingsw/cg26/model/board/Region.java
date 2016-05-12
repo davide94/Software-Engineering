@@ -44,7 +44,7 @@ public class Region {
     		return false;
     	}
     	for(City iterCity : cities){
-    		if(iterCity.hasEmporium(player)){
+    		if(!iterCity.hasEmporium(player)){
     			return false;
     		}
     	}
@@ -110,6 +110,14 @@ public class Region {
      */
     public void changeBPT(){
     	this.deck.change();
+    }
+    
+    public Balcony getBalcony(){
+    	return this.balcony;
+    }
+    
+    public BusinessPermissionTileDeck getBPTDeck(){
+    	return this.deck;
     }
 
     /*public Set<City> getCities() {

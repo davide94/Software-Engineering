@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg26.actions.quick.AdditionalMainAction;
 import it.polimi.ingsw.cg26.actions.quick.ChangeBPT;
 import it.polimi.ingsw.cg26.actions.quick.ElectAsQuickAction;
 import it.polimi.ingsw.cg26.actions.quick.EngageAssistant;
+import it.polimi.ingsw.cg26.model.cards.CouncillorColor;
 import it.polimi.ingsw.cg26.observer.Observable;
 import it.polimi.ingsw.cg26.observer.Observer;
 import it.polimi.ingsw.cg26.update.Update;
@@ -98,10 +99,11 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
     private void acquire() {
         System.out.println("In which region? ");
         String region = scanner.nextLine();
-        LinkedList<String> cards = new LinkedList<>();
+        LinkedList<CouncillorColor> cardsColors = new LinkedList<>();
         for (int i = 1; i <= 4; i++) {
             System.out.println(i + "° Card color? ");
-            cards.add(scanner.nextLine());
+            String colorName = scanner.nextLine();
+            cardsColors.add(new CouncillorColor(colorName));
             if (i == 4)
                 break;
             System.out.println("Do you have any more? (y, N) ");
@@ -114,7 +116,7 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         int position = 0;
         if (!response.equalsIgnoreCase("l") && !response.equalsIgnoreCase("left"))
             position = 1;
-        notifyObservers(new Acquire(region, cards, position));
+        notifyObservers(new Acquire(region, cardsColors, position));
     }
 
     private void build() {
