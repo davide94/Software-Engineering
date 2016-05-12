@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.creator;
 
-//import com.oracle.tools.packager.Log;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
@@ -97,9 +96,7 @@ public class Creator {
 
             Instant after = Instant.now();
             long delta = Duration.between(before, after).toMillis();
-            LOG.info("Game created in " + delta + " ms");
-
-            //System.out.println("Game created in " + delta + " ms");
+            //LOG.info("Game created in " + delta + " ms");
 
             view1.start();
 

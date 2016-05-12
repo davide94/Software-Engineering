@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.view;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.actions.Elect;
 import it.polimi.ingsw.cg26.actions.main.Acquire;
 import it.polimi.ingsw.cg26.actions.main.Build;
 import it.polimi.ingsw.cg26.actions.main.BuildKing;
+import it.polimi.ingsw.cg26.actions.main.ElectAsMainAction;
 import it.polimi.ingsw.cg26.actions.quick.AdditionalMainAction;
 import it.polimi.ingsw.cg26.actions.quick.ChangeBPT;
 import it.polimi.ingsw.cg26.actions.quick.ElectAsQuickAction;
@@ -16,11 +16,14 @@ import it.polimi.ingsw.cg26.update.Update;
 
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  * 
  */
 public class View extends Observable<Action> implements Observer<Update>, Runnable {
+
+    private static final Logger LOG = Logger.getLogger(View.class.getName());
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -39,6 +42,7 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
     }
 
     private void waitInput() {
+
         System.out.println("Main actions:" +
                 "\n(1) Elect a Councillor" +
                 "\n(2) Acquire a Business Permit Tile" +
@@ -94,7 +98,7 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         System.out.println("Assistant color? ");
         String colorString = scanner.nextLine();
         PoliticColor politicColor = new PoliticColor(colorString);
-        notifyObservers(new Elect(region, politicColor));
+        notifyObservers(new ElectAsMainAction(region, politicColor));
     }
 
     private void acquire() {
@@ -115,7 +119,7 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         System.out.println("Do you want the left(l) or the right(R) one? ");
         String response = scanner.nextLine();
         int position = 0;
-        if (!response.equalsIgnoreCase("l") && !response.equalsIgnoreCase("left"))
+        if (response.equalsIgnoreCase("l") || response.equalsIgnoreCase("left"))
             position = 1;
         notifyObservers(new Acquire(region, cardsColors, position));
     }
@@ -129,10 +133,12 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
     private void buildKing() {
         System.out.println("In which city? ");
         String city = scanner.nextLine();
-        LinkedList<String> cards = new LinkedList<>();
+        LinkedList<PoliticColor> cards = new LinkedList<>();
         for (int i = 1; i <= 4; i++) {
             System.out.println(i + "° Card color? ");
-            cards.add(scanner.nextLine());
+            String colorString = scanner.nextLine();
+            PoliticColor color = new PoliticColor(colorString);
+            cards.add(color);
             if (i == 4)
                 break;
             System.out.println("Do you have any more? (y, N) ");

@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg26.model.GameLogic;
  */
 public class King {
 
+    private final static int LINK_PRICE = 2;
 
 	private City currentCity;
 
@@ -28,4 +29,7 @@ public class King {
         this.currentCity = city;
     }
 
+    public int priceToMove(City city) {
+        return this.currentCity.distanceFrom(city) * LINK_PRICE;
+    }
 }
