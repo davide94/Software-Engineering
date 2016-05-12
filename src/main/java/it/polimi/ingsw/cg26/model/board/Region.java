@@ -61,16 +61,6 @@ public class Region {
         return null;
     }
 
-    
-    
-    /**
-     * @param councillor
-     */
-    public Councillor elect(Councillor councillor) {
-    	Councillor droppedCouncillor = balcony.elect(councillor);
-    	return droppedCouncillor;
-    }
-
     /**
      * @param
      * @param city 
@@ -84,29 +74,6 @@ public class Region {
         		bonuses.remove(iterBonus);
         	}
         }
-    }
-    
-    public BusinessPermissionTile acquireBPT(List<PoliticCard> politicCards, int numberBPT){
-    	if(politicCards == null){
-    		throw new NullPointerException();
-    	} else if(balcony.checkPoliticCardsCouncillors(politicCards)){
-    		if(numberBPT == 0){
-    			return deck.draw();
-    		} else if(numberBPT == 1) {
-    			return deck.drawSecond();
-    		} else {
-    			throw new IllegalArgumentException();
-    		}
-    	} else {
-    		throw new InvalidCardsException();
-    	}
-    }
-    
-    /**
-     * 
-     */
-    public void changeBPT(){
-    	this.deck.change();
     }
     
     public Balcony getBalcony(){
