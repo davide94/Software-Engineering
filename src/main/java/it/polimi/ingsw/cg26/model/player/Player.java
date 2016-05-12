@@ -26,12 +26,12 @@ public class Player {
     /**
      * Reference to the victory points manager
      */
-    private final VictoryPoints victoryPoints = new VictoryPoints();
+    private final VictoryPoints victoryPoints;
 
     /**
      * Reference to the coins manager
      */
-    private final Coins coins = new Coins();
+    private final Coins coins;
 
     /**
      * Reference to the main actions manager
@@ -51,17 +51,17 @@ public class Player {
     /**
      * The collection of assistants owned by the player
      */
-    private final LinkedList<Assistant> assistants = new LinkedList<>();
+    private final LinkedList<Assistant> assistants;
 
     /**
      * The collection of politic cards owned by the player
      */
-    private final LinkedList<PoliticCard> cards = new LinkedList<>();
+    private final LinkedList<PoliticCard> cards;
 
     /**
      * The collection of business permission tiles owned by the player, already used or not
      */
-    private final LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
+    private final LinkedList<BusinessPermissionTile> tiles;
 
     /**
      * Constructs a Player
@@ -77,17 +77,22 @@ public class Player {
         if (coins < 0)
             throw new IllegalArgumentException();
 
+        this.victoryPoints = new VictoryPoints();
+        this.coins = new Coins();
         this.currentNobilityCell = nobilityCell;
         this.coins.addCoins(coins);
-        this.cards.addAll(cards);
-        this.assistants.addAll(assistants);
+        this.cards = new LinkedList<>(cards);
+        this.assistants = new LinkedList<>(assistants);
         this.remainingMainActions = new RemainingMainActions();
         this.remainingQuickActions = new RemainingQuickActions();
+        this.tiles = new LinkedList<>();
 
         System.out.print("Player:  ");
         for (PoliticCard card: this.cards)
             System.out.print(card.getColor().colorString() + "  ");
         System.out.println("\n--------");
+
+
     }
 
     public boolean canPerformMainAction() {
@@ -172,19 +177,20 @@ public class Player {
      * Returns the number of assistants owned by the player
      * @return the number of assistants owned by the player
      */
-    public int numberOfAssistants(){
+    public int getAssistantsNumber(){
     	return this.assistants.size();
     }
 
     /**
-     * Takes and removes an assistant from the assistants owned by the player
-     * @return an assistant removed from the assistants owned by the player
+     * Takes and removes assistans from the assistants owned by the player
+     * @param number is the number of assistants to be taken
      * @throws NoRemainingAssistantsException if there are no assistants remaining
      */
-    public Assistant takeAssistant() {
-        if (this.assistants.size() == 0)
+    public void takeAssistants(int number) {
+        if (this.assistants.size() < number)
             throw new NoRemainingAssistantsException();
-        return this.assistants.poll();
+        for (int i = 0; i < number; i++)
+            this.assistants.poll();
     }
 
     /**
@@ -235,6 +241,17 @@ public class Player {
         if (card == null)
             throw new NullPointerException();
         this.cards.add(card);
+    }
+
+    public BusinessPermissionTile hasPermissionTile(String city) {
+        for (BusinessPermissionTile tile: this.tiles)
+            if (!tile.canBuildIn(city))
+                return tile;
+        throw new InvalidCardsException();
+    }
+
+    public void takeBPT(BusinessPermissionTile tile) {
+        this.tiles.remove(tile);
     }
 
     /**

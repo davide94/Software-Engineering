@@ -70,6 +70,10 @@ public class City {
 		return bonuses;
 	}
 
+    public int getEmporiumsNumber() {
+        return this.emporiums.size();
+    }
+
     public boolean hasEmporium(Player p) {
         for (Emporium e: this.emporiums)
             if (e.getPlayer().equals(p))

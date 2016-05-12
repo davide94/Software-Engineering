@@ -55,4 +55,12 @@ public class BusinessPermissionTile extends Sellable {
         c.addAll(this.bonuses);
         return c;
     }
+
+    public boolean canBuildIn(String name) {
+        for (City city: this.cities)
+            if (city.getName().equalsIgnoreCase(name))
+                return true;
+        return false;
+    }
+
 }

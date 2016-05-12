@@ -18,7 +18,7 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
      * @return
      */
     public synchronized BusinessPermissionTile draw(int which) {
-        if (which == 2)
+        if (which == 1)
             super.draw(1);
         return draw();
     }

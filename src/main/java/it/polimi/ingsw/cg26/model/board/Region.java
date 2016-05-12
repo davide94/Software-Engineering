@@ -75,7 +75,7 @@ public class Region {
         	}
         }
     }
-    
+
     public Balcony getBalcony(){
     	return this.balcony;
     }
