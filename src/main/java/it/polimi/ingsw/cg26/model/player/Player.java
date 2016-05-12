@@ -84,6 +84,16 @@ public class Player {
             this.cards.add(this.gameLogic.draw());
     }
 
+    public boolean canPerformMainAction() {
+        // TODO
+        return true;
+    }
+
+    public boolean canPerformQuickAction() {
+        // TODO
+        return true;
+    }
+
     /**
      * Performs an action: the number of remaining main actions is decremented by one
      * @throws NoRemainingActionsException if the player do not have any remaining main actions

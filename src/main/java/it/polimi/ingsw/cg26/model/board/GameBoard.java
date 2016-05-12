@@ -13,17 +13,17 @@ public class GameBoard {
 	
 	private final PoliticDeck politicDeck;
 	
-	private Collection<Councillor> councillorsPool;
+	private final Collection<Councillor> councillorsPool;
 	
 	//private KingDeck kingDeck;
 	
-	private Balcony kingBalcony;
+	private final Balcony kingBalcony;
 	
-	private Collection<Region> regions;
+	private final Collection<Region> regions;
 	
-	private NobilityTrack nobilityTrack;
+	private final NobilityTrack nobilityTrack;
 	
-	private King king;
+	private final King king;
 
 
     public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingbalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
@@ -34,143 +34,37 @@ public class GameBoard {
     	this.nobilityTrack=nobilityTrack;
     	this.king=king;
     }
-    
-    /**
-     * 
-     * @param city
-     * @return
-     */
-    public Region getCityRegion(String city){
-    	if(city == null){
-    		throw new NullPointerException();
-    	} else {
-    		for(Region iterRegion : regions){
-    			try{
-    				iterRegion.getCity(city);
-    				return iterRegion;
-    			} catch (NotValidCityException cne) {
-    				
-    			}
-    		}
-    		throw new NotValidCityException();
-    	}
-    }
 
-    /**
-     * @param region 
-     * @param color
-     */
-    public void elect(String region, String color) {
-    	if(region == null || color == null){
-    		throw new NullPointerException();
-    	} else {
-    		Councillor addCouncillor=null;
-    		Councillor droppedCouncillor;
-    	
-    		for(Councillor councillor : councillorsPool){
-    			if(councillor.getColor().colorString().equalsIgnoreCase(color)){
-    				addCouncillor = councillor;
-    				break;
-    			}
-    		}
-    		if(addCouncillor==null){
-    			throw new NotExistingCouncillorException();
-    		} else {
-    			for (Region iterRegion : regions) {
-    				if(iterRegion.getName().equalsIgnoreCase(region)){
-    					droppedCouncillor = iterRegion.elect(addCouncillor);
-    					this.councillorsPool.add(droppedCouncillor);
-    					this.councillorsPool.remove(addCouncillor);
-    					return;
-    				}
-    			}
-    			throw new NotValidRegionException();
-    		}
-    	}
-    }
+	public Player getCurrentPlayer() {
+		// TODO
+		return null;
+	}
 
-    /**
-     * @param
-     * @return
-     */
-    public BusinessPermissionTile acquireBPT(List<PoliticCard> politicCards, String region, int numberBPT) {
-        if(politicCards == null || region == null){
-        	throw new NullPointerException();
-        } else {
-        	for(Region iterRegion : regions) {
-        		if(iterRegion.getName().equalsIgnoreCase(region)){
-        			BusinessPermissionTile acquiredBPT = iterRegion.acquireBPT(politicCards, numberBPT);
-        			for(PoliticCard iterCard : politicCards){
-        				this.politicDeck.discard(iterCard);
-        			}
-        			return acquiredBPT;
-        		}
-        	}
-        }
-        throw new NotValidRegionException();
-    }
+	public Region getRegion(String regionName) {
+		// TODO
+		return null;
+	}
 
-    /**
-     * @return
-     */
-    public void build(Player player, String city) {
-        if(player == null || city == null){
-        	throw new NullPointerException();
-        } else {
-        	this.getCityRegion(city).build(player, city);
-        }
-    }
+	public Balcony getKingBalcony() {
+		return this.kingBalcony;
+	}
 
-    /**
-     * @param region 
-     * @return
-     */
-    public void changeBPT(String region) {
-        if(region == null){
-        	throw new NullPointerException();
-        } else {
-        	for(Region iterRegion : regions){
-        		if(iterRegion.getName().equalsIgnoreCase(region)){
-        			iterRegion.changeBPT();
-        			return;
-        		}
-        	}
-        	throw new NotValidCityException();
-        }
-    }
+	public Collection<Councillor> getCouncillorsPool() {
+		return this.councillorsPool;
+	}
 
-    /**
-     * 
-     * @param politicCards
-     * @param city
-     * @param player
-     */
-    public void buildKing(List<PoliticCard> politicCards, String city, Player player) {
-        if(politicCards == null || city == null){
-        	throw new NullPointerException();
-        } else {
-        	if(kingBalcony.checkPoliticCardsCouncillors(politicCards)){
-        		//TODO controllo distanza quindi monete del giocatore
-        		Region nextCityRegion = this.getCityRegion(city);
-        		this.king.Move(nextCityRegion.getCity(city));
-        		nextCityRegion.build(player, city);
-        	}
-        }
-    }
+	public King getKing() {
+		return this.king;
+	}
 
-    /**
-     * @return
-     */
-    public int distance(String a, String b) {
-        // TODO implement here
-        return 0;
-    }
+	public City getCity(String cityName) {
+		// TODO
+		return null;
+	}
 
-	/**
-	 * @return the politicDeck
-	 */
 	public PoliticDeck getPoliticDeck() {
-		return politicDeck;
+		// TODO
+		return null;
 	}
 
 }
