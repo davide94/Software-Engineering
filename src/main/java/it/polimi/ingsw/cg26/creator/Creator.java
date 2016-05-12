@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.creator;
 
-import com.oracle.tools.packager.Log;
+//import com.oracle.tools.packager.Log;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
