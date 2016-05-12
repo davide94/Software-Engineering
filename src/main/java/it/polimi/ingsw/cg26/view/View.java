@@ -92,8 +92,9 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         System.out.println("In which region? ");
         String region = scanner.nextLine();
         System.out.println("Assistant color? ");
-        String assistantColor = scanner.nextLine();
-        notifyObservers(new Elect(region, assistantColor));
+        String colorString = scanner.nextLine();
+        PoliticColor color = new PoliticColor(colorString);
+        notifyObservers(new Elect(region, color));
     }
 
     private void acquire() {

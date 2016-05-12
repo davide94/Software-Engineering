@@ -233,7 +233,7 @@ public class Creator {
                 if (councillors.isEmpty())
                     throw new BadInputFileException();
                 Councillor councillor = councillors.remove(random.nextInt(councillors.size()));
-                region.elect(councillor);
+                region.getBalcony().elect(councillor);
                 System.out.print("  " + councillor.getColor().colorString());
             }
             System.out.println("\n--------");
