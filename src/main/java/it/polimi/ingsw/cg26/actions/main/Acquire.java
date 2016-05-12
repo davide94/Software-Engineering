@@ -4,7 +4,7 @@ import it.polimi.ingsw.cg26.actions.Action;
 import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.model.cards.CouncillorColor;
+import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.model.player.Player;
 
@@ -18,11 +18,11 @@ public class Acquire extends Action {
 
     private final String region;
 
-    private final Collection<CouncillorColor> politicCardsColors;
+    private final Collection<PoliticColor> politicCardsColors;
 
     private final int position;
 
-    public Acquire(String region, Collection<CouncillorColor> politicCardsColors, int position) {
+    public Acquire(String region, Collection<PoliticColor> politicCardsColors, int position) {
         if (region == null || politicCardsColors == null)
             throw new NullPointerException();
         this.region = region;
@@ -35,7 +35,7 @@ public class Acquire extends Action {
      * @param politicCardsColors
      * @return
      */
-    private int necessaryCoins(Collection<CouncillorColor> politicCardsColors, GameBoard gameBoard){
+    private int necessaryCoins(Collection<PoliticColor> politicCardsColors, GameBoard gameBoard){
     	int i = 0; //i=numero di carte colore bonus (arcobaleno)
     	int usedCoins;
     	int playerCoins = gameBoard.getCurrentPlayer().getCoinsNumber();
@@ -70,18 +70,21 @@ public class Acquire extends Action {
      */
     @Override
     public void apply(GameBoard gameBoard) {
-    	if(!gameBoard.getCurrentPlayer().canPerformMainAction()){
+		Player currentPlayer = gameBoard.getCurrentPlayer();
+		if (!currentPlayer.canPerformMainAction())
     		throw new NoRemainingActionsException();
-    	}
-    	int usedCoins = this.necessaryCoins(politicCardsColors, gameBoard);
-    	Player currentPlayer = gameBoard.getCurrentPlayer();
-    	List<PoliticCard> usedCards = currentPlayer.getCards(this.politicCardsColors);
-    	if(!gameBoard.getRegion(this.region).getBalcony().checkPoliticCardsCouncillors(usedCards)){
+		if (!currentPlayer.hasCards(this.politicCardsColors))
+			throw new InvalidCardsException();
+		int usedCoins = this.necessaryCoins(politicCardsColors, gameBoard);
+    	//List<PoliticCard> usedCards = currentPlayer.getCards(this.politicCardsColors);
+		//if(!gameBoard.getRegion(this.region).getBalcony().checkPoliticCardsCouncillors(usedCards)){
+		if (!gameBoard.getRegion(this.region).getBalcony().checkPoliticCards(this.politicCardsColors))
     		throw new InvalidCardsException(); 
-    	}
-    	BusinessPermissionTile addedBPT = gameBoard.getRegion(this.region).getBPTDeck().draw();
+
+    	BusinessPermissionTile addedBPT = gameBoard.getRegion(this.region).getBPTDeck().draw(); // TODO L/R
     	currentPlayer.addPermissionTile(addedBPT);
-    	currentPlayer.useCards(usedCards);
+    	Collection<PoliticCard> discarded = currentPlayer.useCards(this.politicCardsColors);
+		gameBoard.getPoliticDeck().discardAll(discarded);
     	currentPlayer.removeCoins(usedCoins);
     	currentPlayer.performMainAction();
     }

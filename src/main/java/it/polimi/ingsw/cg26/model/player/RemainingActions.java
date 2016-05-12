@@ -16,7 +16,15 @@ public abstract class RemainingActions {
      * Constructs an RemainingActions class with 0 actions remaining
      */
     public RemainingActions() {
-        this.remaining = 0;
+        this.remaining = 1;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean canPerform() {
+        return this.remaining > 0;
     }
 
     /**

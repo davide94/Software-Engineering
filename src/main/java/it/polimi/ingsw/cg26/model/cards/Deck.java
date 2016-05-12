@@ -41,9 +41,8 @@ public class Deck<E> {
      * @return
      */
     public synchronized E draw() {
-        if (!hasNext()) {
+        if (!hasNext())
             throw new NoMoreCardsException();
-        }
         return this.cards.poll();
     }
 
@@ -58,9 +57,8 @@ public class Deck<E> {
      *
      */
     public void add(E e) {
-        if (e == null) {
+        if (e == null)
             throw new NullPointerException();
-        }
         this.cards.add(e);
     }
 
@@ -68,9 +66,8 @@ public class Deck<E> {
      *
      */
     public void addAll(Collection<E> c) {
-        if (c == null) {
+        if (c == null)
             throw new NullPointerException();
-        }
         this.cards.addAll(c);
     }
 }

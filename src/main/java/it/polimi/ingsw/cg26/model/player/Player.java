@@ -2,9 +2,10 @@ package it.polimi.ingsw.cg26.model.player;
 
 import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.model.cards.CouncillorColor;
+import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
 import java.util.Collection;
@@ -20,7 +21,7 @@ public class Player {
     /**
      * Reference to the game logic class
      */
-    private final GameLogic gameLogic;
+    //private final GameBoard gameBoard;
 
     /**
      * Reference to the victory points manager
@@ -35,12 +36,12 @@ public class Player {
     /**
      * Reference to the main actions manager
      */
-    private final RemainingActions remainingMainActions = new RemainingMainActions();
+    private final RemainingActions remainingMainActions;
 
     /**
      * Reference to the quick actions manager
      */
-    private final RemainingActions remainingQuickActions = new RemainingQuickActions();
+    private final RemainingActions remainingQuickActions;
 
     /**
      * Reference to the current cell in the nobility track
@@ -64,36 +65,37 @@ public class Player {
 
     /**
      * Constructs a Player
-     * @param gameLogic reference to the game logic class
      * @param nobilityCell reference to the cell in the nobility track that the player has to start from
      * @param coins number of coins owned by the player
      * @param assistants collection of assistants owned by the player
      * @throws NullPointerException if any parameter is null
      * @throws IllegalArgumentException if coins is negative
      */
-    public Player(GameLogic gameLogic, NobilityCell nobilityCell, int coins, Collection<Assistant> assistants) {
-        if (gameLogic == null || nobilityCell == null || assistants == null)
+    public Player(NobilityCell nobilityCell, int coins, LinkedList<PoliticCard> cards, Collection<Assistant> assistants) {
+        if (nobilityCell == null || cards == null || assistants == null)
             throw new NullPointerException();
         if (coins < 0)
             throw new IllegalArgumentException();
 
-        this.gameLogic = gameLogic;
         this.currentNobilityCell = nobilityCell;
         this.coins.addCoins(coins);
+        this.cards.addAll(cards);
         this.assistants.addAll(assistants);
-        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++);
-            //this.cards.add(this.gameLogic.draw());
-        	//TODO chiamare metodo per pescare
+        this.remainingMainActions = new RemainingMainActions();
+        this.remainingQuickActions = new RemainingQuickActions();
+
+        System.out.print("Player:  ");
+        for (PoliticCard card: this.cards)
+            System.out.print(card.getColor().colorString() + "  ");
+        System.out.println("\n--------");
     }
 
     public boolean canPerformMainAction() {
-        // TODO
-        return true;
+        return this.remainingMainActions.canPerform();
     }
 
     public boolean canPerformQuickAction() {
-        // TODO
-        return true;
+        return this.remainingQuickActions.canPerform();
     }
 
     /**
@@ -245,29 +247,51 @@ public class Player {
             throw new NullPointerException();
         this.tiles.add(tile);
     }
-    
+
     /**
-     * Returns a collection of politic cards that match with the required
-     * @param requiredCards is a collection of strings that represents the required cards
-     * @return a collection of politic cards that match with the required
-     * @throws InvalidCardsException if the player does not owns all the cards required
+     *
      */
-    public synchronized LinkedList<PoliticCard> getCards(Collection<CouncillorColor> requiredCards) {
-        /*LinkedList<PoliticCard> cards = new LinkedList<>();
-        for (String requiredCard: requiredCards) {
-            for (PoliticCard card: this.cards) {
-                if (card.getColor().colorString().equalsIgnoreCase(requiredCard)) {
-                    cards.add(card);
-                    requiredCards.remove(requiredCard);
+    public boolean hasCards(Collection<PoliticColor> cardsColors) {
+        LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
+        for (PoliticColor color: cardsColors) {
+            PoliticCard c = null;
+            for (PoliticCard card: cards) {
+                if (card.getColor().equals(color)) {
+                    c = card;
                     break;
                 }
             }
+            if (c == null)
+                return false;
+            cards.remove(c);
         }
-        if (!requiredCards.isEmpty())
-            throw new InvalidCardsException();
-        return cards;*/
-    	return null;
-    	//TODO 
+        return true;
+    }
+
+
+    /**
+     * Returns a collection of politic cards that match with the required
+     * @param cardsColors is a collection of PoliticColor that represents the required cards
+     * @return a collection of politic cards that match with the required
+     * @throws InvalidCardsException if the player does not owns all the cards required
+     */
+    public LinkedList<PoliticCard> useCards(Collection<PoliticColor> cardsColors) {
+        LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
+        LinkedList<PoliticCard> ret = new LinkedList<>();
+        for (PoliticColor color: cardsColors) {
+            PoliticCard c = null;
+            for (PoliticCard card: cards) {
+                if (card.getColor().equals(color)) {
+                    c = card;
+                    break;
+                }
+            }
+            if (c == null)
+                throw new InvalidCardsException();
+            cards.remove(c);
+            ret.add(c);
+        }
+        return ret;
     }
 
     /**
@@ -275,11 +299,15 @@ public class Player {
      * @throws InvalidCardsException if the player does not have any of the required cards
      * @throws NullPointerException if the parameter is null or if contains one or more null elements
      */
-    public synchronized void useCards(Collection<PoliticCard> cards) {
-        if (!this.cards.containsAll(cards))
-            throw new InvalidCardsException();
-        this.cards.removeAll(cards);
-    }
+    /*public void useCards(Collection<PoliticColor> cardsColors) {
+        LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
+        for (PoliticColor color: cardsColors) {
+            for (PoliticCard card: cards) {
+                if (card.getColor().colorString().equalsIgnoreCase(color.colorString()))
+                    this.cards.remove(card);
+            }
+        }
+    }*/
 
     /**
      * Returns the number of coins owned by the player

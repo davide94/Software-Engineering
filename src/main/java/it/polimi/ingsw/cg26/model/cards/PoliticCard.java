@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.model.cards;
 
-        import it.polimi.ingsw.cg26.model.player.Player;
         import it.polimi.ingsw.cg26.model.market.Sellable;
 
 /**
@@ -8,12 +7,12 @@ package it.polimi.ingsw.cg26.model.cards;
  */
 public class PoliticCard extends Sellable {
 
-    private final CouncillorColor color;
+    private final PoliticColor color;
 
     /**
      *
      */
-    public PoliticCard(CouncillorColor color) {
+    public PoliticCard(PoliticColor color) {
         if (color == null)
             throw new NullPointerException();
         this.color = color;
@@ -22,7 +21,7 @@ public class PoliticCard extends Sellable {
     /**
      * @return
      */
-    public CouncillorColor getColor() {
+    public PoliticColor getColor() {
         return this.color;
     }
 
@@ -33,4 +32,20 @@ public class PoliticCard extends Sellable {
         // TODO implement here
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return false;
+/*        if (o == null || getClass() != o.getClass()) return false;
+
+        PoliticCard that = (PoliticCard) o;
+
+        return color != null ? color.equals(that.color) : that.color == null;
+*/
+    }
+
+    @Override
+    public int hashCode() {
+        return color != null ? color.hashCode() : 0;
+    }
 }

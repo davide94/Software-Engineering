@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.model.cards;
 /**
  * 
  */
-public class CouncillorColor {
+public class PoliticColor {
 
     /**
      *
@@ -13,7 +13,7 @@ public class CouncillorColor {
     /**
      *
      */
-    public CouncillorColor(String color) {
+    public PoliticColor(String color) {
         this.color = color;
     }
 
@@ -29,9 +29,9 @@ public class CouncillorColor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CouncillorColor that = (CouncillorColor) o;
+        PoliticColor that = (PoliticColor) o;
 
-        return color != null ? color.equals(that.color) : that.color == null;
+        return color != null ? color.equalsIgnoreCase(that.color) : that.color == null;
 
     }
 

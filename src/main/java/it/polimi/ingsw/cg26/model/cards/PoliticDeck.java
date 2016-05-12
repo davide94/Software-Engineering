@@ -20,15 +20,16 @@ public class PoliticDeck extends Deck<PoliticCard> {
      *
      */
     public PoliticDeck() {
-        this.discarded = new LinkedList<PoliticCard>();
+        this.discarded = new LinkedList<>();
     }
 
     /**
      *
      */
-    public PoliticDeck(Collection<PoliticCard> c) {
-        this.discarded = new LinkedList<PoliticCard>();
-        addAll(c);
+    public PoliticDeck(Collection<PoliticCard> cards) {
+        if (cards == null)
+            throw new NullPointerException();
+        this.discarded = new LinkedList<>(cards);
     }
 
     /**
@@ -36,9 +37,8 @@ public class PoliticDeck extends Deck<PoliticCard> {
      */
     public synchronized PoliticCard draw() {
         if (!hasNext()) {
-            if (this.discarded.size() == 0){
+            if (this.discarded.size() == 0)
                 throw new NoMoreCardsException();
-            }
             this.shuffle();
         }
         return super.draw();
@@ -48,10 +48,15 @@ public class PoliticDeck extends Deck<PoliticCard> {
      * @param
      */
     public synchronized void discard(PoliticCard card) {
-        if (card == null) {
+        if (card == null)
             throw new NullPointerException();
-        }
         this.discarded.add(card);
+    }
+
+    public synchronized void discardAll(Collection<PoliticCard> cards) {
+        if (cards == null)
+            throw new NullPointerException();
+        this.discarded.addAll(cards);
     }
 
     /**
@@ -60,6 +65,6 @@ public class PoliticDeck extends Deck<PoliticCard> {
     protected synchronized void shuffle() {
         Collections.shuffle(this.discarded);
         addAll(this.discarded);
-        this.discarded = new LinkedList<PoliticCard>();
+        this.discarded = new LinkedList<>();
     }
 }

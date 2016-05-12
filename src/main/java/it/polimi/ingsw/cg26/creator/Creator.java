@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg26.creator;
 
+import com.oracle.tools.packager.Log;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.*;
 import it.polimi.ingsw.cg26.model.bonus.*;
 import it.polimi.ingsw.cg26.model.cards.*;
-import it.polimi.ingsw.cg26.model.market.Market;
 import it.polimi.ingsw.cg26.model.player.Assistant;
 import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.view.View;
@@ -24,12 +24,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * The Creator class is used to create the initial game structure.
  * To build all the classes required to start a game use newGame(String file, int playersNumber).
  */
 public class Creator {
+
+    private static final Logger LOG = Logger.getLogger(Creator.class.getName());
+
+    private static final int INITIAL_CARDS_NUMBER = 6;
 
     /**
      * Default constructor
@@ -74,13 +79,14 @@ public class Creator {
 
             King king = createKing(root, cities);
 
-            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
+            GameLogic gameLogic = new GameLogic();
+
+            GameBoard gameBoard = new GameBoard(gameLogic, politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
 
             //Market market = new Market();
 
-            GameLogic gameLogic = new GameLogic(gameBoard);
 
-            createPlayers(playersNumber, gameLogic, nobilityTrack.getFirstCell());
+            createPlayers(playersNumber, gameLogic, politicDeck, nobilityTrack.getFirstCell());
 
             View view = new View();
             Thread view1 = new Thread(view, "Player1");
@@ -91,7 +97,9 @@ public class Creator {
 
             Instant after = Instant.now();
             long delta = Duration.between(before, after).toMillis();
-            System.out.println("Game created in " + delta + " ms");
+            LOG.info("Game created in " + delta + " ms");
+
+            //System.out.println("Game created in " + delta + " ms");
 
             view1.start();
 
@@ -107,7 +115,7 @@ public class Creator {
         for (Node node: getNodes(getNode(root, "politic"), "color")) {
             String colorString = getAttribute(node, "name");
             int cardsNumber = Integer.parseInt(getAttribute(node, "cards"));
-            CouncillorColor color = new CouncillorColor(colorString);
+            PoliticColor color = new PoliticColor(colorString);
             for ( ; cardsNumber > 0; cardsNumber--) {
                 PoliticCard card = new PoliticCard(color);
                 cards.add(card);
@@ -122,7 +130,7 @@ public class Creator {
         for (Node node: getNodes(getNode(root, "politic"), "color")) {
             String colorString = getAttribute(node, "name");
             int councillorsNumber = Integer.parseInt(getAttribute(node, "councillors"));
-            CouncillorColor color = new CouncillorColor(colorString);
+            PoliticColor color = new PoliticColor(colorString);
             for ( ; councillorsNumber > 0; councillorsNumber--) {
                 Councillor councillor = new Councillor(color);
                 councillors.add(councillor);
@@ -218,16 +226,28 @@ public class Creator {
 
     private void electCouncillors(Balcony kingsBalcony, LinkedList<Region> regions, LinkedList<Councillor> councillors) {
         Random random = new Random();
+
+        for (Region region: regions) {
+            System.out.print(region.getName() + ":");
+            for (int i = 0; i < 4; i++) {
+                if (councillors.isEmpty())
+                    throw new BadInputFileException();
+                Councillor councillor = councillors.remove(random.nextInt(councillors.size()));
+                region.elect(councillor);
+                System.out.print("  " + councillor.getColor().colorString());
+            }
+            System.out.println("\n--------");
+        }
+
+        System.out.print("King: ");
         for (int i = 0; i < 4; i++) {
             if (councillors.isEmpty())
                 throw new BadInputFileException();
-            kingsBalcony.elect(councillors.remove(random.nextInt(councillors.size())));
-            for (Region region: regions) {
-                if (councillors.isEmpty())
-                    throw new BadInputFileException();
-                region.elect(councillors.remove(random.nextInt(councillors.size())));
-            }
+            Councillor councillor = councillors.remove(random.nextInt(councillors.size()));
+            kingsBalcony.elect(councillor);
+            System.out.print("  " + councillor.getColor().colorString());
         }
+        System.out.println("\n--------");
     }
 
     private NobilityTrack createNobilityTrack(Node root) {
@@ -260,12 +280,15 @@ public class Creator {
         return king;
     }
 
-    private void createPlayers(int n, GameLogic gameLogic, NobilityCell firstCell) {
+    private void createPlayers(int n, GameLogic gameLogic, PoliticDeck deck, NobilityCell firstCell) {
         for (int i = 0 ; i < n; i++) {
             LinkedList<Assistant> assistants = new LinkedList<>();
             for (int j = 0; j <= i; j++)
                 assistants.add(new Assistant());
-            Player player = new Player(gameLogic, firstCell, i + 10, assistants);
+            LinkedList<PoliticCard> cards = new LinkedList<>();
+            for (int j = 0; j < INITIAL_CARDS_NUMBER; j++)
+                cards.add(deck.draw());
+            Player player = new Player(firstCell, i + 10, cards, assistants);
             gameLogic.addPlayer(player);
         }
     }

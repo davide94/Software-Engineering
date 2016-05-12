@@ -23,14 +23,14 @@ public class GameLogic extends Observable {
 	
 	private List<Player> players;
 	
-	private GameBoard gameboard;
+	//private GameBoard gameboard;
 	
     /**
      * 
      */
-    public GameLogic(GameBoard gameBoard) {
+    public GameLogic() {
     	players = new ArrayList<Player>();
-        this.gameboard=gameBoard;
+        //this.gameboard=gameBoard;
     }
 
     /**
@@ -40,5 +40,9 @@ public class GameLogic extends Observable {
 		if (this.players.isEmpty())
 			this.currentPlayer = player;
         this.players.add(player);
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
     }
 }

@@ -30,9 +30,8 @@ public class Region {
     	this.deck=deck;
     	this.balcony=balcony;
     	this.bonuses=bonuses;
-    	
-    	
-    }
+
+	}
     
     /**
      * 
@@ -56,12 +55,10 @@ public class Region {
      * @return
      */
     public City getCity(String city) {
-        for(City iterCity: cities){
-        	if(iterCity.getName().equalsIgnoreCase(city)){
+        for(City iterCity: cities)
+        	if(iterCity.getName().equalsIgnoreCase(city))
         		return iterCity;
-        	}
-        }
-        throw new NotValidCityException();
+        return null;
     }
 
     

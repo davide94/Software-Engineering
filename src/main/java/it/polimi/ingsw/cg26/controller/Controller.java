@@ -27,6 +27,7 @@ public class Controller implements Observer<Action> {
             e.printStackTrace();
             //update(new ActionNotPermitted(e.toString()));
         }
+        int a = 0;
     }
 
     public void start() {

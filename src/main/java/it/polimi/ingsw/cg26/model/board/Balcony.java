@@ -2,6 +2,9 @@ package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
+import it.polimi.ingsw.cg26.model.cards.PoliticColor;
+
+import java.util.Collection;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +35,7 @@ public class Balcony {
     public Councillor elect(Councillor c) {
     	if (c == null)
     		throw new NullPointerException();
-    	this.councillors.add(c);
+		this.councillors.add(c);
     	if (this.councillors.size() > capacity)
 			return this.councillors.poll();
 		return null;
@@ -52,5 +55,10 @@ public class Balcony {
 		}
 		return false;
     }
+
+	public boolean checkPoliticCards(Collection<PoliticColor> politicCards) {
+		// TODO
+		return true;
+	}
 
 }

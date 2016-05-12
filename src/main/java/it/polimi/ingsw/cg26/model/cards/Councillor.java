@@ -8,19 +8,19 @@ public class Councillor {
     /**
      *
      */
-    private CouncillorColor color;
+    private PoliticColor color;
 
     /**
      * Default constructor
      */
-    public Councillor(CouncillorColor color) {
+    public Councillor(PoliticColor color) {
         this.color = color;
     }
 
     /**
      *
      */
-    public CouncillorColor getColor() {
+    public PoliticColor getColor() {
         return this.color;
     }
 

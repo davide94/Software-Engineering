@@ -26,12 +26,12 @@
         <bonus position="20" victory="3" />
     </nobilityTrack>
     <politic>
-        <color name="bianco" councillors="4" cards="13" />
-        <color name="nero" councillors="4" cards="13" />
-        <color name="blu" councillors="4" cards="13" />
-        <color name="arancio" councillors="4" cards="13" />
-        <color name="rosa" councillors="4" cards="13" />
-        <color name="viola" councillors="4" cards="13" />
+        <color name="white" councillors="4" cards="13" />
+        <color name="black" councillors="4" cards="13" />
+        <color name="blue" councillors="4" cards="13" />
+        <color name="orange" councillors="4" cards="13" />
+        <color name="pink" councillors="4" cards="13" />
+        <color name="violet" councillors="4" cards="13" />
     </politic>
 
     <regions>
