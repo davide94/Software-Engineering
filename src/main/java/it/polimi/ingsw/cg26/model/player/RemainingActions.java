@@ -3,9 +3,9 @@ package it.polimi.ingsw.cg26.model.player;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 
 /**
- * The Actions class models and manages the remaining actions in a player's turn
+ * The RemainingActions class models and manages the remaining actions in a player's turn
  */
-public abstract class Actions {
+public abstract class RemainingActions {
 
     /**
      * Number of remaining actions in this turn
@@ -13,9 +13,9 @@ public abstract class Actions {
     private int remaining;
 
     /**
-     * Constructs an Actions class with 0 actions remaining
+     * Constructs an RemainingActions class with 0 actions remaining
      */
-    public Actions() {
+    public RemainingActions() {
         this.remaining = 0;
     }
 

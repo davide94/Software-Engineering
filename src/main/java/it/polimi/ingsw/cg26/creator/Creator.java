@@ -84,7 +84,7 @@ public class Creator {
 
             View view = new View();
             Thread view1 = new Thread(view, "Player1");
-            Controller controller = new Controller(gameLogic);
+            Controller controller = new Controller(gameBoard);
 
             gameLogic.registerObserver(view);
             view.registerObserver(controller);

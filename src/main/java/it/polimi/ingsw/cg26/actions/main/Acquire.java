@@ -11,8 +11,6 @@ import it.polimi.ingsw.cg26.model.player.Player;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.runner.manipulation.NoTestsRemainException;
-
 /**
  *
  */

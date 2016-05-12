@@ -35,12 +35,12 @@ public class Player {
     /**
      * Reference to the main actions manager
      */
-    private final Actions mainActions = new MainActions();
+    private final RemainingActions remainingMainActions = new RemainingMainActions();
 
     /**
      * Reference to the quick actions manager
      */
-    private final Actions quickActions = new QuickActions();
+    private final RemainingActions remainingQuickActions = new RemainingQuickActions();
 
     /**
      * Reference to the current cell in the nobility track
@@ -101,7 +101,7 @@ public class Player {
      * @throws NoRemainingActionsException if the player do not have any remaining main actions
      */
     public void performMainAction() {
-        this.mainActions.perform();
+        this.remainingMainActions.perform();
     }
 
     /**
@@ -109,7 +109,7 @@ public class Player {
      * @throws NoRemainingActionsException if the player do not have any remaining quick actions
      */
     public void performQuickAction() {
-        this.quickActions.perform();
+        this.remainingQuickActions.perform();
     }
 
     /**
@@ -118,7 +118,7 @@ public class Player {
      * @throws IllegalArgumentException if the parameter is negative
      */
     public void setRemainingMainActions(int remainingActions) {
-        this.mainActions.setRemaining(remainingActions);
+        this.remainingMainActions.setRemaining(remainingActions);
     }
 
     /**
@@ -127,7 +127,7 @@ public class Player {
      * @throws IllegalArgumentException if the parameter is negative
      */
     public void setRemainingQuickActions(int remainingActions) {
-        this.quickActions.setRemaining(remainingActions);
+        this.remainingQuickActions.setRemaining(remainingActions);
     }
 
     /**
@@ -136,7 +136,7 @@ public class Player {
      * @throws IllegalArgumentException if the increment is negative
      */
     public void addRemainingMainActions(int increment) {
-        this.mainActions.addActions(increment);
+        this.remainingMainActions.addActions(increment);
     }
 
     /**
@@ -145,7 +145,7 @@ public class Player {
      * @throws IllegalArgumentException if the increment is negative
      */
     public void addRemainingQuickActions(int increment) {
-        this.quickActions.addActions(increment);
+        this.remainingQuickActions.addActions(increment);
     }
 
     /**

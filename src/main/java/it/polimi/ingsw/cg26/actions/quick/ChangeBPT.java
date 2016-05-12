@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.actions.quick;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 /**
  *
@@ -17,9 +17,8 @@ public class ChangeBPT extends Action {
     }
 
     @Override
-    public void apply(GameLogic gameLogic) {
-        gameLogic.changeBPT(this.region);
-        //gameLogic.log("Changed tile in " + this.region);
+    public void apply(GameBoard gameBoard) {
+        // TODO
     }
 
 }

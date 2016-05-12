@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.actions.main;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 /**
  *
@@ -17,9 +17,8 @@ public class Build extends Action {
     }
 
     @Override
-    public void apply(GameLogic gameLogic) {
-        gameLogic.build(this.city);
-        //gameLogic.log("Built in " + this.city);
+    public void apply(GameBoard gameBoard) {
+        // TODO
     }
 
 }

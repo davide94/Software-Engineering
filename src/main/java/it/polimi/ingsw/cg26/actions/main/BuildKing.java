@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.actions.main;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 import java.util.Collection;
 
@@ -22,9 +22,8 @@ public class BuildKing extends Action {
     }
 
     @Override
-    public void apply(GameLogic gameLogic) {
-        gameLogic.buildKing(this.city, this.politicCardsColors);
-        //gameLogic.log("Built w/ king in " + this.city + " with " + this.politicCardsColors.size() + " cards");
+    public void apply(GameBoard gameBoard) {
+        // TODO
     }
 
 }

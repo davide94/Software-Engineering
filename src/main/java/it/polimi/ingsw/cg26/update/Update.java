@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.update;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 /**
  *
  */
 public abstract class Update extends Action {
-    public abstract void apply(GameLogic gameLogic);
+    public abstract void apply(GameBoard gameBoard);
 }

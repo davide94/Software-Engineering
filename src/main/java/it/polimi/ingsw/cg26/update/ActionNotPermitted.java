@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.update;
 
-import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 /**
  *
@@ -23,7 +23,7 @@ public class ActionNotPermitted extends Update {
     }
 
     @Override
-    public void apply(GameLogic gameLogic) {
+    public void apply(GameBoard gameBoard) {
 
     }
 }

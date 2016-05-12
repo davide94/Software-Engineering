@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.actions.main;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.model.GameLogic;
+import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 /**
  *
@@ -20,9 +20,8 @@ public class Elect extends Action {
     }
 
     @Override
-    public void apply(GameLogic gameLogic) {
-        gameLogic.electAsMainAction(this.region, this.assistantColor);
-        //gameLogic.log("Elected a " + this.assistantColor + " councillor in " + this.region);
+    public void apply(GameBoard gameBoard) {
+        // TODO
     }
 
 }
