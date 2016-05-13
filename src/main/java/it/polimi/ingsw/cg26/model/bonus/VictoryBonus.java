@@ -24,4 +24,11 @@ public class VictoryBonus extends Bonus {
         player.addVictoryPoints(getMultiplicity());
     }
 
+    @Override
+    public String toString() {
+        return "VictoryBonus{" +
+                "multiplicity=" + super.getMultiplicity() +
+                "}";
+    }
+
 }

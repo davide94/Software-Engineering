@@ -35,9 +35,10 @@ public class PoliticDeck extends Deck<PoliticCard> {
     /**
      * @return
      */
+    @Override
     public synchronized PoliticCard draw() {
         if (!hasNext()) {
-            if (this.discarded.size() == 0)
+            if (this.discarded.isEmpty())
                 throw new NoMoreCardsException();
             this.shuffle();
         }
@@ -64,7 +65,8 @@ public class PoliticDeck extends Deck<PoliticCard> {
      */
     protected synchronized void shuffle() {
         Collections.shuffle(this.discarded);
-        addAll(this.discarded);
+        super.addAll(this.discarded);
         this.discarded = new LinkedList<>();
     }
+
 }

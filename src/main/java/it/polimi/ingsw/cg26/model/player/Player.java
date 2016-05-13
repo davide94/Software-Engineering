@@ -18,6 +18,8 @@ public class Player {
 
     private static final int INITIAL_CARDS_NUMBER = 6;
 
+    private final String name;
+
     /**
      * Reference to the game logic class
      */
@@ -71,12 +73,13 @@ public class Player {
      * @throws NullPointerException if any parameter is null
      * @throws IllegalArgumentException if coins is negative
      */
-    public Player(NobilityCell nobilityCell, int coins, LinkedList<PoliticCard> cards, Collection<Assistant> assistants) {
-        if (nobilityCell == null || cards == null || assistants == null)
+    public Player(String name, NobilityCell nobilityCell, int coins, LinkedList<PoliticCard> cards, Collection<Assistant> assistants) {
+        if (name == null ||nobilityCell == null || cards == null || assistants == null)
             throw new NullPointerException();
         if (coins < 0)
             throw new IllegalArgumentException();
 
+        this.name = name;
         this.victoryPoints = new VictoryPoints();
         this.coins = new Coins();
         this.currentNobilityCell = nobilityCell;
@@ -87,12 +90,16 @@ public class Player {
         this.remainingQuickActions = new RemainingQuickActions();
         this.tiles = new LinkedList<>();
 
-        System.out.print("Player:  ");
+        /*System.out.print("Player:  ");
         for (PoliticCard card: this.cards)
             System.out.print(card.getColor().colorString() + "  ");
-        System.out.println("\n--------");
+        System.out.println("\n--------");*/
 
 
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public boolean canPerformMainAction() {
@@ -292,9 +299,9 @@ public class Player {
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
-    public LinkedList<PoliticCard> useCards(Collection<PoliticColor> cardsColors) {
+    public LinkedList<PoliticCard> takeCards(Collection<PoliticColor> cardsColors) {
         LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
-        LinkedList<PoliticCard> ret = new LinkedList<>();
+        LinkedList<PoliticCard> removed = new LinkedList<>();
         for (PoliticColor color: cardsColors) {
             PoliticCard c = null;
             for (PoliticCard card: cards) {
@@ -306,9 +313,10 @@ public class Player {
             if (c == null)
                 throw new InvalidCardsException();
             cards.remove(c);
-            ret.add(c);
+            removed.add(c);
         }
-        return ret;
+        this.cards.removeAll(removed);
+        return removed;
     }
 
     /**

@@ -24,4 +24,11 @@ public class CardBonus extends Bonus {
         //TODO creare metodo per pescare
     }
 
+    @Override
+    public String toString() {
+        return "CardBonus{" +
+                "multiplicity=" + super.getMultiplicity() +
+                "}";
+    }
+
 }

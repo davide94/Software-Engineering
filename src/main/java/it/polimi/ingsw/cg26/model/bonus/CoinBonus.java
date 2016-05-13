@@ -23,4 +23,12 @@ public class CoinBonus extends Bonus {
     public void apply(Player player) {
         player.addCoins(this.getMultiplicity());
     }
+
+    @Override
+    public String toString() {
+        return "CoinBonus{" +
+                "multiplicity=" + super.getMultiplicity() +
+                "}";
+    }
+
 }

@@ -1,11 +1,21 @@
 package it.polimi.ingsw.cg26.update;
 
-import it.polimi.ingsw.cg26.actions.Action;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 
 /**
  *
  */
-public abstract class Update extends Action {
-    public abstract void apply(GameBoard gameBoard);
+public class Update {
+
+    private GameBoard gameBoard;
+
+    public Update(GameBoard gameBoard) {
+        if (gameBoard == null)
+            throw new NullPointerException();
+        this.gameBoard = gameBoard;
+    }
+
+    public String getState() {
+        return this.gameBoard.getState();
+    }
 }

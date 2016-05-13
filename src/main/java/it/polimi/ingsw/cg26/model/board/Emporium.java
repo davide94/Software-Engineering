@@ -24,5 +24,10 @@ public class Emporium {
     	return this.player;
     }
 
-
+	@Override
+	public String toString() {
+		return "Emporium{" +
+				"player=" + player.getName() +
+				'}';
+	}
 }

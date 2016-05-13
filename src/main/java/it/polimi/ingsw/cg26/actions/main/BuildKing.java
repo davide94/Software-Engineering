@@ -39,6 +39,8 @@ public class BuildKing extends Corrupt {
         if (currentPlayer.getAssistantsNumber() < empNumber)
             throw new NoRemainingAssistantsException();
         city.build(currentPlayer);
+        currentPlayer.removeCoins(coins);
+        currentPlayer.takeCards(super.politicCardsColors);
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.performMainAction();
     }

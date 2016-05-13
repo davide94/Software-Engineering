@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.actions.main;
 
 import it.polimi.ingsw.cg26.actions.Corrupt;
+import it.polimi.ingsw.cg26.update.Update;
 import it.polimi.ingsw.cg26.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
@@ -41,10 +42,12 @@ public class Acquire extends Corrupt {
     		throw new InvalidCardsException();
     	BusinessPermissionTile addedBPT = gameBoard.getRegion(this.region).getBPTDeck().draw(this.position);
     	currentPlayer.addPermissionTile(addedBPT);
-    	Collection<PoliticCard> discarded = currentPlayer.useCards(this.politicCardsColors);
+    	Collection<PoliticCard> discarded = currentPlayer.takeCards(this.politicCardsColors);
 		gameBoard.getPoliticDeck().discardAll(discarded);
-    	currentPlayer.removeCoins(usedCoins);
+		currentPlayer.takeCards(super.politicCardsColors);
+		currentPlayer.removeCoins(usedCoins);
     	currentPlayer.performMainAction();
+		gameBoard.notifyObservers(new Update(gameBoard));
     }
 
 }

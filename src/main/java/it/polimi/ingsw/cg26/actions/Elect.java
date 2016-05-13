@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg26.actions;
 
 import it.polimi.ingsw.cg26.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
-import it.polimi.ingsw.cg26.model.cards.Councillor;
+import it.polimi.ingsw.cg26.model.board.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 
 /**

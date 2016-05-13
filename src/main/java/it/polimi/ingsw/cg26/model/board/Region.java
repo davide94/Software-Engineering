@@ -3,9 +3,8 @@ package it.polimi.ingsw.cg26.model.board;
 import it.polimi.ingsw.cg26.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.model.cards.*;
 import it.polimi.ingsw.cg26.model.player.Player;
-import it.polimi.ingsw.cg26.exceptions.*;
+
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 
@@ -19,17 +18,17 @@ public class Region {
     private Collection<City> cities;
     private Balcony balcony;
     private BusinessPermissionTileDeck deck;
-    private Collection<Bonus> bonuses;
+    private Collection<Bonus> bonus;
     
 
-    public Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonuses) {
-    	if(name==null || cities==null || deck==null || balcony==null || bonuses==null)
+    public Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
+    	if(name==null || cities==null || deck==null || balcony==null || bonus ==null)
     	{throw new NullPointerException();}
     	this.name=name;
     	this.cities=cities;
     	this.deck=deck;
     	this.balcony=balcony;
-    	this.bonuses=bonuses;
+    	this.bonus = bonus;
 
 	}
     
@@ -39,7 +38,7 @@ public class Region {
      * @return
      */
     private boolean checkRegionBonuses(Player player){
-    	if(bonuses.isEmpty()){
+    	if(bonus.isEmpty()){
     		return false;
     	}
     	for(City iterCity : cities){
@@ -69,9 +68,9 @@ public class Region {
     public void build(Player p, String city) {
         getCity(city).build(p);
         if(checkRegionBonuses(p)){
-        	for(Bonus iterBonus : bonuses){
+        	for(Bonus iterBonus : bonus){
         		iterBonus.apply(p);
-        		bonuses.remove(iterBonus);
+        		bonus.remove(iterBonus);
         	}
         }
     }
@@ -98,4 +97,14 @@ public class Region {
 		return name;
 	}
 
+	@Override
+	public String toString() {
+		return "Region{" +
+				"name='" + name + '\'' +
+				", cities=" + cities +
+				", balcony=" + balcony +
+				", deck=" + deck +
+				", bonus=" + bonus +
+				'}';
+	}
 }

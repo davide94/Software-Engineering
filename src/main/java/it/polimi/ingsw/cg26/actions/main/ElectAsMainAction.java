@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.actions.main;
 
 import it.polimi.ingsw.cg26.actions.Elect;
+import it.polimi.ingsw.cg26.update.Update;
 import it.polimi.ingsw.cg26.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
@@ -31,6 +32,7 @@ public class ElectAsMainAction extends Elect {
     	
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();
+		gameBoard.notifyObservers(new Update(gameBoard));
 	}
 
 }

@@ -1,16 +1,16 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.exceptions.*;
 import it.polimi.ingsw.cg26.model.GameLogic;
-import it.polimi.ingsw.cg26.model.cards.*;
+import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.player.Player;
+import it.polimi.ingsw.cg26.observer.Observable;
+
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 
  */
-public class GameBoard {
+public class GameBoard extends Observable {
 
 	private final GameLogic gameLogic;
 	
@@ -77,4 +77,19 @@ public class GameBoard {
 		return this.politicDeck;
 	}
 
+
+	public String getState() {
+		return this.toString();
+	}
+
+	@Override
+	public String toString() {
+		return "GameBoard{" +
+				"councillorsPool=" + councillorsPool +
+				", kingBalcony=" + kingBalcony +
+				", regions=" + regions +
+				", nobilityTrack=" + nobilityTrack +
+				", king=" + king +
+				'}';
+	}
 }

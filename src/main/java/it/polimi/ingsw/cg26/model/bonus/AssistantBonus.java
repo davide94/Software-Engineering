@@ -27,4 +27,11 @@ public class AssistantBonus extends Bonus {
     	}
     }
 
+    @Override
+    public String toString() {
+        return "AssistantBonus{" +
+                "multiplicity=" + super.getMultiplicity() +
+                "}";
+    }
+
 }

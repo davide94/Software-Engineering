@@ -19,7 +19,7 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
      */
     public synchronized BusinessPermissionTile draw(int which) {
         if (which == 1)
-            super.draw(1);
+            return this.cards.remove(1);
         return draw();
     }
 
@@ -29,5 +29,13 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     public synchronized void change() {
         add(draw());
         add(draw());
+    }
+
+    @Override
+    public String toString() {
+        return "BusinessPermissionTileDeck{" +
+                "leftCard='" + super.cards.get(1) + "\'" +
+                ", rightCard='" + super.cards.get(0) + "\'" +
+                "}";
     }
 }

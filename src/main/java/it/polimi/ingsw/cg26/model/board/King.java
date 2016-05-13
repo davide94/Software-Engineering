@@ -32,4 +32,12 @@ public class King {
     public int priceToMove(City city) {
         return this.currentCity.distanceFrom(city) * LINK_PRICE;
     }
+
+    @Override
+    public String toString() {
+        return "King{" +
+                "currentCity='" + currentCity.getName() + "\'" +
+                '}';
+    }
+
 }

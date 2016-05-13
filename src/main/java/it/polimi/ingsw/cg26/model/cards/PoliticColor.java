@@ -39,4 +39,11 @@ public class PoliticColor {
     public int hashCode() {
         return color != null ? color.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return "PoliticColor{" +
+                "color='" + color + '\'' +
+                '}';
+    }
 }

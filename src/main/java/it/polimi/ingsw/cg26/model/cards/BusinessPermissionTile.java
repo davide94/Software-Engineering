@@ -31,10 +31,10 @@ public class BusinessPermissionTile extends Sellable {
      * Default constructor
      */
     public BusinessPermissionTile(Collection<City> cities, Collection<Bonus> bonuses) {
-        this.cities = new LinkedList<City>();
+        this.cities = new LinkedList<>();
         this.cities.addAll(cities);
 
-        this.bonuses = new LinkedList<Bonus>();
+        this.bonuses = new LinkedList<>();
         this.bonuses.addAll(bonuses);
     }
 
@@ -42,7 +42,7 @@ public class BusinessPermissionTile extends Sellable {
      * @return
      */
     public Collection<City> getCities() {
-        Collection<City> c =  new LinkedList<City>();
+        Collection<City> c =  new LinkedList<>();
         c.addAll(this.cities);
         return c;
     }
@@ -51,7 +51,7 @@ public class BusinessPermissionTile extends Sellable {
      * @return
      */
     public Collection<Bonus> getBonuses() {
-        Collection<Bonus> c =  new LinkedList<Bonus>();
+        Collection<Bonus> c =  new LinkedList<>();
         c.addAll(this.bonuses);
         return c;
     }
@@ -63,4 +63,13 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
+    @Override
+    public String toString() {
+        String ret = "BusinessPermissionTile{cities={";
+        for (City city: this.cities)
+            ret += city.getName() + " ,";
+        ret = ret.substring(0, ret.length() - 3);
+        ret += "}, bonuses=" + bonuses + '}';
+        return ret;
+    }
 }

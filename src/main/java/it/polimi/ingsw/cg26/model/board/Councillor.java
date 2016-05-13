@@ -1,4 +1,6 @@
-package it.polimi.ingsw.cg26.model.cards;
+package it.polimi.ingsw.cg26.model.board;
+
+import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 
 /**
  * 
@@ -24,4 +26,11 @@ public class Councillor {
         return this.color;
     }
 
+    @Override
+    public String toString() {
+        return "Councillor{" +
+                "color=" + color +
+                '}';
+    }
+    
 }

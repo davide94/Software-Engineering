@@ -24,4 +24,11 @@ public class MainActionBonus extends Bonus {
         player.addRemainingMainActions(getMultiplicity());
     }
 
+    @Override
+    public String toString() {
+        return "MainActionBonus{" +
+                "multiplicity=" + super.getMultiplicity() +
+                "}";
+    }
+
 }

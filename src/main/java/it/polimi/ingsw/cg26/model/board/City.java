@@ -95,7 +95,7 @@ public class City {
      *
      */
     private void takeRecursivelyBonus(Player p) {
-        PriorityQueue<City> queue = new PriorityQueue<>();
+        LinkedList<City> queue = new LinkedList<>();
         LinkedList<City> taken = new LinkedList<>();
         queue.add(this);
 
@@ -106,7 +106,6 @@ public class City {
                 taken.add(u);
                 queue.addAll(u.nearCities);
             }
-
         }
     }
 
@@ -148,4 +147,13 @@ public class City {
         return city.distance.intValue();
     }
 
+    @Override
+    public String toString() {
+        return "City{" +
+                "name='" + name + '\'' +
+                ", color=" + color +
+                ", emporiums=" + emporiums +
+                ", bonuses=" + bonuses +
+                '}';
+    }
 }

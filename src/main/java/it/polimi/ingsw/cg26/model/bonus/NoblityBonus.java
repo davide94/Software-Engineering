@@ -26,4 +26,11 @@ public class NoblityBonus extends Bonus {
         }
     }
 
+    @Override
+    public String toString() {
+        return "NobilityBonus{" +
+                "multiplicity=" + super.getMultiplicity() +
+                "}";
+    }
+
 }

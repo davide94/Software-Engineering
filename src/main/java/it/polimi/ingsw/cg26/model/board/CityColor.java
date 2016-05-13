@@ -54,8 +54,12 @@ public class CityColor {
 			return false;
 		return true;
 	}
-    
-    
-    
+
+	@Override
+	public String toString() {
+		return "CityColor{" +
+				"CityColor='" + CityColor + '\'' +
+				'}';
+	}
 
 }

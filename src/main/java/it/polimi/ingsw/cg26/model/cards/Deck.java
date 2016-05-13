@@ -13,7 +13,7 @@ public class Deck<E> {
     /**
      *
      */
-    private LinkedList<E> cards;
+    protected LinkedList<E> cards;
 
     /**
      * Default constructor
@@ -40,17 +40,10 @@ public class Deck<E> {
     /**
      * @return
      */
-    public synchronized E draw() {
+    public E draw() {
         if (!hasNext())
             throw new NoMoreCardsException();
         return this.cards.poll();
-    }
-
-    /**
-     *
-     */
-    public E draw(int index) {
-        return this.cards.remove(index);
     }
 
     /**

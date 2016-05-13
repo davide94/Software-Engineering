@@ -1,11 +1,8 @@
 package it.polimi.ingsw.cg26.controller;
 
 import it.polimi.ingsw.cg26.actions.Action;
-import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.observer.Observer;
-import it.polimi.ingsw.cg26.update.ActionNotPermitted;
-import it.polimi.ingsw.cg26.update.Update;
 
 /**
  * 
@@ -30,7 +27,4 @@ public class Controller implements Observer<Action> {
         int a = 0;
     }
 
-    public void start() {
-
-    }
 }

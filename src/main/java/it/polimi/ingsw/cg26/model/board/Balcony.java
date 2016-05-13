@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.cards.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 
@@ -61,4 +60,10 @@ public class Balcony {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Balcony{" +
+				"councillors=" + councillors +
+				'}';
+	}
 }
