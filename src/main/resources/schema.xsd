@@ -88,6 +88,21 @@
 						<xs:attribute name="len" type="xs:integer" />
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="kingDeck">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="bonus"  minOccurs='0' maxOccurs='unbounded'>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="bonusType">
+											<xs:attribute name="position" type="xs:integer" />
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="politic">
 					<xs:complexType>
 						<xs:sequence>
@@ -101,21 +116,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<!--<xs:element name="kingsRewardTiles">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="bonus">
-								<xs:complexType>
-									<xs:complexContent>
-										<xs:extension base="bonusType">
-											<xs:attribute name="position" type="xs:integer" />
-										</xs:extension>
-									</xs:complexContent>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>-->
 				<xs:element name="regions">
 					<xs:complexType>
 						<xs:sequence>

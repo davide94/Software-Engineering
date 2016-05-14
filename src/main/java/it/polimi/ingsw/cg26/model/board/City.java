@@ -36,13 +36,11 @@ public class City {
      * @param
      */
     public void build(Player p) {
-    	
     	for(Emporium x:emporiums){
     	if(x.getPlayer()==p){
     		throw new ExistingEmporiumException();
     		}
     	}
-    	
         emporiums.add(new Emporium(p));
         takeRecursivelyBonus(p);
     }

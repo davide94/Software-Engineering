@@ -31,5 +31,4 @@ public abstract class Bonus {
      */
     public abstract void apply(Player player);
 
-
 }

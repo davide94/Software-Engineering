@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.model.bonus;
 
+import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 /**
@@ -7,12 +8,17 @@ import it.polimi.ingsw.cg26.model.player.Player;
  */
 public class CardBonus extends Bonus {
 
+    private PoliticDeck politicDeck;
+
     /**
      * Create a CardBonus
-     * @param multilplicity of the bonus
+     * @param multiplicity of the bonus
      */
-    public CardBonus(int multilplicity) {
-    	super(multilplicity);
+    public CardBonus(int multiplicity, PoliticDeck politicDeck) {
+    	super(multiplicity);
+        if (politicDeck == null)
+            throw new NullPointerException();
+        this.politicDeck = politicDeck;
     }
 
     /**
@@ -21,7 +27,9 @@ public class CardBonus extends Bonus {
      */
     @Override
     public void apply(Player player) {
-        //TODO creare metodo per pescare
+        for(int i=0; i<this.getMultiplicity(); i++) {
+            player.addPoliticCard(this.politicDeck.draw());
+        }
     }
 
     @Override

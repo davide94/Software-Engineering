@@ -25,7 +25,15 @@
         <bonus position="19" victory="2" />
         <bonus position="20" victory="3" />
     </nobilityTrack>
+    <kingDeck>
+        <bonus position="1" victory="25" />
+        <bonus position="2" victory="18" />
+        <bonus position="3" victory="14" />
+        <bonus position="4" victory="8" />
+        <bonus position="5" victory="5" />
+    </kingDeck>
     <politic>
+        <color name="multicolor" cards="13" />
         <color name="white" councillors="4" cards="13" />
         <color name="black" councillors="4" cards="13" />
         <color name="blue" councillors="4" cards="13" />
@@ -33,7 +41,6 @@
         <color name="pink" councillors="4" cards="13" />
         <color name="violet" councillors="4" cards="13" />
     </politic>
-
     <regions>
         <region name="coast">
             <bonus earn="5" />
@@ -196,7 +203,6 @@
                     <near name="graden" />
                     <king />
                 </city>
-
             </cities>
             <permissionTiles>
                 <permissionTile>

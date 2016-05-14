@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.controller;
 
-import it.polimi.ingsw.cg26.Logger;
 import it.polimi.ingsw.cg26.actions.Action;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
@@ -42,12 +41,13 @@ public class Controller implements Observer<Action> {
             action.apply(gameBoard, currentPlayer);
             this.actionPerformed();
         } catch (RuntimeException e) {
-            Logger.log(Logger.ERROR, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     public void registerPlayer() {
-        Player player = newPlayer();
+        int playerNumber = this.players.size();
+        Player player = newPlayer(playerNumber);
         this.players.add(player);
         View view = new View(player.getToken(), player.getName());
         view.registerObserver(this);
@@ -57,9 +57,8 @@ public class Controller implements Observer<Action> {
             this.currentPlayer = this.players.poll();
     }
 
-    private Player newPlayer() {
-        int playerNumber = this.players.size();
-        String playerName = "Player " + playerNumber;
+    private Player newPlayer(int playerNumber) {
+        String playerName = "Player_" + playerNumber;
         LinkedList<Assistant> assistants = new LinkedList<>();
         for (int i = 0; i <= playerNumber; i++)
             assistants.add(new Assistant());

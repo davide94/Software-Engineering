@@ -29,7 +29,11 @@ public class Corrupt extends Action {
      * @return
      */
     protected int necessaryCoins(Collection<PoliticColor> politicCardsColors){
-        int multicolorCardsNumber = 0; // = numero di carte colore bonus (arcobaleno)
+        int multicolorCardsNumber = 0;
+        PoliticColor multicolor = new PoliticColor("multicolor");
+        for (PoliticColor color: politicCardsColors)
+            if (color.equals(multicolor))
+                multicolorCardsNumber++;
         int usedCoins = 0;
         switch(politicCardsColors.size()) {
             case 1 :

@@ -53,15 +53,15 @@ public class Creator {
             LinkedList<Councillor> councillors = createCouncillors(root);
             PoliticDeck politicDeck = new PoliticDeck(cards);
 
-            LinkedList<LinkedList<City>> cities = createCities(root);
+            LinkedList<LinkedList<City>> cities = createCities(root, politicDeck);
 
-            LinkedList<Region> regions = createRegions(root, cities);
+            LinkedList<Region> regions = createRegions(root, cities, politicDeck);
 
             Balcony kingsBalcony = new Balcony(4);
 
             electCouncillors(kingsBalcony, regions, councillors);
 
-            NobilityTrack nobilityTrack = createNobilityTrack(root);
+            NobilityTrack nobilityTrack = createNobilityTrack(root, politicDeck);
 
             King king = createKing(root, cities);
 
@@ -104,7 +104,10 @@ public class Creator {
         LinkedList<Councillor> councillors = new LinkedList<>();
         for (Node node: getNodes(getNode(root, "politic"), "color")) {
             String colorString = getAttribute(node, "name");
-            int councillorsNumber = Integer.parseInt(getAttribute(node, "councillors"));
+            int councillorsNumber = 0;
+            String councillorsNumberString = getAttribute(node, "councillors");
+            if (!councillorsNumberString.isEmpty())
+                councillorsNumber = Integer.parseInt(councillorsNumberString);
             PoliticColor color = new PoliticColor(colorString);
             for ( ; councillorsNumber > 0; councillorsNumber--) {
                 Councillor councillor = new Councillor(color);
@@ -114,8 +117,8 @@ public class Creator {
         return councillors;
     }
 
-    private LinkedList<LinkedList<City>> createCities(Node root) {
-        LinkedList<LinkedList<Bonus>> bonuses = createBonuses(getNode(root, "cityBonuses"));
+    private LinkedList<LinkedList<City>> createCities(Node root, PoliticDeck politicDeck) {
+        LinkedList<LinkedList<Bonus>> bonuses = createBonuses(getNode(root, "cityBonuses"), politicDeck);
         LinkedList<LinkedList<City>> cities = new LinkedList<>();
         LinkedList<City> allCities = new LinkedList<>();
         Random random = new Random();
@@ -157,17 +160,17 @@ public class Creator {
         }
     }
 
-    private LinkedList<LinkedList<Bonus>> createBonuses(Node root) {
+    private LinkedList<LinkedList<Bonus>> createBonuses(Node root, PoliticDeck politicDeck) {
         LinkedList<LinkedList<Bonus>> bonuses = new LinkedList<>();
         for (Node node: getNodes(root, "bonus"))
-            bonuses.add(createBonus(node));
+            bonuses.add(createBonus(node, politicDeck));
         return bonuses;
     }
 
-    private LinkedList<Bonus> createBonus(Node root) {
+    private LinkedList<Bonus> createBonus(Node root, PoliticDeck politicDeck) {
         LinkedList<Bonus> bonuses = new LinkedList<>();
         if (hasAttribute(root, "draw"))
-            bonuses.add(new CardBonus(Integer.parseInt(getAttribute(root, "draw"))));
+            bonuses.add(new CardBonus(Integer.parseInt(getAttribute(root, "draw")), politicDeck));
         if (hasAttribute(root, "earn"))
             bonuses.add(new CoinBonus(Integer.parseInt(getAttribute(root, "earn"))));
         if (hasAttribute(root, "assistants"))
@@ -181,27 +184,27 @@ public class Creator {
         return bonuses;
     }
 
-    private LinkedList<Region> createRegions(Node root, LinkedList<LinkedList<City>> allCities) {
+    private LinkedList<Region> createRegions(Node root, LinkedList<LinkedList<City>> allCities, PoliticDeck politicDeck) {
         LinkedList<Region> regions = new LinkedList<>();
         int index = 0;
         for (Node regionRoot: getNodes(getNode(root, "regions"), "region")) {
             LinkedList<City> cities = allCities.get(index);
             String name = getAttribute(regionRoot, "name");
-            LinkedList<BusinessPermissionTile> tiles = createTiles(getNode(regionRoot, "permissionTiles"), cities); // TODO filtrare
+            LinkedList<BusinessPermissionTile> tiles = createTiles(getNode(regionRoot, "permissionTiles"), cities, politicDeck); // TODO filtrare
             BusinessPermissionTileDeck tilesDeck = new BusinessPermissionTileDeck(tiles);
             Balcony balcony = new Balcony(4);
-            LinkedList<Bonus> bonus = createBonus(getNode(regionRoot, "bonus"));
+            LinkedList<Bonus> bonus = createBonus(getNode(regionRoot, "bonus"), politicDeck);
             regions.add(new Region(name, cities, tilesDeck, balcony, bonus));
             index++;
         }
         return regions;
     }
 
-    private LinkedList<BusinessPermissionTile> createTiles(Node root, LinkedList<City> cities) {
+    private LinkedList<BusinessPermissionTile> createTiles(Node root, LinkedList<City> cities, PoliticDeck politicDeck) {
         LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
         for (Node node: getNodes(root, "permissionTile")) {
             LinkedList<City> c = getCities(getNode(node, "cities"), cities);
-            LinkedList<Bonus> b = createBonus(getNode(node, "bonus"));
+            LinkedList<Bonus> b = createBonus(getNode(node, "bonus"), politicDeck);
             tiles.add(new BusinessPermissionTile(c, b));
         }
         return tiles;
@@ -227,13 +230,13 @@ public class Creator {
         }
     }
 
-    private NobilityTrack createNobilityTrack(Node root) {
+    private NobilityTrack createNobilityTrack(Node root, PoliticDeck politicDeck) {
         Node nobilityTrackRoot = getNode(root, "nobilitytrack");
         int len = Integer.parseInt(getAttribute(nobilityTrackRoot, "len"));
         ArrayList<LinkedList<Bonus>> bonuses = new ArrayList<>(Collections.nCopies(len, new LinkedList<>()));
         for (Node node: getNodes(nobilityTrackRoot, "bonus")) {
             int position = Integer.parseInt(getAttribute(node, "position")) - 1;
-            bonuses.set(position, createBonus(node));
+            bonuses.set(position, createBonus(node, politicDeck));
         }
         NobilityCell last = new NobilityCell(len - 1, null, bonuses.get(len - 1));
         for (int i = len - 2; i >= 0; i--) {

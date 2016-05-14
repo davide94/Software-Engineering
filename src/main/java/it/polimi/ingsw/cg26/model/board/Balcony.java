@@ -40,23 +40,20 @@ public class Balcony {
 		return null;
     }
 
-    public boolean checkPoliticCardsCouncillors(List<PoliticCard> politicCards){
-    	if (politicCards == null)
-    		throw new NullPointerException();
-    	for(Councillor iterCouncillor : councillors) {
-			for(PoliticCard iterPoliticCard : politicCards) {
-				if(iterCouncillor.getColor().equals(iterPoliticCard.getColor()))
-					politicCards.remove(iterPoliticCard);
-				if(politicCards.isEmpty())
-					return true;
-
+	public boolean checkPoliticCards(Collection<PoliticColor> politicCardsColors) {
+		LinkedList<PoliticColor> cardsColors = new LinkedList<>(politicCardsColors);
+		for (Councillor councillor: this.councillors) {
+			PoliticColor c = null;
+			for (PoliticColor cardColor: cardsColors) {
+				if (councillor.getColor().equals(cardColor)) {
+					c = cardColor;
+					break;
+				}
 			}
+			if (c == null)
+				return false;
+			cardsColors.remove(c);
 		}
-		return false;
-    }
-
-	public boolean checkPoliticCards(Collection<PoliticColor> politicCards) {
-		// TODO
 		return true;
 	}
 

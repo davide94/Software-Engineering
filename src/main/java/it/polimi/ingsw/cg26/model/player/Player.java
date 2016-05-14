@@ -297,7 +297,6 @@ public class Player {
         return true;
     }
 
-
     /**
      * Returns a collection of politic cards that match with the required
      * @param cardsColors is a collection of PoliticColor that represents the required cards

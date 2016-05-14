@@ -2,9 +2,6 @@ package it.polimi.ingsw.cg26.view;
 
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -13,36 +10,17 @@ import java.util.Scanner;
  */
 public class CLI extends UserInterface {
 
-    private static final boolean SOCKET_ENABLED = false;
-
     private Scanner scanner;
 
     private View view;
 
-    private BufferedReader in;
-
-    private PrintWriter out;
 
     public CLI(View view) {
         if (view == null)
             throw new NullPointerException();
         this.view = view;
-        if (SOCKET_ENABLED) {
-            int portNumber = 9500;
-            try {
-                ServerSocket serverSocket = new ServerSocket(portNumber);
-                Socket clientSocket = serverSocket.accept();
-                this.out = new PrintWriter(clientSocket.getOutputStream(), true);
-                this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                this.out.println("Welcome " + this.view.getName());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.scanner = new Scanner(this.in);
-        } else {
-            this.scanner = new Scanner(System.in);
-            this.output("Welcome " + this.view.getName());
-        }
+        this.scanner = new Scanner(System.in);
+        this.output("Welcome " + this.view.getName());
     }
 
     @Override
@@ -51,25 +29,11 @@ public class CLI extends UserInterface {
     }
 
     private void output(String msg) {
-        if (SOCKET_ENABLED)
-            this.out.println(msg);
-        else
-            System.out.printf(msg);
+        System.out.printf(msg);
     }
 
     private String readLine() {
-        if (SOCKET_ENABLED) {
-            try {
-                String command = this.in.readLine();
-                System.out.println(command);
-                return command;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            return scanner.nextLine();
-        }
-        return "";
+        return scanner.nextLine();
     }
 
     private void waitInput()  {
