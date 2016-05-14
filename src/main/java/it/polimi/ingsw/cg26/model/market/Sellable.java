@@ -8,15 +8,15 @@ import it.polimi.ingsw.cg26.model.player.Player;
 public abstract class Sellable {
 
     /**
-     * 
+     *
      */
     private int price;
-    
+
     /**
-     * 
+     *
      */
     private Player owner;
-	
+
     /**
      * Default constructor
      */

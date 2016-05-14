@@ -5,7 +5,7 @@ package it.polimi.ingsw.cg26.model.board;
  */
 public class King {
 
-    private final static int LINK_PRICE = 2;
+    private static final int LINK_PRICE = 2;
 
 	private City currentCity;
 
@@ -21,7 +21,7 @@ public class King {
     /**
      * @param
      */
-    public void Move(City city) {
+    public void move(City city) {
         if (city == null)
             throw new NullPointerException();
         this.currentCity = city;

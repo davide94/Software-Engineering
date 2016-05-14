@@ -6,17 +6,13 @@ import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The Player class models a player
  */
 public class Player {
-
-    private static final int INITIAL_CARDS_NUMBER = 6;
 
     private final String name;
 
@@ -87,7 +83,7 @@ public class Player {
         this.coins = new Coins();
         this.currentNobilityCell = nobilityCell;
         this.coins.addCoins(coins);
-        this.cards = new ArrayList<>();
+        this.cards = new LinkedList<>();
         for(PoliticCard card : cards){
     		this.addPoliticCard(card);
     	}
@@ -98,13 +94,6 @@ public class Player {
         this.remainingMainActions = new RemainingMainActions();
         this.remainingQuickActions = new RemainingQuickActions();
         this.tiles = new LinkedList<>();
-
-        /*System.out.print("Player:  ");
-        for (PoliticCard card: this.cards)
-            System.out.print(card.getColor().colorString() + "  ");
-        System.out.println("\n--------");*/
-
-
     }
 
     public String getName() {
@@ -314,7 +303,7 @@ public class Player {
      * @return a collection of politic cards that match with the required
      * @throws InvalidCardsException if the player does not owns all the cards required
      */
-    public LinkedList<PoliticCard> takeCards(Collection<PoliticColor> cardsColors) {
+    public Collection<PoliticCard> takeCards(Collection<PoliticColor> cardsColors) {
         LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
         LinkedList<PoliticCard> removed = new LinkedList<>();
         for (PoliticColor color: cardsColors) {
@@ -334,7 +323,7 @@ public class Player {
         this.cards.removeAll(removed);
         return removed;
     }
-    
+
     public PoliticCard takeCard(PoliticCard politicCard){
     	PoliticCard removedCard=null;
     	for(PoliticCard card : this.cards){
@@ -350,21 +339,6 @@ public class Player {
     }
 
     /**
-     * Removes a collection of politic cards from the cards owned by the player
-     * @throws InvalidCardsException if the player does not have any of the required cards
-     * @throws NullPointerException if the parameter is null or if contains one or more null elements
-     */
-    /*public void useCards(Collection<PoliticColor> cardsColors) {
-        LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
-        for (PoliticColor color: cardsColors) {
-            for (PoliticCard card: cards) {
-                if (card.getColor().colorString().equalsIgnoreCase(color.colorString()))
-                    this.cards.remove(card);
-            }
-        }
-    }*/
-
-    /**
      * Returns the number of coins owned by the player
      * @return the number of coins owned by the player
      */
@@ -372,34 +346,4 @@ public class Player {
         return this.coins.getValue();
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Player other = (Player) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
 }

@@ -11,6 +11,7 @@ public class Assistant extends Sellable {
      * Constructs an Assistant
      */
     public Assistant() {
+        // Nothing to do here
     }
 
 }

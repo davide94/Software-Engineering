@@ -3,8 +3,8 @@ package it.polimi.ingsw.cg26.view;
 /**
  *
  */
-public abstract class UserInterface {
+public interface UserInterface {
 
-    public abstract void start();
+    void start();
 
 }

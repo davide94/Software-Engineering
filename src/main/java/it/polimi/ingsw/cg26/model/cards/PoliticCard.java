@@ -28,20 +28,15 @@ public class PoliticCard extends Sellable {
     /**
      *
      */
-    public void Sell() {
+    public void sell() {
         // TODO implement here
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o)
+            return true;
         return false;
-/*        if (o == null || getClass() != o.getClass()) return false;
-
-        PoliticCard that = (PoliticCard) o;
-
-        return color != null ? color.equals(that.color) : that.color == null;
-*/
     }
 
     @Override

@@ -1,21 +1,15 @@
 package it.polimi.ingsw.cg26.creator;
 
-import it.polimi.ingsw.cg26.Logger;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.board.*;
 import it.polimi.ingsw.cg26.model.bonus.*;
 import it.polimi.ingsw.cg26.model.cards.*;
-import it.polimi.ingsw.cg26.model.market.Market;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -40,52 +34,44 @@ public class Creator {
      * Creates the initial game structure.
      * @param file is the path+name of the configuration file
      */
-    public Controller newGame(String file) throws IOException, ParserConfigurationException {
+    public Controller newGame(String file){
 
-        try {
-            Instant before = Instant.now();
+        Instant before = Instant.now();
 
-            DOMParserInterface parserInterface = new XMLAdapter();
+        DOMParserInterface parserInterface = new XMLAdapter();
 
-            Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
+        Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
 
-            Node root = document.getFirstChild();
+        Node root = document.getFirstChild();
 
-            LinkedList<PoliticCard> cards = createCards(root);
-            LinkedList<Councillor> councillors = createCouncillors(root);
-            PoliticDeck politicDeck = new PoliticDeck(cards);
+        LinkedList<PoliticCard> cards = createCards(root);
+        LinkedList<Councillor> councillors = createCouncillors(root);
+        PoliticDeck politicDeck = new PoliticDeck(cards);
 
-            LinkedList<LinkedList<City>> cities = createCities(root, politicDeck);
+        LinkedList<LinkedList<City>> cities = createCities(root, politicDeck);
 
-            LinkedList<Region> regions = createRegions(root, cities, politicDeck);
+        LinkedList<Region> regions = createRegions(root, cities, politicDeck);
 
-            Balcony kingsBalcony = new Balcony(4);
+        Balcony kingsBalcony = new Balcony(4);
 
-            electCouncillors(kingsBalcony, regions, councillors);
+        electCouncillors(kingsBalcony, regions, councillors);
 
-            NobilityTrack nobilityTrack = createNobilityTrack(root, politicDeck);
+        NobilityTrack nobilityTrack = createNobilityTrack(root, politicDeck);
 
-            King king = createKing(root, cities);
-            
-            Market market = new Market();
+        King king = createKing(root, cities);
 
-            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market);
+        GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
 
-            //Market market = new Market();
+        //Market market = new Market();
 
-            //Logger.log(gameBoard.getState());
+        //System.out.println(gameBoard.getState());
 
-            Controller controller = new Controller(gameBoard);
+        Controller controller = new Controller(gameBoard);
 
-            long delta = Duration.between(before, Instant.now()).toMillis();
-            //Logger.log(Logger.DEBUG, "Game created in " + delta + " ms");
+        long delta = Duration.between(before, Instant.now()).toMillis();
+        //System.out.println("Game created in " + delta + " ms");
 
-            return controller;
-
-        } catch (SAXException e) {
-            Logger.log(e.getMessage());
-            throw new BadInputFileException(e);
-        }
+        return controller;
 
     }
 
@@ -133,7 +119,7 @@ public class Creator {
                 String name = getAttribute(node, "name");
                 CityColor color = new CityColor(colorString);
                 LinkedList<Bonus> bonus = new LinkedList<>();
-                if (!colorString.equalsIgnoreCase("viola"))
+                if (!"viola".equalsIgnoreCase(colorString))
                     bonus.addAll(bonuses.remove(random.nextInt(bonuses.size())));
                 City city = new City(name, color, bonus);
                 regionCities.add(city);

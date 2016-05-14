@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.view;
 
-import it.polimi.ingsw.cg26.Logger;
 import it.polimi.ingsw.cg26.actions.Action;
 import it.polimi.ingsw.cg26.actions.main.Acquire;
 import it.polimi.ingsw.cg26.actions.main.Build;
@@ -43,7 +42,7 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
 
     @Override
     public void update(Update update) {
-        Logger.log("New state: \n" + update.getState());
+        System.out.println("New state: " + update.getState());
     }
 
     public String getName() {

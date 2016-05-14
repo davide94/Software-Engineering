@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  *
  */
-public class CLI extends UserInterface {
+public class CLI implements UserInterface {
 
     private Scanner scanner;
 
@@ -100,7 +100,7 @@ public class CLI extends UserInterface {
         this.output("Do you want the left(l) or the right(R) one? ");
         String response = this.readLine();
         int position = 0;
-        if (response.equalsIgnoreCase("l") || response.equalsIgnoreCase("left"))
+        if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
             position = 1;
         this.view.acquire(region, cardsColors, position);
     }
@@ -152,8 +152,6 @@ public class CLI extends UserInterface {
             if (i > 1 && colorName.isEmpty())
                 break;
             cardsColors.add(new PoliticColor(colorName));
-            if (i == 4)
-                break;
         }
         return cardsColors;
     }

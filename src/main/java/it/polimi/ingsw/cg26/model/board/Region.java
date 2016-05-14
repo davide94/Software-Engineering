@@ -19,17 +19,15 @@ public class Region {
     private Balcony balcony;
     private BusinessPermissionTileDeck deck;
     private Collection<Bonus> bonus;
-    
 
     public Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
     	if(name==null || cities==null || deck==null || balcony==null || bonus ==null)
-    	{throw new NullPointerException();}
+    		throw new NullPointerException();
     	this.name=name;
     	this.cities=cities;
     	this.deck=deck;
     	this.balcony=balcony;
     	this.bonus = bonus;
-
 	}
     
     /**
@@ -61,7 +59,7 @@ public class Region {
     }
 
     /**
-     * @param
+     * @param p
      * @param city 
      * @return
      */
@@ -82,13 +80,6 @@ public class Region {
     public BusinessPermissionTileDeck getBPTDeck(){
     	return this.deck;
     }
-
-    /*public Set<City> getCities() {
-        //implement here
-        return null;
-    }
-    */
-    
     
 	/**
 	 * @return the name of the region
@@ -107,4 +98,5 @@ public class Region {
 				", bonus=" + bonus +
 				'}';
 	}
+
 }

@@ -2,11 +2,7 @@ package it.polimi.ingsw.cg26;
 
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.creator.Creator;
-import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
-
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
+import it.polimi.ingsw.cg26.exceptions.ParserErrorException;
 
 /**
  *
@@ -19,12 +15,8 @@ public class App
         try {
             Controller controller = creator.newGame("src/main/resources/config.xml");
             controller.registerPlayer();
-        } catch (IOException e) {
-            Logger.log(Logger.ALL, "Wrong file path");
-        } catch (BadInputFileException e) {
-            Logger.log(Logger.ALL, "Config file is invalid");
-        } catch (ParserConfigurationException e) {
-			Logger.log(Logger.ERROR, e.getMessage());
-		}
+        } catch (ParserErrorException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

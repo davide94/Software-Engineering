@@ -9,10 +9,10 @@ import java.util.List;
 public class Market {
 
     /**
-     * 
+     *
      */
     private List<Sellable> onSale;
-    
+
     /**
      * Default constructor
      */
@@ -29,9 +29,9 @@ public class Market {
     		throw new NullPointerException();
     	this.onSale.add(sellable);
     }
-    
+
     /**
-     * 
+     *
      * @param sellable
      */
     public Sellable removeFromMarket(Sellable sellable){

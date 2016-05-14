@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.model.board;
 
+import it.polimi.ingsw.cg26.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.market.Market;
 import it.polimi.ingsw.cg26.observer.Observable;
@@ -16,7 +17,7 @@ public class GameBoard extends Observable {
 	
 	private final Collection<Councillor> councillorsPool;
 	
-	//private KingDeck kingDeck;
+	private KingDeck kingDeck;
 	
 	private final Balcony kingBalcony;
 	
@@ -50,6 +51,10 @@ public class GameBoard extends Observable {
 
 	public Balcony getKingBalcony() {
 		return this.kingBalcony;
+	}
+
+	public KingDeck getKingDeck() {
+		return this.kingDeck;
 	}
 
 	public Collection<Councillor> getCouncillorsPool() {

@@ -9,6 +9,7 @@ public class RemainingMainActions extends RemainingActions {
      * Constructs a RemainingMainActions class with 0 actions remaining
      */
     public RemainingMainActions() {
+        // Nothing to do here
     }
 
 }

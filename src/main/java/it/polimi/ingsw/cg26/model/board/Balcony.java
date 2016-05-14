@@ -1,14 +1,10 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 
 import java.util.Collection;
 import java.util.Queue;
 import java.util.LinkedList;
-import java.util.List;
-
-
 
 /**
  *

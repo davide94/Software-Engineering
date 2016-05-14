@@ -19,14 +19,14 @@ public class Deck<E> {
      * Default constructor
      */
     public Deck() {
-        this.cards = new LinkedList<E>();
+        this.cards = new LinkedList<>();
     }
 
     /**
      *
      */
     public Deck(Collection<E> c) {
-        this.cards = new LinkedList<E>();
+        this.cards = new LinkedList<>();
         addAll(c);
     }
 
@@ -34,7 +34,7 @@ public class Deck<E> {
      *
      */
     public Boolean hasNext() {
-        return this.cards.size() != 0;
+        return !this.cards.isEmpty();
     }
 
     /**

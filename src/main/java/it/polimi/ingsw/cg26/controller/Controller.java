@@ -42,6 +42,7 @@ public class Controller implements Observer<Action> {
             this.actionPerformed();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
+            // TODO notify the view that the action doesn't succeeded
         }
     }
 
