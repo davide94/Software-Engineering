@@ -16,15 +16,15 @@ public class Build extends Action {
 
     private final String cityName;
 
-    public Build(String cityName) {
+    public Build(String token, String cityName) {
+        super(token);
         if (cityName == null)
             throw new NullPointerException();
         this.cityName = cityName;
     }
 
     @Override
-    public void apply(GameBoard gameBoard) {
-        Player currentPlayer = gameBoard.getCurrentPlayer();
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
         BusinessPermissionTile tile = currentPlayer.hasPermissionTile(this.cityName);

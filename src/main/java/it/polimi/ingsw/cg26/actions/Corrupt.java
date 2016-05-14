@@ -16,7 +16,8 @@ public class Corrupt extends Action {
     protected final Collection<PoliticColor> politicCardsColors;
 
 
-    public Corrupt(Collection<PoliticColor> politicCardsColors) {
+    public Corrupt(String token, Collection<PoliticColor> politicCardsColors) {
+        super(token);
         if (politicCardsColors == null)
             throw new NullPointerException();
         this.politicCardsColors = politicCardsColors;
@@ -27,42 +28,33 @@ public class Corrupt extends Action {
      * @param politicCardsColors
      * @return
      */
-    protected int necessaryCoins(Collection<PoliticColor> politicCardsColors, GameBoard gameBoard){
-        int i = 0; //i=numero di carte colore bonus (arcobaleno)
-        int usedCoins;
-        int playerCoins = gameBoard.getCurrentPlayer().getCoinsNumber();
+    protected int necessaryCoins(Collection<PoliticColor> politicCardsColors){
+        int multicolorCardsNumber = 0; // = numero di carte colore bonus (arcobaleno)
+        int usedCoins = 0;
         switch(politicCardsColors.size()) {
-            case 1 : if(playerCoins<10+i) {
-                throw new NotEnoughMoneyException();
-            }
-                usedCoins = 10+i;
+            case 1 :
+                usedCoins = 10;
                 break;
-            case 2 : if(playerCoins<7+i) {
-                throw new NotEnoughMoneyException();
-            }
-                usedCoins = 7+i;
+            case 2 :
+                usedCoins = 7;
                 break;
-            case 3 : if(playerCoins<4+i) {
-                throw new NotEnoughMoneyException();
-            }
-                usedCoins = 4+i;
+            case 3 :
+                usedCoins = 4;
                 break;
-            case 4 : if(playerCoins<i) {
-                throw new NotEnoughMoneyException();
-            }
-                usedCoins = i;
+            case 4 :
+                usedCoins = 0;
                 break;
-            default : throw new InvalidCardsException();
+            default :
+                break;
         }
-        return usedCoins;
+        return usedCoins + multicolorCardsNumber;
     }
 
     /**
      *
      */
     @Override
-    public void apply(GameBoard gameBoard) {
-        Player currentPlayer = gameBoard.getCurrentPlayer();
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
         if (!currentPlayer.hasCards(this.politicCardsColors))

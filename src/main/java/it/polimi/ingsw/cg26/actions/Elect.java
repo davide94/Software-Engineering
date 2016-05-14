@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.board.Councillor;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.model.player.Player;
 
 /**
  *
@@ -19,7 +20,8 @@ public class Elect extends Action {
      * @param region
      * @param councillorColor
      */
-    public Elect(String region, PoliticColor councillorColor) {
+    public Elect(String token, String region, PoliticColor councillorColor) {
+		super(token);
         if (region == null || councillorColor == null)
             throw new NullPointerException();
         this.region = region;
@@ -30,8 +32,7 @@ public class Elect extends Action {
      * 
      */
     @Override
-    public void apply(GameBoard gameBoard) {
-        
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
     	Councillor addCouncillor=null;
     	for(Councillor iterCouncillor : gameBoard.getCouncillorsPool()){
     		if(iterCouncillor.getColor().equals(this.councillorColor)){

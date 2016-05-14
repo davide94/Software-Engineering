@@ -3,13 +3,9 @@ package it.polimi.ingsw.cg26.creator;
 import it.polimi.ingsw.cg26.Logger;
 import it.polimi.ingsw.cg26.controller.Controller;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
-import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.board.*;
 import it.polimi.ingsw.cg26.model.bonus.*;
 import it.polimi.ingsw.cg26.model.cards.*;
-import it.polimi.ingsw.cg26.model.player.Assistant;
-import it.polimi.ingsw.cg26.model.player.Player;
-import it.polimi.ingsw.cg26.view.View;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -31,8 +27,6 @@ import java.util.Random;
  */
 public class Creator {
 
-    private static final int INITIAL_CARDS_NUMBER = 6;
-
     /**
      * Default constructor
      */
@@ -43,9 +37,8 @@ public class Creator {
     /**
      * Creates the initial game structure.
      * @param file is the path+name of the configuration file
-     * @param playersNumber is the number of players
      */
-    public void newGame(String file, int playersNumber) throws IOException, ParserConfigurationException {
+    public Controller newGame(String file) throws IOException, ParserConfigurationException {
 
         try {
             Instant before = Instant.now();
@@ -62,10 +55,6 @@ public class Creator {
 
             LinkedList<LinkedList<City>> cities = createCities(root);
 
-            /*for (City c1: cities)
-                for (City c2: cities)
-                    Logger.log("Distance from " + c1.getName() + " to " +c2.getName() + " = " + c1.distanceFrom(c2));
-            */
             LinkedList<Region> regions = createRegions(root, cities);
 
             Balcony kingsBalcony = new Balcony(4);
@@ -76,29 +65,18 @@ public class Creator {
 
             King king = createKing(root, cities);
 
-            GameLogic gameLogic = new GameLogic();
-
-            GameBoard gameBoard = new GameBoard(gameLogic, politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
+            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
 
             //Market market = new Market();
 
+            //Logger.log(gameBoard.getState());
 
-            createPlayers(playersNumber, gameLogic, politicDeck, nobilityTrack.getFirstCell());
-            Logger.log(gameBoard.getState());
-
-            View view = new View();
-            Thread view1 = new Thread(view, "Player1");
             Controller controller = new Controller(gameBoard);
 
-            //gameLogic.registerObserver(view);
-            gameBoard.registerObserver(view);
-            view.registerObserver(controller);
+            long delta = Duration.between(before, Instant.now()).toMillis();
+            //Logger.log(Logger.DEBUG, "Game created in " + delta + " ms");
 
-            Instant after = Instant.now();
-            long delta = Duration.between(before, after).toMillis();
-            Logger.log(Logger.DEBUG, "Game created in " + delta + " ms");
-
-            view1.start();
+            return controller;
 
         } catch (SAXException e) {
             Logger.log(e.getMessage());
@@ -280,19 +258,6 @@ public class Creator {
         if (king == null)
             throw new BadInputFileException();
         return king;
-    }
-
-    private void createPlayers(int n, GameLogic gameLogic, PoliticDeck deck, NobilityCell firstCell) {
-        for (int i = 0 ; i < n; i++) {
-            LinkedList<Assistant> assistants = new LinkedList<>();
-            for (int j = 0; j <= i; j++)
-                assistants.add(new Assistant());
-            LinkedList<PoliticCard> cards = new LinkedList<>();
-            for (int j = 0; j < INITIAL_CARDS_NUMBER; j++)
-                cards.add(deck.draw());
-            Player player = new Player("Player1", firstCell, i + 10, cards, assistants);
-            gameLogic.addPlayer(player);
-        }
     }
 
     private LinkedList<City> getCities(Node root, LinkedList<City> allCities) {

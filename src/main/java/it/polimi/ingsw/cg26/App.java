@@ -5,9 +5,6 @@ import it.polimi.ingsw.cg26.creator.Creator;
 import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Scanner;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -20,21 +17,14 @@ public class App
     {
         Creator creator = new Creator();
         try {
-
-            /*System.out.print("How many players? ");
-            Scanner scanner = new Scanner(System.in);
-            int playersNumber = scanner.nextInt();*/
-            int playersNumber = 1;
-
-            creator.newGame("src/main/resources/config.xml", playersNumber);
-
+            Controller controller = creator.newGame("src/main/resources/config.xml");
+            controller.registerPlayer();
         } catch (IOException e) {
-            System.out.println("Wrong file path");
+            Logger.log(Logger.ALL, "Wrong file path");
         } catch (BadInputFileException e) {
-            System.out.println("Config file is invalid");
+            Logger.log(Logger.ALL, "Config file is invalid");
         } catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.log(Logger.ERROR, e.getMessage());
 		}
     }
 }

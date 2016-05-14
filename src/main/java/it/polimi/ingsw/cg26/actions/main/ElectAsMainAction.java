@@ -14,25 +14,20 @@ public class ElectAsMainAction extends Elect {
 	 * @param region
 	 * @param councillorColor
 	 */
-	public ElectAsMainAction(String region, PoliticColor councillorColor) {
-		super(region, councillorColor);
+	public ElectAsMainAction(String token, String region, PoliticColor councillorColor) {
+		super(token, region, councillorColor);
 	}
 	
 	/**
 	 * 
 	 */
 	@Override
-	public void apply(GameBoard gameBoard){
-		
-		Player currentPlayer = gameBoard.getCurrentPlayer();
-    	if (!currentPlayer.canPerformMainAction())
+	public void apply(GameBoard gameBoard, Player currentPlayer){
+		if (!currentPlayer.canPerformMainAction())
     		throw new NoRemainingActionsException();
-		
-    	super.apply(gameBoard);
-    	
+    	super.apply(gameBoard, currentPlayer);
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();
-		gameBoard.notifyObservers(new Update(gameBoard));
 	}
 
 }

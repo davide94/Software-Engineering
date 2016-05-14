@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.GameLogic;
-
 /**
  *
  */

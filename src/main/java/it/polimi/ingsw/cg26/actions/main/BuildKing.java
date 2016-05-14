@@ -18,17 +18,16 @@ public class BuildKing extends Corrupt {
 
     private final String cityName;
 
-    public BuildKing(String city, Collection<PoliticColor> politicCardsColors) {
-        super(politicCardsColors);
+    public BuildKing(String token, String city, Collection<PoliticColor> politicCardsColors) {
+        super(token, politicCardsColors);
         if (city == null)
             throw new NullPointerException();
         this.cityName = city;
     }
 
     @Override
-    public void apply(GameBoard gameBoard) {
-        Player currentPlayer = gameBoard.getCurrentPlayer();
-        int coins = super.necessaryCoins(politicCardsColors, gameBoard);
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
+        int coins = super.necessaryCoins(politicCardsColors);
         City city = gameBoard.getCity(this.cityName);
         coins += gameBoard.getKing().priceToMove(city);
         if (currentPlayer.getCoinsNumber() < coins)

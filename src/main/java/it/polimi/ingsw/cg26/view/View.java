@@ -15,23 +15,30 @@ import it.polimi.ingsw.cg26.observer.Observable;
 import it.polimi.ingsw.cg26.observer.Observer;
 import it.polimi.ingsw.cg26.update.Update;
 
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.List;
 
 /**
  * 
  */
 public class View extends Observable<Action> implements Observer<Update>, Runnable {
 
-    private Scanner scanner = new Scanner(System.in);
+    private final String name;
 
-    public View() {
+    private final String token;
 
+    private UserInterface userInterface;
+
+    public View(String token, String name) {
+        if (token == null || name == null)
+            throw new NullPointerException();
+        this.token = token;
+        this.name = name;
+        this.userInterface = new CLI(this);
     }
 
     @Override
     public void run() {
-        waitInput();
+        this.userInterface.start();
     }
 
     @Override
@@ -39,128 +46,40 @@ public class View extends Observable<Action> implements Observer<Update>, Runnab
         Logger.log("New state: \n" + update.getState());
     }
 
-    private void waitInput() {
-
-        Logger.log("Main actions:" +
-                "\n(1) Elect a Councillor" +
-                "\n(2) Acquire a Business Permit Tile" +
-                "\n(3) Build an emporium using a Permit Tile" +
-                "\n(4) Build an emporium with the help of the King" +
-                "\n\nQuick actions:" +
-                "\n(5) Engage an Assistant" +
-                "\n(6) Change Building Permit Tiles" +
-                "\n(7) Send an Assistant to elect a Councillor" +
-                "\n(8) Perform an additional Main Action" +
-                "\n\nWhat do you want to do?");
-        String newCommand = scanner.nextLine();
-        parse(newCommand);
+    public String getName() {
+        return this.name;
     }
 
-    private void parse(String command) {
-        switch (command) {
-            case "1":
-                elect();
-                break;
-            case "2":
-                acquire();
-                break;
-            case "3":
-                build();
-                break;
-            case "4":
-                buildKing();
-                break;
-            case "5":
-                engageAssistant();
-                break;
-            case "6":
-                changeBPT();
-                break;
-            case "7":
-                electAsQuickAction();
-                break;
-            case "8":
-                additionalMainAction();
-                break;
-            default:
-                Logger.log("Commando non valido");
-                break;
-        }
-        Logger.log("\n--------------------------------\n");
-        waitInput();
+    public void electAsMainAction(String region, PoliticColor politicColor) {
+        notifyObservers(new ElectAsMainAction(this.token, region, politicColor));
     }
 
-    private void elect() {
-        Logger.log("In which region? ");
-        String region = scanner.nextLine();
-        Logger.log("Assistant color? ");
-        String colorString = scanner.nextLine();
-        PoliticColor politicColor = new PoliticColor(colorString);
-        notifyObservers(new ElectAsMainAction(region, politicColor));
+    public void acquire(String region, List<PoliticColor> cardsColors, int position) {
+        notifyObservers(new Acquire(this.token, region, cardsColors, position));
     }
 
-    private void acquire() {
-        Logger.log("In which region? ");
-        String region = scanner.nextLine();
-        LinkedList<PoliticColor> cardsColors = this.askForCards();
-        Logger.log("Do you want the left(l) or the right(R) one? ");
-        String response = scanner.nextLine();
-        int position = 0;
-        if (response.equalsIgnoreCase("l") || response.equalsIgnoreCase("left"))
-            position = 1;
-        notifyObservers(new Acquire(region, cardsColors, position));
+    public void build(String city) {
+        notifyObservers(new Build(this.token, city));
     }
 
-    private void build() {
-        Logger.log("In which city? ");
-        String city = scanner.nextLine();
-        notifyObservers(new Build(city));
+    public void buildKing(String city, List<PoliticColor> cards) {
+        notifyObservers(new BuildKing(this.token, city, cards));
     }
 
-    private void buildKing() {
-        Logger.log("In which city? ");
-        String city = scanner.nextLine();
-        LinkedList<PoliticColor> cards = this.askForCards();
-        notifyObservers(new BuildKing(city, cards));
+    public void engageAssistant() {
+        notifyObservers(new EngageAssistant(this.token));
     }
 
-    private void engageAssistant() {
-        notifyObservers(new EngageAssistant());
+    public void changeBPT(String region) {
+        notifyObservers(new ChangeBPT(this.token, region));
     }
 
-    private void changeBPT() {
-        Logger.log("In which region? ");
-        String region = scanner.nextLine();
-        notifyObservers(new ChangeBPT(region));
+    public void electAsQuickAction(String region, PoliticColor politicColor) {
+        notifyObservers(new ElectAsQuickAction(this.token, region, politicColor));
     }
 
-    private void electAsQuickAction() {
-        Logger.log("In which region? ");
-        String region = scanner.nextLine();
-        Logger.log("Assistant color? ");
-        String colorString = scanner.nextLine();
-        PoliticColor politicColor = new PoliticColor(colorString);
-        notifyObservers(new ElectAsQuickAction(region, politicColor));
+    public void additionalMainAction() {
+        notifyObservers(new AdditionalMainAction(this.token));
     }
 
-    private void additionalMainAction() {
-        notifyObservers(new AdditionalMainAction());
-    }
-
-    private LinkedList<PoliticColor> askForCards() {
-        LinkedList<PoliticColor> cardsColors = new LinkedList<>();
-        for (int i = 1; i <= 4; i++) {
-            if (i == 1)
-                Logger.log(i + "° Card color? ");
-            else
-                Logger.log(i + "° Card color? (press RETURN to end)");
-            String colorName = scanner.nextLine();
-            if (i > 1 && colorName.isEmpty())
-                break;
-            cardsColors.add(new PoliticColor(colorName));
-            if (i == 4)
-                break;
-        }
-        return cardsColors;
-    }
 }

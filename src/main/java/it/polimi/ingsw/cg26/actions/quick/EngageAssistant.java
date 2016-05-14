@@ -11,14 +11,16 @@ import it.polimi.ingsw.cg26.model.player.Player;
  */
 public class EngageAssistant extends Action {
 
+	public EngageAssistant(String token) {
+		super(token);
+	}
+
 	/**
 	 * 
 	 */
     @Override
-    public void apply(GameBoard gameBoard) {
-        
-    	Player currentPlayer = gameBoard.getCurrentPlayer();
-    	if (!currentPlayer.canPerformQuickAction())
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
+		if (!currentPlayer.canPerformQuickAction())
     		throw new NoRemainingActionsException();
     	currentPlayer.removeCoins(3);
     	currentPlayer.addAssistant(new Assistant());

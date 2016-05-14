@@ -7,8 +7,10 @@ public class Logger {
 
 
     public final static int ALL = 0;
-    public final static int DEBUG = 1;
-    public final static int INFO = 2;
+    public final static int INFO = 1;
+    public final static int ERROR = 2;
+    public final static int DEBUG = 3;
+
 
     private static int alertLevel = 2;
 
@@ -17,7 +19,7 @@ public class Logger {
     }
 
     public static void log(int level, String msg) {
-        if (level >= alertLevel)
+        if (level < alertLevel)
             log(msg);
     }
 

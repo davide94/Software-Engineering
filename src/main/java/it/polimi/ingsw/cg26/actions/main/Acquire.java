@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.actions.main;
 
 import it.polimi.ingsw.cg26.actions.Corrupt;
-import it.polimi.ingsw.cg26.update.Update;
 import it.polimi.ingsw.cg26.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.model.board.GameBoard;
@@ -21,8 +20,8 @@ public class Acquire extends Corrupt {
 
     private final int position;
 
-    public Acquire(String region, Collection<PoliticColor> politicCardsColors, int position) {
-		super(politicCardsColors);
+    public Acquire(String token, String region, Collection<PoliticColor> politicCardsColors, int position) {
+		super(token, politicCardsColors);
         if (region == null)
             throw new NullPointerException();
         this.region = region;
@@ -33,9 +32,8 @@ public class Acquire extends Corrupt {
      * 
      */
     @Override
-    public void apply(GameBoard gameBoard) {
-		Player currentPlayer = gameBoard.getCurrentPlayer();
-		int usedCoins = this.necessaryCoins(politicCardsColors, gameBoard);
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
+		int usedCoins = super.necessaryCoins(politicCardsColors);
 		if (currentPlayer.getCoinsNumber() < usedCoins)
 			throw new NotEnoughMoneyException();
 		if (!gameBoard.getRegion(this.region).getBalcony().checkPoliticCards(this.politicCardsColors))
@@ -47,7 +45,6 @@ public class Acquire extends Corrupt {
 		currentPlayer.takeCards(super.politicCardsColors);
 		currentPlayer.removeCoins(usedCoins);
     	currentPlayer.performMainAction();
-		gameBoard.notifyObservers(new Update(gameBoard));
     }
 
 }

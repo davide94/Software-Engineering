@@ -13,7 +13,8 @@ public class ChangeBPT extends Action {
 
     private final String region;
 
-    public ChangeBPT(String region) {
+    public ChangeBPT(String token, String region) {
+        super(token);
         if (region == null)
             throw new NullPointerException();
         this.region = region;
@@ -23,10 +24,8 @@ public class ChangeBPT extends Action {
      * 
      */
     @Override
-    public void apply(GameBoard gameBoard) {
-    	
-    	Player currentPlayer = gameBoard.getCurrentPlayer();
-    	if (!currentPlayer.canPerformQuickAction())
+    public void apply(GameBoard gameBoard, Player currentPlayer) {
+        if (!currentPlayer.canPerformQuickAction())
     		throw new NoRemainingActionsException();
     	if(currentPlayer.getAssistantsNumber()<1)
     		throw new NoRemainingAssistantsException();

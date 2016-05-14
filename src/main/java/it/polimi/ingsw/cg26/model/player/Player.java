@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg26.model.player;
 
 import it.polimi.ingsw.cg26.exceptions.*;
-import it.polimi.ingsw.cg26.model.GameLogic;
-import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
@@ -19,6 +17,8 @@ public class Player {
     private static final int INITIAL_CARDS_NUMBER = 6;
 
     private final String name;
+
+    private final String token;
 
     /**
      * Reference to the game logic class
@@ -73,12 +73,13 @@ public class Player {
      * @throws NullPointerException if any parameter is null
      * @throws IllegalArgumentException if coins is negative
      */
-    public Player(String name, NobilityCell nobilityCell, int coins, LinkedList<PoliticCard> cards, Collection<Assistant> assistants) {
-        if (name == null ||nobilityCell == null || cards == null || assistants == null)
+    public Player(String token, String name, NobilityCell nobilityCell, int coins, LinkedList<PoliticCard> cards, Collection<Assistant> assistants) {
+        if (token == null || name == null ||nobilityCell == null || cards == null || assistants == null)
             throw new NullPointerException();
         if (coins < 0)
             throw new IllegalArgumentException();
 
+        this.token = token;
         this.name = name;
         this.victoryPoints = new VictoryPoints();
         this.coins = new Coins();
@@ -100,6 +101,10 @@ public class Player {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getToken() {
+        return this.token;
     }
 
     public boolean canPerformMainAction() {

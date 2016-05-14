@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg26.model.board;
 
-import it.polimi.ingsw.cg26.model.GameLogic;
 import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.model.player.Player;
 import it.polimi.ingsw.cg26.observer.Observable;
 
 import java.util.Collection;
@@ -12,8 +10,7 @@ import java.util.Collection;
  */
 public class GameBoard extends Observable {
 
-	private final GameLogic gameLogic;
-	
+
 	private final PoliticDeck politicDeck;
 	
 	private final Collection<Councillor> councillorsPool;
@@ -29,10 +26,9 @@ public class GameBoard extends Observable {
 	private final King king;
 
 
-    public GameBoard(GameLogic gameLogic, PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
-    	if (gameLogic == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null)
+    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
+    	if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null)
 			throw new NullPointerException();
-		this.gameLogic = gameLogic;
 		this.politicDeck=deck;
     	this.councillorsPool=councillorsPool;
     	this.kingBalcony=kingBalcony;
@@ -40,10 +36,6 @@ public class GameBoard extends Observable {
     	this.nobilityTrack=nobilityTrack;
     	this.king=king;
     }
-
-	public Player getCurrentPlayer() {
-		return this.gameLogic.getCurrentPlayer();
-	}
 
 	public Region getRegion(String regionName) {
 		for (Region region: this.regions)
@@ -77,6 +69,9 @@ public class GameBoard extends Observable {
 		return this.politicDeck;
 	}
 
+	public NobilityTrack getNobilityTrack() {
+		return this.nobilityTrack;
+	}
 
 	public String getState() {
 		return this.toString();
