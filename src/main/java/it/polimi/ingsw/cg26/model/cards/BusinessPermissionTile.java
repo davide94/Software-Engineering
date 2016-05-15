@@ -72,4 +72,37 @@ public class BusinessPermissionTile extends Sellable {
         ret += "}, bonuses=" + bonuses + '}';
         return ret;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((cities == null) ? 0 : cities.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BusinessPermissionTile other = (BusinessPermissionTile) obj;
+		if (cities == null) {
+			if (other.cities != null)
+				return false;
+		} else if (!cities.equals(other.cities))
+			return false;
+		return true;
+	}
+    
+    
 }

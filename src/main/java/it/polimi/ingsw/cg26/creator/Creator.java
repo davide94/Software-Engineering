@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg26.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.model.board.*;
 import it.polimi.ingsw.cg26.model.bonus.*;
 import it.polimi.ingsw.cg26.model.cards.*;
+import it.polimi.ingsw.cg26.model.market.Market;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -64,8 +66,10 @@ public class Creator {
             NobilityTrack nobilityTrack = createNobilityTrack(root, politicDeck);
 
             King king = createKing(root, cities);
+            
+            Market market = new Market();
 
-            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
+            GameBoard gameBoard = new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market);
 
             //Market market = new Market();
 

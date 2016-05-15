@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.model.board;
 
 import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.model.market.Market;
 import it.polimi.ingsw.cg26.observer.Observable;
 
 import java.util.Collection;
@@ -24,9 +25,11 @@ public class GameBoard extends Observable {
 	private final NobilityTrack nobilityTrack;
 	
 	private final King king;
+	
+	private final Market market;
 
 
-    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king) {
+    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market) {
     	if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null)
 			throw new NullPointerException();
 		this.politicDeck=deck;
@@ -35,6 +38,7 @@ public class GameBoard extends Observable {
     	this.regions=regions;
     	this.nobilityTrack=nobilityTrack;
     	this.king=king;
+    	this.market=market;
     }
 
 	public Region getRegion(String regionName) {
@@ -86,5 +90,12 @@ public class GameBoard extends Observable {
 				", nobilityTrack=" + nobilityTrack +
 				", king=" + king +
 				'}';
+	}
+
+	/**
+	 * @return the market
+	 */
+	public Market getMarket() {
+		return market;
 	}
 }

@@ -316,11 +316,26 @@ public class Player {
             }
             if (c == null)
                 throw new InvalidCardsException();
+            //PoliticCard c=takeCard(color)
             cards.remove(c);
             removed.add(c);
         }
         this.cards.removeAll(removed);
         return removed;
+    }
+    
+    public PoliticCard takeCard(PoliticColor cardColor){
+    	PoliticCard removedCard=null;
+    	for(PoliticCard card : this.cards){
+    		if(card.getColor().equals(cardColor)){
+    			removedCard = card;
+    			break;
+    		}
+    	}
+    	if(removedCard == null)
+    		throw new InvalidCardsException();
+    	this.cards.remove(removedCard);
+    	return removedCard;
     }
 
     /**
