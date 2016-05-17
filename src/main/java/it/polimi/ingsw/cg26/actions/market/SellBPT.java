@@ -1,22 +1,23 @@
 package it.polimi.ingsw.cg26.actions.market;
 
-import java.util.Collection;
-
 import it.polimi.ingsw.cg26.model.board.GameBoard;
+import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 public class SellBPT extends Sell {
 
-	private Collection<String> cities;
+	private BusinessPermissionTile bpTile;
 	
-	public SellBPT(String token, int price, Collection<String> cities) {
+	public SellBPT(String token, int price, BusinessPermissionTile bpTile) {
 		super(token, price);
-		this.cities = cities;
+		this.bpTile = bpTile;
 	}
 
 	@Override
 	public void apply(GameBoard gameBoard, Player currentPlayer) {
-
+		
+		currentPlayer.takeBPT(this.bpTile);
+		super.sell(gameBoard, this.bpTile);
 	}
 
 }

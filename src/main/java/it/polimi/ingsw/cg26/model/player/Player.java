@@ -6,8 +6,10 @@ import it.polimi.ingsw.cg26.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The Player class models a player
@@ -58,12 +60,12 @@ public class Player {
     /**
      * The collection of politic cards owned by the player
      */
-    private final LinkedList<PoliticCard> cards;
+    private final List<PoliticCard> cards;
 
     /**
      * The collection of business permission tiles owned by the player, already used or not
      */
-    private final LinkedList<BusinessPermissionTile> tiles;
+    private final List<BusinessPermissionTile> tiles;
 
     /**
      * Constructs a Player
@@ -73,7 +75,7 @@ public class Player {
      * @throws NullPointerException if any parameter is null
      * @throws IllegalArgumentException if coins is negative
      */
-    public Player(String token, String name, NobilityCell nobilityCell, int coins, LinkedList<PoliticCard> cards, Collection<Assistant> assistants) {
+    public Player(String token, String name, NobilityCell nobilityCell, int coins, Collection<PoliticCard> cards, Collection<Assistant> assistants) {
         if (token == null || name == null ||nobilityCell == null || cards == null || assistants == null)
             throw new NullPointerException();
         if (coins < 0)
@@ -85,8 +87,14 @@ public class Player {
         this.coins = new Coins();
         this.currentNobilityCell = nobilityCell;
         this.coins.addCoins(coins);
-        this.cards = new LinkedList<>(cards);
-        this.assistants = new LinkedList<>(assistants);
+        this.cards = new ArrayList<>();
+        for(PoliticCard card : cards){
+    		this.addPoliticCard(card);
+    	}
+        this.assistants = new LinkedList<>();
+        for(Assistant assistant : assistants){
+        	this.addAssistant(assistant);
+        }
         this.remainingMainActions = new RemainingMainActions();
         this.remainingQuickActions = new RemainingQuickActions();
         this.tiles = new LinkedList<>();
@@ -213,6 +221,7 @@ public class Player {
     public void addAssistant(Assistant assistant) {
         if (assistant == null)
             throw new NullPointerException();
+        assistant.setOwner(this);
         this.assistants.add(assistant);
     }
 
@@ -252,6 +261,7 @@ public class Player {
     public void addPoliticCard(PoliticCard card) {
         if (card == null)
             throw new NullPointerException();
+        card.setOwner(this);
         this.cards.add(card);
     }
 
@@ -274,6 +284,7 @@ public class Player {
     public void addPermissionTile(BusinessPermissionTile tile) {
         if (tile == null)
             throw new NullPointerException();
+        tile.setOwner(this);
         this.tiles.add(tile);
     }
 
@@ -324,10 +335,10 @@ public class Player {
         return removed;
     }
     
-    public PoliticCard takeCard(PoliticColor cardColor){
+    public PoliticCard takeCard(PoliticCard politicCard){
     	PoliticCard removedCard=null;
     	for(PoliticCard card : this.cards){
-    		if(card.getColor().equals(cardColor)){
+    		if(card.equals(politicCard)){
     			removedCard = card;
     			break;
     		}
@@ -361,5 +372,34 @@ public class Player {
         return this.coins.getValue();
     }
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
 }

@@ -34,9 +34,11 @@ public class Market {
      * 
      * @param sellable
      */
-    public void removeFromMarket(Sellable sellable){
+    public Sellable removeFromMarket(Sellable sellable){
     	if(sellable == null)
     		throw new NullPointerException();
+    	Sellable removedSellable = this.onSale.get(this.onSale.indexOf(sellable));
     	this.onSale.remove(sellable);
+    	return removedSellable;
     }
 }

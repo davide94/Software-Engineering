@@ -2,25 +2,24 @@ package it.polimi.ingsw.cg26.actions.market;
 
 import it.polimi.ingsw.cg26.model.board.GameBoard;
 import it.polimi.ingsw.cg26.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 public class SellPoliticCard extends Sell {
 
-	private PoliticColor politicCardColor;
+	private PoliticCard politicCard;
 	
-	public SellPoliticCard(String token, PoliticColor politicCardColor, int price) {
+	public SellPoliticCard(String token, PoliticCard politicCard, int price) {
 		super(token, price);
-		if(politicCardColor == null)
+		if(politicCard == null)
 				throw new NullPointerException();
-		this.politicCardColor = politicCardColor;
+		this.politicCard = politicCard;
 	}
 
 	@Override
 	public void apply(GameBoard gameBoard, Player currentPlayer) {
 		
-		PoliticCard cardToSell = currentPlayer.takeCard(politicCardColor);
-		super.sell(gameBoard, currentPlayer, cardToSell);
+		PoliticCard cardToSell = currentPlayer.takeCard(politicCard);
+		super.sell(gameBoard, cardToSell);
 	}
 	
 	

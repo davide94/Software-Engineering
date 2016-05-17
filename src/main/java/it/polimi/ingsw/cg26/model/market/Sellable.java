@@ -58,6 +58,7 @@ public abstract class Sellable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + price;
 		return result;
 	}
@@ -74,11 +75,13 @@ public abstract class Sellable {
 		if (getClass() != obj.getClass())
 			return false;
 		Sellable other = (Sellable) obj;
+		if (owner == null) {
+			if (other.owner != null)
+				return false;
+		} else if (!owner.equals(other.owner))
+			return false;
 		if (price != other.price)
 			return false;
 		return true;
 	}
-	
-	
-
 }

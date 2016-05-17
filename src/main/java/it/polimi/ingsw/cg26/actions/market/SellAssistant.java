@@ -14,7 +14,9 @@ public class SellAssistant extends Sell {
 	public void apply(GameBoard gameBoard, Player currentPlayer) {
 		
 		currentPlayer.takeAssistants(1);
-		super.sell(gameBoard, currentPlayer, new Assistant());
+		Assistant assistantToAdd = new Assistant();
+		assistantToAdd.setOwner(currentPlayer);
+		super.sell(gameBoard, assistantToAdd);
 	}
 
 }
