@@ -12,25 +12,29 @@ import java.util.LinkedList;
  */
 public class Region {
 
-    /**
-     * 
-     */
-    private String name;
-    private Collection<City> cities;
-    private Balcony balcony;
-    private BusinessPermissionTileDeck deck;
-    private Collection<Bonus> bonus;
+	/**
+	 *
+	 */
+	private String name;
+	private Collection<City> cities;
+	private Balcony balcony;
+	private BusinessPermissionTileDeck deck;
+	private Collection<Bonus> bonus;
 
-    public Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
-    	if(name==null || cities==null || deck==null || balcony==null || bonus ==null)
-    		throw new NullPointerException();
-    	this.name=name;
-    	this.cities=new LinkedList<>(cities);
-    	this.deck=deck;
-    	this.balcony=balcony;
-    	this.bonus = new LinkedList<>(bonus);
+	private Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
+		if (name == null || cities == null || deck == null || balcony == null || bonus == null)
+			throw new NullPointerException();
+		this.name = name;
+		this.cities = cities;
+		this.deck = deck;
+		this.balcony = balcony;
+		this.bonus = bonus;
 	}
-    
+
+	public static Region createRegion(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
+		return new Region(name, new LinkedList<>(cities), deck, balcony, new LinkedList<>(bonus));
+	}
+
     /**
      * 
      * @param player

@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg26.model.board;
 import it.polimi.ingsw.cg26.model.cards.PoliticColor;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -16,13 +15,18 @@ public class Balcony {
 
 	private Queue<Councillor> councillors;
 
-	public Balcony(int capacity) {
+	private Balcony(int capacity, Queue<Councillor> councillors) {
+		if (councillors == null)
+			throw new NullPointerException();
 		if (capacity < 1)
 			throw new IllegalArgumentException();
 		this.capacity = capacity;
-		this.councillors = new LinkedList<>();
+		this.councillors = councillors;
 	}
 
+	public static Balcony createBalcony(int capacity) {
+		return new Balcony(capacity, new LinkedList<>());
+	}
 
     /**
      * @param

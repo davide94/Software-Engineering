@@ -7,15 +7,19 @@ public class King {
 
     private static final int LINK_PRICE = 2;
 
-	private City currentCity;
+    private City currentCity;
 
     /**
      * Default constructor
      */
-    public King(City currentCity) {
+    private King(City currentCity) {
         if (currentCity == null)
             throw new NullPointerException();
         this.currentCity = currentCity;
+    }
+
+    public static King createKing(City currentCity) {
+        return new King(currentCity);
     }
 
     /**

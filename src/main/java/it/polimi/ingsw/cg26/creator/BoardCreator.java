@@ -37,7 +37,7 @@ public class BoardCreator {
 
         KingDeck kingDeck = KingDeckCreator.createKingDeck(root, politicDeck);
 
-        return new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market, kingDeck);
+        return GameBoard.createGameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market, kingDeck);
     }
 
 }

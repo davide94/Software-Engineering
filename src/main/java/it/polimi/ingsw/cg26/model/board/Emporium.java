@@ -16,10 +16,16 @@ public class Emporium {
     /**
      * Default constructor
      */
-    public Emporium(Player player) {
+    private Emporium(Player player) {
+		if (player == null)
+			throw new NullPointerException();
     	this.player=player;
     }
-    
+
+	public static Emporium createEmporium(Player player) {
+		return new Emporium(player);
+	}
+
     public Player getPlayer(){
     	return this.player;
     }

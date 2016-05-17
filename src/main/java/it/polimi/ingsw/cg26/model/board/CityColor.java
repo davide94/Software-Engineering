@@ -10,12 +10,18 @@ public class CityColor {
 	 */
 	private String color;
 
-    /**
-     *
-     */
-    public CityColor(String color) {
-    	this.color=color;
-    }
+	/**
+	 *
+	 */
+	private CityColor(String color) {
+		if (color == null)
+			throw new NullPointerException();
+		this.color = color;
+	}
+
+	public static CityColor createCityColor(String color) {
+		return new CityColor(color);
+	}
 
 	/**
      * @return

@@ -16,34 +16,38 @@ public class GameBoard extends Observable<Update> {
 
 
 	private final PoliticDeck politicDeck;
-	
+
 	private final Collection<Councillor> councillorsPool;
-	
+
 	private KingDeck kingDeck;
-	
+
 	private final Balcony kingBalcony;
-	
+
 	private final Collection<Region> regions;
-	
+
 	private final NobilityTrack nobilityTrack;
-	
+
 	private final King king;
-	
+
 	private final Market market;
 
 
-    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
-    	if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
+	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
+		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
 			throw new NullPointerException();
-		this.politicDeck=deck;
-    	this.councillorsPool=new LinkedList<>(councillorsPool);
-    	this.kingBalcony=kingBalcony;
-    	this.regions=new LinkedList<>(regions);
-    	this.nobilityTrack=nobilityTrack;
-    	this.king=king;
-    	this.market=market;
+		this.politicDeck = deck;
+		this.councillorsPool = councillorsPool;
+		this.kingBalcony = kingBalcony;
+		this.regions = regions;
+		this.nobilityTrack = nobilityTrack;
+		this.king = king;
+		this.market = market;
 		this.kingDeck = kingDeck;
-    }
+	}
+
+	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
+		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
+	}
 
 	public Region getRegion(String regionName) {
 		for (Region region: this.regions)

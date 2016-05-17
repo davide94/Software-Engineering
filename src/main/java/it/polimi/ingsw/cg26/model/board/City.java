@@ -23,15 +23,19 @@ public class City {
     
     private List<City> nearCities;
 
-    public City(String name, CityColor color,List<Bonus> bonuses) {
+    private City(String name, CityColor color, List<Bonus> bonuses, List<Emporium> emporiums, List<City> nearCities) {
+        if (name == null || color == null || bonuses == null || emporiums == null || nearCities == null)
+            throw new NullPointerException();
         this.name = name;
         this.color = color;
-        this.bonuses = new LinkedList<>(bonuses);
-        
-        this.emporiums = new ArrayList<>();
-        this.nearCities = new LinkedList<>();
+        this.bonuses = bonuses;
+        this.emporiums = emporiums;
+        this.nearCities = nearCities;
     }
-    
+
+    public static City createCity(String name, CityColor color,List<Bonus> bonuses) {
+        return new City(name, color, new LinkedList<>(bonuses), new ArrayList<>(), new LinkedList<>());
+    }
     /**
      * @param
      */
@@ -41,7 +45,7 @@ public class City {
     		throw new ExistingEmporiumException();
     		}
     	}
-        emporiums.add(new Emporium(p));
+        emporiums.add(Emporium.createEmporium(p));
         takeRecursivelyBonus(p);
     }
     

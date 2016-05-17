@@ -10,13 +10,17 @@ public class NobilityTrack {
 	 */
 	private NobilityCell firstCell;
 
-    /**
-     *
-     */
-	public NobilityTrack(NobilityCell firstCell) {
+	/**
+	 *
+	 */
+	private NobilityTrack(NobilityCell firstCell) {
 		if (firstCell == null)
 			throw new NullPointerException();
 		this.firstCell = firstCell;
+	}
+
+	public static NobilityTrack createNobilityTrack(NobilityCell firstCell) {
+		return new NobilityTrack(firstCell);
 	}
 
 	/**

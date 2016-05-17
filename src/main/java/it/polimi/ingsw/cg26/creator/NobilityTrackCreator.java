@@ -30,11 +30,11 @@ public class NobilityTrackCreator {
             int position = Integer.parseInt(Creator.getAttribute(node, "position")) - 1;
             bonuses.set(position, BonusesCreator.createBonus(node, politicDeck));
         }
-        NobilityCell last = new NobilityCell(len - 1, null, bonuses.get(len - 1));
+        NobilityCell last = NobilityCell.createNobilityCell(len - 1, null, bonuses.get(len - 1));
         for (int i = len - 2; i >= 0; i--) {
             List<Bonus> bonus = bonuses.get(i);
-            last = new NobilityCell(i, last, bonus);
+            last = NobilityCell.createNobilityCell(i, last, bonus);
         }
-        return new NobilityTrack(last);
+        return NobilityTrack.createNobilityTrack(last);
     }
 }

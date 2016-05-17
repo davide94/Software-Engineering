@@ -26,7 +26,7 @@ public class KingCreator {
             for (Node city: Creator.getNodes(Creator.getNode(region, "cities"), "city"))
                 if (Creator.hasChild("king", city)) {
                     String name = Creator.getAttribute(city, "name");
-                    king = new King(CitiesCreator.getCity(name, allCities));
+                    king = King.createKing(CitiesCreator.getCity(name, allCities));
                 }
         if (king == null)
             throw new BadInputFileException();

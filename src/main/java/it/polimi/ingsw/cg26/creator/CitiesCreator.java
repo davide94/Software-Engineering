@@ -40,11 +40,11 @@ public class CitiesCreator {
     private static City createCity(Node root, List<List<Bonus>> bonuses) {
         String colorString = Creator.getAttribute(root, "color");
         String name = Creator.getAttribute(root, "name");
-        CityColor color = new CityColor(colorString);
+        CityColor color = CityColor.createCityColor(colorString);
         LinkedList<Bonus> bonus = new LinkedList<>();
         if (!Creator.hasChild("king", root))
             bonus.addAll(bonuses.get(0));
-        return new City(name, color, bonus);
+        return City.createCity(name, color, bonus);
     }
 
     private static void linkCities(Node root, List<City> cities) {

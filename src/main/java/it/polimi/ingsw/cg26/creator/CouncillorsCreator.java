@@ -29,7 +29,7 @@ public class CouncillorsCreator {
                 councillorsNumber = Integer.parseInt(councillorsNumberString);
             PoliticColor color = new PoliticColor(colorString);
             for ( ; councillorsNumber > 0; councillorsNumber--) {
-                Councillor councillor = new Councillor(color);
+                Councillor councillor = Councillor.createCouncillor(color);
                 councillors.add(councillor);
             }
         }

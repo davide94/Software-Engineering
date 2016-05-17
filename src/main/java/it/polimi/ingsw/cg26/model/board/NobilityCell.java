@@ -30,14 +30,18 @@ public class NobilityCell {
     /**
      * Default constructor
      */
-    public NobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
+    private NobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
         if (index < 0)
             throw new IllegalArgumentException();
         if (bonuses == null)
             throw new NullPointerException();
         this.index = index;
         this.next = next;
-    	this.bonuses = new LinkedList<>(bonuses);
+        this.bonuses = bonuses;
+    }
+
+    public static NobilityCell createNobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
+        return new NobilityCell(index, next, new LinkedList<>(bonuses));
     }
 
     /**

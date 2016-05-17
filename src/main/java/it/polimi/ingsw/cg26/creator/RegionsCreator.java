@@ -37,7 +37,7 @@ public class RegionsCreator {
         BusinessPermissionTileDeck tilesDeck = BusinessPermitTileDeckCreator.createDeck(Creator.getNode(root, "permissionTiles"), cities, politicDeck);
         Balcony balcony = BalconyCreator.createBalcony(councillors);
         List<Bonus> bonus = BonusesCreator.createBonus(Creator.getNode(root, "bonus"), politicDeck);
-        return new Region(name, cities, tilesDeck, balcony, bonus);
+        return Region.createRegion(name, cities, tilesDeck, balcony, bonus);
     }
 
 }

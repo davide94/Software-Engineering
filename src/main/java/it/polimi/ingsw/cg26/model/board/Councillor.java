@@ -15,8 +15,14 @@ public class Councillor {
     /**
      * Default constructor
      */
-    public Councillor(PoliticColor color) {
+    private Councillor(PoliticColor color) {
+        if (color == null)
+            throw new NullPointerException();
         this.color = color;
+    }
+
+    public static Councillor createCouncillor(PoliticColor color) {
+        return new Councillor(color);
     }
 
     /**

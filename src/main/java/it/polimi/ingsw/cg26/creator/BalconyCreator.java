@@ -18,7 +18,7 @@ public class BalconyCreator {
     }
 
     protected static Balcony createBalcony(List<Councillor> councillors) {
-        Balcony balcony = new Balcony(BALCONY_SIZE);
+        Balcony balcony = Balcony.createBalcony(BALCONY_SIZE);
         for (int i = 0; i < BALCONY_SIZE; i++) {
             if (councillors.isEmpty())
                 throw new BadInputFileException();
