@@ -1,9 +1,12 @@
 package it.polimi.ingsw.cg26.creator;
 
 import it.polimi.ingsw.cg26.model.board.*;
+import it.polimi.ingsw.cg26.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.model.market.Market;
 import org.w3c.dom.Node;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,7 +36,7 @@ public class BoardCreator {
 
         // Create the Market
 
-        return new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king);
+        return new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, new Market(), new KingDeck(new LinkedList<>()));
     }
 
 }

@@ -32,8 +32,8 @@ public class GameBoard extends Observable<Update> {
 	private final Market market;
 
 
-    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market) {
-    	if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null)
+    public GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
+    	if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
 			throw new NullPointerException();
 		this.politicDeck=deck;
     	this.councillorsPool=new LinkedList<>(councillorsPool);
@@ -42,6 +42,7 @@ public class GameBoard extends Observable<Update> {
     	this.nobilityTrack=nobilityTrack;
     	this.king=king;
     	this.market=market;
+		this.kingDeck = kingDeck;
     }
 
 	public Region getRegion(String regionName) {
