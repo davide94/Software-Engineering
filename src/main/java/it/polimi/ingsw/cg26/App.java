@@ -11,9 +11,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        Creator creator = new Creator();
         try {
-            Controller controller = creator.newGame("src/main/resources/config.xml");
+            Controller controller = Creator.createGame("src/main/resources/config.xml");
             controller.registerPlayer();
         } catch (ParserErrorException e) {
             System.out.println(e.getMessage());

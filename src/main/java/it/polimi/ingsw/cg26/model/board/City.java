@@ -26,7 +26,7 @@ public class City {
     public City(String name, CityColor color,List<Bonus> bonuses) {
         this.name = name;
         this.color = color;
-        this.bonuses = bonuses;
+        this.bonuses = new LinkedList<>(bonuses);
         
         this.emporiums = new ArrayList<>();
         this.nearCities = new LinkedList<>();

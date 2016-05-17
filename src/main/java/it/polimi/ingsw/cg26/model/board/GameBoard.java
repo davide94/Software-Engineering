@@ -4,13 +4,15 @@ import it.polimi.ingsw.cg26.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.market.Market;
 import it.polimi.ingsw.cg26.observer.Observable;
+import it.polimi.ingsw.cg26.update.Update;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * 
  */
-public class GameBoard extends Observable {
+public class GameBoard extends Observable<Update> {
 
 
 	private final PoliticDeck politicDeck;
@@ -34,9 +36,9 @@ public class GameBoard extends Observable {
     	if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null)
 			throw new NullPointerException();
 		this.politicDeck=deck;
-    	this.councillorsPool=councillorsPool;
+    	this.councillorsPool=new LinkedList<>(councillorsPool);
     	this.kingBalcony=kingBalcony;
-    	this.regions=regions;
+    	this.regions=new LinkedList<>(regions);
     	this.nobilityTrack=nobilityTrack;
     	this.king=king;
     	this.market=market;

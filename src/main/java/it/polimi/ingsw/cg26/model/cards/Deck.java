@@ -26,8 +26,9 @@ public class Deck<E> {
      *
      */
     public Deck(Collection<E> c) {
-        this.cards = new LinkedList<>();
-        addAll(c);
+        if (c == null)
+            throw new NullPointerException();
+        this.cards = new LinkedList<>(c);
     }
 
     /**

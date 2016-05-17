@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.model.cards.*;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * 
@@ -24,10 +25,10 @@ public class Region {
     	if(name==null || cities==null || deck==null || balcony==null || bonus ==null)
     		throw new NullPointerException();
     	this.name=name;
-    	this.cities=cities;
+    	this.cities=new LinkedList<>(cities);
     	this.deck=deck;
     	this.balcony=balcony;
-    	this.bonus = bonus;
+    	this.bonus = new LinkedList<>(bonus);
 	}
     
     /**
@@ -56,21 +57,6 @@ public class Region {
         	if(iterCity.getName().equalsIgnoreCase(city))
         		return iterCity;
         return null;
-    }
-
-    /**
-     * @param p
-     * @param city 
-     * @return
-     */
-    public void build(Player p, String city) {
-        getCity(city).build(p);
-        if(checkRegionBonuses(p)){
-        	for(Bonus iterBonus : bonus){
-        		iterBonus.apply(p);
-        		bonus.remove(iterBonus);
-        	}
-        }
     }
 
     public Balcony getBalcony(){

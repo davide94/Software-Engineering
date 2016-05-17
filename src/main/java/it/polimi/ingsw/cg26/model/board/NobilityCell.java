@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.model.bonus.*;
 import it.polimi.ingsw.cg26.model.player.Player;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * 
@@ -36,7 +37,7 @@ public class NobilityCell {
             throw new NullPointerException();
         this.index = index;
         this.next = next;
-    	this.bonuses = bonuses;
+    	this.bonuses = new LinkedList<>(bonuses);
     }
 
     /**

@@ -1,11 +1,14 @@
 package it.polimi.ingsw.cg26.model.cards;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
  */
 public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
+
+    private static final int OPEN_CARDS_NUMBER = 2;
 
     /**
      *
@@ -29,6 +32,13 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     public synchronized void change() {
         add(draw());
         add(draw());
+    }
+
+    public Collection<BusinessPermissionTile> getOpenCards() {
+        LinkedList<BusinessPermissionTile> cards = new LinkedList<>();
+        for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
+            cards.add(super.cards.get(i));
+        return cards;
     }
 
     @Override

@@ -19,13 +19,6 @@ public class PoliticDeck extends Deck<PoliticCard> {
     /**
      *
      */
-    public PoliticDeck() {
-        this.discarded = new LinkedList<>();
-    }
-
-    /**
-     *
-     */
     public PoliticDeck(Collection<PoliticCard> cards) {
         if (cards == null)
             throw new NullPointerException();

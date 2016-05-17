@@ -36,7 +36,7 @@ public class Build extends Action {
             throw new NoRemainingAssistantsException();
         city.build(currentPlayer);
         currentPlayer.takeAssistants(empNumber);
-        currentPlayer.takeBPT(tile);
+        currentPlayer.useBPT(tile);
         currentPlayer.performMainAction();
     }
 

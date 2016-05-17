@@ -19,11 +19,6 @@ public class Player {
     private final String token;
 
     /**
-     * Reference to the game logic class
-     */
-    //private final GameBoard gameBoard;
-
-    /**
      * Reference to the victory points manager
      */
     private final VictoryPoints victoryPoints;
@@ -63,6 +58,8 @@ public class Player {
      */
     private final List<BusinessPermissionTile> tiles;
 
+    private final LinkedList<BusinessPermissionTile> discardedTiles;
+
     /**
      * Constructs a Player
      * @param nobilityCell reference to the cell in the nobility track that the player has to start from
@@ -94,6 +91,7 @@ public class Player {
         this.remainingMainActions = new RemainingMainActions();
         this.remainingQuickActions = new RemainingQuickActions();
         this.tiles = new LinkedList<>();
+        this.discardedTiles = new LinkedList<>();
     }
 
     public String getName() {
@@ -261,8 +259,9 @@ public class Player {
         throw new InvalidCardsException();
     }
 
-    public void takeBPT(BusinessPermissionTile tile) {
+    public void useBPT(BusinessPermissionTile tile) {
         this.tiles.remove(tile);
+        this.discardedTiles.add(tile);
     }
 
     /**

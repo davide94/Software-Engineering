@@ -15,11 +15,6 @@ public class BusinessPermissionTile extends Sellable {
     /**
      *
      */
-    //private Boolean used; // TODO usiamo questo flag oppure teniamo separate le carte usate e quelle non?
-
-    /**
-     *
-     */
     private Collection<City> cities;
 
     /**
@@ -31,20 +26,10 @@ public class BusinessPermissionTile extends Sellable {
      * Default constructor
      */
     public BusinessPermissionTile(Collection<City> cities, Collection<Bonus> bonuses) {
-        this.cities = new LinkedList<>();
-        this.cities.addAll(cities);
-
-        this.bonuses = new LinkedList<>();
-        this.bonuses.addAll(bonuses);
-    }
-
-    /**
-     * @return
-     */
-    public Collection<City> getCities() {
-        Collection<City> c =  new LinkedList<>();
-        c.addAll(this.cities);
-        return c;
+        if (cities == null || bonuses == null)
+            throw new NullPointerException();
+        this.cities = new LinkedList<>(cities);
+        this.bonuses = new LinkedList<>(bonuses);
     }
 
     /**
