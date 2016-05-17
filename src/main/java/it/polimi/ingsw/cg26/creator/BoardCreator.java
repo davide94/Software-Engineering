@@ -6,7 +6,6 @@ import it.polimi.ingsw.cg26.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.model.market.Market;
 import org.w3c.dom.Node;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,9 +33,11 @@ public class BoardCreator {
 
         King king = KingCreator.createKing(root, cities);
 
-        // Create the Market
+        Market market = new Market();
 
-        return new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, new Market(), new KingDeck(new LinkedList<>()));
+        KingDeck kingDeck = KingDeckCreator.createKingDeck(root, politicDeck);
+
+        return new GameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market, kingDeck);
     }
 
 }

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by davide on 17/05/16.
+ *
  */
 public class KingCreator {
 
