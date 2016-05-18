@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.server.change.Change;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.observer.Observable;
-import it.polimi.ingsw.cg26.server.update.Update;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,7 +12,7 @@ import java.util.LinkedList;
 /**
  * 
  */
-public class GameBoard extends Observable<Update> {
+public class GameBoard extends Observable<Change> {
 
 
 	private final PoliticDeck politicDeck;

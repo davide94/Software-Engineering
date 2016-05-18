@@ -1,14 +1,17 @@
 package it.polimi.ingsw.cg26.server.controller;
 
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.change.Change;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.observer.Observer;
-import it.polimi.ingsw.cg26.server.update.Update;
+import it.polimi.ingsw.cg26.server.view.ServerSocketView;
 import it.polimi.ingsw.cg26.server.view.View;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.math.BigInteger;
@@ -46,20 +49,21 @@ public class Controller implements Observer<Action> {
         }
     }
 
-    /*public void registerPlayer() {
+    public void registerPlayer(Socket socket, String name) throws IOException {
         int playerNumber = this.players.size();
-        Player player = newPlayer(playerNumber);
+        Player player = newPlayer(playerNumber, name);
         this.players.add(player);
-        View view = new View(player.getToken(), player.getName());
+        View view = new ServerSocketView(socket);
         view.registerObserver(this);
         Thread thread = new Thread(view, player.getName());
         thread.start();
         if (this.players.size() == 1)
             this.currentPlayer = this.players.poll();
-    }*/
+    }
 
-    private Player newPlayer(int playerNumber) {
-        String playerName = "Player_" + playerNumber;
+    private Player newPlayer(int playerNumber, String name) {
+        if (name.equals(""))
+            name = "Player_" + playerNumber;
         LinkedList<Assistant> assistants = new LinkedList<>();
         for (int i = 0; i <= playerNumber; i++)
             assistants.add(new Assistant());
@@ -78,7 +82,7 @@ public class Controller implements Observer<Action> {
                     break;
                 }
         }
-        return new Player(token, playerName, this.gameBoard.getNobilityTrack().getFirstCell(), playerNumber + 10, cards, assistants);
+        return new Player(token, name, this.gameBoard.getNobilityTrack().getFirstCell(), playerNumber + 10, cards, assistants);
     }
 
     public void start() {
@@ -87,7 +91,7 @@ public class Controller implements Observer<Action> {
     }
 
     public void actionPerformed() {
-        this.gameBoard.notifyObservers(new Update(this.gameBoard));
+        this.gameBoard.notifyObservers(new Change());
         // TODO controlli su currentPlayer
     }
 }

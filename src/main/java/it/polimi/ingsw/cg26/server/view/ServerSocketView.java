@@ -1,8 +1,9 @@
 package it.polimi.ingsw.cg26.server.view;
 
+import it.polimi.ingsw.cg26.client.actions.ClientAction;
 import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.update.Update;
+import it.polimi.ingsw.cg26.client.actions.Staccah;
+import it.polimi.ingsw.cg26.server.change.Change;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,62 +13,58 @@ import java.net.Socket;
 /**
  *
  */
-public class ServerSocketView extends View implements Runnable {
+public class ServerSocketView extends View {
 
     private Socket socket;
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
-    private GameBoard model;
 
-    public ServerSocketView(Socket socket, GameBoard model) throws IOException {
+    public ServerSocketView(Socket socket) throws IOException {
         this.socket = socket;
         this.socketIn = new ObjectInputStream(socket.getInputStream());
         this.socketOut = new ObjectOutputStream(socket.getOutputStream());
-        this.model=model;
     }
 
     @Override
-    public void update(Update o) {
+    public void update(Change o) {
         System.out.println("Sending to the client " + o);
 
-        try {
+        /*try {
             this.socketOut.writeObject(o);
             this.socketOut.flush();
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            System.out.println(e.getMessage());
+        }*/
     }
 
     @Override
     public void run() {
-        while (true) {
-
+        boolean staccah = false;
+        while (!staccah) {
             try {
-
                 Object object = socketIn.readObject();
-                if (object instanceof Action) {
-                    Action action = (Action) object;
-                    System.out.println("VIEW: received the action " + action);
 
-                    this.notifyObservers(action);
+                if (object instanceof Staccah) {
+                    System.out.println("STACCAH STACCAH STACCAH");
+                    // TODO agire di conseguenza;
+                    staccah = true;
                 }
 
-                    /*if (object instanceof Query) {
-                        System.out.println("SERVER VIEW: received query: " + object);
-                        Query query = (Query) object;
-                        this.socketOut.writeObject(query.perform(model));
-                        this.socketOut.flush();
-                    }*/
+                if (object instanceof Action) {
+                    ClientAction clientAction = (ClientAction) object;
 
+                    // TODO creare l'action in base ai dati contenuti in clientAction
+
+                    /*System.out.println("VIEW: received the action " + action);
+
+                    this.notifyObservers(action);*/
+                }
 
             } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }

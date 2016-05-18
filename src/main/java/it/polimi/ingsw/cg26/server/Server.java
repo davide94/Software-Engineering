@@ -19,8 +19,6 @@ public class Server {
 
     private final static int PORT = 29999;
 
-    private final static String HOST_NAME = "127.0.0.1";
-
     private GameBoard game;
 
     private Controller controller;
@@ -32,20 +30,18 @@ public class Server {
 
     private void startSocket() throws IOException {
 
-        ExecutorService executor = Executors.newCachedThreadPool();
-
         ServerSocket serverSocket = new ServerSocket(PORT);
+        System.out.println("SERVER SOCKET READY ON PORT " + PORT);
 
-        System.out.println("SERVER SOCKET READY ON PORT" + PORT);
+        int playersNumber = 0;
 
-        while (true) {
+        while (playersNumber < 4) {
             Socket socket = serverSocket.accept();
-
-            ServerSocketView view = new ServerSocketView(socket, this.game);
-            this.game.registerObserver(view);
-            view.registerObserver(this.controller);
-            executor.submit(view);
+            this.controller.registerPlayer(socket, "");
+            // TODO check if it's time to begin
+            playersNumber++;
         }
+        serverSocket.close();
     }
 
     public static void main( String[] args ) throws IOException {
