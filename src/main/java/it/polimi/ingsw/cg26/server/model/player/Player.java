@@ -33,12 +33,12 @@ public class Player {
     private final Coins coins;
 
     /**
-     * Reference to the main actions manager
+     * Reference to the main commands manager
      */
     private final RemainingActions remainingMainActions;
 
     /**
-     * Reference to the quick actions manager
+     * Reference to the quick commands manager
      */
     private final RemainingActions remainingQuickActions;
 
@@ -115,24 +115,24 @@ public class Player {
     }
 
     /**
-     * Performs an action: the number of remaining main actions is decremented by one
-     * @throws NoRemainingActionsException if the player do not have any remaining main actions
+     * Performs an action: the number of remaining main commands is decremented by one
+     * @throws NoRemainingActionsException if the player do not have any remaining main commands
      */
     public void performMainAction() {
         this.remainingMainActions.perform();
     }
 
     /**
-     * Performs an action: the number of remaining quick actions is decremented by one
-     * @throws NoRemainingActionsException if the player do not have any remaining quick actions
+     * Performs an action: the number of remaining quick commands is decremented by one
+     * @throws NoRemainingActionsException if the player do not have any remaining quick commands
      */
     public void performQuickAction() {
         this.remainingQuickActions.perform();
     }
 
     /**
-     * Sets the number of remaining main actions in this turn
-     * @param remainingActions is the number to be set as number of remaining main actions
+     * Sets the number of remaining main commands in this turn
+     * @param remainingActions is the number to be set as number of remaining main commands
      * @throws IllegalArgumentException if the parameter is negative
      */
     public void setRemainingMainActions(int remainingActions) {
@@ -140,8 +140,8 @@ public class Player {
     }
 
     /**
-     * Sets the number of remaining quick actions in this turn
-     * @param remainingActions is the number to be set as number of remaining quick actions
+     * Sets the number of remaining quick commands in this turn
+     * @param remainingActions is the number to be set as number of remaining quick commands
      * @throws IllegalArgumentException if the parameter is negative
      */
     public void setRemainingQuickActions(int remainingActions) {
@@ -149,8 +149,8 @@ public class Player {
     }
 
     /**
-     * Increments the number of main actions in this turn
-     * @param increment is the number of main actions to be added for this turn
+     * Increments the number of main commands in this turn
+     * @param increment is the number of main commands to be added for this turn
      * @throws IllegalArgumentException if the increment is negative
      */
     public void addRemainingMainActions(int increment) {
@@ -158,8 +158,8 @@ public class Player {
     }
 
     /**
-     * Increments the number of quick actions in this turn
-     * @param increment is the number of quick actions to be added for this turn
+     * Increments the number of quick commands in this turn
+     * @param increment is the number of quick commands to be added for this turn
      * @throws IllegalArgumentException if the increment is negative
      */
     public void addRemainingQuickActions(int increment) {

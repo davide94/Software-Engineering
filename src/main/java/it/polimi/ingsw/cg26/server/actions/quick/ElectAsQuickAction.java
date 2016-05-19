@@ -17,8 +17,8 @@ public class ElectAsQuickAction extends Elect {
 	 * @param region
 	 * @param councillorColor
 	 */
-	public ElectAsQuickAction(String token, String region, PoliticColor councillorColor) {
-		super(token, region, councillorColor);
+	public ElectAsQuickAction(String region, PoliticColor councillorColor) {
+		super(region, councillorColor);
 	}
 
 	/**

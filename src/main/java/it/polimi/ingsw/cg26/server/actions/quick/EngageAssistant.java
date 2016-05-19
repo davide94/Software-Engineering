@@ -11,8 +11,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class EngageAssistant extends Action {
 
-	public EngageAssistant(String token) {
-		super(token);
+	public EngageAssistant() {
+
 	}
 
 	/**

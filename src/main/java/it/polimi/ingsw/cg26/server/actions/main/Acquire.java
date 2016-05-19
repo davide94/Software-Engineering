@@ -16,12 +16,12 @@ import java.util.Collection;
  */
 public class Acquire extends Corrupt {
 
-    private final String region;
+	private final String region;
 
     private final int position;
 
-    public Acquire(String token, String region, Collection<PoliticColor> politicCardsColors, int position) {
-		super(token, politicCardsColors);
+    public Acquire(String region, Collection<PoliticColor> politicCardsColors, int position) {
+		super(politicCardsColors);
         if (region == null)
             throw new NullPointerException();
         this.region = region;

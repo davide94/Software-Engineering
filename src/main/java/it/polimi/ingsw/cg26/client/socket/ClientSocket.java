@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -23,12 +24,12 @@ public class ClientSocket {
         Socket socket = new Socket(IP, PORT);
         System.out.println("Connection created");
 
-        /*ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.submit(new CLI(new ObjectOutputStream(socket.getOutputStream())));
         executor.submit(new ClientInHandler(new ObjectInputStream(socket.getInputStream())));
-        */
-        CLI commandLineInterface = new CLI(new ObjectOutputStream(socket.getOutputStream()));
-        commandLineInterface.run();
-        // TODO kill ClientInHandler
+
+        executor.shutdown();
+        executor.awaitTermination(Integer.MAX_VALUE, TimeUnit.SECONDS);
         socket.close();
     }
 

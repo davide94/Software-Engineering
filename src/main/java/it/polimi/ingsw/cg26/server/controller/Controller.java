@@ -1,48 +1,34 @@
 package it.polimi.ingsw.cg26.server.controller;
 
+import it.polimi.ingsw.cg26.server.Scheduler;
 import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.server.change.Change;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.server.model.player.Assistant;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.observer.Observer;
-import it.polimi.ingsw.cg26.server.view.ServerSocketView;
-import it.polimi.ingsw.cg26.server.view.View;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.security.SecureRandom;
-import java.util.LinkedList;
-import java.math.BigInteger;
 
 /**
  * 
  */
-public class Controller implements Observer<Action> {
-
-    private static final int INITIAL_CARDS_NUMBER = 6;
-
-    private final LinkedList<Player> players;
-
-    private Player currentPlayer;
+public class Controller implements Observer<Action>, Runnable {
 
     private final GameBoard gameBoard;
+
+    private final Scheduler scheduler;
 
     public Controller(GameBoard gameBoard) {
         if (gameBoard == null)
             throw new NullPointerException();
-        this.players = new LinkedList<>();
         this.gameBoard = gameBoard;
+        this.scheduler = new Scheduler(gameBoard, this);
     }
 
     @Override
     public synchronized void update(Action action) {
-        if (!action.getToken().equals(this.currentPlayer.getToken()))
-            return;
         try {
-            action.apply(gameBoard, currentPlayer);
-            this.actionPerformed();
+            action.apply(gameBoard, this.scheduler.getCurrentPlayer());
+            this.scheduler.actionPerformed();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             // TODO notify the view that the action doesn't succeeded
@@ -50,48 +36,12 @@ public class Controller implements Observer<Action> {
     }
 
     public void registerPlayer(Socket socket, String name) throws IOException {
-        int playerNumber = this.players.size();
-        Player player = newPlayer(playerNumber, name);
-        this.players.add(player);
-        View view = new ServerSocketView(socket);
-        view.registerObserver(this);
-        Thread thread = new Thread(view, player.getName());
-        thread.start();
-        if (this.players.size() == 1)
-            this.currentPlayer = this.players.poll();
+        this.scheduler.registerPlayer(socket, name);
     }
 
-    private Player newPlayer(int playerNumber, String name) {
-        if (name.equals(""))
-            name = "Player_" + playerNumber;
-        LinkedList<Assistant> assistants = new LinkedList<>();
-        for (int i = 0; i <= playerNumber; i++)
-            assistants.add(new Assistant());
-        LinkedList<PoliticCard> cards = new LinkedList<>();
-        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
-            cards.add(this.gameBoard.getPoliticDeck().draw());
-
-        String token = "";
-        boolean found = true;
-        while (found) {
-            found = false;
-            token = new BigInteger(130, new SecureRandom()).toString(32);
-            for (Player player: this.players)
-                if (player.getToken().equals(token)) {
-                    found = true;
-                    break;
-                }
-        }
-        return new Player(token, name, this.gameBoard.getNobilityTrack().getFirstCell(), playerNumber + 10, cards, assistants);
-    }
-
-    public void start() {
-        this.currentPlayer = this.players.poll();
-        this.players.add(this.currentPlayer);
-    }
-
-    public void actionPerformed() {
-        this.gameBoard.notifyObservers(new Change());
-        // TODO controlli su currentPlayer
+    @Override
+    public void run() {
+        System.out.println("Partita cominciata");
+        // TODO start the game
     }
 }

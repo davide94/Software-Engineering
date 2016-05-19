@@ -1,8 +1,7 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.client.actions.ClientAction;
-import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.client.actions.Staccah;
+import it.polimi.ingsw.cg26.client.commands.Command;
+import it.polimi.ingsw.cg26.client.commands.Staccah;
 import it.polimi.ingsw.cg26.server.change.Change;
 
 import java.io.IOException;
@@ -51,15 +50,11 @@ public class ServerSocketView extends View {
                     staccah = true;
                 }
 
-                if (object instanceof Action) {
-                    ClientAction clientAction = (ClientAction) object;
-
-                    // TODO creare l'action in base ai dati contenuti in clientAction
-
-                    /*System.out.println("VIEW: received the action " + action);
-
-                    this.notifyObservers(action);*/
+                if (object instanceof Command) {
+                    Command command = (Command) object;
+                    this.notifyObservers(command.generateAction());
                 }
+
 
             } catch (ClassNotFoundException e) {
                 System.out.println(e.getMessage());

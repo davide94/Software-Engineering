@@ -13,8 +13,7 @@ public class ChangeBPT extends Action {
 
     private final String region;
 
-    public ChangeBPT(String token, String region) {
-        super(token);
+    public ChangeBPT(String region) {
         if (region == null)
             throw new NullPointerException();
         this.region = region;

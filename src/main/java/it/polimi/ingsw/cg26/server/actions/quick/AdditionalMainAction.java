@@ -10,8 +10,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class AdditionalMainAction extends Action {
 
-	public AdditionalMainAction(String token) {
-		super(token);
+	public AdditionalMainAction() {
+
 	}
 
 	/**

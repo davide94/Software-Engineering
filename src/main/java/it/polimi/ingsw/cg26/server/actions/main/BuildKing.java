@@ -18,8 +18,8 @@ public class BuildKing extends Corrupt {
 
     private final String cityName;
 
-    public BuildKing(String token, String city, Collection<PoliticColor> politicCardsColors) {
-        super(token, politicCardsColors);
+    public BuildKing(String city, Collection<PoliticColor> politicCardsColors) {
+        super(politicCardsColors);
         if (city == null)
             throw new NullPointerException();
         this.cityName = city;

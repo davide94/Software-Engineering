@@ -9,8 +9,7 @@ public class BuyPoliticCard extends Buy {
 
 	private PoliticCard politicCard;
 	
-	public BuyPoliticCard(String token, PoliticCard politicCard) {
-		super(token);
+	public BuyPoliticCard(PoliticCard politicCard) {
 		this.politicCard=politicCard;
 	}
 

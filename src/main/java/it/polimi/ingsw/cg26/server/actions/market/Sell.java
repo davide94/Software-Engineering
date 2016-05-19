@@ -10,8 +10,7 @@ public abstract class Sell extends Action {
 	
 	private int price;
 	
-	public Sell(String token, int price){
-		super(token);
+	public Sell(int price){
 		if(price<1)
 			throw new IllegalArgumentException();
 		this.price = price;

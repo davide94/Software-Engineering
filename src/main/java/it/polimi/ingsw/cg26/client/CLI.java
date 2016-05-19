@@ -1,7 +1,8 @@
 package it.polimi.ingsw.cg26.client;
 
 
-import it.polimi.ingsw.cg26.client.actions.Staccah;
+import it.polimi.ingsw.cg26.client.commands.ElectAsMainActionCommand;
+import it.polimi.ingsw.cg26.client.commands.Staccah;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 /**
  *
  */
-public class CLI {
+public class CLI implements Runnable {
 
     private ObjectOutputStream outputStream;
 
@@ -24,16 +25,25 @@ public class CLI {
         this.output("Welcome");
     }
 
-    public void run() throws IOException {
+    @Override
+    public void run() {
+        try {
+            waitInput();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void waitInput() throws IOException {
         boolean quit = false;
         while (!quit) {
             this.output("\n(0) Quit" +
-                    "\n\nMain actions:" +
+                    "\n\nMain commands:" +
                     "\n(1) Elect a Councillor" +
                     "\n(2) Acquire a Business Permit Tile" +
                     "\n(3) Build an emporium using a Permit Tile" +
                     "\n(4) Build an emporium with the help of the King" +
-                    "\n\nQuick actions:" +
+                    "\n\nQuick commands:" +
                     "\n(5) Engage an Assistant" +
                     "\n(6) Change Building Permit Tiles" +
                     "\n(7) Send an Assistant to elect a Councillor" +
@@ -86,16 +96,16 @@ public class CLI {
         this.outputStream.writeObject(new Staccah());
     }
 
-    private void elect() {
+    private void elect() throws IOException {
         this.output("In which region? ");
         String region = this.scanner.nextLine();
         this.output("Assistant color? ");
         String colorString = this.scanner.nextLine();
         PoliticColor politicColor = new PoliticColor(colorString);
-        //this.view.electAsMainAction(region, politicColor);
+        this.outputStream.writeObject(new ElectAsMainActionCommand(region, politicColor));
     }
 
-    private void acquire() {
+    private void acquire() throws IOException {
         this.output("In which region? ");
         String region = this.scanner.nextLine();
         LinkedList<PoliticColor> cardsColors = this.askForCards();
@@ -104,43 +114,43 @@ public class CLI {
         int position = 0;
         if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
             position = 1;
-        //this.view.acquire(region, cardsColors, position);
+        //this.outputStream.writeObject(new Acquire(region, cardsColors, position));
     }
 
-    private void build() {
+    private void build() throws IOException {
         this.output("In which city? ");
         String city = this.scanner.nextLine();
-        //this.view.build(city);
+        //this.outputStream.writeObject(new Build(city));
     }
 
-    private void buildKing() {
+    private void buildKing() throws IOException {
         this.output("In which city? ");
         String city = this.scanner.nextLine();
         LinkedList<PoliticColor> cards = this.askForCards();
-        //this.view.buildKing(city, cards);
+        //this.outputStream.writeObject(new BuildKing(city, cards));
     }
 
-    private void engageAssistant() {
-        //this.view.engageAssistant();
+    private void engageAssistant() throws IOException {
+        //this.outputStream.writeObject(new EngageAssistant());
     }
 
-    private void changeBPT() {
+    private void changeBPT() throws IOException {
         this.output("In which region? ");
         String region = this.scanner.nextLine();
-        //this.view.changeBPT(region);
+        //this.outputStream.writeObject(new ChangeBPT(region));
     }
 
-    private void electAsQuickAction() {
+    private void electAsQuickAction() throws IOException {
         this.output("In which region? ");
         String region = this.scanner.nextLine();
         this.output("Assistant color? ");
         String colorString = this.scanner.nextLine();
         PoliticColor politicColor = new PoliticColor(colorString);
-        //this.view.electAsQuickAction(region, politicColor);
+        //this.outputStream.writeObject(new ElectAsQuickAction(region, politicColor));
     }
 
-    private void additionalMainAction() {
-        //this.view.additionalMainAction();
+    private void additionalMainAction() throws IOException {
+        //this.outputStream.writeObject(new AdditionalMainAction());
     }
 
     private LinkedList<PoliticColor> askForCards() {

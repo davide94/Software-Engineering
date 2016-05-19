@@ -7,8 +7,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class BuyAssistant extends Buy {
 
-	public BuyAssistant(String token) {
-		super(token);
+	public BuyAssistant() {
+
 	}
 
 	@Override

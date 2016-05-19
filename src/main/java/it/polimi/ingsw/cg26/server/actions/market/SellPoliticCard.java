@@ -8,8 +8,8 @@ public class SellPoliticCard extends Sell {
 
 	private PoliticCard politicCard;
 	
-	public SellPoliticCard(String token, PoliticCard politicCard, int price) {
-		super(token, price);
+	public SellPoliticCard(PoliticCard politicCard, int price) {
+		super(price);
 		if(politicCard == null)
 				throw new NullPointerException();
 		this.politicCard = politicCard;

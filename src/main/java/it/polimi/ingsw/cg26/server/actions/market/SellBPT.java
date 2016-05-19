@@ -8,8 +8,8 @@ public class SellBPT extends Sell {
 
 	private BusinessPermissionTile bpTile;
 	
-	public SellBPT(String token, int price, BusinessPermissionTile bpTile) {
-		super(token, price);
+	public SellBPT(int price, BusinessPermissionTile bpTile) {
+		super(price);
 		this.bpTile = bpTile;
 	}
 

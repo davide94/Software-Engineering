@@ -6,8 +6,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class SellAssistant extends Sell {
 
-	public SellAssistant(String token, int price) {
-		super(token, price);
+	public SellAssistant(int price) {
+		super(price);
 	}
 
 	@Override

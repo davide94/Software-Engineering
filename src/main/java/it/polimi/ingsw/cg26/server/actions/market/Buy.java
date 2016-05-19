@@ -8,8 +8,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public abstract class Buy extends Action {
 
-	public Buy(String token) {
-		super(token);
+	public Buy() {
+
 	}
 
 	@Override

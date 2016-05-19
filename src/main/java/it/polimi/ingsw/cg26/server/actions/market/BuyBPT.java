@@ -9,8 +9,7 @@ public class BuyBPT extends Buy {
 
 	private BusinessPermissionTile bpTile;
 	
-	public BuyBPT(String token,  BusinessPermissionTile bpTile) {
-		super(token);
+	public BuyBPT(BusinessPermissionTile bpTile) {
 		this.bpTile = bpTile;
 	}
 

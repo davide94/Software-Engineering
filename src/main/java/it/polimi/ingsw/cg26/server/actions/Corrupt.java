@@ -11,14 +11,11 @@ import java.util.Collection;
 /**
  *
  */
-public class Corrupt extends Action {
-
+public abstract class Corrupt extends Action {
 
     protected final Collection<PoliticColor> politicCardsColors;
 
-
-    public Corrupt(String token, Collection<PoliticColor> politicCardsColors) {
-        super(token);
+    public Corrupt(Collection<PoliticColor> politicCardsColors) {
         if (politicCardsColors == null)
             throw new NullPointerException();
         this.politicCardsColors = politicCardsColors;

@@ -16,8 +16,7 @@ public class Build extends Action {
 
     private final String cityName;
 
-    public Build(String token, String cityName) {
-        super(token);
+    public Build(String cityName) {
         if (cityName == null)
             throw new NullPointerException();
         this.cityName = cityName;

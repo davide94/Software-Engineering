@@ -16,17 +16,17 @@ public class ClientInHandler implements Runnable {
 
     @Override
     public void run() {
-        /*while (true) {
+        while (true) {
             try {
 
                 Object object = this.socketIn.readObject();
-                System.out.println(object);
+                System.out.println("ClientInHandler: " + object);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
-        }*/
+        }
     }
 }

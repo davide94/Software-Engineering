@@ -1,9 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.server.Scheduler;
 import it.polimi.ingsw.cg26.server.change.Change;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.observer.Observable;
 
 import java.util.Collection;
@@ -13,7 +15,6 @@ import java.util.LinkedList;
  * 
  */
 public class GameBoard extends Observable<Change> {
-
 
 	private final PoliticDeck politicDeck;
 
@@ -30,7 +31,6 @@ public class GameBoard extends Observable<Change> {
 	private final King king;
 
 	private final Market market;
-
 
 	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
 		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)

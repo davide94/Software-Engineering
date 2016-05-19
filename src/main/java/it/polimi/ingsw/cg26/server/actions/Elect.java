@@ -9,9 +9,9 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 /**
  *
  */
-public class Elect extends Action {
+public abstract class Elect extends Action {
 
-    private final String region;
+	private final String region;
 
     private final PoliticColor councillorColor;
 
@@ -20,8 +20,7 @@ public class Elect extends Action {
      * @param region
      * @param councillorColor
      */
-    public Elect(String token, String region, PoliticColor councillorColor) {
-		super(token);
+    public Elect(String region, PoliticColor councillorColor) {
         if (region == null || councillorColor == null)
             throw new NullPointerException();
         this.region = region;

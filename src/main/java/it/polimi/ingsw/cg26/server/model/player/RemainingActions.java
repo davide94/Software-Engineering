@@ -3,17 +3,17 @@ package it.polimi.ingsw.cg26.server.model.player;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 
 /**
- * The RemainingActions class models and manages the remaining actions in a player's turn
+ * The RemainingActions class models and manages the remaining commands in a player's turn
  */
 public abstract class RemainingActions {
 
     /**
-     * Number of remaining actions in this turn
+     * Number of remaining commands in this turn
      */
     private int remaining;
 
     /**
-     * Constructs an RemainingActions class with 0 actions remaining
+     * Constructs an RemainingActions class with 0 commands remaining
      */
     public RemainingActions() {
         this.remaining = 1;
@@ -28,8 +28,8 @@ public abstract class RemainingActions {
     }
 
     /**
-     * Performs an action: the number of remaining actions is decremented by one
-     * @throws NoRemainingActionsException if there are no remaining actions
+     * Performs an action: the number of remaining commands is decremented by one
+     * @throws NoRemainingActionsException if there are no remaining commands
      */
     public void perform() {
         if (this.remaining == 0)
@@ -38,8 +38,8 @@ public abstract class RemainingActions {
     }
 
     /**
-     * Sets the number of remaining actions in this turn
-     * @param remainingActions is the number to be set as number of remaining actions
+     * Sets the number of remaining commands in this turn
+     * @param remainingActions is the number to be set as number of remaining commands
      * @throws IllegalArgumentException if the parameter is negative
      */
     public void setRemaining(int remainingActions) {
@@ -49,8 +49,8 @@ public abstract class RemainingActions {
     }
 
     /**
-     * Increments the number of actions in this turn
-     * @param increment is the number of actions to be added for this turn
+     * Increments the number of commands in this turn
+     * @param increment is the number of commands to be added for this turn
      * @throws IllegalArgumentException if the increment is negative
      */
     public synchronized void addActions(int increment) {

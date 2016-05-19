@@ -13,8 +13,8 @@ public class ElectAsMainAction extends Elect {
 	 * @param region
 	 * @param councillorColor
 	 */
-	public ElectAsMainAction(String token, String region, PoliticColor councillorColor) {
-		super(token, region, councillorColor);
+	public ElectAsMainAction(String region, PoliticColor councillorColor) {
+		super(region, councillorColor);
 	}
 	
 	/**
