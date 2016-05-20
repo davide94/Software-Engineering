@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.client;
 
-import it.polimi.ingsw.cg26.client.commands.ElectAsMainAction;
 import it.polimi.ingsw.cg26.client.commands.Staccah;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
@@ -101,7 +100,7 @@ public class CLI implements Runnable {
         this.output("Assistant color? ");
         String colorString = this.scanner.nextLine();
         PoliticColor politicColor = new PoliticColor(colorString);
-        this.outputStream.writeObject(new ElectAsMainAction(region, politicColor));
+        //this.outputStream.writeObject(new ElectAsMainAction(region, politicColor));
     }
 
     private void acquire() throws IOException {
