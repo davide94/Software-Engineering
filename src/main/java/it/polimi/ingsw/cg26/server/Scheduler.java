@@ -78,7 +78,6 @@ public class Scheduler {
     }
 
     public void actionPerformed() {
-        this.gameBoard.notifyObservers(new Change());
         // TODO controlli su currentPlayer
     }
 }

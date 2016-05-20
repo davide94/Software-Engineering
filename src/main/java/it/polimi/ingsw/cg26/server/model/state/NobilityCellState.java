@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-
 import java.util.Collection;
 
 /**
@@ -16,5 +14,13 @@ public class NobilityCellState {
     public NobilityCellState(int index, Collection<BonusState> bonuses) {
         this.index = index;
         this.bonuses = bonuses;
+    }
+
+    @Override
+    public String toString() {
+        return "NobilityCellState{" +
+                "index=" + index +
+                ", bonuses=" + bonuses +
+                '}';
     }
 }

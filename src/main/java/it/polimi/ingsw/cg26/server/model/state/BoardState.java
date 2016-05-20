@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.board.King;
-import it.polimi.ingsw.cg26.server.model.market.Market;
 
 import java.util.Collection;
 
@@ -13,7 +11,7 @@ public class BoardState {
 
     private final PoliticDeckState politicDeck;
 
-    private final Collection<Councillor> councillorsPool;
+    private final Collection<CouncillorState> councillorsPool;
 
     private final KingDeckState kingDeck;
 
@@ -27,8 +25,8 @@ public class BoardState {
 
     private final MarketState market;
 
-    public BoardState(PoliticDeckState deck, Collection<Councillor> councillorsPool, BalconyState kingBalcony, Collection<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
-        if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
+    public BoardState(PoliticDeckState deck, Collection<CouncillorState> councillorsPool, BalconyState kingBalcony, Collection<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
+        if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || kingDeck == null)
             throw new NullPointerException();
         this.politicDeck = deck;
         this.councillorsPool = councillorsPool;
@@ -38,5 +36,19 @@ public class BoardState {
         this.king = king;
         this.market = market;
         this.kingDeck = kingDeck;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardState{" +
+                "politicDeck=" + politicDeck +
+                ", councillorsPool=" + councillorsPool +
+                ", kingDeck=" + kingDeck +
+                ", kingBalcony=" + kingBalcony +
+                ", regions=" + regions +
+                ", nobilityTrack=" + nobilityTrack +
+                ", king=" + king +
+                ", market=" + market +
+                '}';
     }
 }

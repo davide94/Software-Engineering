@@ -5,10 +5,6 @@ import java.io.Serializable;
 /**
  *
  */
-public class Change implements Serializable {
-
-    private static final long serialVersionUID = -1206618608514784214L;
-
-
+public abstract class Change implements Serializable {
 
 }

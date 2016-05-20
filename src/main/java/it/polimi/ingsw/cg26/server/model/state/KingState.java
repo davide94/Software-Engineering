@@ -10,4 +10,11 @@ public class KingState {
     public KingState(String currentCity) {
         this.currentCity = currentCity;
     }
+
+    @Override
+    public String toString() {
+        return "KingState{" +
+                "currentCity='" + currentCity + '\'' +
+                '}';
+    }
 }

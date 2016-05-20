@@ -1,13 +1,9 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import java.io.Serializable;
-
 /**
  * 
  */
-public class PoliticColor implements Serializable {
-
-    private static final long serialVersionUID = 6847273909848339244L;
+public class PoliticColor {
 
     /**
      *

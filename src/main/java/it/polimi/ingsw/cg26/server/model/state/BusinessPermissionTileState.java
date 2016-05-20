@@ -1,8 +1,5 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
-import it.polimi.ingsw.cg26.server.model.board.City;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -20,5 +17,13 @@ public class BusinessPermissionTileState {
             throw new NullPointerException();
         this.cities = new LinkedList<>(cities);
         this.bonuses = new LinkedList<>(bonuses);
+    }
+
+    @Override
+    public String toString() {
+        return "BusinessPermissionTileState{" +
+                "cities=" + cities +
+                ", bonuses=" + bonuses +
+                '}';
     }
 }

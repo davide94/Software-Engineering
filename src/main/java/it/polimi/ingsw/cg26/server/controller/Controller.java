@@ -21,6 +21,7 @@ public class Controller implements Observer<Action>, Runnable {
         if (gameBoard == null)
             throw new NullPointerException();
         this.gameBoard = gameBoard;
+        System.out.println(gameBoard.getState());
         this.scheduler = new Scheduler(gameBoard, this);
     }
 

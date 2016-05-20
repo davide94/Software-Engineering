@@ -26,4 +26,15 @@ public class RegionState {
         this.balcony = balcony;
         this.bonus = bonus;
     }
+
+    @Override
+    public String toString() {
+        return "RegionState{" +
+                "name='" + name + '\'' +
+                ", cities=" + cities +
+                ", balcony=" + balcony +
+                ", deck=" + deck +
+                ", bonus=" + bonus +
+                '}';
+    }
 }

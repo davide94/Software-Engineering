@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
-import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-
 import java.util.List;
 
 /**
@@ -13,5 +11,12 @@ public class NobilityTrackState {
 
     public NobilityTrackState(List<NobilityCellState> cellsState) {
         this.cellsState = cellsState;
+    }
+
+    @Override
+    public String toString() {
+        return "NobilityTrackState{" +
+                "cellsState=" + cellsState +
+                '}';
     }
 }

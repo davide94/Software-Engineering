@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
-
 import java.util.List;
 
 /**
@@ -9,10 +7,16 @@ import java.util.List;
  */
 public class BalconyState {
 
-    private List<Councillor> councillors;
+    private List<CouncillorState> councillors;
 
-    public BalconyState(List<Councillor> councillors) {
+    public BalconyState(List<CouncillorState> councillors) {
         this.councillors = councillors;
     }
 
+    @Override
+    public String toString() {
+        return "BalconyState{" +
+                "councillors=" + councillors +
+                '}';
+    }
 }

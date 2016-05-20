@@ -10,4 +10,11 @@ public class BonusState {
     public BonusState(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "BonusState{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
