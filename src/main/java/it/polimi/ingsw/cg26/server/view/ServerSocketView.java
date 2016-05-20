@@ -1,9 +1,8 @@
 package it.polimi.ingsw.cg26.server.view;
 
 import it.polimi.ingsw.cg26.client.commands.Staccah;
-import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.actions.main.ElectAsMainAction;
-import it.polimi.ingsw.cg26.server.change.Change;
+import it.polimi.ingsw.cg26.change.Change;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,6 +27,11 @@ public class ServerSocketView extends View {
     @Override
     public void update(Change o) {
         System.out.println("Sending to the client " + o);
+        try {
+            socketOut.writeObject(o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

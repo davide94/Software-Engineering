@@ -1,11 +1,14 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  *
  */
-public class RegionState {
+public class RegionState implements Serializable {
+
+    private static final long serialVersionUID = 2260796972775485470L;
 
     private String name;
 

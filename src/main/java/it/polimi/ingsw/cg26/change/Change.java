@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.server.change;
+package it.polimi.ingsw.cg26.change;
 
 import java.io.Serializable;
 

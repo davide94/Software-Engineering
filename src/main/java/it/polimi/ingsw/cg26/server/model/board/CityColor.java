@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.state.CityColorState;
+
 /**
  * 
  */
@@ -21,6 +23,10 @@ public class CityColor {
 
 	public static CityColor createCityColor(String color) {
 		return new CityColor(color);
+	}
+
+	public CityColorState getState() {
+		return new CityColorState(color);
 	}
 
 	/**

@@ -1,12 +1,15 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 
 /**
  *
  */
-public class BusinessPermissionTileState {
+public class BusinessPermissionTileState implements Serializable {
+
+    private static final long serialVersionUID = 7399538004113207286L;
 
     private Collection<String> cities;
 

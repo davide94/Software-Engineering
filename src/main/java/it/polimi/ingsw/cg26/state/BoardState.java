@@ -1,13 +1,14 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
 
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
-
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  *
  */
-public class BoardState {
+public class BoardState implements Serializable {
+
+    private static final long serialVersionUID = 3006533728187141277L;
 
     private final PoliticDeckState politicDeck;
 

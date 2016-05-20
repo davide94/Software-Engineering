@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.server.exceptions.NoMoreCardsException;
-import it.polimi.ingsw.cg26.server.model.state.PoliticDeckState;
+import it.polimi.ingsw.cg26.state.PoliticDeckState;
 
 import java.util.Collection;
 import java.util.Collections;

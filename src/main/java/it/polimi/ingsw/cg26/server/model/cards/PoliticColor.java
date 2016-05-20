@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
+import it.polimi.ingsw.cg26.state.PoliticColorState;
+
 /**
  * 
  */
@@ -15,6 +17,10 @@ public class PoliticColor {
      */
     public PoliticColor(String color) {
         this.color = color;
+    }
+
+    public PoliticColorState getState() {
+        return new PoliticColorState(color);
     }
 
     /**

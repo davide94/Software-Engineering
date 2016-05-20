@@ -1,11 +1,14 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  */
-public class NobilityTrackState {
+public class NobilityTrackState implements Serializable {
+
+    private static final long serialVersionUID = -3226153742652964326L;
 
     private List<NobilityCellState> cellsState;
 

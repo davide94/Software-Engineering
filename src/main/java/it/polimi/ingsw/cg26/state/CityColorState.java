@@ -1,13 +1,17 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
+
+import java.io.Serializable;
 
 /**
  *
  */
-public class CityColorState {
+public class CityColorState implements Serializable {
+
+    private static final long serialVersionUID = 1178748348875116351L;
 
     private String color;
 
-    private CityColorState(String color) {
+    public CityColorState(String color) {
         if (color == null)
             throw new NullPointerException();
         this.color = color;

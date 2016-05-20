@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.server.model.state.BusinessPermissionTileDeckState;
-import it.polimi.ingsw.cg26.server.model.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.state.BusinessPermissionTileDeckState;
+import it.polimi.ingsw.cg26.state.BusinessPermissionTileState;
 
 import java.util.Collection;
 import java.util.LinkedList;

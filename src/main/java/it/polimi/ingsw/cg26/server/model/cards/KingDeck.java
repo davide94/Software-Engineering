@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.server.model.state.BonusState;
-import it.polimi.ingsw.cg26.server.model.state.KingDeckState;
+import it.polimi.ingsw.cg26.state.BonusState;
+import it.polimi.ingsw.cg26.state.KingDeckState;
 
 public class KingDeck extends Deck<List<Bonus>> {
     /**

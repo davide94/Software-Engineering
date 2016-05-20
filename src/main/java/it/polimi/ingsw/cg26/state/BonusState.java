@@ -1,9 +1,13 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
+
+import java.io.Serializable;
 
 /**
  *
  */
-public class BonusState {
+public class BonusState implements Serializable {
+
+    private static final long serialVersionUID = 2736328090252332859L;
 
     private String name;
 

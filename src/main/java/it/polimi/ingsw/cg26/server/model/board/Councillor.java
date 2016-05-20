@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.state.CouncillorState;
 
 /**
  * 
@@ -23,6 +24,10 @@ public class Councillor {
 
     public static Councillor createCouncillor(PoliticColor color) {
         return new Councillor(color);
+    }
+
+    public CouncillorState getState() {
+        return new CouncillorState(color.getState());
     }
 
     /**

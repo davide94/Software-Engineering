@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.client.socket;
 
+import it.polimi.ingsw.cg26.change.FullStateChange;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -21,6 +23,10 @@ public class ClientInHandler implements Runnable {
 
                 Object object = this.socketIn.readObject();
                 System.out.println("ClientInHandler: " + object);
+
+                if (object instanceof FullStateChange) {
+                    FullStateChange change = (FullStateChange) object;
+                }
 
             } catch (IOException e) {
                 System.out.println(e.getMessage());

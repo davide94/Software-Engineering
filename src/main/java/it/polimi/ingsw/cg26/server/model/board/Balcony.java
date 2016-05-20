@@ -1,7 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.server.model.state.BalconyState;
+import it.polimi.ingsw.cg26.state.BalconyState;
+import it.polimi.ingsw.cg26.state.CouncillorState;
 
 import java.util.Collection;
 import java.util.Queue;
@@ -30,7 +31,10 @@ public class Balcony {
 	}
 
 	public BalconyState getState() {
-		return new BalconyState(new LinkedList<Councillor>(councillors));
+		LinkedList<CouncillorState> councillorsState = new LinkedList<>();
+		for (Councillor c: councillors)
+			councillorsState.add(c.getState());
+		return new BalconyState(councillorsState);
 	}
 
     /**

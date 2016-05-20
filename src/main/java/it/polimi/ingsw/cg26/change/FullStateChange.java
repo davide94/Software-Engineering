@@ -1,6 +1,6 @@
-package it.polimi.ingsw.cg26.server.change;
+package it.polimi.ingsw.cg26.change;
 
-import it.polimi.ingsw.cg26.server.model.state.BoardState;
+import it.polimi.ingsw.cg26.state.BoardState;
 
 /**
  *

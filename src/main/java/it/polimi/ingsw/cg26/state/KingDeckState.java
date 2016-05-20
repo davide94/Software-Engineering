@@ -1,11 +1,14 @@
-package it.polimi.ingsw.cg26.server.model.state;
+package it.polimi.ingsw.cg26.state;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  */
-public class KingDeckState {
+public class KingDeckState implements Serializable {
+
+    private static final long serialVersionUID = -5230368352327280474L;
 
     private List<List<BonusState>> cards;
 

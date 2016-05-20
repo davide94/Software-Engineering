@@ -3,9 +3,9 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.server.model.state.BonusState;
-import it.polimi.ingsw.cg26.server.model.state.CityState;
-import it.polimi.ingsw.cg26.server.model.state.RegionState;
+import it.polimi.ingsw.cg26.state.BonusState;
+import it.polimi.ingsw.cg26.state.CityState;
+import it.polimi.ingsw.cg26.state.RegionState;
 
 import java.util.Collection;
 import java.util.LinkedList;

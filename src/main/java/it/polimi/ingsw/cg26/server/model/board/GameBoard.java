@@ -1,11 +1,12 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.server.change.Change;
+import it.polimi.ingsw.cg26.change.Change;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.server.model.state.BoardState;
-import it.polimi.ingsw.cg26.server.model.state.RegionState;
+import it.polimi.ingsw.cg26.state.BoardState;
+import it.polimi.ingsw.cg26.state.CouncillorState;
+import it.polimi.ingsw.cg26.state.RegionState;
 import it.polimi.ingsw.cg26.server.observer.Observable;
 
 import java.util.Collection;
@@ -49,8 +50,11 @@ public class GameBoard extends Observable<Change> {
 		LinkedList<RegionState> regionsState = new LinkedList<>();
 		for (Region region: regions)
 			regionsState.add(region.getState());
+		LinkedList<CouncillorState> councillorsState = new LinkedList<>();
+		for (Councillor c: councillorsPool)
+			councillorsState.add(c.getState());
 		// TODO serialize market
-		return new BoardState(politicDeck.getState(), new LinkedList<Councillor>(councillorsPool), kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
+		return new BoardState(politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
 	}
 
 	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
