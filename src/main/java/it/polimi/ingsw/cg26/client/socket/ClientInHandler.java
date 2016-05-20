@@ -12,8 +12,11 @@ public class ClientInHandler implements Runnable {
 
     private ObjectInputStream socketIn;
 
-    public ClientInHandler(ObjectInputStream socketIn) {
+    private ClientSocket clientSocket;
+
+    public ClientInHandler(ObjectInputStream socketIn, ClientSocket client) {
         this.socketIn = socketIn;
+        this.clientSocket = client;
     }
 
     @Override
@@ -22,10 +25,11 @@ public class ClientInHandler implements Runnable {
             try {
 
                 Object object = this.socketIn.readObject();
-                System.out.println("ClientInHandler: " + object);
+                //System.out.println("ClientInHandler: " + object);
 
                 if (object instanceof FullStateChange) {
                     FullStateChange change = (FullStateChange) object;
+                    this.clientSocket.setState(change.getState());
                 }
 
             } catch (IOException e) {

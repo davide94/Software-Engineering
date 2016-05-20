@@ -15,6 +15,10 @@ public class FullStateChange extends Change {
         this.state = state;
     }
 
+    public BoardState getState() {
+        return state;
+    }
+
     @Override
     public String toString() {
         return "FullStateChange{" +

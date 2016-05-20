@@ -16,6 +16,10 @@ public class NobilityTrackState implements Serializable {
         this.cellsState = cellsState;
     }
 
+    public List<NobilityCellState> getCellsState() {
+        return cellsState;
+    }
+
     @Override
     public String toString() {
         return "NobilityTrackState{" +

@@ -22,6 +22,14 @@ public class BusinessPermissionTileState implements Serializable {
         this.bonuses = new LinkedList<>(bonuses);
     }
 
+    public Collection<String> getCities() {
+        return cities;
+    }
+
+    public Collection<BonusState> getBonuses() {
+        return bonuses;
+    }
+
     @Override
     public String toString() {
         return "BusinessPermissionTileState{" +

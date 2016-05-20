@@ -16,6 +16,10 @@ public class KingDeckState implements Serializable {
         this.cards = cards;
     }
 
+    public List<List<BonusState>> getCards() {
+        return cards;
+    }
+
     @Override
     public String toString() {
         return "KingDeckState{" +

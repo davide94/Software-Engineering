@@ -14,4 +14,16 @@ public class PoliticColorState implements Serializable {
     public PoliticColorState(String color) {
         this.color = color;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public String toString() {
+        return "PoliticColorState{" +
+                "color='" + color + '\'' +
+                '}';
+    }
+
 }

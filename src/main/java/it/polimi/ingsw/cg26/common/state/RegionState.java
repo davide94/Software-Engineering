@@ -30,6 +30,26 @@ public class RegionState implements Serializable {
         this.bonus = bonus;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Collection<CityState> getCities() {
+        return cities;
+    }
+
+    public BalconyState getBalcony() {
+        return balcony;
+    }
+
+    public BusinessPermissionTileDeckState getDeck() {
+        return deck;
+    }
+
+    public Collection<BonusState> getBonus() {
+        return bonus;
+    }
+
     @Override
     public String toString() {
         return "RegionState{" +

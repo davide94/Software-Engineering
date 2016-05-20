@@ -18,6 +18,10 @@ public class CouncillorState implements Serializable {
         this.color = color;
     }
 
+    public PoliticColorState getColor() {
+        return color;
+    }
+
     @Override
     public String toString() {
         return "CouncillorState{" +

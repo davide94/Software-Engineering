@@ -19,6 +19,14 @@ public class NobilityCellState implements Serializable {
         this.bonuses = bonuses;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public Collection<BonusState> getBonuses() {
+        return bonuses;
+    }
+
     @Override
     public String toString() {
         return "NobilityCellState{" +

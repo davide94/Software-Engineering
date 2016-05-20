@@ -16,6 +16,10 @@ public class BusinessPermissionTileDeckState implements Serializable {
         this.openCards = openCards;
     }
 
+    public List<BusinessPermissionTileState> getOpenCards() {
+        return openCards;
+    }
+
     @Override
     public String toString() {
         return "BusinessPermissionTileDeckState{" +

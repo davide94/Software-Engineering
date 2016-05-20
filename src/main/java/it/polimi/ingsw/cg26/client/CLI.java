@@ -1,11 +1,19 @@
 package it.polimi.ingsw.cg26.client;
 
+import it.polimi.ingsw.cg26.client.socket.ClientSocket;
 import it.polimi.ingsw.cg26.common.commands.Staccah;
+import it.polimi.ingsw.cg26.common.state.BoardState;
+import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.server.model.board.Region;
+import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,8 +25,11 @@ public class CLI implements Runnable {
 
     private Scanner scanner;
 
-    public CLI(ObjectOutputStream outputStream) {
+    private ClientSocket client;
+
+    public CLI(ObjectOutputStream outputStream, ClientSocket client) {
         this.outputStream = outputStream;
+        this.client = client;
         this.scanner = new Scanner(System.in);
         this.output("Welcome");
     }
@@ -35,25 +46,26 @@ public class CLI implements Runnable {
     private void waitInput() throws IOException {
         boolean quit = false;
         while (!quit) {
-            this.output("\n(0) Quit" +
-                    "\n\nMain commands:" +
-                    "\n(1) Elect a Councillor" +
-                    "\n(2) Acquire a Business Permit Tile" +
-                    "\n(3) Build an emporium using a Permit Tile" +
-                    "\n(4) Build an emporium with the help of the King" +
-                    "\n\nQuick commands:" +
-                    "\n(5) Engage an Assistant" +
-                    "\n(6) Change Building Permit Tiles" +
-                    "\n(7) Send an Assistant to elect a Councillor" +
-                    "\n(8) Perform an additional Main Action" +
-                    "\n\nWhat do you want to do? ");
+            this.output("\n(0) Print state" +
+
+                        "\n\nMain commands:" +
+                        "\n(1) Elect a Councillor" +
+                        "\n(2) Acquire a Business Permit Tile" +
+                        "\n(3) Build an emporium using a Permit Tile" +
+                        "\n(4) Build an emporium with the help of the King" +
+
+                        "\n\nQuick commands:" +
+                        "\n(5) Engage an Assistant" +
+                        "\n(6) Change Building Permit Tiles" +
+                        "\n(7) Send an Assistant to elect a Councillor" +
+                        "\n(8) Perform an additional Main Action" +
+                        "\n\nWhat do you want to do? ");
 
             String command = this.scanner.nextLine();
 
             switch (command) {
                 case "0":
-                    quit();
-                    quit = true;
+                    print();
                     break;
                 case "1":
                     elect();
@@ -89,15 +101,53 @@ public class CLI implements Runnable {
         System.out.println(msg);
     }
 
+    private void print() {
+        BoardState model = client.getState();
+
+        System.out.print("The King's balcony has");
+        for (CouncillorState c: model.getKingBalcony().getCouncillors())
+            System.out.print(" " + c.getColor().getColor());
+        System.out.println(" councillors");
+
+        System.out.println("The board has " + model.getRegions().size() + " regions:");
+
+        for (RegionState r: model.getRegions()) {
+            System.out.println("\n" + r.getName() + ": ");
+            System.out.print("The balcony has");
+            for (CouncillorState c: model.getKingBalcony().getCouncillors())
+                System.out.print(" " + c.getColor().getColor());
+            System.out.println(" councillors");
+            System.out.print("the Business Permit Tiles open are: ");
+            for (BusinessPermissionTileState b: r.getDeck().getOpenCards())
+                System.out.print(b + " ");
+            System.out.println("");
+            System.out.println("-----------");
+        }
+
+    }
 
     private void quit() throws IOException {
         this.outputStream.writeObject(new Staccah());
     }
 
     private void elect() throws IOException {
+        List<RegionState> regions = client.getState().getRegions();
         this.output("In which region? ");
-        String region = this.scanner.nextLine();
-        this.output("Assistant color? ");
+        int i = 1;
+        for (RegionState r: regions) {
+            System.out.println("(" + i + ") " + r.getName());
+            i++;
+        }
+        int regionNmber = this.scanner.nextInt();
+        RegionState region = null;
+        i = 1;
+        for (RegionState r: regions) {
+            if (i == regionNmber)
+                region = r;
+            i++;
+        }
+        // TODO sistemare sta merdata... per qualche motivo .get(i-1) non funziona
+        System.out.println("Assistant color? ");
         String colorString = this.scanner.nextLine();
         PoliticColor politicColor = new PoliticColor(colorString);
         //this.outputStream.writeObject(new ElectAsMainAction(region, politicColor));

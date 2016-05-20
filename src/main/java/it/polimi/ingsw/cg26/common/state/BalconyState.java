@@ -16,6 +16,10 @@ public class BalconyState implements Serializable {
         this.councillors = councillors;
     }
 
+    public List<CouncillorState> getCouncillors() {
+        return councillors;
+    }
+
     @Override
     public String toString() {
         return "BalconyState{" +

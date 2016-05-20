@@ -30,6 +30,26 @@ public class CityState implements Serializable {
         this.nearCities = nearCities;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public CityColorState getColor() {
+        return color;
+    }
+
+    public List<EmporiumState> getEmporiums() {
+        return emporiums;
+    }
+
+    public List<BonusState> getBonuses() {
+        return bonuses;
+    }
+
+    public List<String> getNearCities() {
+        return nearCities;
+    }
+
     @Override
     public String toString() {
         return "CityState{" +

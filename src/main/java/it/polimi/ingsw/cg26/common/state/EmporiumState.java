@@ -15,6 +15,10 @@ public class EmporiumState implements Serializable {
         this.player = player;
     }
 
+    public String getPlayer() {
+        return player;
+    }
+
     @Override
     public String toString() {
         return "EmporiumState{" +

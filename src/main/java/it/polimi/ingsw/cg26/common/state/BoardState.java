@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.common.state;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -18,7 +19,7 @@ public class BoardState implements Serializable {
 
     private final BalconyState kingBalcony;
 
-    private final Collection<RegionState> regions;
+    private final List<RegionState> regions;
 
     private final NobilityTrackState nobilityTrack;
 
@@ -26,7 +27,7 @@ public class BoardState implements Serializable {
 
     private final MarketState market;
 
-    public BoardState(PoliticDeckState deck, Collection<CouncillorState> councillorsPool, BalconyState kingBalcony, Collection<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
+    public BoardState(PoliticDeckState deck, Collection<CouncillorState> councillorsPool, BalconyState kingBalcony, List<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
         if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || kingDeck == null)
             throw new NullPointerException();
         this.politicDeck = deck;
@@ -37,6 +38,38 @@ public class BoardState implements Serializable {
         this.king = king;
         this.market = market;
         this.kingDeck = kingDeck;
+    }
+
+    public PoliticDeckState getPoliticDeck() {
+        return politicDeck;
+    }
+
+    public Collection<CouncillorState> getCouncillorsPool() {
+        return councillorsPool;
+    }
+
+    public KingDeckState getKingDeck() {
+        return kingDeck;
+    }
+
+    public BalconyState getKingBalcony() {
+        return kingBalcony;
+    }
+
+    public List<RegionState> getRegions() {
+        return regions;
+    }
+
+    public NobilityTrackState getNobilityTrack() {
+        return nobilityTrack;
+    }
+
+    public KingState getKing() {
+        return king;
+    }
+
+    public MarketState getMarket() {
+        return market;
     }
 
     @Override
