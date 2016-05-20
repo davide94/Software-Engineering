@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.client.commands.Staccah;
+import it.polimi.ingsw.cg26.common.commands.Staccah;
 import it.polimi.ingsw.cg26.server.actions.main.ElectAsMainAction;
-import it.polimi.ingsw.cg26.change.Change;
+import it.polimi.ingsw.cg26.common.change.Change;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

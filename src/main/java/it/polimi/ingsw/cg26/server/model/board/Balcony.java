@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.state.BalconyState;
-import it.polimi.ingsw.cg26.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.BalconyState;
+import it.polimi.ingsw.cg26.common.state.CouncillorState;
 
 import java.util.Collection;
 import java.util.Queue;

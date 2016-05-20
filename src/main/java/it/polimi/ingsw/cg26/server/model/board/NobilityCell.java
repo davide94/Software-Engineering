@@ -2,8 +2,8 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.state.BonusState;
-import it.polimi.ingsw.cg26.state.NobilityCellState;
+import it.polimi.ingsw.cg26.common.state.BonusState;
+import it.polimi.ingsw.cg26.common.state.NobilityCellState;
 
 import java.util.Collection;
 import java.util.LinkedList;

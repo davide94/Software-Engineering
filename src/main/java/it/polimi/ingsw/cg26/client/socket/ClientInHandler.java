@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.client.socket;
 
-import it.polimi.ingsw.cg26.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.change.FullStateChange;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

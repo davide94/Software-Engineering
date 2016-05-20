@@ -3,8 +3,8 @@ package it.polimi.ingsw.cg26.server.model.cards;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
-import it.polimi.ingsw.cg26.state.BonusState;
-import it.polimi.ingsw.cg26.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.common.state.BonusState;
+import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
 
 import java.util.Collection;
 import java.util.LinkedList;

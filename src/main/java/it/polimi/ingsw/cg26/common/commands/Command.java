@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.client.commands;
+package it.polimi.ingsw.cg26.common.commands;
 
 
 import it.polimi.ingsw.cg26.server.actions.Action;

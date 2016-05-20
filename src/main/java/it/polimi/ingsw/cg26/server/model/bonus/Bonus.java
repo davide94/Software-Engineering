@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.state.BonusState;
+import it.polimi.ingsw.cg26.common.state.BonusState;
 
 /**
  * 

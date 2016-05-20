@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.state.NobilityCellState;
-import it.polimi.ingsw.cg26.state.NobilityTrackState;
+import it.polimi.ingsw.cg26.common.state.NobilityCellState;
+import it.polimi.ingsw.cg26.common.state.NobilityTrackState;
 
 import java.util.LinkedList;
 import java.util.List;

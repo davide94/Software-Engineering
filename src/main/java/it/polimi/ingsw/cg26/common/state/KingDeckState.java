@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.state;
+package it.polimi.ingsw.cg26.common.state;
 
 import java.io.Serializable;
 import java.util.List;

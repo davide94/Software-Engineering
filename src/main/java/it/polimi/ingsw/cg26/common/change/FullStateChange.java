@@ -1,6 +1,6 @@
-package it.polimi.ingsw.cg26.change;
+package it.polimi.ingsw.cg26.common.change;
 
-import it.polimi.ingsw.cg26.state.BoardState;
+import it.polimi.ingsw.cg26.common.state.BoardState;
 
 /**
  *

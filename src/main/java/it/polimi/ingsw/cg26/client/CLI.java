@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.client;
 
-import it.polimi.ingsw.cg26.client.commands.Staccah;
+import it.polimi.ingsw.cg26.common.commands.Staccah;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
 import java.io.IOException;

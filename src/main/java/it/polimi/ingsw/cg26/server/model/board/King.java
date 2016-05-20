@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.state.KingState;
+import it.polimi.ingsw.cg26.common.state.KingState;
 
 /**
  *

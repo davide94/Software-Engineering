@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.change.Change;
+import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.state.BoardState;
-import it.polimi.ingsw.cg26.state.CouncillorState;
-import it.polimi.ingsw.cg26.state.RegionState;
+import it.polimi.ingsw.cg26.common.state.BoardState;
+import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.server.observer.Observable;
 
 import java.util.Collection;

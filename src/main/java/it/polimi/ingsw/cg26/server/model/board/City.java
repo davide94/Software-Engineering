@@ -3,9 +3,9 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.state.BonusState;
-import it.polimi.ingsw.cg26.state.CityState;
-import it.polimi.ingsw.cg26.state.EmporiumState;
+import it.polimi.ingsw.cg26.common.state.BonusState;
+import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.state.EmporiumState;
 
 import java.util.*;
 

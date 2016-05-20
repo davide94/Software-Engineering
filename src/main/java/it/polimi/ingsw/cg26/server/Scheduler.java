@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server;
 
-import it.polimi.ingsw.cg26.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.change.FullStateChange;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;

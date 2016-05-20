@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.state.PoliticColorState;
+import it.polimi.ingsw.cg26.common.state.PoliticColorState;
 
 /**
  * 
