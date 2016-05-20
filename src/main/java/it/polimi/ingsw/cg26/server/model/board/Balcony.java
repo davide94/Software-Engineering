@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.server.model.state.BalconyState;
 
 import java.util.Collection;
 import java.util.Queue;
@@ -26,6 +27,10 @@ public class Balcony {
 
 	public static Balcony createBalcony(int capacity) {
 		return new Balcony(capacity, new LinkedList<>());
+	}
+
+	public BalconyState getState() {
+		return new BalconyState(new LinkedList<Councillor>(councillors));
 	}
 
     /**

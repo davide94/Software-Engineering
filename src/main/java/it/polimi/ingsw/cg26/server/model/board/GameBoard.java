@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.server.Scheduler;
 import it.polimi.ingsw.cg26.server.change.Change;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.BoardState;
+import it.polimi.ingsw.cg26.server.model.state.RegionState;
 import it.polimi.ingsw.cg26.server.observer.Observable;
 
 import java.util.Collection;
@@ -43,6 +43,14 @@ public class GameBoard extends Observable<Change> {
 		this.king = king;
 		this.market = market;
 		this.kingDeck = kingDeck;
+	}
+
+	public BoardState getState() {
+		LinkedList<RegionState> regionsState = new LinkedList<>();
+		for (Region region: regions)
+			regionsState.add(region.getState());
+		// TODO serialize market
+		return new BoardState(politicDeck.getState(), new LinkedList<Councillor>(councillorsPool), kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
 	}
 
 	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
@@ -87,10 +95,6 @@ public class GameBoard extends Observable<Change> {
 
 	public NobilityTrack getNobilityTrack() {
 		return this.nobilityTrack;
-	}
-
-	public String getState() {
-		return this.toString();
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
+import it.polimi.ingsw.cg26.server.model.state.BusinessPermissionTileDeckState;
+import it.polimi.ingsw.cg26.server.model.state.BusinessPermissionTileState;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -13,14 +16,21 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     /**
      *
      */
-    public  BusinessPermissionTileDeck(Collection<BusinessPermissionTile> c) {
+    public BusinessPermissionTileDeck(Collection<BusinessPermissionTile> c) {
         super(c);
+    }
+
+    public BusinessPermissionTileDeckState getState() {
+        LinkedList<BusinessPermissionTileState> openCardsState = new LinkedList<>();
+        for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
+            openCardsState.add(this.cards.get(i).getState());
+        return new BusinessPermissionTileDeckState(openCardsState);
     }
 
     /**
      * @return
      */
-    public synchronized BusinessPermissionTile draw(int which) {
+    public BusinessPermissionTile draw(int which) {
         if (which == 1)
             return this.cards.remove(1);
         return draw();
@@ -29,7 +39,7 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     /**
      *
      */
-    public synchronized void change() {
+    public void change() {
         add(draw());
         add(draw());
     }

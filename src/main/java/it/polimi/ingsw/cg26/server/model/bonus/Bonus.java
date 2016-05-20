@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.BonusState;
 
 /**
  * 
@@ -31,4 +32,8 @@ public abstract class Bonus {
      */
     public abstract void apply(Player player);
 
+    public BonusState getState() {
+        // TODO make this abstract and re-implement in each subclass
+        return new BonusState("Bonus");
+    }
 }

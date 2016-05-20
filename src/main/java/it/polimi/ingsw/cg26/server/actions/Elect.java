@@ -6,10 +6,14 @@ import it.polimi.ingsw.cg26.server.model.board.Councillor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
+import java.io.Serializable;
+
 /**
  *
  */
 public abstract class Elect extends Action {
+
+	private static final long serialVersionUID = -5720689551302863319L;
 
 	private final String region;
 

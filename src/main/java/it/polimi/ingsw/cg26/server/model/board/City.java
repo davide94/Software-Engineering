@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.BonusState;
+import it.polimi.ingsw.cg26.server.model.state.CityState;
 
 import java.util.*;
 
@@ -36,6 +38,17 @@ public class City {
     public static City createCity(String name, CityColor color,List<Bonus> bonuses) {
         return new City(name, color, new LinkedList<>(bonuses), new ArrayList<>(), new LinkedList<>());
     }
+
+    public CityState getState() {
+        LinkedList<BonusState> bonusesState = new LinkedList<>();
+        for (Bonus b: bonuses)
+            bonusesState.add(b.getState());
+        LinkedList<String> nearCitiesState = new LinkedList<>();
+        for (City c: nearCities)
+            nearCitiesState.add(c.getName());
+        return new CityState(name, color, bonusesState, new LinkedList<Emporium>(emporiums), nearCitiesState);
+    }
+
     /**
      * @param
      */

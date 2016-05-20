@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.server.model.state.KingState;
+
 /**
  *
  */
@@ -20,6 +22,10 @@ public class King {
 
     public static King createKing(City currentCity) {
         return new King(currentCity);
+    }
+
+    public KingState getState() {
+        return new KingState(currentCity.getName());
     }
 
     /**

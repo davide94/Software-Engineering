@@ -1,7 +1,8 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.client.commands.Command;
 import it.polimi.ingsw.cg26.client.commands.Staccah;
+import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.actions.main.ElectAsMainAction;
 import it.polimi.ingsw.cg26.server.change.Change;
 
 import java.io.IOException;
@@ -27,14 +28,6 @@ public class ServerSocketView extends View {
     @Override
     public void update(Change o) {
         System.out.println("Sending to the client " + o);
-
-        /*try {
-            this.socketOut.writeObject(o);
-            this.socketOut.flush();
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }*/
     }
 
     @Override
@@ -49,11 +42,14 @@ public class ServerSocketView extends View {
                     // TODO agire di conseguenza;
                     staccah = true;
                 }
+                ElectAsMainAction action = (ElectAsMainAction) object;
+                this.notifyObservers(action);
 
-                if (object instanceof Command) {
+
+                /*if (object instanceof Command) {
                     Command command = (Command) object;
-                    this.notifyObservers(command.generateAction());
-                }
+                    command.apply(this);
+                }*/
 
 
             } catch (ClassNotFoundException e) {
@@ -63,5 +59,10 @@ public class ServerSocketView extends View {
             }
         }
     }
+
+    /*@Override
+    public void acquire(String region, Collection<PoliticColor> politicCardsColors, int position) {
+        notifyObservers(new Acquire(region, politicCardsColors, position));
+    }*/
 
 }

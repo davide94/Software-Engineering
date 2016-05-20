@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.server.exceptions.NoMoreCardsException;
+import it.polimi.ingsw.cg26.server.model.state.PoliticDeckState;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +24,10 @@ public class PoliticDeck extends Deck<PoliticCard> {
         if (cards == null)
             throw new NullPointerException();
         this.discarded = new LinkedList<>(cards);
+    }
+
+    public PoliticDeckState getState() {
+        return new PoliticDeckState();
     }
 
     /**

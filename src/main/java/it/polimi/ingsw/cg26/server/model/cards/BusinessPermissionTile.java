@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg26.server.model.cards;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
+import it.polimi.ingsw.cg26.server.model.state.BonusState;
+import it.polimi.ingsw.cg26.server.model.state.BusinessPermissionTileState;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -30,6 +32,16 @@ public class BusinessPermissionTile extends Sellable {
             throw new NullPointerException();
         this.cities = new LinkedList<>(cities);
         this.bonuses = new LinkedList<>(bonuses);
+    }
+
+    public BusinessPermissionTileState getState() {
+        LinkedList<String> citiesState = new LinkedList<>();
+        for (City c: cities)
+            citiesState.add(c.getName());
+        LinkedList<BonusState> bonusesState = new LinkedList<>();
+        for (Bonus b: bonuses)
+            bonusesState.add(b.getState());
+        return new BusinessPermissionTileState(citiesState, bonusesState);
     }
 
     /**

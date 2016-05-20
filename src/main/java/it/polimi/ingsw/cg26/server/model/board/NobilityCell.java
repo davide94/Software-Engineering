@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.state.BonusState;
+import it.polimi.ingsw.cg26.server.model.state.NobilityCellState;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -42,6 +44,13 @@ public class NobilityCell {
 
     public static NobilityCell createNobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
         return new NobilityCell(index, next, new LinkedList<>(bonuses));
+    }
+
+    public NobilityCellState getState() {
+        Collection<BonusState> bonusesState = new LinkedList<>();
+        for (Bonus b: bonuses)
+            bonusesState.add(b.getState());
+        return new NobilityCellState(index, bonusesState);
     }
 
     /**

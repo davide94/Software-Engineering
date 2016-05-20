@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class ElectAsMainAction extends Elect {
 
+	private static final long serialVersionUID = -5968536496577636987L;
+
 	/**
 	 * 
 	 * @param region
