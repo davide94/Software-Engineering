@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.state.BoardState;
 /**
  *
  */
-public class FullStateChange extends Change {
+public class FullStateChange implements Change {
 
     private static final long serialVersionUID = -6556639578792576624L;
 
@@ -25,4 +25,7 @@ public class FullStateChange extends Change {
                 "state=" + state +
                 '}';
     }
+
+	@Override
+	public void applyChange(BoardState gameBoardState){}
 }

@@ -9,7 +9,7 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 /**
  *
  */
-public abstract class Elect extends Action {
+public class Elect extends Action {
 
 	private final String region;
 
