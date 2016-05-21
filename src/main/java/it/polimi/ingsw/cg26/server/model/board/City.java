@@ -63,7 +63,10 @@ public class City {
     		}
     	}
         emporiums.add(Emporium.createEmporium(p));
+        p.addConqueredCity(this);
+        CityColor color=this.getColor();
         takeRecursivelyBonus(p);
+        //takeColorCityBonus(p, color);
     }
     
         
@@ -109,6 +112,27 @@ public class City {
             iterBonus.apply(p);
         }
     }
+    
+    
+    private void takeColorCityBonus(Player p, CityColor c){
+    	List<City> cities= new ArrayList<City>();
+    	cities=p.getConqueredCities();
+    	int counter=0;
+    	
+    	
+    	for(City iterCity: cities){
+    		if(iterCity.getColor().equals(c)){
+    			counter++;
+    			}
+    		}
+    	//fuori dal ciclo for devo controllare che il contatore sia uguale al numero di città
+    	//di quel colore che ci sono sulla mappa. Inoltre devo vedere se il valore di una variabile
+    	//boolean è true perché vuol dire che il bonus non è stato ancora preso. Quindi applico il 
+    	//bonus e prendo tessera premio del re. 
+    	//MA COME FACCIO A CONFRONTARE CONTATORE E VARIABILE NUM_CITTA_COLOREX?
+    }
+    
+    
 
     /**
      *
