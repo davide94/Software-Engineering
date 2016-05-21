@@ -3,8 +3,10 @@ package it.polimi.ingsw.cg26.server.creator;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.w3c.dom.Node;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +21,10 @@ public class KingDeckCreator {
     protected static KingDeck createKingDeck(Node root, PoliticDeck politicDeck) {
         Node bonusesRoot = Creator.getNode(root, "kingDeck");
         List<List<Bonus>> bonuses = BonusesCreator.createBonuses(bonusesRoot, politicDeck);
-        return new KingDeck(bonuses);
+        List<RewardTile> tiles = new LinkedList<>();
+        for (List<Bonus> b: bonuses)
+            tiles.add(new RewardTile(b));
+        return new KingDeck(tiles);
     }
 
 }

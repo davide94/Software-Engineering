@@ -234,7 +234,7 @@ public class Player {
 	/**
 	 * Adds a City to the list of Cities conquered by the player
 	 * 
-	 * @param City
+	 * @param city
 	 *            is the City to be added to the list of Cities conquered by the
 	 *            player
 	 * @throws NullPointerException
