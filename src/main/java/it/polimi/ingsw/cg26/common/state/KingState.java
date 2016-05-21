@@ -18,6 +18,10 @@ public class KingState implements Serializable {
     public String getCurrentCity() {
         return currentCity;
     }
+    
+    public void setCurrentCity(String currentCity) {
+		this.currentCity = currentCity;
+	}
 
     @Override
     public String toString() {

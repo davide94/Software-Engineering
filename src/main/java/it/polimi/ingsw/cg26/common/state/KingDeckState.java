@@ -10,13 +10,13 @@ public class KingDeckState implements Serializable {
 
     private static final long serialVersionUID = -5230368352327280474L;
 
-    private List<List<BonusState>> cards;
+    private List<RewardTileState> cards;
 
-    public KingDeckState(List<List<BonusState>> cards) {
+    public KingDeckState(List<RewardTileState> cards) {
         this.cards = cards;
     }
 
-    public List<List<BonusState>> getCards() {
+    public List<RewardTileState> getCards() {
         return cards;
     }
 

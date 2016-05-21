@@ -3,27 +3,22 @@ package it.polimi.ingsw.cg26.server.model.cards;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.common.state.KingDeckState;
+import it.polimi.ingsw.cg26.common.state.RewardTileState;
 
-public class KingDeck extends Deck<List<Bonus>> {
+public class KingDeck extends Deck<RewardTile> {
     /**
      *
      */
-    public  KingDeck(List<List<Bonus>> c) {
+    public  KingDeck(List<RewardTile> c) {
         super(c);
     }
 
     public KingDeckState getState() {
-        List<List<BonusState>> cardsState = new LinkedList<>();
-        for (List<Bonus> t: this.cards) {
-            List<BonusState> bonusState = new LinkedList<>();
-            for (Bonus b : t) {
-                bonusState.add(b.getState());
-            }
-            cardsState.add(bonusState);
+        List<RewardTileState> tileState = new LinkedList<>();
+        for (RewardTile t: this.cards) {
+            tileState.add(t.getState());
         }
-        return new KingDeckState(cardsState);
+        return new KingDeckState(tileState);
     }
 }
