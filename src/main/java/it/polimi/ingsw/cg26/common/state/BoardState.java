@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.common.state;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ public class BoardState implements Serializable {
 
     private final PoliticDeckState politicDeck;
 
-    private final Collection<CouncillorState> councillorsPool;
+    private List<CouncillorState> councillorsPool;
 
     private final KingDeckState kingDeck;
 
@@ -27,7 +26,7 @@ public class BoardState implements Serializable {
 
     private final MarketState market;
 
-    public BoardState(PoliticDeckState deck, Collection<CouncillorState> councillorsPool, BalconyState kingBalcony, List<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
+    public BoardState(PoliticDeckState deck, List<CouncillorState> councillorsPool, BalconyState kingBalcony, List<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
         if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || kingDeck == null)
             throw new NullPointerException();
         this.politicDeck = deck;
@@ -44,8 +43,12 @@ public class BoardState implements Serializable {
         return politicDeck;
     }
 
-    public Collection<CouncillorState> getCouncillorsPool() {
+    public List<CouncillorState> getCouncillorsPool() {
         return councillorsPool;
+    }
+    
+    public void setCouncillorsPool(List<CouncillorState> councillorsPool){
+    	this.councillorsPool = councillorsPool;
     }
 
     public KingDeckState getKingDeck() {

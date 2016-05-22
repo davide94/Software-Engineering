@@ -4,16 +4,18 @@ import it.polimi.ingsw.cg26.common.state.BoardState;
 import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.common.state.RegionState;
 
-public class CityChange implements Change {
+public class CityChange extends ChangeDecorator {
 
 	private CityState cityState;
 	
-	public CityChange(CityState cityState) {
+	public CityChange(Change decoratedChange, CityState cityState) {
+		super(decoratedChange);
 		this.cityState = cityState;
 	}
 	
 	@Override
 	public void applyChange(BoardState gameBoardState) {
+		super.applyChange(gameBoardState);
 		CityState city = null;
 		for(RegionState iterRegionState : gameBoardState.getRegions()){
 			for(CityState iterCityState : iterRegionState.getCities()){

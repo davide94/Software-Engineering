@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server;
 
+import it.polimi.ingsw.cg26.common.change.BasicChange;
+import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.change.FullStateChange;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -51,7 +53,8 @@ public class Scheduler {
         Thread thread = new Thread(view, player.getName());
         thread.start();
         //System.out.println(gameBoard.getState());
-        gameBoard.notifyObservers(new FullStateChange(gameBoard.getState()));
+        Change decoratedChange = new BasicChange();
+        gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
         if (this.players.size() == 1)
             this.currentPlayer = this.players.poll();
     }

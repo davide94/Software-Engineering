@@ -5,14 +5,15 @@ import it.polimi.ingsw.cg26.common.state.BoardState;
 /**
  *
  */
-public class FullStateChange implements Change {
+public class FullStateChange extends ChangeDecorator {
 
     private static final long serialVersionUID = -6556639578792576624L;
 
     private BoardState state;
 
-    public FullStateChange(BoardState state) {
-        this.state = state;
+    public FullStateChange(Change decoratedChange, BoardState state) {
+        super(decoratedChange);
+    	this.state = state;
     }
 
     public BoardState getState() {
