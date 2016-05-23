@@ -57,7 +57,7 @@ public class Balcony {
 		for (Councillor councillor: this.councillors) {
 			PoliticCardState c = null;
 			for (PoliticCardState card: cards) {
-				if (councillor.getColor().equals(card.getColor())) {
+				if (councillor.getColor().getState().equals(card.getColor())) {
 					c = card;
 					break;
 				}

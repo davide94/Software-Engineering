@@ -21,6 +21,12 @@ public class Acquire extends Corrupt {
 
     private final int position;
 
+    /**
+     * 
+     * @param region
+     * @param politicCards
+     * @param position
+     */
     public Acquire(RegionState region, Collection<PoliticCardState> politicCards, int position) {
 		super(politicCards);
         if (region == null)
@@ -30,10 +36,12 @@ public class Acquire extends Corrupt {
     }
 
     /**
-     * 
+     * @throws NotEnoughMoneyException if the player hasn't got enough money to do the action
+     * @throws InvalidCardsException if the cards given by the user don't match the colors of the councillors in the balcony
      */
     @Override
     public void apply(GameBoard gameBoard, Player currentPlayer) {
+    	super.apply(gameBoard, currentPlayer);
 		int usedCoins = super.necessaryCoins(politicCards);
 		if (currentPlayer.getCoinsNumber() < usedCoins)
 			throw new NotEnoughMoneyException();
