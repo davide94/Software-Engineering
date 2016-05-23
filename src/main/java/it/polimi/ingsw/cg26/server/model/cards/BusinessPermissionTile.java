@@ -62,6 +62,11 @@ public class BusinessPermissionTile extends Sellable {
     }
 
     @Override
+    public void backToOwner() {
+    	this.getOwner().addPermissionTile(this);
+    }
+    
+    @Override
     public String toString() {
         String ret = "BusinessPermissionTile{cities={";
         for (City city: this.cities)

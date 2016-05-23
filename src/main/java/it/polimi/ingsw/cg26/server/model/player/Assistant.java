@@ -13,5 +13,10 @@ public class Assistant extends Sellable {
     public Assistant() {
         // Nothing to do here
     }
+    
+    @Override
+    public void backToOwner() {
+    	this.getOwner().addAssistant(this);	
+    }
 
 }

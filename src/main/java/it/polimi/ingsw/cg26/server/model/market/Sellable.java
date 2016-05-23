@@ -50,6 +50,8 @@ public abstract class Sellable {
 	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
+	
+	public abstract void backToOwner();
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

@@ -41,4 +41,16 @@ public class Market {
     	this.onSale.remove(sellable);
     	return removedSellable;
     }
+    
+    /**
+     * 
+     */
+    public void endMarket(){
+    	List<Sellable> sellables = onSale;
+    	for(Sellable iterSellable : onSale){
+    		iterSellable.setPrice(0);
+    		iterSellable.backToOwner();
+    	}
+    	this.onSale.removeAll(sellables);
+    }
 }
