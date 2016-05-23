@@ -20,6 +20,22 @@ public class PoliticColorState implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PoliticColorState that = (PoliticColorState) o;
+
+        return color != null ? color.equals(that.color) : that.color == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return color != null ? color.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "PoliticColorState{" +
                 "color='" + color + '\'' +

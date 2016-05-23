@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.server.view;
 
 import it.polimi.ingsw.cg26.common.commands.Staccah;
-import it.polimi.ingsw.cg26.server.actions.main.ElectAsMainAction;
 import it.polimi.ingsw.cg26.common.change.Change;
 
 import java.io.IOException;
@@ -46,9 +45,6 @@ public class ServerSocketView extends View {
                     // TODO agire di conseguenza;
                     staccah = true;
                 }
-                ElectAsMainAction action = (ElectAsMainAction) object;
-                this.notifyObservers(action);
-
 
                 /*if (object instanceof Command) {
                     Command command = (Command) object;

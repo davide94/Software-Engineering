@@ -1,20 +1,15 @@
 package it.polimi.ingsw.cg26.client;
 
 import it.polimi.ingsw.cg26.client.socket.ClientSocket;
-import it.polimi.ingsw.cg26.common.commands.Staccah;
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.commands.*;
+import it.polimi.ingsw.cg26.common.state.*;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  *
@@ -68,7 +63,7 @@ public class CLI implements Runnable {
                     print();
                     break;
                 case "1":
-                    elect();
+                    electAsMainAction();
                     break;
                 case "2":
                     acquire();
@@ -130,7 +125,60 @@ public class CLI implements Runnable {
         this.outputStream.writeObject(new Staccah());
     }
 
-    private void elect() throws IOException {
+    private void electAsMainAction() throws IOException {
+        elect(true);
+    }
+
+    private void elect(boolean asMainAction) throws IOException {
+        RegionState region = askForRegion();
+        CouncillorState councillor = askForCouncillor();
+        if (asMainAction)
+            this.outputStream.writeObject(new ElectAsMainActionCommand(region, councillor));
+        else
+            this.outputStream.writeObject(new ElectAsQuickActionCommand(region, councillor));
+
+    }
+
+    private void acquire() throws IOException {
+        RegionState region = askForRegion();
+        List<PoliticCardState> cards = askForPoliticCards();
+        this.output("Do you want the left(l) or the right(R) one? ");
+        String response = this.scanner.nextLine();
+        int position = 0;
+        if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
+            position = 1;
+        this.outputStream.writeObject(new AcquireCommand(region, cards, position));
+    }
+
+    private void build() throws IOException {
+        CityState city = askForCity();
+        this.outputStream.writeObject(new BuildCommand(city));
+    }
+
+    private void buildKing() throws IOException {
+        CityState city = askForCity();
+        List<PoliticCardState> cards = askForPoliticCards();
+        this.outputStream.writeObject(new BuildKingCommand(city, cards));
+    }
+
+    private void engageAssistant() throws IOException {
+        this.outputStream.writeObject(new EngageAssistantCommand());
+    }
+
+    private void changeBPT() throws IOException {
+        RegionState region = askForRegion();
+        this.outputStream.writeObject(new ChangeBPTCommand(region));
+    }
+
+    private void electAsQuickAction() throws IOException {
+        elect(false);
+    }
+
+    private void additionalMainAction() throws IOException {
+        this.outputStream.writeObject(new AdditionalMainActionCommand());
+    }
+
+    private RegionState askForRegion() {
         List<RegionState> regions = client.getState().getRegions();
         this.output("In which region? ");
         int i = 1;
@@ -139,81 +187,50 @@ public class CLI implements Runnable {
             i++;
         }
         int regionNmber = this.scanner.nextInt();
-        RegionState region = null;
-        i = 1;
-        for (RegionState r: regions) {
-            if (i == regionNmber)
-                region = r;
+        return regions.get(regionNmber - 1);
+    }
+
+    private CouncillorState askForCouncillor() {
+        System.out.println("Which Councillor's color? ");
+        List<CouncillorState> councillorsPool = client.getState().getCouncillorsPool();
+        List<PoliticColorState> colors = new LinkedList<>();
+        int i = 1;
+        for (CouncillorState c: councillorsPool) {
+            if (!colors.contains(c.getColor())) {
+                colors.add(c.getColor());
+                System.out.println("(" + i + ") " + c.getColor().getColor());
+                i++;
+            }
+        }
+        int colorNumber = this.scanner.nextInt();
+        for (CouncillorState c: councillorsPool)
+            if (c.getColor().equals(colors.get(colorNumber - 1)))
+                return c;
+        return null;
+    }
+
+    private List<PoliticCardState> askForPoliticCards() {
+        // TODO
+        return null;
+    }
+
+    private List<PoliticCardState> askForBPT() {
+        // TODO
+        return null;
+    }
+
+    private CityState askForCity() {
+        this.output("In which city? ");
+        List<CityState> cities = new LinkedList<>();
+        for (RegionState r: client.getState().getRegions())
+            cities.addAll(r.getCities());
+        int i = 1;
+        for (CityState c: cities) {
+            System.out.println("(" + i + ") " +c.getName());
             i++;
         }
-        // TODO sistemare sta merdata... per qualche motivo .get(i-1) non funziona
-        System.out.println("Assistant color? ");
-        String colorString = this.scanner.nextLine();
-        PoliticColor politicColor = new PoliticColor(colorString);
-        //this.outputStream.writeObject(new ElectAsMainAction(region, politicColor));
-    }
-
-    private void acquire() throws IOException {
-        this.output("In which region? ");
-        String region = this.scanner.nextLine();
-        LinkedList<PoliticColor> cardsColors = this.askForCards();
-        this.output("Do you want the left(l) or the right(R) one? ");
-        String response = this.scanner.nextLine();
-        int position = 0;
-        if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
-            position = 1;
-        //this.outputStream.writeObject(new Acquire(region, cardsColors, position));
-    }
-
-    private void build() throws IOException {
-        this.output("In which city? ");
-        String city = this.scanner.nextLine();
-        //this.outputStream.writeObject(new Build(city));
-    }
-
-    private void buildKing() throws IOException {
-        this.output("In which city? ");
-        String city = this.scanner.nextLine();
-        LinkedList<PoliticColor> cards = this.askForCards();
-        //this.outputStream.writeObject(new BuildKing(city, cards));
-    }
-
-    private void engageAssistant() throws IOException {
-        //this.outputStream.writeObject(new EngageAssistant());
-    }
-
-    private void changeBPT() throws IOException {
-        this.output("In which region? ");
-        String region = this.scanner.nextLine();
-        //this.outputStream.writeObject(new ChangeBPT(region));
-    }
-
-    private void electAsQuickAction() throws IOException {
-        this.output("In which region? ");
-        String region = this.scanner.nextLine();
-        this.output("Assistant color? ");
-        String colorString = this.scanner.nextLine();
-        PoliticColor politicColor = new PoliticColor(colorString);
-        //this.outputStream.writeObject(new ElectAsQuickAction(region, politicColor));
-    }
-
-    private void additionalMainAction() throws IOException {
-        //this.outputStream.writeObject(new AdditionalMainAction());
-    }
-
-    private LinkedList<PoliticColor> askForCards() {
-        LinkedList<PoliticColor> cardsColors = new LinkedList<>();
-        for (int i = 1; i <= 4; i++) {
-            if (i == 1)
-                this.output(i + "° Card color? ");
-            else
-                this.output(i + "° Card color? (press RETURN to end)");
-            String colorName = this.scanner.nextLine();
-            if (i > 1 && colorName.isEmpty())
-                break;
-            cardsColors.add(new PoliticColor(colorName));
-        }
-        return cardsColors;
+        int cityNmber = this.scanner.nextInt();
+        return cities.get(cityNmber - 1);
     }
 
 }
