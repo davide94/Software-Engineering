@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  *
@@ -20,6 +19,7 @@ public class Elect extends Action {
      * 
      * @param region
      * @param councillor
+     * @throws NullPointerException if one or more arguments are null
      */
     public Elect(RegionState region, CouncillorState councillor) {
         if (region == null || councillor == null)
@@ -29,14 +29,13 @@ public class Elect extends Action {
     }
 
     /**
-     * 
+     * @throws NotExistingCouncillorException if the councillor selected by the user doesn't exist in the councillor pool
      */
     @Override
     public void apply(GameBoard gameBoard) {
-		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Councillor realCouncillor = null;
 		for (Councillor c: gameBoard.getCouncillorsPool()) {
-			if (c.equals(councillor)) {
+			if (c.getState().equals(councillor)) {
 				realCouncillor = c;
 				break;
 			}

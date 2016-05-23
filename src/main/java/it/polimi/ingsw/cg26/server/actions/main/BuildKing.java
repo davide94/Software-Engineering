@@ -19,6 +19,12 @@ public class BuildKing extends Corrupt {
 
     private final CityState city;
 
+    /**
+     * 
+     * @param city
+     * @param politicCards
+     * @throws NullPointerException if one or more arguments are null
+     */
     public BuildKing(CityState city, Collection<PoliticCardState> politicCards) {
         super(politicCards);
         if (city == null)
@@ -26,6 +32,11 @@ public class BuildKing extends Corrupt {
         this.city = city;
     }
 
+    /**
+     * @throws NotEnoughMoneyException if the player hasn't got enough money to do the action
+     * @throws InvalidCardsException if the cards given by the user don't match the colors of the councillors in the balcony
+     * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action
+     */
     @Override
     public void apply(GameBoard gameBoard) {
         Player currentPlayer = gameBoard.getCurrentPlayer();

@@ -14,6 +14,11 @@ public class ChangeBPT extends Action {
 
     private final RegionState region;
 
+    /**
+     * 
+     * @param region
+     * @throws NullPointerException if the argument is null
+     */
     public ChangeBPT(RegionState region) {
         if (region == null)
             throw new NullPointerException();
@@ -21,7 +26,8 @@ public class ChangeBPT extends Action {
     }
 
     /**
-     * 
+     * @throws NoRemainingActionsException if the player has no more remaining actions to do
+     * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action
      */
     @Override
     public void apply(GameBoard gameBoard) {

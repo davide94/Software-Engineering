@@ -23,7 +23,8 @@ public class ElectAsQuickAction extends Elect {
 	}
 
 	/**
-	 * 
+	 * @throws NoRemainingActionsException if the player has no more remaining actions to do
+	 * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action
 	 */
 	@Override
     public void apply(GameBoard gameBoard) {

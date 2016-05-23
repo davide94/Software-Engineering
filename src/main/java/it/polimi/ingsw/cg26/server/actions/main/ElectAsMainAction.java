@@ -21,7 +21,7 @@ public class ElectAsMainAction extends Elect {
 	}
 	
 	/**
-	 * 
+	 * @throws NoRemainingActionsException if the player has no more remaining actions to do
 	 */
 	@Override
 	public void apply(GameBoard gameBoard) {

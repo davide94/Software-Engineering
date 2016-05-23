@@ -15,7 +15,7 @@ public class AdditionalMainAction extends Action {
 	}
 
 	/**
-	 * 
+	 * @throws NoRemainingActionsException if the player has no more remaining actions to do
 	 */
     @Override
     public void apply(GameBoard gameBoard) {

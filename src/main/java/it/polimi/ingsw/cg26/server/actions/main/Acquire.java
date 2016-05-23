@@ -26,6 +26,7 @@ public class Acquire extends Corrupt {
      * @param region
      * @param politicCards
      * @param position
+     * @throws NullPointerException if one or more arguments are null
      */
     public Acquire(RegionState region, Collection<PoliticCardState> politicCards, int position) {
 		super(politicCards);
