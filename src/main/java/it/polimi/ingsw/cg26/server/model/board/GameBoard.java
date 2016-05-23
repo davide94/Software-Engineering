@@ -62,9 +62,9 @@ public class GameBoard extends Observable<Change> {
 		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
 	}
 
-	public Region getRegion(RegionState requiredRedion) {
+	public Region getRegion(RegionState requiredRegion) {
 		for (Region region: this.regions)
-			if (region.equals(requiredRedion))
+			if (region.getState().equals(requiredRegion))
 				return region;
 		return null;
 	}

@@ -11,7 +11,6 @@ import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  *

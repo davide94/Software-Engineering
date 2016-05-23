@@ -8,7 +8,6 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  *
@@ -17,7 +16,12 @@ public abstract class Corrupt extends Action {
 
     protected final Collection<PoliticCardState> politicCards;
 
-    public Corrupt(Collection<PoliticCardState> politicCards) {
+    /**
+     * 
+     * @param politicCards
+     * @throws NullPointerException
+     */
+    public Corrupt(Collection<PoliticCardState> politicCards) throws NullPointerException {
         if (politicCards == null)
             throw new NullPointerException();
         this.politicCards = politicCards;
@@ -31,7 +35,7 @@ public abstract class Corrupt extends Action {
     protected int necessaryCoins(Collection<PoliticCardState> cards){
         int multicolorCardsNumber = 0;
         for (PoliticCardState card: cards)
-            if (card.getColor().equals(new PoliticColor("multicolor")))
+            if (card.getColor().equals(new PoliticColor("multicolor").getState()))
                 multicolorCardsNumber++;
         int usedCoins = 0;
         switch(cards.size()) {

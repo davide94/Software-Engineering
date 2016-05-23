@@ -377,7 +377,7 @@ public class Player {
 		for (PoliticCardState requiredCard: requiredCards) {
 			PoliticCard c = null;
 			for (PoliticCard card : cards) {
-				if (card.getColor().equals(requiredCard.getColor())) {
+				if (card.getColor().getState().equals(requiredCard.getColor())) {
 					c = card;
 					break;
 				}

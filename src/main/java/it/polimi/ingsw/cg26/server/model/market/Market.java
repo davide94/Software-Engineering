@@ -46,7 +46,7 @@ public class Market {
      * 
      */
     public void endMarket(){
-    	List<Sellable> sellables = onSale;
+    	List<Sellable> sellables = new ArrayList<>(onSale);
     	for(Sellable iterSellable : onSale){
     		iterSellable.setPrice(0);
     		iterSellable.backToOwner();
