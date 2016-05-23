@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
+import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -14,26 +15,26 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class Build extends Action {
 
-    private final String cityName;
+    private final CityState city;
 
-    public Build(String cityName) {
-        if (cityName == null)
+    public Build(CityState city) {
+        if (city == null)
             throw new NullPointerException();
-        this.cityName = cityName;
+        this.city = city;
     }
 
     @Override
     public void apply(GameBoard gameBoard, Player currentPlayer) {
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
-        BusinessPermissionTile tile = currentPlayer.hasPermissionTile(this.cityName);
+        BusinessPermissionTile tile = currentPlayer.hasPermissionTile(city);
         if (tile == null)
             throw new InvalidCardsException();
-        City city = gameBoard.getCity(this.cityName);
-        int empNumber = city.getEmporiumsNumber();
+        City realCity = gameBoard.getCity(city);
+        int empNumber = realCity.getEmporiumsNumber();
         if (currentPlayer.getAssistantsNumber() < empNumber)
             throw new NoRemainingAssistantsException();
-        city.build(currentPlayer);
+        realCity.build(currentPlayer);
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.useBPT(tile);
         currentPlayer.performMainAction();

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
+import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -11,9 +12,9 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class ChangeBPT extends Action {
 
-    private final String region;
+    private final RegionState region;
 
-    public ChangeBPT(String region) {
+    public ChangeBPT(RegionState region) {
         if (region == null)
             throw new NullPointerException();
         this.region = region;

@@ -1,12 +1,13 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
+import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.state.PoliticCardState;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
@@ -16,30 +17,30 @@ import java.util.Collection;
  */
 public class BuildKing extends Corrupt {
 
-    private final String cityName;
+    private final CityState city;
 
-    public BuildKing(String city, Collection<PoliticColor> politicCardsColors) {
-        super(politicCardsColors);
+    public BuildKing(CityState city, Collection<PoliticCardState> politicCards) {
+        super(politicCards);
         if (city == null)
             throw new NullPointerException();
-        this.cityName = city;
+        this.city = city;
     }
 
     @Override
     public void apply(GameBoard gameBoard, Player currentPlayer) {
-        int coins = super.necessaryCoins(politicCardsColors);
-        City city = gameBoard.getCity(this.cityName);
-        coins += gameBoard.getKing().priceToMove(city);
+        int coins = super.necessaryCoins(politicCards);
+        City realCity = gameBoard.getCity(city);
+        coins += gameBoard.getKing().priceToMove(realCity);
         if (currentPlayer.getCoinsNumber() < coins)
             throw new NotEnoughMoneyException();
-        if (!gameBoard.getKingBalcony().checkPoliticCards(this.politicCardsColors))
+        if (!gameBoard.getKingBalcony().checkPoliticCards(politicCards))
             throw new InvalidCardsException();
-        int empNumber = city.getEmporiumsNumber();
+        int empNumber = realCity.getEmporiumsNumber();
         if (currentPlayer.getAssistantsNumber() < empNumber)
             throw new NoRemainingAssistantsException();
-        city.build(currentPlayer);
+        realCity.build(currentPlayer);
         currentPlayer.removeCoins(coins);
-        currentPlayer.takeCards(super.politicCardsColors);
+        currentPlayer.takeCards(politicCards);
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.performMainAction();
     }

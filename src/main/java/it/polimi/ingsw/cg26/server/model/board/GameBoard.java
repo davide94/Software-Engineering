@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
@@ -61,9 +62,9 @@ public class GameBoard extends Observable<Change> {
 		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
 	}
 
-	public Region getRegion(String regionName) {
+	public Region getRegion(RegionState requiredRedion) {
 		for (Region region: this.regions)
-			if (region.getName().equalsIgnoreCase(regionName))
+			if (region.equals(requiredRedion))
 				return region;
 		return null;
 	}
@@ -84,9 +85,9 @@ public class GameBoard extends Observable<Change> {
 		return this.king;
 	}
 
-	public City getCity(String cityName) {
+	public City getCity(CityState requiredCity) {
 		for (Region region: this.regions) {
-			City city = region.getCity(cityName);
+			City city = region.getCity(requiredCity);
 			if (city != null)
 				return city;
 		}

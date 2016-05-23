@@ -1,9 +1,10 @@
 package it.polimi.ingsw.cg26.server.actions;
 
+import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
@@ -11,20 +12,20 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class Elect extends Action {
 
-	private final String region;
+	private final RegionState region;
 
-    private final PoliticColor councillorColor;
+    private final CouncillorState councillor;
 
     /**
      * 
      * @param region
-     * @param councillorColor
+     * @param councillor
      */
-    public Elect(String region, PoliticColor councillorColor) {
-        if (region == null || councillorColor == null)
+    public Elect(RegionState region, CouncillorState councillor) {
+        if (region == null || councillor == null)
             throw new NullPointerException();
         this.region = region;
-        this.councillorColor = councillorColor;
+        this.councillor = councillor;
     }
 
     /**
@@ -32,24 +33,19 @@ public class Elect extends Action {
      */
     @Override
     public void apply(GameBoard gameBoard, Player currentPlayer) {
-    	Councillor addCouncillor=null;
-    	for(Councillor iterCouncillor : gameBoard.getCouncillorsPool()){
-    		if(iterCouncillor.getColor().equals(this.councillorColor)){
-    			addCouncillor = iterCouncillor;
-    			break;
-    		}
-    	}
-    	if(addCouncillor == null){
-    		throw new NotExistingCouncillorException();
-    	}
-    	Councillor droppedCouncillor;
-    	if("king".equalsIgnoreCase(this.region)){
-    		droppedCouncillor = gameBoard.getKingBalcony().elect(addCouncillor);
-    	} else {
-    		droppedCouncillor = gameBoard.getRegion(this.region).getBalcony().elect(addCouncillor);
-    	}
-    	gameBoard.getCouncillorsPool().remove(addCouncillor);
-    	gameBoard.getCouncillorsPool().add(droppedCouncillor);
+		Councillor realCouncillor = null;
+		for (Councillor c: gameBoard.getCouncillorsPool()) {
+			if (c.equals(councillor)) {
+				realCouncillor = c;
+				break;
+			}
+		}
+		if (realCouncillor == null)
+			throw new NotExistingCouncillorException();
+		// TODO if king
+    	Councillor droppedCouncillor = gameBoard.getRegion(region).getBalcony().elect(realCouncillor);
+		gameBoard.getCouncillorsPool().remove(realCouncillor);
+		gameBoard.getCouncillorsPool().add(droppedCouncillor);
     }
 
 }

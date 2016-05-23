@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
+import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.state.PoliticCardState;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -339,7 +341,7 @@ public class Player {
 		this.cards.add(card);
 	}
 
-	public BusinessPermissionTile hasPermissionTile(String city) {
+	public BusinessPermissionTile hasPermissionTile(CityState city) {
 		for (BusinessPermissionTile tile : this.tiles)
 			if (!tile.canBuildIn(city))
 				return tile;
@@ -370,12 +372,12 @@ public class Player {
 	/**
 	 *
 	 */
-	public boolean hasCards(Collection<PoliticColor> cardsColors) {
+	public boolean hasCards(Collection<PoliticCardState> requiredCards) {
 		LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
-		for (PoliticColor color : cardsColors) {
+		for (PoliticCardState requiredCard: requiredCards) {
 			PoliticCard c = null;
 			for (PoliticCard card : cards) {
-				if (card.getColor().equals(color)) {
+				if (card.getColor().equals(requiredCard.getColor())) {
 					c = card;
 					break;
 				}
@@ -390,20 +392,20 @@ public class Player {
 	/**
 	 * Returns a collection of politic cards that match with the required
 	 * 
-	 * @param cardsColors
+	 * @param requiredCards
 	 *            is a collection of PoliticColor that represents the required
 	 *            cards
 	 * @return a collection of politic cards that match with the required
 	 * @throws InvalidCardsException
 	 *             if the player does not owns all the cards required
 	 */
-	public Collection<PoliticCard> takeCards(Collection<PoliticColor> cardsColors) {
+	public Collection<PoliticCard> takeCards(Collection<PoliticCardState> requiredCards) {
 		LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
 		LinkedList<PoliticCard> removed = new LinkedList<>();
-		for (PoliticColor color : cardsColors) {
+		for (PoliticCardState requiredCard: requiredCards) {
 			PoliticCard c = null;
 			for (PoliticCard card : cards) {
-				if (card.getColor().equals(color)) {
+				if (card.getColor().equals(requiredCard.getColor())) {
 					c = card;
 					break;
 				}

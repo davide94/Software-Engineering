@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
+import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
@@ -53,9 +54,9 @@ public class BusinessPermissionTile extends Sellable {
         return c;
     }
 
-    public boolean canBuildIn(String name) {
-        for (City city: this.cities)
-            if (city.getName().equalsIgnoreCase(name))
+    public boolean canBuildIn(CityState city) {
+        for (City c: this.cities)
+            if (c.getName().equalsIgnoreCase(city.getName()))
                 return true;
         return false;
     }

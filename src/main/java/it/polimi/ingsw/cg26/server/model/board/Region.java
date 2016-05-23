@@ -69,10 +69,10 @@ public class Region {
      * @param
      * @return
      */
-    public City getCity(String city) {
-        for(City iterCity: cities)
-        	if(iterCity.getName().equalsIgnoreCase(city))
-        		return iterCity;
+    public City getCity(CityState requiredCity) {
+        for(City city: cities)
+        	if(city.getName().equalsIgnoreCase(requiredCity.getName()))
+        		return city;
         return null;
     }
 
@@ -89,6 +89,22 @@ public class Region {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || (getClass() != o.getClass() && RegionState.class != o.getClass())) return false;
+
+		Region region = (Region) o;
+
+		return name != null ? name.equals(region.name) : region.name == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return name != null ? name.hashCode() : 0;
 	}
 
 	@Override

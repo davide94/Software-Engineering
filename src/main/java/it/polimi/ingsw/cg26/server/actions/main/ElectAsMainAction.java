@@ -1,9 +1,10 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
+import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.server.actions.Elect;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class ElectAsMainAction extends Elect {
@@ -13,10 +14,10 @@ public class ElectAsMainAction extends Elect {
 	/**
 	 * 
 	 * @param region
-	 * @param councillorColor
+	 * @param councillor
 	 */
-	public ElectAsMainAction(String region, PoliticColor councillorColor) {
-		super(region, councillorColor);
+	public ElectAsMainAction(RegionState region, CouncillorState councillor) {
+		super(region, councillor);
 	}
 	
 	/**

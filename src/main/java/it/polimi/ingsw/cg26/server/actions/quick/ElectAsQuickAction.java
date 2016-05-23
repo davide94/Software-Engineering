@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
+import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.server.actions.Elect;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -15,10 +17,10 @@ public class ElectAsQuickAction extends Elect {
 	/**
 	 * 
 	 * @param region
-	 * @param councillorColor
+	 * @param councillor
 	 */
-	public ElectAsQuickAction(String region, PoliticColor councillorColor) {
-		super(region, councillorColor);
+	public ElectAsQuickAction(RegionState region, CouncillorState councillor) {
+		super(region, councillor);
 	}
 
 	/**

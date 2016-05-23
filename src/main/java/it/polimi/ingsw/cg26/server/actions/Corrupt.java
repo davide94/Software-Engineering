@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions;
 
+import it.polimi.ingsw.cg26.common.state.PoliticCardState;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
@@ -7,33 +8,33 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
  */
 public abstract class Corrupt extends Action {
 
-    protected final Collection<PoliticColor> politicCardsColors;
+    protected final Collection<PoliticCardState> politicCards;
 
-    public Corrupt(Collection<PoliticColor> politicCardsColors) {
-        if (politicCardsColors == null)
+    public Corrupt(Collection<PoliticCardState> politicCards) {
+        if (politicCards == null)
             throw new NullPointerException();
-        this.politicCardsColors = politicCardsColors;
+        this.politicCards = politicCards;
     }
 
     /**
      *
-     * @param politicCardsColors
+     * @param cards
      * @return
      */
-    protected int necessaryCoins(Collection<PoliticColor> politicCardsColors){
+    protected int necessaryCoins(Collection<PoliticCardState> cards){
         int multicolorCardsNumber = 0;
-        PoliticColor multicolor = new PoliticColor("multicolor");
-        for (PoliticColor color: politicCardsColors)
-            if (color.equals(multicolor))
+        for (PoliticCardState card: cards)
+            if (card.getColor().equals(new PoliticColor("multicolor")))
                 multicolorCardsNumber++;
         int usedCoins = 0;
-        switch(politicCardsColors.size()) {
+        switch(cards.size()) {
             case 1 :
                 usedCoins = 10;
                 break;
@@ -59,7 +60,7 @@ public abstract class Corrupt extends Action {
     public void apply(GameBoard gameBoard, Player currentPlayer) {
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
-        if (!currentPlayer.hasCards(this.politicCardsColors))
+        if (!currentPlayer.hasCards(this.politicCards))
             throw new InvalidCardsException();
 
     }
