@@ -11,8 +11,6 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,12 +67,7 @@ public class Player {
 
 	private final LinkedList<BusinessPermissionTile> discardedTiles;
 
-	/**
-	 * A list of cities that the player has conquered (there's a player's
-	 * emporium)
-	 */
-
-	private List<City> conqueredCities;
+	
 
 	/**
 	 * Constructs a Player
@@ -114,7 +107,6 @@ public class Player {
 		}
 		this.remainingMainActions = new RemainingMainActions();
 		this.remainingQuickActions = new RemainingQuickActions();
-		this.conqueredCities = new ArrayList<>();
 		this.tiles = new LinkedList<>();
 		this.discardedTiles = new LinkedList<>();
 	}
@@ -233,26 +225,6 @@ public class Player {
 		return this.assistants.size();
 	}
 
-	/**
-	 * Adds a City to the list of Cities conquered by the player
-	 * 
-	 * @param city
-	 *            is the City to be added to the list of Cities conquered by the
-	 *            player
-	 * @throws NullPointerException
-	 *             if the parameter is null
-	 */
-	public void addConqueredCity(City city) {
-		if (city == null)
-			throw new NullPointerException();
-		this.conqueredCities.add(city);
-	}
-
-	
-	
-	public List<City> getConqueredCities() {
-		return conqueredCities;
-	}
 	
 
 	/**

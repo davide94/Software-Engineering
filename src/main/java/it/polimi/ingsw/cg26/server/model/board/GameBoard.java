@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.state.BoardState;
 import it.polimi.ingsw.cg26.common.state.CouncillorState;
 import it.polimi.ingsw.cg26.common.state.RegionState;
@@ -119,4 +120,24 @@ public class GameBoard extends Observable<Change> {
 	public Market getMarket() {
 		return market;
 	}
+
+		
+	
+	 public boolean checkColorBonuses(Player player, CityColor color){
+	    	
+	        for(Region iterRegion:regions){
+	        	for(City iterCity: iterRegion.getCities()){
+	        		if(iterCity.getColor().equals(color) && !iterCity.hasEmporium(player)){
+	        			return false;
+	        			
+	        			//cosa succede per la città viola?
+	        			//SOL: contatore che se è uguale a 1 ritorna false
+	        		}
+	        	}
+	        	
+	        }
+	    	return true;
+	    }
+
+	
 }

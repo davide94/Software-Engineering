@@ -64,8 +64,16 @@ public class Region {
     	}
     	return true;
     }
+    
+    
+   
+    
+    public Collection<City> getCities() {
+		return cities;
+	}
 
-    /**
+
+	/**
      * @param
      * @return
      */
