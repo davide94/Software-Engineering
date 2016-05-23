@@ -28,7 +28,6 @@ public class ServerSocketView extends View {
 
     public ServerSocketView(Socket socket) throws IOException {
         this.socket = socket;
-        this.socketIn = new ObjectInputStream(socket.getInputStream());
         this.socketOut = new ObjectOutputStream(socket.getOutputStream());
     }
 
@@ -44,6 +43,12 @@ public class ServerSocketView extends View {
 
     @Override
     public void run() {
+        try {
+            socketIn = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         boolean staccah = false;
         while (!staccah) {
             try {

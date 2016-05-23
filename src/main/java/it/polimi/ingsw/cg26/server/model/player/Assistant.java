@@ -13,7 +13,10 @@ public class Assistant extends Sellable {
     public Assistant() {
         // Nothing to do here
     }
-    
+
+    /**
+     * Reassigns the assistant to his owner
+     */
     @Override
     public void backToOwner() {
     	this.getOwner().addAssistant(this);	

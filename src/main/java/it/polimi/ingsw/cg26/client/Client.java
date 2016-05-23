@@ -25,10 +25,11 @@ public class Client {
     public void startSocketClient() throws IOException, InterruptedException, ClassNotFoundException {
 
         Socket socket = new Socket(IP, PORT);
-        System.out.println("Connection created, waiting to start...");
-
 
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+        System.out.println("Connection created, waiting to start...");
+
         Object object = inputStream.readObject();
         if (!(object instanceof FullStateChange))
             throw new ClassNotFoundException();
@@ -36,10 +37,10 @@ public class Client {
         BoardState model = ((FullStateChange)object).getState();
 
         Controller controller = new Controller(model);
-        ClientInHandler inView = new ClientInHandler(new ObjectInputStream(socket.getInputStream()));
+        ClientInHandler inView = new ClientInHandler(inputStream);
         inView.registerObserver(controller);
 
-        CLI outView = new CLI(new ObjectOutputStream(socket.getOutputStream()), model);
+        CLI outView = new CLI(outputStream , model);
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
         executor.submit(inView);

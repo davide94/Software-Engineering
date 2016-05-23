@@ -105,7 +105,7 @@ public class Server {
         LinkedList<PoliticCard> cards = new LinkedList<>();
         for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
             cards.add(model.getPoliticDeck().draw());
-        long token = new BigInteger(130, new SecureRandom()).longValue();
+        long token = new BigInteger(64, new SecureRandom()).longValue();
         return new Player(token, name, model.getNobilityTrack().getFirstCell(), playerNumber + 10, cards, assistants);
     }
 
