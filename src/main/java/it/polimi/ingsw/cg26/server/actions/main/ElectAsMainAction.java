@@ -24,10 +24,11 @@ public class ElectAsMainAction extends Elect {
 	 * 
 	 */
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer){
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if (!currentPlayer.canPerformMainAction())
     		throw new NoRemainingActionsException();
-    	super.apply(gameBoard, currentPlayer);
+    	super.apply(gameBoard);
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();
 	}

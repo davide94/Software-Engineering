@@ -14,8 +14,8 @@ public class CityChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void applyChange(BoardState gameBoardState) {
-		super.applyChange(gameBoardState);
+	public void apply(BoardState gameBoardState) {
+		super.apply(gameBoardState);
 		CityState city = null;
 		for(RegionState iterRegionState : gameBoardState.getRegions()){
 			for(CityState iterCityState : iterRegionState.getCities()){

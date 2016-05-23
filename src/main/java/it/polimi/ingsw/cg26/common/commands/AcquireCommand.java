@@ -23,4 +23,17 @@ public class AcquireCommand extends Command {
         this.cards = cards;
         this.position = position;
     }
+
+    public RegionState getRegion() {
+        return region;
+    }
+
+    public List<PoliticCardState> getCards() {
+        return cards;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
 }

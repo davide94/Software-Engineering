@@ -16,8 +16,8 @@ public class SellPoliticCard extends Sell {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer) {
-		
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		PoliticCard cardToSell = currentPlayer.takeCard(politicCard);
 		super.sell(gameBoard, cardToSell);
 	}

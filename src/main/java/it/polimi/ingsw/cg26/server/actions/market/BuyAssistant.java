@@ -12,8 +12,8 @@ public class BuyAssistant extends Buy {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer) {
-		
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Sellable buyedSellable = super.buy(gameBoard, currentPlayer, new Assistant());
 		if(buyedSellable.getClass() == Assistant.class){
 			Assistant buyedAssistant = (Assistant) buyedSellable;

@@ -27,9 +27,10 @@ public class BuildKing extends Corrupt {
     }
 
     @Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
-        super.apply(gameBoard, currentPlayer);
-    	int coins = super.necessaryCoins(politicCards);
+    public void apply(GameBoard gameBoard) {
+        Player currentPlayer = gameBoard.getCurrentPlayer();
+        super.apply(gameBoard);
+        int coins = super.necessaryCoins(politicCards);
         City realCity = gameBoard.getCity(city);
         coins += gameBoard.getKing().priceToMove(realCity);
         if (currentPlayer.getCoinsNumber() < coins)

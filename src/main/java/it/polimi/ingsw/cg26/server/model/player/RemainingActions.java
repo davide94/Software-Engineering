@@ -27,6 +27,10 @@ public abstract class RemainingActions {
         return this.remaining > 0;
     }
 
+    public int getValue() {
+        return remaining;
+    }
+
     /**
      * Performs an action: the number of remaining commands is decremented by one
      * @throws NoRemainingActionsException if there are no remaining commands

@@ -11,8 +11,8 @@ public class SellAssistant extends Sell {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer) {
-		
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);
 		Assistant assistantToAdd = new Assistant();
 		assistantToAdd.setOwner(currentPlayer);

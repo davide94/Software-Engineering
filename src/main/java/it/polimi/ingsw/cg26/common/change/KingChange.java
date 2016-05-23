@@ -13,8 +13,8 @@ public class KingChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void applyChange(BoardState gameBoardState) {
-		super.applyChange(gameBoardState);
+	public void apply(BoardState gameBoardState) {
+		super.apply(gameBoardState);
 		KingState oldKing = gameBoardState.getKing();
 		oldKing.setCurrentCity(this.kingState.getCurrentCity());
 	}

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
+import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
 import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.state.PlayerState;
 import it.polimi.ingsw.cg26.common.state.PoliticCardState;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -9,7 +11,6 @@ import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,9 +21,15 @@ import java.util.List;
  */
 public class Player {
 
+	/**
+	 * Name of the Player
+	 */
 	private final String name;
 
-	private final String token;
+	/**
+	 * Token
+	 */
+	private final long token;
 
 	/**
 	 * Reference to the victory points manager
@@ -65,13 +72,13 @@ public class Player {
 	 */
 	private final List<BusinessPermissionTile> tiles;
 
-	private final LinkedList<BusinessPermissionTile> discardedTiles;
+	private final List<BusinessPermissionTile> discardedTiles;
 
 	
 
 	/**
 	 * Constructs a Player
-	 * 
+	 *
 	 * @param nobilityCell
 	 *            reference to the cell in the nobility track that the player
 	 *            has to start from
@@ -84,9 +91,9 @@ public class Player {
 	 * @throws IllegalArgumentException
 	 *             if coins is negative
 	 */
-	public Player(String token, String name, NobilityCell nobilityCell, int coins, Collection<PoliticCard> cards,
+	public Player(long token, String name, NobilityCell nobilityCell, int coins, Collection<PoliticCard> cards,
 			Collection<Assistant> assistants) {
-		if (token == null || name == null || nobilityCell == null || cards == null || assistants == null)
+		if (name == null || nobilityCell == null || cards == null || assistants == null)
 			throw new NullPointerException();
 		if (coins < 0)
 			throw new IllegalArgumentException();
@@ -111,11 +118,24 @@ public class Player {
 		this.discardedTiles = new LinkedList<>();
 	}
 
+	public PlayerState getState() {
+		LinkedList<PoliticCardState> cardsState = new LinkedList<>();
+		LinkedList<BusinessPermissionTileState> tilesState = new LinkedList<>();
+		LinkedList<BusinessPermissionTileState> discardedTilesState = new LinkedList<>();
+		for (PoliticCard card: cards)
+			cardsState.add(card.getState());
+		for (BusinessPermissionTile tile: tiles)
+			tilesState.add(tile.getState());
+		for (BusinessPermissionTile tile: discardedTiles)
+			discardedTilesState.add(tile.getState());
+		return new PlayerState(name, token, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
+	}
+
 	public String getName() {
 		return this.name;
 	}
 
-	public String getToken() {
+	public long getToken() {
 		return this.token;
 	}
 

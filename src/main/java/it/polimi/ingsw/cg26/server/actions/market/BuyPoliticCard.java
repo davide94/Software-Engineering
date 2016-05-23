@@ -14,8 +14,8 @@ public class BuyPoliticCard extends Buy {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer) {
-		
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Sellable buyedSellable = super.buy(gameBoard, currentPlayer, politicCard);
 		if(buyedSellable.getClass() == this.politicCard.getClass()){
 			PoliticCard buyedPoliticCard = (PoliticCard) buyedSellable;

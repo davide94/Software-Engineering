@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.client.observer;
+package it.polimi.ingsw.cg26.common.observer;
 
 import java.util.LinkedList;
 import java.util.List;

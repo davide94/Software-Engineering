@@ -14,4 +14,9 @@ public class BuildCommand extends Command {
     public BuildCommand(CityState city) {
         this.city = city;
     }
+
+    public CityState getCity() {
+        return city;
+    }
+
 }

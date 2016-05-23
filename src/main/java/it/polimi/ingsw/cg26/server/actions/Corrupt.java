@@ -65,7 +65,8 @@ public abstract class Corrupt extends Action {
      * @throws InvalidCardsException if the cards given by the user doesn't match with the real cards of the player
      */
     @Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
+    public void apply(GameBoard gameBoard) {
+        Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
         if (!currentPlayer.hasCards(this.politicCards))

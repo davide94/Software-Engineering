@@ -9,5 +9,5 @@ import it.polimi.ingsw.cg26.common.state.BoardState;
  */
 public interface Change extends Serializable {
 
-	public void applyChange(BoardState gameBoardState);
+	void apply(BoardState gameBoardState);
 }

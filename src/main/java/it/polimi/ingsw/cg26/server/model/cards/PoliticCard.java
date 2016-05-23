@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
+        import it.polimi.ingsw.cg26.common.state.PoliticCardState;
         import it.polimi.ingsw.cg26.server.model.market.Sellable;
 
 /**
@@ -16,6 +17,10 @@ public class PoliticCard extends Sellable {
         if (color == null)
             throw new NullPointerException();
         this.color = color;
+    }
+
+    public PoliticCardState getState() {
+        return new PoliticCardState(color.getState());
     }
 
     /**

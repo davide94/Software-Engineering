@@ -15,8 +15,8 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void applyChange(BoardState gameBoardState) {
-		super.applyChange(gameBoardState);
+	public void apply(BoardState gameBoardState) {
+		super.apply(gameBoardState);
 		gameBoardState.setCouncillorsPool(councillorsPoolState);
 	}
 

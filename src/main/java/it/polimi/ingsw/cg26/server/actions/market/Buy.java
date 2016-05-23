@@ -13,10 +13,9 @@ public abstract class Buy extends Action {
 	}
 
 	@Override
-	public abstract void apply(GameBoard gameBoard, Player currentPlayer);
+	public abstract void apply(GameBoard gameBoard);
 	
 	public Sellable buy(GameBoard gameBoard, Player currentPlayer, Sellable sellable){
-		
 		if(currentPlayer.getCoinsNumber()<sellable.getPrice())
 			throw new NotEnoughMoneyException();
 		sellable.getOwner().addCoins(sellable.getPrice());

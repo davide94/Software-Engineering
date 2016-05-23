@@ -14,8 +14,8 @@ public class SellBPT extends Sell {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer) {
-		
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.useBPT(this.bpTile);
 		super.sell(gameBoard, this.bpTile);
 	}

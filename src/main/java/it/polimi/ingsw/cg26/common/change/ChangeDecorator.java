@@ -11,8 +11,8 @@ public abstract class ChangeDecorator implements Change {
 	}
 	
 	@Override
-	public void applyChange(BoardState gameBoardState) {
-		decoratedChange.applyChange(gameBoardState);
+	public void apply(BoardState gameBoardState) {
+		decoratedChange.apply(gameBoardState);
 	}
 
 }

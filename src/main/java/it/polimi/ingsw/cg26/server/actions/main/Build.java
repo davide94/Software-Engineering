@@ -35,7 +35,8 @@ public class Build extends Action {
      * @throws NoRemainingAssistantsException if the player cannot pay the required number of assistant to build
      */
     @Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
+    public void apply(GameBoard gameBoard) {
+        Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
         BusinessPermissionTile tile = currentPlayer.hasPermissionTile(city);

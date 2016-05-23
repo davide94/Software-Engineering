@@ -18,7 +18,8 @@ public class AdditionalMainAction extends Action {
 	 * 
 	 */
     @Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
+    public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if (!currentPlayer.canPerformQuickAction())
     		throw new NoRemainingActionsException();
     	currentPlayer.takeAssistants(3);

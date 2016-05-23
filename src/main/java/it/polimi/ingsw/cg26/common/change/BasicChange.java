@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.state.BoardState;
 public class BasicChange implements Change {
 
 	@Override
-	public void applyChange(BoardState gameBoardState) {
+	public void apply(BoardState gameBoardState) {
 	}
 
 }

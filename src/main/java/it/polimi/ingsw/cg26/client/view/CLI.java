@@ -1,11 +1,7 @@
-package it.polimi.ingsw.cg26.client;
+package it.polimi.ingsw.cg26.client.view;
 
-import it.polimi.ingsw.cg26.client.socket.ClientSocket;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.state.*;
-import it.polimi.ingsw.cg26.server.model.board.Region;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -20,13 +16,12 @@ public class CLI implements Runnable {
 
     private Scanner scanner;
 
-    private ClientSocket client;
+    private BoardState model;
 
-    public CLI(ObjectOutputStream outputStream, ClientSocket client) {
+    public CLI(ObjectOutputStream outputStream, BoardState model) {
         this.outputStream = outputStream;
-        this.client = client;
+        this.model = model;
         this.scanner = new Scanner(System.in);
-        this.output("Welcome");
     }
 
     @Override
@@ -97,7 +92,6 @@ public class CLI implements Runnable {
     }
 
     private void print() {
-        BoardState model = client.getState();
 
         System.out.print("The King's balcony has");
         for (CouncillorState c: model.getKingBalcony().getCouncillors())
@@ -179,7 +173,7 @@ public class CLI implements Runnable {
     }
 
     private RegionState askForRegion() {
-        List<RegionState> regions = client.getState().getRegions();
+        List<RegionState> regions = model.getRegions();
         this.output("In which region? ");
         int i = 1;
         for (RegionState r: regions) {
@@ -192,7 +186,7 @@ public class CLI implements Runnable {
 
     private CouncillorState askForCouncillor() {
         System.out.println("Which Councillor's color? ");
-        List<CouncillorState> councillorsPool = client.getState().getCouncillorsPool();
+        List<CouncillorState> councillorsPool = model.getCouncillorsPool();
         List<PoliticColorState> colors = new LinkedList<>();
         int i = 1;
         for (CouncillorState c: councillorsPool) {
@@ -222,7 +216,7 @@ public class CLI implements Runnable {
     private CityState askForCity() {
         this.output("In which city? ");
         List<CityState> cities = new LinkedList<>();
-        for (RegionState r: client.getState().getRegions())
+        for (RegionState r: model.getRegions())
             cities.addAll(r.getCities());
         int i = 1;
         for (CityState c: cities) {

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.cg26.client.socket;
+package it.polimi.ingsw.cg26.client.view.socket;
 
-import it.polimi.ingsw.cg26.common.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.observer.Observable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,15 +9,13 @@ import java.io.ObjectInputStream;
 /**
  *
  */
-public class ClientInHandler implements Runnable {
+public class ClientInHandler extends Observable<Change> implements Runnable {
 
     private ObjectInputStream socketIn;
 
-    private ClientSocket clientSocket;
 
-    public ClientInHandler(ObjectInputStream socketIn, ClientSocket client) {
+    public ClientInHandler(ObjectInputStream socketIn) {
         this.socketIn = socketIn;
-        this.clientSocket = client;
     }
 
     @Override
@@ -27,10 +26,8 @@ public class ClientInHandler implements Runnable {
                 Object object = this.socketIn.readObject();
                 //System.out.println("ClientInHandler: " + object);
 
-                if (object instanceof FullStateChange) {
-                    FullStateChange change = (FullStateChange) object;
-                    this.clientSocket.setState(change.getState());
-                }
+                if (object instanceof Change)
+                    notifyObservers((Change) object);
 
             } catch (IOException e) {
                 System.out.println(e.getMessage());

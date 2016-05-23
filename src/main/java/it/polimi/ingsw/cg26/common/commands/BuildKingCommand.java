@@ -20,4 +20,13 @@ public class BuildKingCommand extends Command {
         this.city = city;
         this.cards = cards;
     }
+
+    public CityState getCity() {
+        return city;
+    }
+
+    public List<PoliticCardState> getCards() {
+        return cards;
+    }
+
 }

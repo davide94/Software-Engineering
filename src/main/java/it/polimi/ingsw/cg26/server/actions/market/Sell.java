@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg26.server.actions.market;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 ;
 
 public abstract class Sell extends Action {
@@ -17,7 +16,7 @@ public abstract class Sell extends Action {
 	}
 	
 	@Override
-	public abstract void apply(GameBoard gameBoard, Player currentPlayer);
+	public abstract void apply(GameBoard gameBoard);
 	
 	public void sell(GameBoard gameBoard, Sellable sellable){
 		

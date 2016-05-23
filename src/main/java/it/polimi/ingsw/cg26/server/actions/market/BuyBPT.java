@@ -14,8 +14,8 @@ public class BuyBPT extends Buy {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard, Player currentPlayer) {
-		
+	public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Sellable buyedSellable = super.buy(gameBoard, currentPlayer, bpTile);
 		if(buyedSellable.getClass() == this.bpTile.getClass()){
 			BusinessPermissionTile buyedBPT = (BusinessPermissionTile) buyedSellable;

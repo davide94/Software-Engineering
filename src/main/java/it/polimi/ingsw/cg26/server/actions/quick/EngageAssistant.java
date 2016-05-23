@@ -19,7 +19,8 @@ public class EngageAssistant extends Action {
 	 * 
 	 */
     @Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
+    public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if (!currentPlayer.canPerformQuickAction())
     		throw new NoRemainingActionsException();
     	currentPlayer.removeCoins(3);

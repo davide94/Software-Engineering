@@ -14,4 +14,9 @@ public class ChangeBPTCommand extends Command {
     public ChangeBPTCommand(RegionState region) {
         this.region = region;
     }
+
+    public RegionState getRegion() {
+        return region;
+    }
+
 }

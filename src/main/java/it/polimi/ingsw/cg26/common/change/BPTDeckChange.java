@@ -17,8 +17,8 @@ public class BPTDeckChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void applyChange(BoardState gameBoardState) {
-		super.applyChange(gameBoardState);
+	public void apply(BoardState gameBoardState) {
+		super.apply(gameBoardState);
 		RegionState region = null;
 		for(RegionState iterRegionState : gameBoardState.getRegions()){
 			if(iterRegionState.equals(this.regionState)){

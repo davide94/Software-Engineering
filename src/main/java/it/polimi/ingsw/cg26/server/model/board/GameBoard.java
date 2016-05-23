@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
@@ -9,7 +10,8 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.state.BoardState;
 import it.polimi.ingsw.cg26.common.state.CouncillorState;
 import it.polimi.ingsw.cg26.common.state.RegionState;
-import it.polimi.ingsw.cg26.server.observer.Observable;
+import it.polimi.ingsw.cg26.common.observer.Observable;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -35,6 +37,8 @@ public class GameBoard extends Observable<Change> {
 
 	private final Market market;
 
+	private final Scheduler scheduler;
+
 	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
 		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
 			throw new NullPointerException();
@@ -46,6 +50,12 @@ public class GameBoard extends Observable<Change> {
 		this.king = king;
 		this.market = market;
 		this.kingDeck = kingDeck;
+		this.scheduler = new Scheduler(this);
+
+	}
+
+	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
+		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
 	}
 
 	public BoardState getState() {
@@ -59,8 +69,16 @@ public class GameBoard extends Observable<Change> {
 		return new BoardState(politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
 	}
 
-	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
-		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
+	public void registerPlayer(Player player) {
+		scheduler.registerPlayer(player);
+	}
+
+	public void actionPerformed() {
+		scheduler.actionPerformed();
+	}
+
+	public Player getCurrentPlayer() {
+		return scheduler.getCurrentPlayer();
 	}
 
 	public Region getRegion(RegionState requiredRegion) {

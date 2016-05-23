@@ -32,7 +32,8 @@ public class Elect extends Action {
      * 
      */
     @Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
+    public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Councillor realCouncillor = null;
 		for (Councillor c: gameBoard.getCouncillorsPool()) {
 			if (c.equals(councillor)) {

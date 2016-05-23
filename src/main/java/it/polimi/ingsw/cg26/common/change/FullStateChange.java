@@ -28,5 +28,5 @@ public class FullStateChange extends ChangeDecorator {
     }
 
 	@Override
-	public void applyChange(BoardState gameBoardState){}
+	public void apply(BoardState gameBoardState){}
 }

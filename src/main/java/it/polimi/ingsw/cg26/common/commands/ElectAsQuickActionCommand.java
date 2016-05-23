@@ -18,4 +18,13 @@ public class ElectAsQuickActionCommand extends Command {
         this.region = region;
         this.councillor = councillor;
     }
+
+    public RegionState getRegion() {
+        return region;
+    }
+
+    public CouncillorState getCouncillor() {
+        return councillor;
+    }
+
 }

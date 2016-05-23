@@ -6,7 +6,6 @@ import it.polimi.ingsw.cg26.server.actions.Elect;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
@@ -27,14 +26,15 @@ public class ElectAsQuickAction extends Elect {
 	 * 
 	 */
 	@Override
-    public void apply(GameBoard gameBoard, Player currentPlayer) {
+    public void apply(GameBoard gameBoard) {
+		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if (!currentPlayer.canPerformQuickAction())
     		throw new NoRemainingActionsException();
     	if(currentPlayer.getAssistantsNumber()<1){
     		throw new NoRemainingAssistantsException();
     	}
     	
-    	super.apply(gameBoard, currentPlayer);
+    	super.apply(gameBoard);
     	
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
