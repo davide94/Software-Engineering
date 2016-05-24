@@ -174,8 +174,8 @@ public class City {
     @Override
     public String toString() {
         return "City{" +
-                "name='" + name + '\'' +
-                ", color=" + color +
+                "name=" + name + '\'' +
+                ", color=" + color.getColor() +
                 ", emporiums=" + emporiums +
                 ", bonuses=" + bonuses +
                 '}';

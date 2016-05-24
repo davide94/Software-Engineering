@@ -63,8 +63,7 @@ public class CityColor {
 
 	@Override
 	public String toString() {
-		return "CityColor{" +
-				"CityColor='" + color + '\'' +
+		return  "CityColor='" + color + '\'' +
 				'}';
 	}
 
