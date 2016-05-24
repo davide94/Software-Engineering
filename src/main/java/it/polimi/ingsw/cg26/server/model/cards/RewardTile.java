@@ -9,16 +9,23 @@ import it.polimi.ingsw.cg26.common.state.RewardTileState;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 
 public class RewardTile {
-	
+
+	/**
+	 * List of bonuses
+	 */
 	private List<Bonus> bonuses;
-	
+
+	/**
+	 * Creates a Reward Tile with a collection of bonuses
+	 * @param bonuses is the collection of bonuses that the tile will contain
+     */
 	public RewardTile(List<Bonus> bonuses) {
 		this.bonuses = bonuses;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Generates the state of the tile
+	 * @return the state of the tile
 	 */
 	public RewardTileState getState(){
 		List<BonusState> bonusesState = new ArrayList<>();
@@ -29,7 +36,8 @@ public class RewardTile {
 	}
 	
 	/**
-     * @return
+	 * Returns a list of bonuses contained by the tile
+     * @return a list of bonuses contained by the tile
      */
     public List<Bonus> getBonuses() {
         List<Bonus> b =  new LinkedList<>();

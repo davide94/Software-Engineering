@@ -36,7 +36,8 @@ public class CLI implements Runnable {
     private void waitInput() throws IOException {
         boolean quit = false;
         while (!quit) {
-            this.output("\n(0) Print state" +
+            this.output("\n(-1)STACCAH" +
+                        "\n(0) Print state" +
 
                         "\n\nMain commands:" +
                         "\n(1) Elect a Councillor" +
@@ -54,6 +55,9 @@ public class CLI implements Runnable {
             String command = this.scanner.nextLine();
 
             switch (command) {
+                case "-1":
+                    quit();
+                    break;
                 case "0":
                     print();
                     break;
@@ -95,7 +99,7 @@ public class CLI implements Runnable {
 
         System.out.print("The King's balcony has");
         for (CouncillorState c: model.getKingBalcony().getCouncillors())
-            System.out.print(" " + c.getColor().getColor());
+            System.out.print(" " + c.getColor().getColoredColor());
         System.out.println(" councillors");
 
         System.out.println("The board has " + model.getRegions().size() + " regions:");
@@ -103,16 +107,33 @@ public class CLI implements Runnable {
         for (RegionState r: model.getRegions()) {
             System.out.println("\n" + r.getName() + ": ");
             System.out.print("The balcony has");
-            for (CouncillorState c: model.getKingBalcony().getCouncillors())
-                System.out.print(" " + c.getColor().getColor());
+            for (CouncillorState c: r.getBalcony().getCouncillors())
+                System.out.print(" " + c.getColor().getColoredColor());
             System.out.println(" councillors");
-            System.out.print("the Business Permit Tiles open are: ");
-            for (BusinessPermissionTileState b: r.getDeck().getOpenCards())
-                System.out.print(b + " ");
-            System.out.println("");
-            System.out.println("-----------");
+            System.out.println("the Business Permit Tiles open are: ");
+            for (BusinessPermissionTileState b: r.getDeck().getOpenCards()) {
+                printBPT(b);
+                System.out.println("");
+            }
         }
+    }
 
+    private void printBPT(BusinessPermissionTileState bpt) {
+        int i = 0;
+        for (String c: bpt.getCities()) {
+            if (i != 0)
+                System.out.print("/");
+            System.out.print(c.toUpperCase().charAt(0));
+            i++;
+        }
+        System.out.print(" ");
+        i = 0;
+        for (BonusState b: bpt.getBonuses()) {
+            if (i != 0)
+                System.out.print(", ");
+            System.out.print(b.getMultiplicity() + " " + b.getName());
+            i++;
+        }
     }
 
     private void quit() throws IOException {

@@ -8,10 +8,15 @@ package it.polimi.ingsw.cg26.server.model.cards;
  */
 public class PoliticCard extends Sellable {
 
+    /**
+     * The color of the card
+     */
     private final PoliticColor color;
 
     /**
-     *
+     * Creates a Politic Card
+     * @param color is the color of the card
+     * @throws NullPointerException if color is null
      */
     public PoliticCard(PoliticColor color) {
         if (color == null)
@@ -19,16 +24,22 @@ public class PoliticCard extends Sellable {
         this.color = color;
     }
 
+    /**
+     * Generates the state of the card
+     * @return the state of the card
+     */
     public PoliticCardState getState() {
         return new PoliticCardState(color.getState());
     }
 
     /**
-     * @return
+     * Returns the color of the card
+     * @return the color of the card
      */
     public PoliticColor getColor() {
         return this.color;
     }
+
 
     @Override
     public void backToOwner() {

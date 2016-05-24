@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg26.server.actions.quick.ChangeBPT;
 import it.polimi.ingsw.cg26.server.actions.quick.ElectAsQuickAction;
 import it.polimi.ingsw.cg26.server.actions.quick.EngageAssistant;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,7 +57,6 @@ public class ServerSocketView extends View {
 
                 if (object instanceof Staccah) {
                     System.out.println("STACCAH STACCAH STACCAH");
-                    // TODO agire di conseguenza;
                     staccah = true;
                 }
 
@@ -102,11 +102,20 @@ public class ServerSocketView extends View {
                 }
 
 
+            } catch (EOFException e) {
+                System.out.println("Client disconnected");
+                break;
             } catch (ClassNotFoundException e) {
                 System.out.println(e.getMessage());
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+        }
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

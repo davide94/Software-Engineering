@@ -53,7 +53,7 @@ public class Server {
                 public void run() {
                     start();
                 }
-            }, 20000);
+            }, 1);
         }
 
     }
@@ -114,4 +114,5 @@ public class Server {
         server.newGame();
         server.startSocket();
     }
+
 }
