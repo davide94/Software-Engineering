@@ -326,6 +326,8 @@ public class Player {
 		}
 		if(tile == null)
 			throw new NotValidTileException();
+		this.tiles.remove(tile);
+		tile.setOwner(null);
 		return tile;
 	}
 
@@ -387,7 +389,7 @@ public class Player {
 		for (PoliticCardState requiredCard: requiredCards) {
 			PoliticCard c = null;
 			for (PoliticCard card : cards) {
-				if (card.getColor().equals(requiredCard.getColor())) {
+				if (card.getColor().getState().equals(requiredCard.getColor())) {
 					c = card;
 					break;
 				}
@@ -398,6 +400,8 @@ public class Player {
 			cards.remove(c);
 			removed.add(c);
 		}
+		for(PoliticCard card : removed)
+			card.setOwner(null);
 		this.cards.removeAll(removed);
 		return removed;
 	}
@@ -418,6 +422,7 @@ public class Player {
 		}
 		if (removedCard == null)
 			throw new InvalidCardsException();
+		removedCard.setOwner(null);
 		this.cards.remove(removedCard);
 		return removedCard;
 	}
