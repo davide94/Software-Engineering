@@ -6,6 +6,11 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class SellAssistant extends Sell {
 
+	/**
+	 * Construct an action to sell an Assistant
+	 * @param price the price to set to the Assistant
+	 * @throws IllegalArgumentException if the price is less than 1
+	 */
 	public SellAssistant(int price) {
 		super(price);
 	}

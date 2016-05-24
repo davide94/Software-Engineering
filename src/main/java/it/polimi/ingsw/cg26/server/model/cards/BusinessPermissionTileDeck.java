@@ -37,14 +37,14 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
 
     /**
      * Removes and returns one of the open cards
-     * @param which represents which card has to be drawn, 0 is the upper
+     * @param position represents which card has to be drawn, 0 is the upper
      * @return one of the open cards
      * @throws IllegalArgumentException if which is negative or greater than the maximum allowed value
      */
-    public BusinessPermissionTile draw(int which) {
-        if (which < 0 || which >= OPEN_CARDS_NUMBER)
+    public BusinessPermissionTile draw(int position) {
+        if (position < 0 || position >= OPEN_CARDS_NUMBER)
             throw new IllegalArgumentException();
-        return this.cards.remove(which);
+        return this.cards.remove(position);
     }
 
     /**

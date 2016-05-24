@@ -8,8 +8,15 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class BuyBPT extends Buy {
 
+	/**
+	 * The Business Permit Tile the player wants to buy
+	 */
 	private BusinessPermissionTileState bpTileState;
 	
+	/**
+	 * Create the action to buy a Business permit tile
+	 * @param bpTile
+	 */
 	public BuyBPT(BusinessPermissionTileState bpTile) {
 		this.bpTileState = bpTile;
 	}

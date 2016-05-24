@@ -17,12 +17,15 @@ import java.util.Collection;
  */
 public class BuildKing extends Corrupt {
 
+	/**
+	 * The city where the player wants to move the king and to build the emporium
+	 */
     private final CityState city;
 
     /**
-     * 
-     * @param city
-     * @param politicCards
+     * Construct a "build emporium with the help of the king action" action 
+     * @param city is the city in which the player wants to build his emporium
+     * @param politicCards the cards the player wants to use to corrupt the king's balcony
      * @throws NullPointerException if one or more arguments are null
      */
     public BuildKing(CityState city, Collection<PoliticCardState> politicCards) {

@@ -8,8 +8,15 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class BuyPoliticCard extends Buy {
 
+	/**
+	 * The Politic Card the player wants to buy
+	 */
 	private PoliticCardState politicCardState;
 	
+	/**
+	 * Create the action to buy a Politic Card
+	 * @param politicCardState
+	 */
 	public BuyPoliticCard(PoliticCardState politicCardState) {
 		this.politicCardState=politicCardState;
 	}

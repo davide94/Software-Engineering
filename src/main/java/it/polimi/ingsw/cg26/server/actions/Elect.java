@@ -11,14 +11,20 @@ import it.polimi.ingsw.cg26.server.model.board.Councillor;
  */
 public abstract class Elect extends Action {
 
+	/**
+	 * The Region where the player wants to elect the councillor
+	 */
 	private final RegionState region;
 
+	/**
+	 * The Councillor that the player wants to elect
+	 */
     private final CouncillorState councillor;
 
     /**
-     * 
-     * @param region
-     * @param councillor
+     * Construct an elect action
+     * @param region is the region where the player wants to elect the councillor
+     * @param councillor is the councillor that the player wants to elect
      * @throws NullPointerException if one or more arguments are null
      */
     public Elect(RegionState region, CouncillorState councillor) {

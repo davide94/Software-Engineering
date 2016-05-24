@@ -7,8 +7,18 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class SellPoliticCard extends Sell {
 
+	/**
+	 * The Politic Card the player wants to sell
+	 */
 	private PoliticCardState politicCard;
 	
+	/**
+	 * Construct an action to sell a Politic Card
+	 * @param politicCard the Politic Card the player wants to sell
+	 * @param price the price to set to the Politic Card
+	 * @throws NullPointerException if one or more arguments are null
+	 * @throws IllegalArgumentException if the price is less than 1
+	 */
 	public SellPoliticCard(PoliticCardState politicCard, int price) {
 		super(price);
 		if(politicCard == null)

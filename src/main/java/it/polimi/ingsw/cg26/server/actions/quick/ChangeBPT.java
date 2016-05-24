@@ -12,11 +12,14 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class ChangeBPT extends Action {
 
+	/**
+	 * The region where the player wants to change the tiles faced up
+	 */
     private final RegionState region;
 
     /**
-     * 
-     * @param region
+     * Construct the action to change the faced up tiles of a selected region
+     * @param region the region where the player wants to change the tiles
      * @throws NullPointerException if the argument is null
      */
     public ChangeBPT(RegionState region) {

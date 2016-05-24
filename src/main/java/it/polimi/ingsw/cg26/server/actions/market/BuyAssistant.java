@@ -7,8 +7,11 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class BuyAssistant extends Buy {
 
+	/**
+	 * Simple constructor of the action, does nothing
+	 */
 	public BuyAssistant() {
-
+		//the class only represent the action, the assistant is an immutable object so is created when needed
 	}
 
 	@Override
@@ -20,7 +23,6 @@ public class BuyAssistant extends Buy {
 			buyedAssistant.setPrice(0);
 			currentPlayer.addAssistant(buyedAssistant);
 		}
-
 	}
 
 }

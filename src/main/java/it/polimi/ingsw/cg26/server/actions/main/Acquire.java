@@ -17,21 +17,30 @@ import java.util.Collection;
  */
 public class Acquire extends Corrupt {
 
+	/**
+	 * The region where the player wants to acquire the tile
+	 */
 	private final RegionState region;
 
+	/**
+	 * The position of the tile that the player wants to take, 0 is the first, 1 is the second
+	 */
     private final int position;
 
     /**
-     *
-     * @param region
-     * @param politicCards
-     * @param position
+     * Construct an acquire action
+     * @param region the region where the player wants to buy the tile
+     * @param politicCards the politic cards the player wants to use to corrupt the balcony
+     * @param position represents which card has to be drawn, 0 is the first, 1 is the second
      * @throws NullPointerException if one or more arguments are null
+     * @throws IllegalArgumentException if the position is <0
      */
     public Acquire(RegionState region, Collection<PoliticCardState> politicCards, int position) {
 		super(politicCards);
         if (region == null)
             throw new NullPointerException();
+        if(position < 0)
+        	throw new IllegalArgumentException();
         this.region = region;
         this.position = position;
     }

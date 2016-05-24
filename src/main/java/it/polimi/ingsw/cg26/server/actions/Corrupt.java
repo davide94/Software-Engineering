@@ -14,10 +14,13 @@ import java.util.Collection;
  */
 public abstract class Corrupt extends Action {
 
+	/**
+	 * The Politic Cards that the player wants to use to corrupt the balcony
+	 */
     protected final Collection<PoliticCardState> politicCards;
 
     /**
-     * 
+     * Create a corrupt action
      * @param politicCards collection of PoliticCardState, the cards used to do the action
      * @throws NullPointerException if the argument is null
      */

@@ -14,9 +14,9 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 public class ElectAsQuickAction extends Elect {
 
 	/**
-	 * 
-	 * @param region
-	 * @param councillor
+	 * Construct an action to elect a councillor as quick action
+	 * @param region the region where the player wants to elect the councillor
+	 * @param councillor the councillor the player wants to elect
 	 */
 	public ElectAsQuickAction(RegionState region, CouncillorState councillor) {
 		super(region, councillor);

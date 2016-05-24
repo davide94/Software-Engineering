@@ -16,13 +16,19 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class Build extends Action {
 
+	/**
+	 * The City where the player wants to build the emporium
+	 */
     private final CityState city;
     
+    /**
+     * The Business Permit Tile the player wants to use to build the emporium
+     */
     private final BusinessPermissionTileState bPTState;
 
     /**
-     * 
-     * @param city the city in which the player wants to build his emporium
+     * Construct a build action
+     * @param city is the city in which the player wants to build his emporium
      * @param bPTState the tile that the user wants to use to build
      * @throws NullPointerException if the argument is null
      */

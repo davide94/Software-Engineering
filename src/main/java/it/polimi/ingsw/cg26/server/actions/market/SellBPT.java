@@ -7,10 +7,22 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class SellBPT extends Sell {
 
+	/**
+	 * The Business Permit Tile the player wants to sell
+	 */
 	private BusinessPermissionTileState bpTileState;
 	
+	/**
+	 * Construct an action to sell a Business Permit Tile
+	 * @param price the price to set to the Business Permit Tile
+	 * @param bpTileState the Tile that the player wants to sell
+	 * @throws NullPointerException if one or more parameters are null
+	 * @throws IllegalArgumentException if the price is less than 1
+	 */
 	public SellBPT(int price, BusinessPermissionTileState bpTileState) {
 		super(price);
+		if(bpTileState == null)
+			throw new NullPointerException();
 		this.bpTileState = bpTileState;
 	}
 

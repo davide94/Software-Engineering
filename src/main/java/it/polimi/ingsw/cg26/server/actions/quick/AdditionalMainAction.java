@@ -10,8 +10,11 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
  */
 public class AdditionalMainAction extends Action {
 
+	/**
+	 * Construct an action to give one more main action to the player
+	 */
 	public AdditionalMainAction() {
-
+		//this action needs only to check parameters of currentPlayer, all is done in apply method, so no elaborated construcor is needed
 	}
 
 	/**
