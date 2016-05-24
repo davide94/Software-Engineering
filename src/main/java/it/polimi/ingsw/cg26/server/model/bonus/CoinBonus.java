@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
@@ -22,6 +23,11 @@ public class CoinBonus extends Bonus {
     @Override
     public void apply(Player player) {
         player.addCoins(this.getMultiplicity());
+    }
+
+    @Override
+    public BonusState getState() {
+        return new BonusState("Coins", getMultiplicity());
     }
 
     @Override

@@ -9,10 +9,10 @@ import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.exceptions.NotValidTileException;
-import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,29 +68,22 @@ public class Player {
 	private final List<PoliticCard> cards;
 
 	/**
-	 * The collection of business permission tiles owned by the player, already
-	 * used or not
+	 * The collection of business permission tiles owned by the player, not used yet
 	 */
 	private final List<BusinessPermissionTile> tiles;
 
+	/**
+	 * The collection of business permission tiles owned by the player, already used
+	 */
 	private final List<BusinessPermissionTile> discardedTiles;
-
-	
 
 	/**
 	 * Constructs a Player
-	 *
-	 * @param nobilityCell
-	 *            reference to the cell in the nobility track that the player
-	 *            has to start from
-	 * @param coins
-	 *            number of coins owned by the player
-	 * @param assistants
-	 *            collection of assistants owned by the player
-	 * @throws NullPointerException
-	 *             if any parameter is null
-	 * @throws IllegalArgumentException
-	 *             if coins is negative
+	 * @param nobilityCell reference to the cell in the nobility track that the player has to start from
+	 * @param coins number of coins owned by the player
+	 * @param assistants collection of assistants owned by the player
+	 * @throws NullPointerException if any parameter is null
+	 * @throws IllegalArgumentException if coins is negative
 	 */
 	public Player(long token, String name, NobilityCell nobilityCell, int coins, Collection<PoliticCard> cards,
 			Collection<Assistant> assistants) {
@@ -119,6 +112,10 @@ public class Player {
 		this.discardedTiles = new LinkedList<>();
 	}
 
+	/**
+	 * Generates the state of the player
+	 * @return a PlayerState object that represents the current player's state
+     */
 	public PlayerState getState() {
 		LinkedList<PoliticCardState> cardsState = new LinkedList<>();
 		LinkedList<BusinessPermissionTileState> tilesState = new LinkedList<>();
@@ -132,39 +129,49 @@ public class Player {
 		return new PlayerState(name, token, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
 	}
 
+	/**
+	 * Returns the name of the player
+	 * @return the name of the player
+     */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Returns the token of the player
+	 * @return the token of the player
+     */
 	public long getToken() {
 		return this.token;
 	}
 
+	/**
+	 * Checks if the player can perform a main action
+	 * @return true if the player can perform a main action, false if not
+     */
 	public boolean canPerformMainAction() {
 		return this.remainingMainActions.canPerform();
 	}
 
+	/**
+	 * Checks if the player can perform a quick action
+	 * @return true if the player can perform a quick action, false if not
+	 */
 	public boolean canPerformQuickAction() {
 		return this.remainingQuickActions.canPerform();
 	}
 
 	/**
-	 * Performs an action: the number of remaining main commands is decremented
-	 * by one
-	 * 
-	 * @throws NoRemainingActionsException
-	 *             if the player do not have any remaining main commands
+	 * Performs an action: the number of remaining main commands is decremented by one
+	 * @throws NoRemainingActionsException if the player do not have any remaining main commands
 	 */
 	public void performMainAction() {
 		this.remainingMainActions.perform();
 	}
 
 	/**
-	 * Performs an action: the number of remaining quick commands is decremented
-	 * by one
-	 * 
-	 * @throws NoRemainingActionsException
-	 *             if the player do not have any remaining quick commands
+	 * Performs an action: the number of remaining quick commands is decremented by one
+	 * @throws NoRemainingActionsException if the player do not have any remaining quick commands
 	 */
 	public void performQuickAction() {
 		this.remainingQuickActions.perform();
@@ -172,11 +179,8 @@ public class Player {
 
 	/**
 	 * Sets the number of remaining main commands in this turn
-	 * 
-	 * @param remainingActions
-	 *            is the number to be set as number of remaining main commands
-	 * @throws IllegalArgumentException
-	 *             if the parameter is negative
+	 * @param remainingActions is the number to be set as number of remaining main commands
+	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void setRemainingMainActions(int remainingActions) {
 		this.remainingMainActions.setRemaining(remainingActions);
@@ -184,11 +188,8 @@ public class Player {
 
 	/**
 	 * Sets the number of remaining quick commands in this turn
-	 * 
-	 * @param remainingActions
-	 *            is the number to be set as number of remaining quick commands
-	 * @throws IllegalArgumentException
-	 *             if the parameter is negative
+	 * @param remainingActions is the number to be set as number of remaining quick commands
+	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void setRemainingQuickActions(int remainingActions) {
 		this.remainingQuickActions.setRemaining(remainingActions);
@@ -196,11 +197,8 @@ public class Player {
 
 	/**
 	 * Increments the number of main commands in this turn
-	 * 
-	 * @param increment
-	 *            is the number of main commands to be added for this turn
-	 * @throws IllegalArgumentException
-	 *             if the increment is negative
+	 * @param increment is the number of main commands to be added for this turn
+	 * @throws IllegalArgumentException if the increment is negative
 	 */
 	public void addRemainingMainActions(int increment) {
 		this.remainingMainActions.addActions(increment);
@@ -208,11 +206,8 @@ public class Player {
 
 	/**
 	 * Increments the number of quick commands in this turn
-	 * 
-	 * @param increment
-	 *            is the number of quick commands to be added for this turn
-	 * @throws IllegalArgumentException
-	 *             if the increment is negative
+	 * @param increment is the number of quick commands to be added for this turn
+	 * @throws IllegalArgumentException if the increment is negative
 	 */
 	public void addRemainingQuickActions(int increment) {
 		this.remainingQuickActions.addActions(increment);
@@ -230,7 +225,6 @@ public class Player {
 
 	/**
 	 * Returns the nobility track's cell where the player currently is
-	 * 
 	 * @return the nobility track's cell where the player currently is
 	 */
 	public NobilityCell getNobilityCell() {
@@ -239,22 +233,16 @@ public class Player {
 
 	/**
 	 * Returns the number of assistants owned by the player
-	 * 
 	 * @return the number of assistants owned by the player
 	 */
 	public int getAssistantsNumber() {
 		return this.assistants.size();
 	}
 
-	
-
 	/**
 	 * Takes and removes assistans from the assistants owned by the player
-	 * 
-	 * @param number
-	 *            is the number of assistants to be taken
-	 * @throws NoRemainingAssistantsException
-	 *             if there are no assistants remaining
+	 * @param number is the number of assistants to be taken
+	 * @throws NoRemainingAssistantsException if there are no assistants remaining
 	 */
 	public void takeAssistants(int number) {
 		if (this.assistants.size() < number)
@@ -265,12 +253,8 @@ public class Player {
 
 	/**
 	 * Adds an assistant to the assistants owned by the player
-	 * 
-	 * @param assistant
-	 *            is the assistant to be added to the assistants owned by the
-	 *            player
-	 * @throws NullPointerException
-	 *             if the parameter is null
+	 * @param assistant is the assistant to be added to the assistants owned by the player
+	 * @throws NullPointerException if the parameter is null
 	 */
 	public void addAssistant(Assistant assistant) {
 		if (assistant == null)
@@ -281,11 +265,8 @@ public class Player {
 
 	/**
 	 * Increments the number of coins owned by the player
-	 * 
-	 * @param increment
-	 *            is the number of coins to be added
-	 * @throws IllegalArgumentException
-	 *             if the parameter is negative
+	 * @param increment is the number of coins to be added
+	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void addCoins(int increment) {
 		this.coins.addCoins(increment);
@@ -293,14 +274,9 @@ public class Player {
 
 	/**
 	 * Decrements the number of coins owned by the player
-	 * 
-	 * @param decrement
-	 *            is the number of coins to be removed
-	 * @throws IllegalArgumentException
-	 *             if the parameter is negative
-	 * @throws NotEnoughMoneyException
-	 *             if the decrement is greater than the number of coins owned by
-	 *             the player
+	 * @param decrement is the number of coins to be removed
+	 * @throws IllegalArgumentException if the parameter is negative
+	 * @throws NotEnoughMoneyException if the decrement is greater than the number of coins owned by the player
 	 */
 	public void removeCoins(int decrement) {
 		this.coins.removeCoins(decrement);
@@ -308,11 +284,8 @@ public class Player {
 
 	/**
 	 * Increments the number of victory points
-	 * 
-	 * @param increment
-	 *            is the number of victory points to be added
-	 * @throws IllegalArgumentException
-	 *             if the parameter is negative
+	 * @param increment is the number of victory points to be added
+	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void addVictoryPoints(int increment) {
 		this.victoryPoints.addPoints(increment);
@@ -320,12 +293,8 @@ public class Player {
 
 	/**
 	 * Adds a politic card to the cards owned by the player
-	 * 
-	 * @param card
-	 *            is the politic card to be added to the cards owned by the
-	 *            player
-	 * @throws NullPointerException
-	 *             if the parameter is null
+	 * @param card is the politic card to be added to the cards owned by the player
+	 * @throws NullPointerException if the parameter is null
 	 */
 	public void addPoliticCard(PoliticCard card) {
 		if (card == null)
@@ -334,6 +303,12 @@ public class Player {
 		this.cards.add(card);
 	}
 
+	/**
+	 * Returns a BusinessPermitTile that can be used to build an emporium in a required city
+	 * @param city is the city where the tile must be able to build in
+	 * @return the tile
+	 * @throws InvalidCardsException if the player does not own the card
+     */
 	public BusinessPermissionTile hasPermissionTile(CityState city) {
 		for (BusinessPermissionTile tile : this.tiles)
 			if (!tile.canBuildIn(city))
@@ -354,19 +329,22 @@ public class Player {
 		return tile;
 	}
 
+	/**
+	 * Marks a tile as used
+	 * @param tile is the tile tu mark as used
+	 * @throws InvalidCardsException if the player does not owns the tile
+     */
 	public void useBPT(BusinessPermissionTile tile) {
-		this.tiles.remove(tile);
-		this.discardedTiles.add(tile);
+		if(this.tiles.remove(tile))
+			this.discardedTiles.add(tile);
+		else
+			throw new InvalidCardsException();
 	}
 
 	/**
 	 * Adds a business permission tile to the tiles owned by the player
-	 * 
-	 * @param tile
-	 *            is the business permission tile to be added to the tiles owned
-	 *            by the player
-	 * @throws NullPointerException
-	 *             if the parameter is null
+	 * @param tile is the business permission tile to be added to the tiles owned by the player
+	 * @throws NullPointerException if the parameter is null
 	 */
 	public void addPermissionTile(BusinessPermissionTile tile) {
 		if (tile == null)
@@ -376,8 +354,10 @@ public class Player {
 	}
 
 	/**
-	 *
-	 */
+	 * Checks if the player owns the required Politic Cards
+	 * @param requiredCards is a collection of cards to search
+	 * @return true if finds every card, false if not
+     */
 	public boolean hasCards(Collection<PoliticCardState> requiredCards) {
 		LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
 		for (PoliticCardState requiredCard: requiredCards) {
@@ -397,13 +377,9 @@ public class Player {
 
 	/**
 	 * Returns a collection of politic cards that match with the required
-	 * 
-	 * @param requiredCards
-	 *            is a collection of PoliticColor that represents the required
-	 *            cards
+	 * @param requiredCards is a collection of PoliticColor that represents the required cards
 	 * @return a collection of politic cards that match with the required
-	 * @throws InvalidCardsException
-	 *             if the player does not owns all the cards required
+	 * @throws InvalidCardsException if the player does not owns all the cards required
 	 */
 	public Collection<PoliticCard> takeCards(Collection<PoliticCardState> requiredCards) {
 		LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
@@ -426,6 +402,12 @@ public class Player {
 		return removed;
 	}
 
+	/**
+	 * Returns a collection of politic cards that match with the required
+	 * @param politicCard is a collection of PoliticColor that represents the required cards
+	 * @return a collection of politic cards that match with the required
+	 * @throws InvalidCardsException if the player does not owns all the cards required
+	 */
 	public PoliticCard takeCard(PoliticCardState politicCardState) {
 		PoliticCard removedCard = null;
 		for (PoliticCard card : this.cards) {
@@ -442,7 +424,6 @@ public class Player {
 
 	/**
 	 * Returns the number of coins owned by the player
-	 * 
 	 * @return the number of coins owned by the player
 	 */
 	public int getCoinsNumber() {

@@ -11,19 +11,21 @@ import java.util.LinkedList;
 public class Deck<E> {
 
     /**
-     *
+     * List of cards in the deck
      */
     protected LinkedList<E> cards;
 
     /**
-     * Default constructor
+     * Constructs an empty Deck
      */
     public Deck() {
         this.cards = new LinkedList<>();
     }
 
     /**
-     *
+     * Constructs a deck with a collection of cards, if c is a List, the order is preserved
+     * @param c is a collection of cards that the deck will contain
+     * @throws NullPointerException if c is null
      */
     public Deck(Collection<E> c) {
         if (c == null)
@@ -32,14 +34,17 @@ public class Deck<E> {
     }
 
     /**
-     *
+     * checks if there are at least one more card in the deck
+     * @return true if there are at least one more card in the deck, false if not
      */
-    public Boolean hasNext() {
+    public boolean hasNext() {
         return !this.cards.isEmpty();
     }
 
     /**
-     * @return
+     * Draws (removes and returns) a card from the deck
+     * @return the first element of the deck
+     * @throws NoMoreCardsException if there are no more cards remaining in the deck
      */
     public E draw() {
         if (!hasNext())
@@ -48,20 +53,25 @@ public class Deck<E> {
     }
 
     /**
-     *
+     * Puts a card at the bottom of the deck
+     * @param c is a card to be added to the desk
+     * @throws NullPointerException if c is null
      */
-    public void add(E e) {
-        if (e == null)
+    public void add(E c) {
+        if (c == null)
             throw new NullPointerException();
-        this.cards.add(e);
+        this.cards.add(c);
     }
 
     /**
-     *
+     * Puts a collection of cards at the bottom of the deck, if c is a List, the order is preserved
+     * @param c is a collection of cards to be added to the desk
+     * @throws NullPointerException if c is null
      */
     public void addAll(Collection<E> c) {
         if (c == null)
             throw new NullPointerException();
         this.cards.addAll(c);
     }
+
 }

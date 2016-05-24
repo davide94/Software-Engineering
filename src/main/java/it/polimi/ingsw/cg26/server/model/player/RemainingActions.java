@@ -20,13 +20,17 @@ public abstract class RemainingActions {
     }
 
     /**
-     *
-     * @return
+     * Checks if it is possible to perform an action
+     * @return true if it is possible, false if not
      */
     public boolean canPerform() {
         return this.remaining > 0;
     }
 
+    /**
+     * Returns the number of actions that can be performed
+     * @return the number of actions that can be performed
+     */
     public int getValue() {
         return remaining;
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
@@ -24,6 +25,11 @@ public class NoblityBonus extends Bonus {
         for(int i=0; i<this.getMultiplicity(); i++){
         	player.incrementNobility();
         }
+    }
+
+    @Override
+    public BonusState getState() {
+        return new BonusState("Nobility points", getMultiplicity());
     }
 
     @Override

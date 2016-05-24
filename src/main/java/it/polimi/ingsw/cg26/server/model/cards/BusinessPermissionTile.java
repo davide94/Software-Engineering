@@ -16,17 +16,20 @@ import java.util.LinkedList;
 public class BusinessPermissionTile extends Sellable {
 
     /**
-     *
+     * Collection of cities in which the tile permits to build
      */
     private Collection<City> cities;
 
     /**
-     *
+     * Collection of bonuses that the tile makes you earn
      */
     private Collection<Bonus> bonuses;
 
     /**
-     * Default constructor
+     * Constructs a Business Permit Tile
+     * @param cities is a collection of cities in which the tile permits to build
+     * @param bonuses is a collection of bonuses that the tile makes you earn
+     * @throws NullPointerException if cities or bonuses are null
      */
     public BusinessPermissionTile(Collection<City> cities, Collection<Bonus> bonuses) {
         if (cities == null || bonuses == null)
@@ -36,6 +39,10 @@ public class BusinessPermissionTile extends Sellable {
     }
 
     @Override
+    /**
+     * Generates the state of the tile
+     * @return the state of the tile
+     */
     public BusinessPermissionTileState getState() {
         LinkedList<String> citiesState = new LinkedList<>();
         for (City c: cities)
@@ -47,14 +54,10 @@ public class BusinessPermissionTile extends Sellable {
     }
 
     /**
-     * @return
+     * Checks if with this tile it is possible to build an emporium in a city
+     * @param city is the city where is checked if it is possible to build an emporium
+     * @return true if it is possible to build an emporium in city with this tile, false if not
      */
-    public Collection<Bonus> getBonuses() {
-        Collection<Bonus> c =  new LinkedList<>();
-        c.addAll(this.bonuses);
-        return c;
-    }
-
     public boolean canBuildIn(CityState city) {
         for (City c: this.cities)
             if (c.getName().equalsIgnoreCase(city.getName()))
@@ -62,11 +65,14 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
+    /**
+     * Reassigns the tile to his owner
+     */
     @Override
     public void backToOwner() {
     	this.getOwner().addPermissionTile(this);
     }
-    
+
     @Override
     public String toString() {
         String ret = "BusinessPermissionTile{cities={";
@@ -77,9 +83,6 @@ public class BusinessPermissionTile extends Sellable {
         return ret;
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,9 +91,6 @@ public class BusinessPermissionTile extends Sellable {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -107,6 +107,5 @@ public class BusinessPermissionTile extends Sellable {
 			return false;
 		return true;
 	}
-    
     
 }

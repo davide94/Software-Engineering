@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -30,6 +31,11 @@ public class CardBonus extends Bonus {
         for(int i=0; i<this.getMultiplicity(); i++) {
             player.addPoliticCard(this.politicDeck.draw());
         }
+    }
+
+    @Override
+    public BonusState getState() {
+        return new BonusState("Cards", getMultiplicity());
     }
 
     @Override

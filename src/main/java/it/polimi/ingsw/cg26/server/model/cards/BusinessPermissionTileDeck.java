@@ -11,15 +11,23 @@ import java.util.LinkedList;
  */
 public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
 
+    /**
+     * Number of open cards
+     */
     private static final int OPEN_CARDS_NUMBER = 2;
 
     /**
-     *
+     * Constructs a Business Permit Tile Deck
+     * @param cards is a collection of cards that the deck will contain
      */
-    public BusinessPermissionTileDeck(Collection<BusinessPermissionTile> c) {
-        super(c);
+    public BusinessPermissionTileDeck(Collection<BusinessPermissionTile> cards) {
+        super(cards);
     }
 
+    /**
+     * Generates the state of the Deck
+     * @return the state of the Deck
+     */
     public BusinessPermissionTileDeckState getState() {
         LinkedList<BusinessPermissionTileState> openCardsState = new LinkedList<>();
         for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
@@ -28,27 +36,23 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     }
 
     /**
-     * @return
+     * Removes and returns one of the open cards
+     * @param which represents which card has to be drawn, 0 is the upper
+     * @return one of the open cards
+     * @throws IllegalArgumentException if which is negative or greater than the maximum allowed value
      */
     public BusinessPermissionTile draw(int which) {
-        if (which == 1)
-            return this.cards.remove(1);
-        return draw();
+        if (which < 0 || which >= OPEN_CARDS_NUMBER)
+            throw new IllegalArgumentException();
+        return this.cards.remove(which);
     }
 
     /**
-     *
+     * Puts to the bottom of the deck the open cards
      */
     public void change() {
-        add(draw());
-        add(draw());
-    }
-
-    public Collection<BusinessPermissionTile> getOpenCards() {
-        LinkedList<BusinessPermissionTile> cards = new LinkedList<>();
         for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
-            cards.add(super.cards.get(i));
-        return cards;
+            add(draw());
     }
 
     @Override

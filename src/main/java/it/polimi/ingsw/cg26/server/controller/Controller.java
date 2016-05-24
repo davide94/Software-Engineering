@@ -25,6 +25,8 @@ public class Controller implements Observer<Action>, Runnable {
         try {
             // TODO check if current playerry {
             action.apply(gameBoard);
+            Change decoratedChange = new BasicChange();
+            gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
             gameBoard.actionPerformed();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

@@ -8,23 +8,28 @@ import it.polimi.ingsw.cg26.common.state.PoliticColorState;
 public class PoliticColor {
 
     /**
-     *
+     * The name of the color
      */
     private String color;
 
     /**
-     *
+     * Creates a Color
      */
     public PoliticColor(String color) {
         this.color = color;
     }
 
+    /**
+     * Generate the state of the color
+     * @return the state of the color
+     */
     public PoliticColorState getState() {
         return new PoliticColorState(color);
     }
 
     /**
-     * @return
+     * Returns the String name of the color
+     * @return the String name of the color
      */
     public String colorString() {
         return this.color;

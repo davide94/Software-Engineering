@@ -32,8 +32,5 @@ public abstract class Bonus {
      */
     public abstract void apply(Player player);
 
-    public BonusState getState() {
-        // TODO make this abstract and re-implement in each subclass
-        return new BonusState("Bonus");
-    }
+    public abstract BonusState getState();
 }
