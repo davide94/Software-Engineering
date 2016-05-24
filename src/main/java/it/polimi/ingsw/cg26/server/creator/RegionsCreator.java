@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+
 import org.w3c.dom.Node;
 
 import java.util.LinkedList;
@@ -36,7 +38,8 @@ public class RegionsCreator {
         String name = Creator.getAttribute(root, "name");
         BusinessPermissionTileDeck tilesDeck = BusinessPermitTileDeckCreator.createDeck(Creator.getNode(root, "permissionTiles"), cities, politicDeck);
         Balcony balcony = BalconyCreator.createBalcony(councillors);
-        List<Bonus> bonus = BonusesCreator.createBonus(Creator.getNode(root, "bonus"), politicDeck);
+        List<Bonus> bonuses = BonusesCreator.createBonus(Creator.getNode(root, "bonus"), politicDeck);
+        RewardTile bonus = new RewardTile(bonuses);
         return Region.createRegion(name, cities, tilesDeck, balcony, bonus);
     }
 

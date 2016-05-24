@@ -7,6 +7,7 @@ import java.util.List;
 import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.common.state.RewardTileState;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class RewardTile {
 
@@ -43,5 +44,10 @@ public class RewardTile {
         List<Bonus> b =  new LinkedList<>();
         b.addAll(this.bonuses);
         return b;
+    }
+    
+    public void apply(Player player) {
+    	for (Bonus b: bonuses)
+    		b.apply(player);
     }
 }

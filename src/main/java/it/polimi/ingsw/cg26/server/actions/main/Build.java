@@ -50,30 +50,7 @@ public class Build extends Action {
         
         
         CityColor color=realCity.getColor();
-        if(gameBoard.checkColorBonuses(currentPlayer, color)){
-        	
-        	currentPlayer.addVictoryPoints(10); //come faccio a sapere quanti ne devo dare?
-            //prendo tessera del re
-        	
-        }
-        
-        
-        //si può fare lo stesso per la regione però
-        //City dovrebbe avere il reference a Region
-        
-        /*
-         if(realCity.getRegion().checkRegionBonuses(currentPlayer)){
-         //applico il bonus
-         //prendo tessera re
-          
-          }
-          */
-        
-        
-        
-        
-        
-        
+        gameBoard.checkBonuses(currentPlayer, color);
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.useBPT(tile);
         currentPlayer.performMainAction();

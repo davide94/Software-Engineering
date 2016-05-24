@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.common.state.RegionState;
 
@@ -22,9 +22,9 @@ public class Region {
 	private Collection<City> cities;
 	private Balcony balcony;
 	private BusinessPermissionTileDeck deck;
-	private Collection<Bonus> bonus;
+	private RewardTile bonus;
 
-	private Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
+	private Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, RewardTile bonus) {
 		if (name == null || cities == null || deck == null || balcony == null || bonus == null)
 			throw new NullPointerException();
 		this.name = name;
@@ -34,18 +34,15 @@ public class Region {
 		this.bonus = bonus;
 	}
 
-	public static Region createRegion(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Collection<Bonus> bonus) {
-		return new Region(name, new LinkedList<>(cities), deck, balcony, new LinkedList<>(bonus));
+	public static Region createRegion(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, RewardTile bonus) {
+		return new Region(name, new LinkedList<>(cities), deck, balcony, bonus);
 	}
 
 	public RegionState getState() {
 		LinkedList<CityState> citiesState = new LinkedList<>();
 		for (City c: cities)
 			citiesState.add(c.getState());
-		LinkedList<BonusState> bonusesState = new LinkedList<>();
-		for (Bonus b: bonus)
-			bonusesState.add(b.getState());
-		return new RegionState(name, citiesState, deck.getState(), balcony.getState(), bonusesState);
+		return new RegionState(name, citiesState, deck.getState(), balcony.getState(), bonus.getState());
 	}
 
     /**
@@ -53,10 +50,7 @@ public class Region {
      * @param player
      * @return
      */
-    private boolean checkRegionBonuses(Player player){
-    	if(bonus.isEmpty()){
-    		return false;
-    	}
+    public boolean checkRegionBonuses(Player player){
     	for(City iterCity : cities){
     		if(!iterCity.hasEmporium(player)){
     			return false;
@@ -65,7 +59,11 @@ public class Region {
     	return true;
     }
     
-    
+    public RewardTile getRegionBonus() {
+    	RewardTile ret = this.bonus;
+    	this.bonus = null;
+    	return ret;
+    }
    
     
     public Collection<City> getCities() {

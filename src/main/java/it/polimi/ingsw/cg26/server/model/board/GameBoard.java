@@ -5,15 +5,15 @@ import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.state.BoardState;
 import it.polimi.ingsw.cg26.common.state.CouncillorState;
 import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.common.observer.Observable;
-import it.polimi.ingsw.cg26.server.model.player.Player;
-
 import java.util.Collection;
+import java.util.Dictionary;
 import java.util.LinkedList;
 
 /**
@@ -36,6 +36,16 @@ public class GameBoard extends Observable<Change> {
 	private final King king;
 
 	private final Market market;
+	
+	private Dictionary<CityColor, RewardTile> colorBonuses;
+
+	
+	
+	
+	
+	
+
+	
 
 	private final Scheduler scheduler;
 
@@ -141,6 +151,28 @@ public class GameBoard extends Observable<Change> {
 
 		
 	
+	 public void checkBonuses(Player player, CityColor color){
+		 if (checkColorBonuses(player, color)) {
+			 RewardTile bonus = colorBonuses.get(color);
+		        if (bonus == null)
+		        	return;
+		        bonus.apply(player);
+		        if (kingDeck.hasNext())
+		        	this.kingDeck.draw().apply(player);
+		 }
+		 
+		 for (Region r: regions) {
+			 if (r.checkRegionBonuses(player)) {
+				 RewardTile regionBonus = r.getRegionBonus();
+				 if (regionBonus != null) {
+					 regionBonus.apply(player);
+				 }
+			 }
+		 }
+			 
+		 
+	 }
+	 
 	 public boolean checkColorBonuses(Player player, CityColor color){
 	    	
 	        for(Region iterRegion:regions){
@@ -154,8 +186,14 @@ public class GameBoard extends Observable<Change> {
 	        	}
 	        	
 	        }
-	    	return true;
+	        return true;       
+        	
 	    }
+	 
+	 
+	 public RewardTile getColorBonus(CityColor color) {
+			return colorBonuses.get(color);
+		}
 
 	
 }

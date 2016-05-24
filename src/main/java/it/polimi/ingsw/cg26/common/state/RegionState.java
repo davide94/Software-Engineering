@@ -18,9 +18,9 @@ public class RegionState implements Serializable {
 
     private BusinessPermissionTileDeckState deck;
 
-    private final List<BonusState> bonus;
+    private final RewardTileState bonus;
 
-    public RegionState(String name, List<CityState> cities, BusinessPermissionTileDeckState deck, BalconyState balcony, List<BonusState> bonus) {
+    public RegionState(String name, List<CityState> cities, BusinessPermissionTileDeckState deck, BalconyState balcony, RewardTileState bonus) {
         if (name == null || cities == null || deck == null || balcony == null || bonus == null)
             throw new NullPointerException();
         this.name = name;
@@ -54,7 +54,7 @@ public class RegionState implements Serializable {
     	this.deck = deck;
     }
 
-    public List<BonusState> getBonus() {
+    public RewardTileState getBonus() {
         return bonus;
     }
 
