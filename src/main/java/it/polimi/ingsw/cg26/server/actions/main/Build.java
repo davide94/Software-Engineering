@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
+import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
 import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -17,21 +17,24 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 public class Build extends Action {
 
     private final CityState city;
+    
+    private final BusinessPermissionTileState bPTState;
 
     /**
      * 
      * @param city the city in which the player wants to build his emporium
+     * @param bPTState the tile that the user wants to use to build
      * @throws NullPointerException if the argument is null
      */
-    public Build(CityState city) {
-        if (city == null)
+    public Build(CityState city, BusinessPermissionTileState bPTState) {
+        if (city == null || bPTState == null)
             throw new NullPointerException();
         this.city = city;
+        this.bPTState = bPTState;
     }
 
     /**
      * @throws NoRemainingActionsException if the player has no more remaining actions to do
-     * @throws InvalidCardsException if the tile given by the user doesn't match any tile of the player
      * @throws NoRemainingAssistantsException if the player cannot pay the required number of assistant to build
      */
     @Override
@@ -39,9 +42,7 @@ public class Build extends Action {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
-        BusinessPermissionTile tile = currentPlayer.hasPermissionTile(city);
-        if (tile == null)
-            throw new InvalidCardsException();
+        BusinessPermissionTile tile = currentPlayer.hasPermissionTile(bPTState);
         City realCity = gameBoard.getCity(city);
         int empNumber = realCity.getEmporiumsNumber();
         if (currentPlayer.getAssistantsNumber() < empNumber)

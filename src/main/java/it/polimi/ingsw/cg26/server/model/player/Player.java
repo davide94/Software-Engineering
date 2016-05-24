@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
 import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
-import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.common.state.PlayerState;
 import it.polimi.ingsw.cg26.common.state.PoliticCardState;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
@@ -309,13 +308,18 @@ public class Player {
 	 * @return the tile
 	 * @throws InvalidCardsException if the player does not own the card
      */
-	public BusinessPermissionTile hasPermissionTile(CityState city) {
+	public BusinessPermissionTile hasPermissionTile(BusinessPermissionTileState bPTState) {
 		for (BusinessPermissionTile tile : this.tiles)
-			if (!tile.canBuildIn(city))
+			if (tile.getState().equals(bPTState))
 				return tile;
 		throw new InvalidCardsException();
 	}
 	
+	/**
+	 * Returns a BusinessPermissionTile equal to the BPT state given, removes the tile from the player
+	 * @param tileState the tileState given by the user
+	 * @return the tile removed from the player
+	 */
 	public BusinessPermissionTile getRealBPT(BusinessPermissionTileState tileState){
 		BusinessPermissionTile tile = null;
 		for(BusinessPermissionTile t : tiles){
@@ -333,7 +337,7 @@ public class Player {
 
 	/**
 	 * Marks a tile as used
-	 * @param tile is the tile tu mark as used
+	 * @param tile is the tile to mark as used
 	 * @throws InvalidCardsException if the player does not owns the tile
      */
 	public void useBPT(BusinessPermissionTile tile) {
