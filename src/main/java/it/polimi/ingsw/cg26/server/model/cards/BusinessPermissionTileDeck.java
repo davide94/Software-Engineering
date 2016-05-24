@@ -42,7 +42,7 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
      * @throws IllegalArgumentException if which is negative or greater than the maximum allowed value
      */
     public BusinessPermissionTile draw(int position) {
-        if (position < 0 || position >= OPEN_CARDS_NUMBER)
+        if (position < 0 || position >= OPEN_CARDS_NUMBER || position >= cards.size())
             throw new IllegalArgumentException();
         return this.cards.remove(position);
     }

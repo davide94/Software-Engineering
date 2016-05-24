@@ -17,6 +17,7 @@ public class Assistant extends Sellable {
 
     /**
      * Reassigns the assistant to his owner
+     * @throws NullPointerException if the owner is not set
      */
     @Override
     public void backToOwner() {

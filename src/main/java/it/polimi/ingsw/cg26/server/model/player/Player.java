@@ -290,6 +290,10 @@ public class Player {
 		this.victoryPoints.addPoints(increment);
 	}
 
+	public int getVictoryPoints() {
+		return this.victoryPoints.getValue();
+	}
+
 	/**
 	 * Adds a politic card to the cards owned by the player
 	 * @param card is the politic card to be added to the cards owned by the player
@@ -314,7 +318,7 @@ public class Player {
 				return tile;
 		throw new InvalidCardsException();
 	}
-	
+
 	/**
 	 * Returns a BusinessPermissionTile equal to the BPT state given, removes the tile from the player
 	 * @param tileState the tileState given by the user
@@ -383,38 +387,22 @@ public class Player {
 
 	/**
 	 * Returns a collection of politic cards that match with the required
-	 * @param requiredCards is a collection of PoliticColor that represents the required cards
+	 * @param requiredCards is a collection of PoliticCardState that represents the required cards
 	 * @return a collection of politic cards that match with the required
 	 * @throws InvalidCardsException if the player does not owns all the cards required
 	 */
 	public Collection<PoliticCard> takeCards(Collection<PoliticCardState> requiredCards) {
-		LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
 		LinkedList<PoliticCard> removed = new LinkedList<>();
-		for (PoliticCardState requiredCard: requiredCards) {
-			PoliticCard c = null;
-			for (PoliticCard card : cards) {
-				if (card.getColor().getState().equals(requiredCard.getColor())) {
-					c = card;
-					break;
-				}
-			}
-			if (c == null)
-				throw new InvalidCardsException();
-			// PoliticCard c=takeCard(color)
-			cards.remove(c);
-			removed.add(c);
-		}
-		for(PoliticCard card : removed)
-			card.setOwner(null);
-		this.cards.removeAll(removed);
+		for (PoliticCardState requiredCard: requiredCards)
+			removed.add(takeCard(requiredCard));
 		return removed;
 	}
 
 	/**
-	 * Returns a collection of politic cards that match with the required
-	 * @param politicCard is a collection of PoliticColor that represents the required cards
-	 * @return a collection of politic cards that match with the required
-	 * @throws InvalidCardsException if the player does not owns all the cards required
+	 * Returns a politic card that match with the required
+	 * @param politicCardState is a PoliticCardState that represents the required cards
+	 * @return a politic cards that match with the required
+	 * @throws InvalidCardsException if the player does not owns the required card
 	 */
 	public PoliticCard takeCard(PoliticCardState politicCardState) {
 		PoliticCard removedCard = null;

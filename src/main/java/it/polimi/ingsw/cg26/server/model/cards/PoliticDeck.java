@@ -36,7 +36,7 @@ public class PoliticDeck extends Deck<PoliticCard> {
     }
 
     @Override
-    public synchronized PoliticCard draw() {
+    public PoliticCard draw() {
         if (!hasNext()) {
             if (this.discarded.isEmpty())
                 throw new NoMoreCardsException();

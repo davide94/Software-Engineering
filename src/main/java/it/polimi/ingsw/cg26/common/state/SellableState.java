@@ -4,12 +4,12 @@ public class SellableState {
 	
 	private int price;
 	
-	private PlayerState owner;
+	private String owner;
 	
 	public SellableState() {
 	}
 	
-	public SellableState(int price, PlayerState owner) {
+	public SellableState(int price, String owner) {
 		this.price = price;
 		this.owner = owner;
 	}

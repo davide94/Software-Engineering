@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 import it.polimi.ingsw.cg26.common.state.BonusState;
 import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -50,7 +51,11 @@ public class BusinessPermissionTile extends Sellable {
         LinkedList<BonusState> bonusesState = new LinkedList<>();
         for (Bonus b: bonuses)
             bonusesState.add(b.getState());
-        return new BusinessPermissionTileState(citiesState, bonusesState, this.getPrice(), this.getOwner().getState());
+        Player owner = this.getOwner();
+        String name = "none";
+        if (owner != null)
+            name = owner.getName();
+        return new BusinessPermissionTileState(citiesState, bonusesState, this.getPrice(), name);
     }
 
     /**

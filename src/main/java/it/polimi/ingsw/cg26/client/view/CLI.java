@@ -3,8 +3,7 @@ package it.polimi.ingsw.cg26.client.view;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.state.*;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -16,12 +15,15 @@ public class CLI implements Runnable {
 
     private Scanner scanner;
 
+    private PrintStream out;
+
     private BoardState model;
 
     public CLI(ObjectOutputStream outputStream, BoardState model) {
         this.outputStream = outputStream;
         this.model = model;
         this.scanner = new Scanner(System.in);
+        this.out = System.out;
     }
 
     @Override
@@ -57,6 +59,7 @@ public class CLI implements Runnable {
             switch (command) {
                 case "-1":
                     quit();
+                    quit = true;
                     break;
                 case "0":
                     print();
@@ -92,28 +95,28 @@ public class CLI implements Runnable {
     }
 
     private void output(String msg) {
-        System.out.println(msg);
+        out.println(msg);
     }
 
     private void print() {
 
-        System.out.print("The King's balcony has");
+        out.print("The King's balcony has");
         for (CouncillorState c: model.getKingBalcony().getCouncillors())
-            System.out.print(" " + c.getColor().getColoredColor());
-        System.out.println(" councillors");
+            out.print(" " + c.getColor().getColoredColor());
+        out.println(" councillors");
 
-        System.out.println("The board has " + model.getRegions().size() + " regions:");
+        out.println("The board has " + model.getRegions().size() + " regions:");
 
         for (RegionState r: model.getRegions()) {
-            System.out.println("\n" + r.getName() + ": ");
-            System.out.print("The balcony has");
+            out.println("\n" + r.getName() + ": ");
+            out.print("The balcony has");
             for (CouncillorState c: r.getBalcony().getCouncillors())
-                System.out.print(" " + c.getColor().getColoredColor());
-            System.out.println(" councillors");
-            System.out.println("the Business Permit Tiles open are: ");
+                out.print(" " + c.getColor().getColoredColor());
+            out.println(" councillors");
+            out.println("the Business Permit Tiles open are: ");
             for (BusinessPermissionTileState b: r.getDeck().getOpenCards()) {
                 printBPT(b);
-                System.out.println("");
+                out.println("");
             }
         }
     }
@@ -122,16 +125,16 @@ public class CLI implements Runnable {
         int i = 0;
         for (String c: bpt.getCities()) {
             if (i != 0)
-                System.out.print("/");
-            System.out.print(c.toUpperCase().charAt(0));
+                out.print("/");
+            out.print(c.toUpperCase().charAt(0));
             i++;
         }
-        System.out.print(" ");
+        out.print(" ");
         i = 0;
         for (BonusState b: bpt.getBonuses()) {
             if (i != 0)
-                System.out.print(", ");
-            System.out.print(b.getMultiplicity() + " " + b.getName());
+                out.print(", ");
+            out.print(b.getMultiplicity() + " " + b.getName());
             i++;
         }
     }
@@ -199,7 +202,7 @@ public class CLI implements Runnable {
         this.output("In which region? ");
         int i = 1;
         for (RegionState r: regions) {
-            System.out.println("(" + i + ") " + r.getName());
+            out.println("(" + i + ") " + r.getName());
             i++;
         }
         int regionNmber = this.scanner.nextInt();
@@ -207,14 +210,14 @@ public class CLI implements Runnable {
     }
 
     private CouncillorState askForCouncillor() {
-        System.out.println("Which Councillor's color? ");
+        out.println("Which Councillor's color? ");
         List<CouncillorState> councillorsPool = model.getCouncillorsPool();
         List<PoliticColorState> colors = new LinkedList<>();
         int i = 1;
         for (CouncillorState c: councillorsPool) {
             if (!colors.contains(c.getColor())) {
                 colors.add(c.getColor());
-                System.out.println("(" + i + ") " + c.getColor().getColor());
+                out.println("(" + i + ") " + c.getColor().getColor());
                 i++;
             }
         }
@@ -242,7 +245,7 @@ public class CLI implements Runnable {
             cities.addAll(r.getCities());
         int i = 1;
         for (CityState c: cities) {
-            System.out.println("(" + i + ") " +c.getName());
+            out.println("(" + i + ") " +c.getName());
             i++;
         }
         int cityNmber = this.scanner.nextInt();

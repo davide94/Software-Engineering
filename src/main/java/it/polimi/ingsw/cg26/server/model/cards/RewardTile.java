@@ -19,8 +19,11 @@ public class RewardTile {
 	/**
 	 * Creates a Reward Tile with a collection of bonuses
 	 * @param bonuses is the collection of bonuses that the tile will contain
+	 * @throws NullPointerException if bonuses is null
      */
 	public RewardTile(List<Bonus> bonuses) {
+		if (bonuses == null)
+			throw new NullPointerException();
 		this.bonuses = bonuses;
 	}
 	
@@ -41,11 +44,13 @@ public class RewardTile {
      * @return a list of bonuses contained by the tile
      */
     public List<Bonus> getBonuses() {
-        List<Bonus> b =  new LinkedList<>();
-        b.addAll(this.bonuses);
-        return b;
+        return new LinkedList<>(this.bonuses);
     }
-    
+
+    /**
+	 * Applay the bonuses to a player
+	 * @param player is the player who whill earn the bonuses
+     */
     public void apply(Player player) {
     	for (Bonus b: bonuses)
     		b.apply(player);

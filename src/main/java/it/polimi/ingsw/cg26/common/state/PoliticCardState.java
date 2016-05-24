@@ -11,7 +11,7 @@ public class PoliticCardState extends SellableState implements Serializable {
 
     private final PoliticColorState color;
 
-    public PoliticCardState(PoliticColorState color, int price, PlayerState owner) {
+    public PoliticCardState(PoliticColorState color, int price, String owner) {
     	super(price, owner);
         this.color = color;
     }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;

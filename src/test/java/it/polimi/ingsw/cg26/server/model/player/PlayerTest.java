@@ -1,11 +1,21 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
+import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.state.PoliticColorState;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.server.model.board.City;
+import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
+import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -22,13 +32,29 @@ public class PlayerTest {
         NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
         NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
         LinkedList<PoliticCard> cards = new LinkedList<>();
+        cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();
+        assistants.add(new Assistant());
         player = new Player(1234, "name", nobilityCell2, 10, cards, assistants);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testConstructorShouldThrowNullPointerException() throws Exception {
+        new Player(1, "", null, 1, null, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorShouldThrowIllegalArgumentException() throws Exception {
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
+        LinkedList<PoliticCard> cards = new LinkedList<>();
+        LinkedList<Assistant> assistants = new LinkedList<>();
+        player = new Player(1234, "name", nobilityCell2, -10, cards, assistants);
     }
 
     @Test
     public void testGetState() throws Exception {
-
+        player.getState();
     }
 
     @Test
@@ -118,81 +144,161 @@ public class PlayerTest {
 
     @Test
     public void testGetAssistantsNumber() throws Exception {
+        assertEquals(player.getAssistantsNumber(), 1);
+    }
 
+    @Test(expected = NoRemainingAssistantsException.class)
+    public void testTakeAssistantsShouldThrowNoRemainingAssistantsException() throws Exception {
+        player.takeAssistants(4);
     }
 
     @Test
-    public void testAddConqueredCity() throws Exception {
-
+    public void testTakeAssistantsShouldWork() throws Exception {
+        player.takeAssistants(1);
     }
 
-    @Test
-    public void testGetConqueredCities() throws Exception {
-
-    }
-
-    @Test
-    public void testTakeAssistants() throws Exception {
-
+    @Test(expected = NullPointerException.class)
+    public void testAddAssistantShouldThrowNullPointerException() throws Exception {
+        player.addAssistant(null);
     }
 
     @Test
     public void testAddAssistant() throws Exception {
-
+        player.addAssistant(new Assistant());
+        assertEquals(player.getAssistantsNumber(), 2);
     }
 
     @Test
     public void testAddCoins() throws Exception {
-
+        player.addCoins(5);
+        assertEquals(player.getCoinsNumber(), 15);
     }
 
     @Test
     public void testRemoveCoins() throws Exception {
-
+        player.removeCoins(5);
+        assertEquals(player.getCoinsNumber(), 5);
     }
 
     @Test
     public void testAddVictoryPoints() throws Exception {
+        player.addVictoryPoints(5);
+        assertEquals(player.getVictoryPoints(), 5);
+    }
 
+    @Test
+    public void testGetVictoryPoints() throws Exception {
+        player.addVictoryPoints(5);
+        assertEquals(player.getVictoryPoints(), 5);
+    }
+    @Test (expected = NullPointerException.class)
+    public void testAddPoliticCardShouldThrowNullPointerException() throws Exception {
+        player.addPoliticCard(null);
     }
 
     @Test
     public void testAddPoliticCard() throws Exception {
-
+        PoliticCard card = new PoliticCard(new PoliticColor("ccc"));
+        player.addPoliticCard(card);
+        Collection<PoliticCardState> cards = new LinkedList<>();
+        cards.add(card.getState());
+        assertTrue(player.hasCards(cards));
     }
 
     @Test
     public void testHasPermissionTile() throws Exception {
+        LinkedList<City> cities = new LinkedList<>();
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        cities.add(city);
+        LinkedList<Bonus> bonuses = new LinkedList<>();
+        Bonus bonus = new AssistantBonus(4);
+        bonuses.add(bonus);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        player.addPermissionTile(tile);
+        assertEquals(player.hasPermissionTile(tile.getState()), tile);
+    }
 
+    @Test
+    public void testGetRealBPT() throws Exception {
+        LinkedList<City> cities = new LinkedList<>();
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        cities.add(city);
+        LinkedList<Bonus> bonuses = new LinkedList<>();
+        Bonus bonus = new AssistantBonus(4);
+        bonuses.add(bonus);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        player.addPermissionTile(tile);
+        assertEquals(player.getRealBPT(tile.getState()), tile);
     }
 
     @Test
     public void testUseBPT() throws Exception {
-
+        LinkedList<City> cities = new LinkedList<>();
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        cities.add(city);
+        LinkedList<Bonus> bonuses = new LinkedList<>();
+        Bonus bonus = new AssistantBonus(4);
+        bonuses.add(bonus);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        player.addPermissionTile(tile);
+        player.useBPT(tile);
     }
 
     @Test
     public void testAddPermissionTile() throws Exception {
-
+        LinkedList<City> cities = new LinkedList<>();
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        cities.add(city);
+        LinkedList<Bonus> bonuses = new LinkedList<>();
+        Bonus bonus = new AssistantBonus(4);
+        bonuses.add(bonus);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        player.addPermissionTile(tile);
+        assertEquals(player.hasPermissionTile(tile.getState()), tile);
     }
 
     @Test
     public void testHasCards() throws Exception {
+        PoliticCard card1 = new PoliticCard(new PoliticColor("color1"));
+        PoliticCard card2 = new PoliticCard(new PoliticColor("color2"));
+        PoliticCard card3 = new PoliticCard(new PoliticColor("color3"));
 
+        player.addPoliticCard(card1);
+        player.addPoliticCard(card2);
+
+        LinkedList<PoliticCardState> cards1 = new LinkedList<>();
+        cards1.add(card1.getState());
+        cards1.add(card2.getState());
+        assertTrue(player.hasCards(cards1));
+
+        LinkedList<PoliticCardState> cards2 = new LinkedList<>();
+        cards2.add(card1.getState());
+        assertTrue(player.hasCards(cards2));
+
+        LinkedList<PoliticCardState> cards3 = new LinkedList<>();
+        cards3.add(card3.getState());
+        assertFalse(player.hasCards(cards3));
+
+        LinkedList<PoliticCardState> cards4 = new LinkedList<>();
+        cards4.add(card1.getState());
+        cards4.add(card3.getState());
+        assertFalse(player.hasCards(cards4));
     }
 
-    @Test
-    public void testTakeCards() throws Exception {
-
+    @Test (expected = InvalidCardsException.class)
+    public void testTakeCardsShouldThrowInvalidCardsException() throws Exception {
+        LinkedList<PoliticCardState> cards = new LinkedList<>();
+        cards.add(new PoliticCardState(new PoliticColorState("colorname"), 0, "giocatore"));
+        player.takeCards(cards);
     }
 
-    @Test
+    @Test (expected = InvalidCardsException.class)
     public void testTakeCard() throws Exception {
-
+        player.takeCard(new PoliticCardState(new PoliticColorState("colorname"), 0, "giocatore"));
     }
 
     @Test
     public void testGetCoinsNumber() throws Exception {
-
+        assertEquals(player.getCoinsNumber(), 10);
     }
 }

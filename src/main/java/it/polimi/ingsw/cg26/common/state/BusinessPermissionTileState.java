@@ -15,7 +15,7 @@ public class BusinessPermissionTileState extends SellableState implements Serial
 
     private Collection<BonusState> bonuses;
 
-    public BusinessPermissionTileState(Collection<String> cities, Collection<BonusState> bonuses, int price, PlayerState owner) {
+    public BusinessPermissionTileState(Collection<String> cities, Collection<BonusState> bonuses, int price, String owner) {
         super(price, owner);
     	if (cities == null || bonuses == null)
             throw new NullPointerException();
@@ -29,6 +29,25 @@ public class BusinessPermissionTileState extends SellableState implements Serial
 
     public Collection<BonusState> getBonuses() {
         return bonuses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BusinessPermissionTileState that = (BusinessPermissionTileState) o;
+
+        if (cities != null ? !cities.equals(that.cities) : that.cities != null) return false;
+        return bonuses != null ? bonuses.equals(that.bonuses) : that.bonuses == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cities != null ? cities.hashCode() : 0;
+        result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
+        return result;
     }
 
     @Override

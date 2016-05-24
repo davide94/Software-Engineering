@@ -23,6 +23,8 @@ public class PoliticColorState implements Serializable {
     private String ansiString = "\u001B[255;85;85";
 
     public PoliticColorState(String color) {
+        if (color == null)
+            throw new NullPointerException();
         this.color = color;
         switch (color) {
             case "white":

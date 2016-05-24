@@ -16,6 +16,8 @@ public class PoliticColor {
      * Creates a Color
      */
     public PoliticColor(String color) {
+        if (color == null)
+            throw new NullPointerException();
         this.color = color;
     }
 

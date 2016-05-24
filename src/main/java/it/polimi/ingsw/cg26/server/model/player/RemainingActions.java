@@ -51,7 +51,7 @@ public abstract class RemainingActions {
      * @throws IllegalArgumentException if the parameter is negative
      */
     public void setRemaining(int remainingActions) {
-        if (remaining < 0)
+        if (remainingActions < 0)
             throw new IllegalArgumentException();
         this.remaining = remainingActions;
     }
