@@ -19,8 +19,9 @@ public class PoliticCard extends Sellable {
         this.color = color;
     }
 
+    @Override
     public PoliticCardState getState() {
-        return new PoliticCardState(color.getState());
+        return new PoliticCardState(color.getState(), this.getPrice(), this.getOwner().getState());
     }
 
     /**

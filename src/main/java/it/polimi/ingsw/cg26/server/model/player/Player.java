@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
+import it.polimi.ingsw.cg26.server.exceptions.NotValidTileException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -339,6 +340,19 @@ public class Player {
 				return tile;
 		throw new InvalidCardsException();
 	}
+	
+	public BusinessPermissionTile getRealBPT(BusinessPermissionTileState tileState){
+		BusinessPermissionTile tile = null;
+		for(BusinessPermissionTile t : tiles){
+			if(t.getState().equals(tileState)){
+				tile=t;
+				break;
+			}
+		}
+		if(tile == null)
+			throw new NotValidTileException();
+		return tile;
+	}
 
 	public void useBPT(BusinessPermissionTile tile) {
 		this.tiles.remove(tile);
@@ -412,10 +426,10 @@ public class Player {
 		return removed;
 	}
 
-	public PoliticCard takeCard(PoliticCard politicCard) {
+	public PoliticCard takeCard(PoliticCardState politicCardState) {
 		PoliticCard removedCard = null;
 		for (PoliticCard card : this.cards) {
-			if (card.equals(politicCard)) {
+			if (card.getColor().getState().equals(politicCardState.getColor())) {
 				removedCard = card;
 				break;
 			}

@@ -9,7 +9,7 @@ import it.polimi.ingsw.cg26.server.model.board.Councillor;
 /**
  *
  */
-public class Elect extends Action {
+public abstract class Elect extends Action {
 
 	private final RegionState region;
 
