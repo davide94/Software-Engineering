@@ -29,7 +29,7 @@ public class PoliticCard extends Sellable {
      * @return the state of the card
      */
     public PoliticCardState getState() {
-        return new PoliticCardState(color.getState());
+        return new PoliticCardState(color.getState(), this.getPrice(), this.getOwner().getState());
     }
 
     /**

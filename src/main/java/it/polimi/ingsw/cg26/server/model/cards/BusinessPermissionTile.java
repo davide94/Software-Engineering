@@ -38,6 +38,7 @@ public class BusinessPermissionTile extends Sellable {
         this.bonuses = new LinkedList<>(bonuses);
     }
 
+    @Override
     /**
      * Generates the state of the tile
      * @return the state of the tile
@@ -49,7 +50,7 @@ public class BusinessPermissionTile extends Sellable {
         LinkedList<BonusState> bonusesState = new LinkedList<>();
         for (Bonus b: bonuses)
             bonusesState.add(b.getState());
-        return new BusinessPermissionTileState(citiesState, bonusesState);
+        return new BusinessPermissionTileState(citiesState, bonusesState, this.getPrice(), this.getOwner().getState());
     }
 
     /**

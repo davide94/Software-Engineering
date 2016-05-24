@@ -19,7 +19,7 @@ public abstract class Sell extends Action {
 	public abstract void apply(GameBoard gameBoard);
 	
 	public void sell(GameBoard gameBoard, Sellable sellable){
-		
+		sellable.setOwner(gameBoard.getCurrentPlayer());
 		sellable.setPrice(this.price);
 		gameBoard.getMarket().addToMarket(sellable);
 	}

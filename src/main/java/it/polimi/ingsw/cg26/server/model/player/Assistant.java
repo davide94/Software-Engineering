@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
+import it.polimi.ingsw.cg26.common.state.SellableState;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 
 /**
@@ -21,5 +22,10 @@ public class Assistant extends Sellable {
     public void backToOwner() {
     	this.getOwner().addAssistant(this);	
     }
+
+	@Override
+	public SellableState getState() {
+		return null;
+	}
 
 }

@@ -1,13 +1,13 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
 import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
-import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.common.state.PlayerState;
 import it.polimi.ingsw.cg26.common.state.PoliticCardState;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
+import it.polimi.ingsw.cg26.server.exceptions.NotValidTileException;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
@@ -308,16 +308,36 @@ public class Player {
 	 * @return the tile
 	 * @throws InvalidCardsException if the player does not own the card
      */
-	public BusinessPermissionTile hasPermissionTile(CityState city) {
+	public BusinessPermissionTile hasPermissionTile(BusinessPermissionTileState bPTState) {
 		for (BusinessPermissionTile tile : this.tiles)
-			if (!tile.canBuildIn(city))
+			if (tile.getState().equals(bPTState))
 				return tile;
 		throw new InvalidCardsException();
+	}
+	
+	/**
+	 * Returns a BusinessPermissionTile equal to the BPT state given, removes the tile from the player
+	 * @param tileState the tileState given by the user
+	 * @return the tile removed from the player
+	 */
+	public BusinessPermissionTile getRealBPT(BusinessPermissionTileState tileState){
+		BusinessPermissionTile tile = null;
+		for(BusinessPermissionTile t : tiles){
+			if(t.getState().equals(tileState)){
+				tile=t;
+				break;
+			}
+		}
+		if(tile == null)
+			throw new NotValidTileException();
+		this.tiles.remove(tile);
+		tile.setOwner(null);
+		return tile;
 	}
 
 	/**
 	 * Marks a tile as used
-	 * @param tile is the tile tu mark as used
+	 * @param tile is the tile to mark as used
 	 * @throws InvalidCardsException if the player does not owns the tile
      */
 	public void useBPT(BusinessPermissionTile tile) {
@@ -373,7 +393,7 @@ public class Player {
 		for (PoliticCardState requiredCard: requiredCards) {
 			PoliticCard c = null;
 			for (PoliticCard card : cards) {
-				if (card.getColor().equals(requiredCard.getColor())) {
+				if (card.getColor().getState().equals(requiredCard.getColor())) {
 					c = card;
 					break;
 				}
@@ -384,6 +404,8 @@ public class Player {
 			cards.remove(c);
 			removed.add(c);
 		}
+		for(PoliticCard card : removed)
+			card.setOwner(null);
 		this.cards.removeAll(removed);
 		return removed;
 	}
@@ -394,16 +416,17 @@ public class Player {
 	 * @return a collection of politic cards that match with the required
 	 * @throws InvalidCardsException if the player does not owns all the cards required
 	 */
-	public PoliticCard takeCard(PoliticCard politicCard) {
+	public PoliticCard takeCard(PoliticCardState politicCardState) {
 		PoliticCard removedCard = null;
 		for (PoliticCard card : this.cards) {
-			if (card.equals(politicCard)) {
+			if (card.getColor().getState().equals(politicCardState.getColor())) {
 				removedCard = card;
 				break;
 			}
 		}
 		if (removedCard == null)
 			throw new InvalidCardsException();
+		removedCard.setOwner(null);
 		this.cards.remove(removedCard);
 		return removedCard;
 	}
