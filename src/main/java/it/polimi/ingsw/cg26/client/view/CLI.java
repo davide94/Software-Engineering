@@ -167,7 +167,8 @@ public class CLI implements Runnable {
 
     private void build() throws IOException {
         CityState city = askForCity();
-        this.outputStream.writeObject(new BuildCommand(city));
+        BusinessPermissionTileState tile = askForBPT();
+        this.outputStream.writeObject(new BuildCommand(city, tile));
     }
 
     private void buildKing() throws IOException {
@@ -229,7 +230,7 @@ public class CLI implements Runnable {
         return null;
     }
 
-    private List<PoliticCardState> askForBPT() {
+    private BusinessPermissionTileState askForBPT() {
         // TODO
         return null;
     }

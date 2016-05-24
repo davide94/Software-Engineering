@@ -72,7 +72,7 @@ public class ServerSocketView extends View {
                 }
                 if (object instanceof BuildCommand) {
                     BuildCommand command = (BuildCommand) object;
-                    Action action = new Build(command.getCity());
+                    Action action = new Build(command.getCity(), command.getTile());
                     notifyObservers(action);
                 }
                 if (object instanceof BuildKingCommand) {
