@@ -9,7 +9,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
+import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.MainActionBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 
@@ -17,9 +21,12 @@ public class CityTest {
 	
 	private City city1;
 	private City city2;
+	private City city3;
 	private CityColor color1;
 	private CityColor color2;
-	private List<Bonus> bonus;
+	private List<Bonus> bonuses1;
+	private List<Bonus> bonuses2;
+	private List<Bonus> bonuses3;
 	private List<Emporium> emporiums1;
 	private List<Emporium> emporiums2;
 	private Player Davide;
@@ -28,6 +35,8 @@ public class CityTest {
 	private Emporium empDavide;
 	//private Emporium empLuca;
 	//private Emporium empMarco;
+	private List<City> linkedCities;
+	
 	
 	
 	 @Before
@@ -44,46 +53,206 @@ public class CityTest {
 		    //empMarco=Emporium.createEmporium(Marco);
 		    emporiums2.add(empDavide);
 		    //emporiums2.add(empLuca);
-		    //emporiums2.add(empMarco);		    
-		    bonus = new LinkedList<>();
+		    //emporiums2.add(empMarco);		
+		    bonuses1 = new LinkedList<>();
+		    bonuses2 = new LinkedList<>();
+		    bonuses3 = new LinkedList<>();
+		    bonuses3.add(new VictoryBonus(4));
+		    bonuses3.add(new MainActionBonus(2));
 	        color1= CityColor.createCityColor("blu");
 	        color2= CityColor.createCityColor("verde");
-	        city1 = City.createCity("Milano", CityColor.createCityColor("blu"),bonus );
-	        city2= City.createCity("Roma", color2,bonus );
+	        city1 = City.createCity("Milano", CityColor.createCityColor("blu"),bonuses1 );
+	        city2= City.createCity("Roma", color2,bonuses1 );
+	        city3= City.createCity("Firenze", color1,bonuses2 );
+	        linkedCities=new LinkedList<>();
+	        linkedCities.add(city2);
 	        
 	    }
+	 
+	 
+	 @Test
+		public void testDistanceFrom() {
+			
+		}
+	 
+	 
+	 /*
+	 @Test
+		public void testGetAllEmporiumsofCity1() {
+			city1.build(Davide);
+			//city1.build(Luca);
+			//city1.build(Marco);
+			
+			assertEquals(city1.getEmporiums(),emporiums2);
+			
+		}
+		*/
+	 
+	 
+	 
+		
+	 @Test (expected=ExistingEmporiumException.class)
+		public void testBuildFailed() {
+		 city1.build(Davide);
+		 city1.build(Luca);
+		 city1.build(Davide);
+			
+		}
+	 
+	 
+
+	 @Test
+		public void testgetNearCities() {
+		 city1.link(city2);
+		 assertEquals(city1.getNearCities(),linkedCities);
+			
+		}
+
+		
+
+			 
+	 @Test (expected=NullPointerException.class)
+		public void testLinkIfCityIsNull() {
+		 
+		 City city4= City.createCity(null,null,null);
+		 city1.link(city4);
+			
+		}
+	 
+	 
+	 @Test 
+		public void testLinkOneCitywithCity1() {
+		 city1.link(city2);
+		 assertEquals(city1.getNearCities(),linkedCities);
+		 
+		 
+		 		
+		}
+	 
+	 
+
+	 @Test 
+		public void testLinkTwoCitieswithCity1() {
+		 linkedCities.add(city3);
+		 city1.link(city2);
+		 city1.link(city3);
+		 assertEquals(city1.getNearCities(),linkedCities);
+		 
+		 
+		 		
+		}
+	 
+	 
+	 @Test
+		public void testEqualsObject() {
+		City city4= City.createCity("Roma", color2, bonuses1);
+		assertEquals(city4, city2);
+		
+			
+		}
+	 
+	 @Test
+		public void testNotEqualsNameofCities() {
+		City city4= City.createCity("Genova", color2, bonuses1);
+		assertNotEquals(city4, city2);
+		
+			
+		}
+	 
+	 @Test
+		public void testNotEqualsColorofCities() {
+		City city4= City.createCity("Roma", color1, bonuses1);
+		assertNotEquals(city4, city2);
+		
+			
+		}
+	 
+	 /*
+	 @Test
+		public void testNotEqualsBonusesOfCities() {
+		City city4= City.createCity("Roma", color2, bonuses3);
+		assertNotEquals(city4, city2);
+		
+			
+		}*/
+	 
+	 
+	 @Test
+		public void testGetAssistantBonuses() {
+			Bonus bonus = new AssistantBonus(4);
+	        bonuses2.add(bonus);
+	        City city4= City.createCity("Genova", color1,bonuses2 );
+	        assertEquals(city4.getBonuses(), bonuses2);
+	        
+	        
+			
+		}
+	 
+	 
+	 @Test
+		public void testGetVictoryBonuses() {
+			Bonus bonus = new VictoryBonus(4);
+	        bonuses2.add(bonus);
+	        City city4= City.createCity("Genova", color1,bonuses2 );
+	        assertEquals(city4.getBonuses(), bonuses2);
+	        
+	        
+			
+		}
+	 
+	 /*
+	 @Test
+		public void testGetCollectionOfBonuses() {
+		        
+			Bonus bonus1 = new VictoryBonus(4);
+			Bonus bonus2 = new MainActionBonus(2);
+	        bonuses2.add(bonus1);
+	        bonuses2.add(bonus2);
+	        
+	        City city4= City.createCity("Genova", color1,bonuses2 );
+	        assertEquals(city4.getBonuses(), bonuses3);
+	        
+	        
+			
+		}*/
+	 
+	 
+
 
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateCity() {
-		assertNull(City.createCity(null,null,null));
+	         City.createCity(null,null,null);
 			
 			}
 	
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateCityWithoutaValidName() {
-		assertNull(City.createCity(null,color1,bonus));
+			City.createCity(null,color1,bonuses1);
 			
 			}
 	
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateCityWithoutaColor() {
-		assertNull(City.createCity("Firenze",null,bonus));
+			City.createCity("Firenze",null,bonuses1);
 			
 			}
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateCityWithNullBonus() {
-		assertNull(City.createCity("Firenze",color2,null));
+			City.createCity("Firenze",color2,null);
 			
 			}
 	
 	
 	@Test 
-	public void testShouldCreateCity() {		
-		assertNotNull(City.createCity("Firenze",color1,bonus));		
+	public void testShouldCreateCity() {
+		
+		assertNotNull(City.createCity("Firenze",color1,bonuses1));
+		assertEquals(City.createCity("Firenze",color1,bonuses1) , city3);
+		
 		
 			}
 	
@@ -119,20 +288,8 @@ public class CityTest {
 		
 	}
 	
-	/*
-	@Test
-	public void testGetAllEmporiumsofCity1() {
-		city1.build(Davide);
-		//city1.build(Luca);
-		//city1.build(Marco);
+	
 		
-		assertEquals(city1.getEmporiums(),emporiums2);
-		
-	}
-	*/
-	
-	
-	
 	
 	@Test
 	public void testIfCity2HasNoEmporium() {
@@ -183,37 +340,8 @@ public class CityTest {
 		assertTrue(city1.hasEmporium(Davide));
 		
 	}
-	
-	@Test
-	public void testGetBonuses() {
 		
-	}
-
 	
-
-	@Test
-	public void testLink() {
-		
-	}
-
-	@Test
-	public void testDistanceFrom() {
-		
-	}
-
-	
-
-	@Test
-	public void testEqualsObject() {
-		
-	}
-	
-	
-	@Test
-	public void testBuild() {
-		
-	}
-
 	
 	
 	@Test

@@ -115,7 +115,13 @@ public class City {
     
     
 
-    /**
+    public List<City> getNearCities() {
+		return nearCities;
+	}
+
+	
+
+	/**
      *
      */
     private void takeRecursivelyBonus(Player p) {
