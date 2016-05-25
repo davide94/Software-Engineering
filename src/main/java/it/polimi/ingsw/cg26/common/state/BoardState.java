@@ -29,7 +29,7 @@ public class BoardState implements Serializable {
     private final MarketState market;
 
     public BoardState(List<PlayerState> players, PoliticDeckState deck, List<CouncillorState> councillorsPool, BalconyState kingBalcony, List<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
-        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || kingDeck == null)
+        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
             throw new NullPointerException();
         this.players = players;
         this.politicDeck = deck;

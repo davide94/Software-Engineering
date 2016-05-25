@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
  */
 public class BoardStateTest {
 
+    private LinkedList<PlayerState> players;
     private PoliticDeckState deck;
     private List<CouncillorState> councillorsPool;
     private BalconyState kingBalcony;
@@ -26,6 +27,7 @@ public class BoardStateTest {
 
     @Before
     public void setUp() throws Exception {
+        players = new LinkedList<>();
         deck = new PoliticDeckState();
         councillorsPool = new LinkedList<>();
         kingBalcony = new BalconyState(new LinkedList<>());
@@ -35,48 +37,58 @@ public class BoardStateTest {
         market = new MarketState();
         kingDeck = new KingDeckState(new LinkedList<>());
 
-        board = new BoardState(deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        board = new BoardState(players, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
 
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail1() throws Exception {
-        new BoardState(null, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        new BoardState(null, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail2() throws Exception {
-        new BoardState(deck, null, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        new BoardState(players, null, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail3() throws Exception {
-        new BoardState(deck, councillorsPool, null, regions, nobilityTrack, king, market, kingDeck);
+        new BoardState(players, deck, null, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail4() throws Exception {
-        new BoardState(deck, councillorsPool, kingBalcony, null, nobilityTrack, king, market, kingDeck);
+        new BoardState(players, deck, councillorsPool, null, regions, nobilityTrack, king, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail5() throws Exception {
-        new BoardState(deck, councillorsPool, kingBalcony, regions, null, king, market, kingDeck);
+        new BoardState(players, deck, councillorsPool, kingBalcony, null, nobilityTrack, king, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail6() throws Exception {
-        new BoardState(deck, councillorsPool, kingBalcony, regions, nobilityTrack, null, market, kingDeck);
+        new BoardState(players, deck, councillorsPool, kingBalcony, regions, null, king, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail7() throws Exception {
-        new BoardState(deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, null, kingDeck);
+        new BoardState(players, deck, councillorsPool, kingBalcony, regions, nobilityTrack, null, market, kingDeck);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail8() throws Exception {
-        new BoardState(deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, null);
+        new BoardState(players, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, null, kingDeck);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testConstructorShouldFail9() throws Exception {
+        new BoardState(players, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, null);
+    }
+
+    @Test
+    public void testGetPlayers() throws Exception {
+        assertEquals(board.getPlayers(), players);
     }
 
     @Test
