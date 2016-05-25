@@ -12,6 +12,7 @@ public class BalconyChange extends ChangeDecorator {
 	
 	public BalconyChange(Change decoratedChange, BalconyState balconyState, RegionState regionState){
 		super(decoratedChange);
+		this.balconyState = balconyState;
 		this.regionState = regionState;
 	}
 

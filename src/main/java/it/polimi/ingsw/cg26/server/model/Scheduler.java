@@ -1,9 +1,12 @@
 package it.polimi.ingsw.cg26.server.model;
 
+import it.polimi.ingsw.cg26.common.state.PlayerState;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -35,6 +38,18 @@ public class Scheduler {
             throw new NullPointerException();
         this.players = new LinkedList<>();
         this.gameBoard = gameBoard;
+    }
+    
+    /**
+     * Returns a collection that represents the state of all the players
+     * @return the state of all the players
+     */
+    public List<PlayerState> getPlayersState(){
+    	List<PlayerState> playersState = new ArrayList<>();
+    	for(Player player : this.players){
+    		playersState.add(player.getState());
+    	}
+    	return playersState;
     }
 
     /**

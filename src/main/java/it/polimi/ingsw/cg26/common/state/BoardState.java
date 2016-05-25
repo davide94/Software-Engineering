@@ -9,6 +9,8 @@ import java.util.List;
 public class BoardState implements Serializable {
 
     private static final long serialVersionUID = 3006533728187141277L;
+    
+    private final List<PlayerState> players;
 
     private final PoliticDeckState politicDeck;
 
@@ -26,9 +28,10 @@ public class BoardState implements Serializable {
 
     private final MarketState market;
 
-    public BoardState(PoliticDeckState deck, List<CouncillorState> councillorsPool, BalconyState kingBalcony, List<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
-        if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || kingDeck == null)
+    public BoardState(List<PlayerState> players, PoliticDeckState deck, List<CouncillorState> councillorsPool, BalconyState kingBalcony, List<RegionState> regions, NobilityTrackState nobilityTrack, KingState king, MarketState market, KingDeckState kingDeck) {
+        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || kingDeck == null)
             throw new NullPointerException();
+        this.players = players;
         this.politicDeck = deck;
         this.councillorsPool = councillorsPool;
         this.kingBalcony = kingBalcony;
@@ -37,6 +40,10 @@ public class BoardState implements Serializable {
         this.king = king;
         this.market = market;
         this.kingDeck = kingDeck;
+    }
+    
+    public List<PlayerState> getPlayers(){
+    	return players;
     }
 
     public PoliticDeckState getPoliticDeck() {

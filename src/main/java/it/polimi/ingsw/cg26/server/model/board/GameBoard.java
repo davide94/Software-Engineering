@@ -10,11 +10,13 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.state.BoardState;
 import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.state.PlayerState;
 import it.polimi.ingsw.cg26.common.state.RegionState;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import java.util.Collection;
 import java.util.Dictionary;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 
@@ -75,8 +77,9 @@ public class GameBoard extends Observable<Change> {
 		LinkedList<CouncillorState> councillorsState = new LinkedList<>();
 		for (Councillor c: councillorsPool)
 			councillorsState.add(c.getState());
+		List<PlayerState> playersState = scheduler.getPlayersState();
 		// TODO serialize market
-		return new BoardState(politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
+		return new BoardState(playersState, politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
 	}
 
 	public void registerPlayer(Player player) {
