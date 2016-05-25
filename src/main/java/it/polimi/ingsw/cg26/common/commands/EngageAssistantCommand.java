@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.common.commands;
 
+import it.polimi.ingsw.cg26.common.visitor.Visitor;
+
 /**
  *
  */
@@ -10,5 +12,10 @@ public class EngageAssistantCommand extends Command {
     public EngageAssistantCommand() {
 
     }
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 
 }

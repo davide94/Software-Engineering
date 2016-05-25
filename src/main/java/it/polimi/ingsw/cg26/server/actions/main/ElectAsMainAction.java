@@ -16,6 +16,7 @@ public class ElectAsMainAction extends Elect {
 	 */
 	public ElectAsMainAction(RegionState region, CouncillorState councillor) {
 		super(region, councillor);
+		System.out.println("Costruita azione");
 	}
 	
 	/**
@@ -27,6 +28,7 @@ public class ElectAsMainAction extends Elect {
 		if (!currentPlayer.canPerformMainAction())
     		throw new NoRemainingActionsException();
     	super.apply(gameBoard);
+    	System.out.println("azione applicata");
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();
 	}

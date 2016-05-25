@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.common.commands;
 
 import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 import java.util.List;
 
@@ -29,4 +30,8 @@ public class BuildKingCommand extends Command {
         return cards;
     }
 
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

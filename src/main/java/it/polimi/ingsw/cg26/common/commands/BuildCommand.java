@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.common.commands;
 
 import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
 import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 /**
  *
@@ -27,4 +28,8 @@ public class BuildCommand extends Command {
     	return bPTState;
     }
 
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

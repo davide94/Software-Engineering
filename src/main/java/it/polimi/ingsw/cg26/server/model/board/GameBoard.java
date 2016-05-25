@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.state.CityState;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
@@ -94,7 +93,7 @@ public class GameBoard extends Observable<Change> {
 
 	public Region getRegion(RegionState requiredRegion) {
 		for (Region region: this.regions)
-			if (region.getState().equals(requiredRegion))
+			if (region.getName().equals(requiredRegion.getName()))
 				return region;
 		return null;
 	}

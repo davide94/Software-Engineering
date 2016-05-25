@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.commands;
 
 import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 /**
  *
@@ -19,4 +20,8 @@ public class ChangeBPTCommand extends Command {
         return region;
     }
 
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

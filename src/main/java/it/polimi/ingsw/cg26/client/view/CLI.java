@@ -102,7 +102,7 @@ public class CLI implements Runnable {
 
         out.print("The King's balcony has");
         for (CouncillorState c: model.getKingBalcony().getCouncillors())
-            out.print(" " + c.getColor().getColoredColor());
+            out.print(" " + c.getColor());
         out.println(" councillors");
 
         out.println("The board has " + model.getRegions().size() + " regions:");
@@ -111,7 +111,7 @@ public class CLI implements Runnable {
             out.println("\n" + r.getName() + ": ");
             out.print("The balcony has");
             for (CouncillorState c: r.getBalcony().getCouncillors())
-                out.print(" " + c.getColor().getColoredColor());
+                out.print(" " + c.getColor());
             out.println(" councillors");
             out.println("the Business Permit Tiles open are: ");
             for (BusinessPermissionTileState b: r.getDeck().getOpenCards()) {
