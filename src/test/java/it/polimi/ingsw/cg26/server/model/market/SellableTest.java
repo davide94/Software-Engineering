@@ -25,6 +25,11 @@ public class SellableTest {
         sellable = new Assistant();
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void testSetNegativePrice() throws Exception {
+        sellable.setPrice(-3);
+    }
+
     @Test
     public void testSetAndGetPrice() throws Exception {
         sellable.setPrice(3);

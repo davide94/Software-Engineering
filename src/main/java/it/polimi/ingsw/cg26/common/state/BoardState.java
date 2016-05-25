@@ -9,7 +9,7 @@ import java.util.List;
 public class BoardState implements Serializable {
 
     private static final long serialVersionUID = 3006533728187141277L;
-    
+
     private final List<PlayerState> players;
 
     private final PoliticDeckState politicDeck;
@@ -41,7 +41,7 @@ public class BoardState implements Serializable {
         this.market = market;
         this.kingDeck = kingDeck;
     }
-    
+
     public List<PlayerState> getPlayers(){
     	return players;
     }
@@ -55,6 +55,8 @@ public class BoardState implements Serializable {
     }
     
     public void setCouncillorsPool(List<CouncillorState> councillorsPool){
+        if (councillorsPool == null)
+            throw new NullPointerException();
     	this.councillorsPool = councillorsPool;
     }
 

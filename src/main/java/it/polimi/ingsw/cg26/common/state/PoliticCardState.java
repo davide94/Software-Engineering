@@ -13,6 +13,8 @@ public class PoliticCardState extends SellableState implements Serializable {
 
     public PoliticCardState(PoliticColorState color, int price, String owner) {
     	super(price, owner);
+        if (color == null)
+            throw new NullPointerException();
         this.color = color;
     }
 

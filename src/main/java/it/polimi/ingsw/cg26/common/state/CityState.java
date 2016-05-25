@@ -42,7 +42,9 @@ public class CityState implements Serializable {
         return emporiums;
     }
     
-    public void setEmporiums(List<EmporiumState> emporiums){
+    public void setEmporiums(List<EmporiumState> emporiums) {
+		if (emporiums == null)
+			throw new NullPointerException();
     	this.emporiums = emporiums;
     }
 
@@ -65,54 +67,32 @@ public class CityState implements Serializable {
                 '}';
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((bonuses == null) ? 0 : bonuses.hashCode());
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((nearCities == null) ? 0 : nearCities.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		CityState cityState = (CityState) o;
+
+		if (name != null ? !name.equals(cityState.name) : cityState.name != null)
+			return false;
+		if (color != null ? !color.equals(cityState.color) : cityState.color != null)
+			return false;
+		if (emporiums != null ? !emporiums.equals(cityState.emporiums) : cityState.emporiums != null)
+			return false;
+		if (bonuses != null ? !bonuses.equals(cityState.bonuses) : cityState.bonuses != null)
+			return false;
+		return nearCities != null ? nearCities.equals(cityState.nearCities) : cityState.nearCities == null;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CityState other = (CityState) obj;
-		if (bonuses == null) {
-			if (other.bonuses != null)
-				return false;
-		} else if (!bonuses.equals(other.bonuses))
-			return false;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (nearCities == null) {
-			if (other.nearCities != null)
-				return false;
-		} else if (!nearCities.equals(other.nearCities))
-			return false;
-		return true;
+	public int hashCode() {
+		int result = name != null ? name.hashCode() : 0;
+		result = 31 * result + (color != null ? color.hashCode() : 0);
+		result = 31 * result + (emporiums != null ? emporiums.hashCode() : 0);
+		result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
+		result = 31 * result + (nearCities != null ? nearCities.hashCode() : 0);
+		return result;
 	}
-    
-    
 }

@@ -6,10 +6,9 @@ public class SellableState {
 	
 	private String owner;
 	
-	public SellableState() {
-	}
-	
 	public SellableState(int price, String owner) {
+		if (price < 0)
+			throw new IllegalArgumentException();
 		this.price = price;
 		this.owner = owner;
 	}

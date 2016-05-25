@@ -14,6 +14,10 @@ public class BonusState implements Serializable {
 	private final int multiplicity;
 
     public BonusState(String name, int multiplicity) {
+		if (name == null)
+			throw new NullPointerException();
+		if (multiplicity < 0)
+			throw new IllegalArgumentException();
         this.name = name;
 		this.multiplicity = multiplicity;
     }

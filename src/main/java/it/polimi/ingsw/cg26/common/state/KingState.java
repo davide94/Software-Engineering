@@ -12,6 +12,8 @@ public class KingState implements Serializable {
     private String currentCity;
 
     public KingState(String currentCity) {
+        if (currentCity.isEmpty())
+            throw new IllegalArgumentException();
         this.currentCity = currentCity;
     }
 
@@ -20,6 +22,8 @@ public class KingState implements Serializable {
     }
     
     public void setCurrentCity(String currentCity) {
+        if (currentCity.isEmpty())
+            throw new IllegalArgumentException();
 		this.currentCity = currentCity;
 	}
 

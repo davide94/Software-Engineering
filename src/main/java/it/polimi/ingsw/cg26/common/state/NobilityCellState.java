@@ -15,6 +15,10 @@ public class NobilityCellState implements Serializable {
     private Collection<BonusState> bonuses;
 
     public NobilityCellState(int index, Collection<BonusState> bonuses) {
+        if (bonuses == null)
+            throw new NullPointerException();
+        if (index < 0)
+            throw new IllegalArgumentException();
         this.index = index;
         this.bonuses = bonuses;
     }

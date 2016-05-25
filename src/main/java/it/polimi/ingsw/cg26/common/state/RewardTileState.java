@@ -10,6 +10,8 @@ public class RewardTileState implements Serializable {
 	private final List<BonusState> bonuses;
 	
 	public RewardTileState(List<BonusState> bonuses) {
+		if (bonuses == null)
+			throw new NullPointerException();
 		this.bonuses = bonuses;
 	}
 

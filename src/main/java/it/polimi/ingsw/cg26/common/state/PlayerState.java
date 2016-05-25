@@ -33,6 +33,10 @@ public class PlayerState implements Serializable {
     private final List<BusinessPermissionTileState> discardedTiles;
 
     public PlayerState(String name, long token, int victoryPoints, int coins, int remainingMainActions, int remainingQuickActions, int nobilityCell, int assistantsNumber, List<PoliticCardState> cards, List<BusinessPermissionTileState> tiles, List<BusinessPermissionTileState> discardedTiles) {
+        if (cards == null || tiles == null || discardedTiles == null)
+            throw new NullPointerException();
+        if (name.isEmpty() || victoryPoints < 0 || coins < 0 || remainingMainActions < 0 || remainingQuickActions < 0 || nobilityCell < 0 || assistantsNumber < 0)
+            throw new IllegalArgumentException();
         this.name = name;
         this.token = token;
         this.victoryPoints = victoryPoints;

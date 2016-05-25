@@ -13,6 +13,8 @@ public class BalconyState implements Serializable {
     private List<CouncillorState> councillors;
 
     public BalconyState(List<CouncillorState> councillors) {
+        if (councillors == null)
+            throw new NullPointerException();
         this.councillors = councillors;
     }
 

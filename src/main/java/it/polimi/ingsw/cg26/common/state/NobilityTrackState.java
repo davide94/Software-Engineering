@@ -13,6 +13,8 @@ public class NobilityTrackState implements Serializable {
     private List<NobilityCellState> cellsState;
 
     public NobilityTrackState(List<NobilityCellState> cellsState) {
+        if (cellsState == null)
+            throw new NullPointerException();
         this.cellsState = cellsState;
     }
 

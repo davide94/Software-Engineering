@@ -12,6 +12,8 @@ public class EmporiumState implements Serializable {
     private String player;
 
     public EmporiumState(String player) {
+        if (player.isEmpty())
+            throw new IllegalArgumentException();
         this.player = player;
     }
 

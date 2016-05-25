@@ -37,6 +37,8 @@ public abstract class Sellable {
 	 * @param price the price to set
 	 */
 	public void setPrice(int price) {
+		if (price < 0)
+			throw new IllegalArgumentException();
 		this.price = price;
 	}
 

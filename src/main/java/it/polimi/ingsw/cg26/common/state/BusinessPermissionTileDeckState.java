@@ -13,6 +13,8 @@ public class BusinessPermissionTileDeckState implements Serializable {
     private List<BusinessPermissionTileState> openCards;
 
     public BusinessPermissionTileDeckState(List<BusinessPermissionTileState> openCards) {
+        if (openCards == null)
+            throw new NullPointerException();
         this.openCards = openCards;
     }
 

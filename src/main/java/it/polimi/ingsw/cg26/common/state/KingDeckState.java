@@ -13,6 +13,8 @@ public class KingDeckState implements Serializable {
     private List<RewardTileState> cards;
 
     public KingDeckState(List<RewardTileState> cards) {
+        if (cards == null)
+            throw new NullPointerException();
         this.cards = cards;
     }
 
