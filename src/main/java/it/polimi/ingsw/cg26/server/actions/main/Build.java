@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
-import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -19,12 +19,12 @@ public class Build extends Action {
 	/**
 	 * The City where the player wants to build the emporium
 	 */
-    private final CityState city;
+    private final CityDTO city;
     
     /**
      * The Business Permit Tile the player wants to use to build the emporium
      */
-    private final BusinessPermissionTileState bPTState;
+    private final BusinessPermissionTileDTO bPTState;
 
     /**
      * Construct a build action
@@ -32,7 +32,7 @@ public class Build extends Action {
      * @param bPTState the tile that the user wants to use to build
      * @throws NullPointerException if the argument is null
      */
-    public Build(CityState city, BusinessPermissionTileState bPTState) {
+    public Build(CityDTO city, BusinessPermissionTileDTO bPTState) {
         if (city == null || bPTState == null)
             throw new NullPointerException();
         this.city = city;

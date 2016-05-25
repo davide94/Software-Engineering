@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Elect;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -14,7 +14,7 @@ public class ElectAsMainAction extends Elect {
 	 * @param region is the region where the player wants to elect the councillor
 	 * @param councillor is the councillor the player wants to elect 
 	 */
-	public ElectAsMainAction(RegionState region, CouncillorState councillor) {
+	public ElectAsMainAction(RegionDTO region, CouncillorDTO councillor) {
 		super(region, councillor);
 	}
 	

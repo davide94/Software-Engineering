@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-        import it.polimi.ingsw.cg26.common.state.PoliticCardState;
-        import it.polimi.ingsw.cg26.server.model.market.Sellable;
-        import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.server.model.market.Sellable;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  *
@@ -26,15 +26,15 @@ public class PoliticCard extends Sellable {
     }
 
     /**
-     * Generates the state of the card
-     * @return the state of the card
+     * Generates the dto of the card
+     * @return the dto of the card
      */
-    public PoliticCardState getState() {
+    public PoliticCardDTO getState() {
         Player owner = this.getOwner();
         String name = "none";
         if (owner != null)
             name = owner.getName();
-        return new PoliticCardState(color.getState(), this.getPrice(), name);
+        return new PoliticCardDTO(color.getState(), this.getPrice(), name);
     }
 
     /**

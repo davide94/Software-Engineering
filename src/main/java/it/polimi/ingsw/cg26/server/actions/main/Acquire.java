@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
@@ -20,7 +20,7 @@ public class Acquire extends Corrupt {
 	/**
 	 * The region where the player wants to acquire the tile
 	 */
-	private final RegionState region;
+	private final RegionDTO region;
 
 	/**
 	 * The position of the tile that the player wants to take, 0 is the first, 1 is the second
@@ -35,7 +35,7 @@ public class Acquire extends Corrupt {
      * @throws NullPointerException if one or more arguments are null
      * @throws IllegalArgumentException if the position is <0
      */
-    public Acquire(RegionState region, Collection<PoliticCardState> politicCards, int position) {
+    public Acquire(RegionDTO region, Collection<PoliticCardDTO> politicCards, int position) {
 		super(politicCards);
         if (region == null)
             throw new NullPointerException();

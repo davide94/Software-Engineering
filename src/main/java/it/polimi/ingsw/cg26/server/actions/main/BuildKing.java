@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
-import it.polimi.ingsw.cg26.common.state.CityState;
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -20,7 +20,7 @@ public class BuildKing extends Corrupt {
 	/**
 	 * The city where the player wants to move the king and to build the emporium
 	 */
-    private final CityState city;
+    private final CityDTO city;
 
     /**
      * Construct a "build emporium with the help of the king action" action 
@@ -28,7 +28,7 @@ public class BuildKing extends Corrupt {
      * @param politicCards the cards the player wants to use to corrupt the king's balcony
      * @throws NullPointerException if one or more arguments are null
      */
-    public BuildKing(CityState city, Collection<PoliticCardState> politicCards) {
+    public BuildKing(CityDTO city, Collection<PoliticCardDTO> politicCards) {
         super(politicCards);
         if (city == null)
             throw new NullPointerException();

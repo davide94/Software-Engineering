@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.server.model.market;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.common.state.SellableState;
+import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 
 /**
  * 
@@ -22,9 +22,9 @@ public class Market {
     	this.onSale = new ArrayList<>();
     }
     
-    public Sellable getRealSellable(SellableState sellableState){
+    public Sellable getRealSellable(SellableDTO sellableDTO){
     	for(Sellable s : onSale){
-    		if(s.getState().equals(sellableState))
+    		if(s.getState().equals(sellableDTO))
     			return s;
     	}
     	return null;

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.state.CityState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -38,11 +38,11 @@ public class Region {
 		return new Region(name, new LinkedList<>(cities), deck, balcony, bonus);
 	}
 
-	public RegionState getState() {
-		LinkedList<CityState> citiesState = new LinkedList<>();
+	public RegionDTO getState() {
+		LinkedList<CityDTO> citiesState = new LinkedList<>();
 		for (City c: cities)
 			citiesState.add(c.getState());
-		return new RegionState(name, citiesState, deck.getState(), balcony.getState(), bonus.getState());
+		return new RegionDTO(name, citiesState, deck.getState(), balcony.getState(), bonus.getState());
 	}
 
     /**
@@ -75,7 +75,7 @@ public class Region {
      * @param
      * @return
      */
-    public City getCity(CityState requiredCity) {
+    public City getCity(CityDTO requiredCity) {
         for(City city: cities)
         	if(city.getName().equalsIgnoreCase(requiredCity.getName()))
         		return city;
@@ -100,7 +100,7 @@ public class Region {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || (getClass() != o.getClass() && RegionState.class != o.getClass())) return false;
+		if (o == null || (getClass() != o.getClass() && RegionDTO.class != o.getClass())) return false;
 
 		Region region = (Region) o;
 

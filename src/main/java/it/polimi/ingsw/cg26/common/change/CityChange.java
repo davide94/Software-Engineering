@@ -1,26 +1,26 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.CityState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 
 public class CityChange extends ChangeDecorator {
 
-	private CityState cityState;
+	private CityDTO cityDTO;
 	
-	public CityChange(Change decoratedChange, CityState cityState) {
+	public CityChange(Change decoratedChange, CityDTO cityDTO) {
 		super(decoratedChange);
-		this.cityState = cityState;
+		this.cityDTO = cityDTO;
 	}
 	
 	@Override
-	public void apply(BoardState gameBoardState) {
-		super.apply(gameBoardState);
-		CityState city = null;
-		for(RegionState iterRegionState : gameBoardState.getRegions()){
-			for(CityState iterCityState : iterRegionState.getCities()){
-				if(iterCityState.getName().equals(cityState.getName())){
-					city = iterCityState;
+	public void apply(GameBoardDTO gameGameBoardDTO) {
+		super.apply(gameGameBoardDTO);
+		CityDTO city = null;
+		for(RegionDTO iterRegionDTO : gameGameBoardDTO.getRegions()){
+			for(CityDTO iterCityDTO : iterRegionDTO.getCities()){
+				if(iterCityDTO.getName().equals(cityDTO.getName())){
+					city = iterCityDTO;
 					break;
 				}
 			}
@@ -29,7 +29,7 @@ public class CityChange extends ChangeDecorator {
 		}
 		if(city == null)
 			throw new NullPointerException();
-		city.setEmporiums(this.cityState.getEmporiums());
+		city.setEmporiums(this.cityDTO.getEmporiums());
 	}
 
 }

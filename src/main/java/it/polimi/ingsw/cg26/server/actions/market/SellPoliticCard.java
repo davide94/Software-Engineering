@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -10,7 +10,7 @@ public class SellPoliticCard extends Sell {
 	/**
 	 * The Politic Card the player wants to sell
 	 */
-	private PoliticCardState politicCard;
+	private PoliticCardDTO politicCard;
 	
 	/**
 	 * Construct an action to sell a Politic Card
@@ -19,7 +19,7 @@ public class SellPoliticCard extends Sell {
 	 * @throws NullPointerException if one or more arguments are null
 	 * @throws IllegalArgumentException if the price is less than 1
 	 */
-	public SellPoliticCard(PoliticCardState politicCard, int price) {
+	public SellPoliticCard(PoliticCardDTO politicCard, int price) {
 		super(price);
 		if(politicCard == null)
 				throw new NullPointerException();

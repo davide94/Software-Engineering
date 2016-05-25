@@ -2,22 +2,22 @@ package it.polimi.ingsw.cg26.common.change;
 
 import java.util.List;
 
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 
 public class CouncillorsPoolChange extends ChangeDecorator {
 
-	private  List<CouncillorState> councillorsPoolState;
+	private  List<CouncillorDTO> councillorsPoolState;
 	
-	public CouncillorsPoolChange(Change decoratedChange, List<CouncillorState> councillorsPoolState) {
+	public CouncillorsPoolChange(Change decoratedChange, List<CouncillorDTO> councillorsPoolState) {
 		super(decoratedChange);
 		this.councillorsPoolState = councillorsPoolState;
 	}
 	
 	@Override
-	public void apply(BoardState gameBoardState) {
-		super.apply(gameBoardState);
-		gameBoardState.setCouncillorsPool(councillorsPoolState);
+	public void apply(GameBoardDTO gameGameBoardDTO) {
+		super.apply(gameGameBoardDTO);
+		gameGameBoardDTO.setCouncillorsPool(councillorsPoolState);
 	}
 
 }

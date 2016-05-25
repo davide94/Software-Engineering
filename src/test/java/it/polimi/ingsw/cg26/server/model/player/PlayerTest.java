@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
-import it.polimi.ingsw.cg26.common.state.PoliticColorState;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -200,7 +200,7 @@ public class PlayerTest {
     public void testAddPoliticCard() throws Exception {
         PoliticCard card = new PoliticCard(new PoliticColor("ccc"));
         player.addPoliticCard(card);
-        Collection<PoliticCardState> cards = new LinkedList<>();
+        Collection<PoliticCardDTO> cards = new LinkedList<>();
         cards.add(card.getState());
         assertTrue(player.hasCards(cards));
     }
@@ -266,20 +266,20 @@ public class PlayerTest {
         player.addPoliticCard(card1);
         player.addPoliticCard(card2);
 
-        LinkedList<PoliticCardState> cards1 = new LinkedList<>();
+        LinkedList<PoliticCardDTO> cards1 = new LinkedList<>();
         cards1.add(card1.getState());
         cards1.add(card2.getState());
         assertTrue(player.hasCards(cards1));
 
-        LinkedList<PoliticCardState> cards2 = new LinkedList<>();
+        LinkedList<PoliticCardDTO> cards2 = new LinkedList<>();
         cards2.add(card1.getState());
         assertTrue(player.hasCards(cards2));
 
-        LinkedList<PoliticCardState> cards3 = new LinkedList<>();
+        LinkedList<PoliticCardDTO> cards3 = new LinkedList<>();
         cards3.add(card3.getState());
         assertFalse(player.hasCards(cards3));
 
-        LinkedList<PoliticCardState> cards4 = new LinkedList<>();
+        LinkedList<PoliticCardDTO> cards4 = new LinkedList<>();
         cards4.add(card1.getState());
         cards4.add(card3.getState());
         assertFalse(player.hasCards(cards4));
@@ -287,14 +287,14 @@ public class PlayerTest {
 
     @Test (expected = InvalidCardsException.class)
     public void testTakeCardsShouldThrowInvalidCardsException() throws Exception {
-        LinkedList<PoliticCardState> cards = new LinkedList<>();
-        cards.add(new PoliticCardState(new PoliticColorState("colorname"), 0, "giocatore"));
+        LinkedList<PoliticCardDTO> cards = new LinkedList<>();
+        cards.add(new PoliticCardDTO(new PoliticColorDTO("colorname"), 0, "giocatore"));
         player.takeCards(cards);
     }
 
     @Test (expected = InvalidCardsException.class)
     public void testTakeCard() throws Exception {
-        player.takeCard(new PoliticCardState(new PoliticColorState("colorname"), 0, "giocatore"));
+        player.takeCard(new PoliticCardDTO(new PoliticColorDTO("colorname"), 0, "giocatore"));
     }
 
     @Test

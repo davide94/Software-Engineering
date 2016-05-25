@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.server.exceptions.NoMoreCardsException;
-import it.polimi.ingsw.cg26.common.state.PoliticDeckState;
+import it.polimi.ingsw.cg26.common.dto.PoliticDeckDTO;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,11 +28,11 @@ public class PoliticDeck extends Deck<PoliticCard> {
     }
 
     /**
-     * Generates the state of the deck
-     * @return the state of the deck
+     * Generates the dto of the deck
+     * @return the dto of the deck
      */
-    public PoliticDeckState getState() {
-        return new PoliticDeckState();
+    public PoliticDeckDTO getState() {
+        return new PoliticDeckDTO();
     }
 
     @Override

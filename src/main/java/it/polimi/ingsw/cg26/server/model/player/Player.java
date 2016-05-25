@@ -1,13 +1,12 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
-import it.polimi.ingsw.cg26.common.state.PlayerState;
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
-import it.polimi.ingsw.cg26.server.exceptions.NotValidTileException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
@@ -112,20 +111,20 @@ public class Player {
 	}
 
 	/**
-	 * Generates the state of the player
-	 * @return a PlayerState object that represents the current player's state
+	 * Generates the dto of the player
+	 * @return a PlayerDTO object that represents the current player's dto
      */
-	public PlayerState getState() {
-		LinkedList<PoliticCardState> cardsState = new LinkedList<>();
-		LinkedList<BusinessPermissionTileState> tilesState = new LinkedList<>();
-		LinkedList<BusinessPermissionTileState> discardedTilesState = new LinkedList<>();
+	public PlayerDTO getState() {
+		LinkedList<PoliticCardDTO> cardsState = new LinkedList<>();
+		LinkedList<BusinessPermissionTileDTO> tilesState = new LinkedList<>();
+		LinkedList<BusinessPermissionTileDTO> discardedTilesState = new LinkedList<>();
 		for (PoliticCard card: cards)
 			cardsState.add(card.getState());
 		for (BusinessPermissionTile tile: tiles)
 			tilesState.add(tile.getState());
 		for (BusinessPermissionTile tile: discardedTiles)
 			discardedTilesState.add(tile.getState());
-		return new PlayerState(name, token, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
+		return new PlayerDTO(name, token, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
 	}
 
 	/**
@@ -312,7 +311,7 @@ public class Player {
 	 * @return the tile
 	 * @throws InvalidCardsException if the player does not own the card
      */
-	public BusinessPermissionTile hasPermissionTile(BusinessPermissionTileState bPTState) {
+	public BusinessPermissionTile hasPermissionTile(BusinessPermissionTileDTO bPTState) {
 		for (BusinessPermissionTile tile : this.tiles)
 			if (tile.getState().equals(bPTState))
 				return tile;
@@ -320,11 +319,11 @@ public class Player {
 	}
 
 	/**
-	 * Returns a BusinessPermissionTile equal to the BPT state given, removes the tile from the player
+	 * Returns a BusinessPermissionTile equal to the BPT dto given, removes the tile from the player
 	 * @param tileState the tileState given by the user
 	 * @return the tile removed from the player
 	 */
-	public BusinessPermissionTile getRealBPT(BusinessPermissionTileState tileState){
+	public BusinessPermissionTile getRealBPT(BusinessPermissionTileDTO tileState){
 		BusinessPermissionTile tile = null;
 		for(BusinessPermissionTile t : tiles){
 			if(t.getState().equals(tileState)){
@@ -333,7 +332,7 @@ public class Player {
 			}
 		}
 		if(tile == null)
-			throw new NotValidTileException();
+			throw new InvalidTileException();
 		this.tiles.remove(tile);
 		tile.setOwner(null);
 		return tile;
@@ -368,9 +367,9 @@ public class Player {
 	 * @param requiredCards is a collection of cards to search
 	 * @return true if finds every card, false if not
      */
-	public boolean hasCards(Collection<PoliticCardState> requiredCards) {
+	public boolean hasCards(Collection<PoliticCardDTO> requiredCards) {
 		LinkedList<PoliticCard> cards = new LinkedList<>(this.cards);
-		for (PoliticCardState requiredCard: requiredCards) {
+		for (PoliticCardDTO requiredCard: requiredCards) {
 			PoliticCard c = null;
 			for (PoliticCard card : cards) {
 				if (card.getColor().getState().equals(requiredCard.getColor())) {
@@ -387,27 +386,27 @@ public class Player {
 
 	/**
 	 * Returns a collection of politic cards that match with the required
-	 * @param requiredCards is a collection of PoliticCardState that represents the required cards
+	 * @param requiredCards is a collection of PoliticCardDTO that represents the required cards
 	 * @return a collection of politic cards that match with the required
 	 * @throws InvalidCardsException if the player does not owns all the cards required
 	 */
-	public Collection<PoliticCard> takeCards(Collection<PoliticCardState> requiredCards) {
+	public Collection<PoliticCard> takeCards(Collection<PoliticCardDTO> requiredCards) {
 		LinkedList<PoliticCard> removed = new LinkedList<>();
-		for (PoliticCardState requiredCard: requiredCards)
+		for (PoliticCardDTO requiredCard: requiredCards)
 			removed.add(takeCard(requiredCard));
 		return removed;
 	}
 
 	/**
 	 * Returns a politic card that match with the required
-	 * @param politicCardState is a PoliticCardState that represents the required cards
+	 * @param politicCardDTO is a PoliticCardDTO that represents the required cards
 	 * @return a politic cards that match with the required
 	 * @throws InvalidCardsException if the player does not owns the required card
 	 */
-	public PoliticCard takeCard(PoliticCardState politicCardState) {
+	public PoliticCard takeCard(PoliticCardDTO politicCardDTO) {
 		PoliticCard removedCard = null;
 		for (PoliticCard card : this.cards) {
-			if (card.getColor().getState().equals(politicCardState.getColor())) {
+			if (card.getColor().getState().equals(politicCardDTO.getColor())) {
 				removedCard = card;
 				break;
 			}

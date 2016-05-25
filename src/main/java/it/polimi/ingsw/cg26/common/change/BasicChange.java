@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import it.polimi.ingsw.cg26.common.state.BoardState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 public class BasicChange implements Change {
 
 	@Override
-	public void apply(BoardState gameBoardState) {
+	public void apply(GameBoardDTO gameGameBoardDTO) {
 	}
 
 }

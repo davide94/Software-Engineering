@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.state.CityColorState;
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 
 /**
  * 
@@ -25,8 +25,8 @@ public class CityColor {
 		return new CityColor(color);
 	}
 
-	public CityColorState getState() {
-		return new CityColorState(color);
+	public CityColorDTO getState() {
+		return new CityColorDTO(color);
 	}
 
 	/**

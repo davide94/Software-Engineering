@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.state.KingState;
+import it.polimi.ingsw.cg26.common.dto.KingDTO;
 
 /**
  *
@@ -24,8 +24,8 @@ public class King {
         return new King(currentCity);
     }
 
-    public KingState getState() {
-        return new KingState(currentCity.getName());
+    public KingDTO getState() {
+        return new KingDTO(currentCity.getName());
     }
 
     /**

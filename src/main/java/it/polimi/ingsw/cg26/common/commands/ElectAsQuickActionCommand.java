@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.common.commands;
 
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 /**
@@ -11,20 +11,20 @@ public class ElectAsQuickActionCommand extends Command {
 
     private static final long serialVersionUID = 1363842039097368981L;
 
-    private final RegionState region;
+    private final RegionDTO region;
 
-    private final CouncillorState councillor;
+    private final CouncillorDTO councillor;
 
-    public ElectAsQuickActionCommand(RegionState region, CouncillorState councillor) {
+    public ElectAsQuickActionCommand(RegionDTO region, CouncillorDTO councillor) {
         this.region = region;
         this.councillor = councillor;
     }
 
-    public RegionState getRegion() {
+    public RegionDTO getRegion() {
         return region;
     }
 
-    public CouncillorState getCouncillor() {
+    public CouncillorDTO getCouncillor() {
         return councillor;
     }
 
