@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.state.EmporiumState;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 
 /**
  * 
@@ -27,8 +27,8 @@ public class Emporium {
 		return new Emporium(player);
 	}
 
-	public EmporiumState getState() {
-		return new EmporiumState(player.getName());
+	public EmporiumDTO getState() {
+		return new EmporiumDTO(player.getName());
 	}
 
     public Player getPlayer(){
@@ -41,4 +41,31 @@ public class Emporium {
 				"player=" + player.getName() +
 				'}';
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((player == null) ? 0 : player.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Emporium other = (Emporium) obj;
+		if (player == null) {
+			if (other.player != null)
+				return false;
+		} else if (!player.equals(other.player))
+			return false;
+		return true;
+	}
+	
+	
 }

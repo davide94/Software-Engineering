@@ -1,17 +1,14 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
-import it.polimi.ingsw.cg26.common.state.PlayerState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import java.util.Collection;
 import java.util.Dictionary;
@@ -70,16 +67,16 @@ public class GameBoard extends Observable<Change> {
 		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
 	}
 
-	public BoardState getState() {
-		LinkedList<RegionState> regionsState = new LinkedList<>();
+	public GameBoardDTO getState() {
+		LinkedList<RegionDTO> regionsState = new LinkedList<>();
 		for (Region region: regions)
 			regionsState.add(region.getState());
-		LinkedList<CouncillorState> councillorsState = new LinkedList<>();
+		LinkedList<CouncillorDTO> councillorsState = new LinkedList<>();
 		for (Councillor c: councillorsPool)
 			councillorsState.add(c.getState());
-		List<PlayerState> playersState = scheduler.getPlayersState();
+		List<PlayerDTO> playersState = scheduler.getPlayersState();
 		// TODO serialize market
-		return new BoardState(playersState, politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
+		return new GameBoardDTO(playersState, politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
 	}
 
 	public void registerPlayer(Player player) {
@@ -94,7 +91,7 @@ public class GameBoard extends Observable<Change> {
 		return scheduler.getCurrentPlayer();
 	}
 
-	public Region getRegion(RegionState requiredRegion) {
+	public Region getRegion(RegionDTO requiredRegion) {
 		for (Region region: this.regions)
 			if (region.getName().equals(requiredRegion.getName()))
 				return region;
@@ -117,7 +114,7 @@ public class GameBoard extends Observable<Change> {
 		return this.king;
 	}
 
-	public City getCity(CityState requiredCity) {
+	public City getCity(CityDTO requiredCity) {
 		for (Region region: this.regions) {
 			City city = region.getCity(requiredCity);
 			if (city != null)

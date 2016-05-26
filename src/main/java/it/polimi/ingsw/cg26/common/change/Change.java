@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg26.common.change;
 
 import java.io.Serializable;
 
-import it.polimi.ingsw.cg26.common.state.BoardState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 /**
  *
@@ -10,5 +10,5 @@ import it.polimi.ingsw.cg26.common.state.BoardState;
 @FunctionalInterface
 public interface Change extends Serializable {
 
-	void apply(BoardState gameBoardState);
+	void apply(GameBoardDTO gameGameBoardDTO);
 }

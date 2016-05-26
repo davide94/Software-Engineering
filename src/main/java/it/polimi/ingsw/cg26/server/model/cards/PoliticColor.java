@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.common.state.PoliticColorState;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 
 /**
  * 
@@ -22,11 +22,11 @@ public class PoliticColor {
     }
 
     /**
-     * Generate the state of the color
-     * @return the state of the color
+     * Generate the dto of the color
+     * @return the dto of the color
      */
-    public PoliticColorState getState() {
-        return new PoliticColorState(color);
+    public PoliticColorDTO getState() {
+        return new PoliticColorDTO(color);
     }
 
     /**

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.common.state.BonusState;
-import it.polimi.ingsw.cg26.common.state.RewardTileState;
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -28,15 +28,15 @@ public class RewardTile {
 	}
 	
 	/**
-	 * Generates the state of the tile
-	 * @return the state of the tile
+	 * Generates the dto of the tile
+	 * @return the dto of the tile
 	 */
-	public RewardTileState getState(){
-		List<BonusState> bonusesState = new ArrayList<>();
+	public RewardTileDTO getState(){
+		List<BonusDTO> bonusesState = new ArrayList<>();
 		for(Bonus iterBonus : this.bonuses){
 			bonusesState.add(iterBonus.getState());
 		}
-		return new RewardTileState(bonusesState);
+		return new RewardTileDTO(bonusesState);
 	}
 	
 	/**

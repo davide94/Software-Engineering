@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.market;
 
-import it.polimi.ingsw.cg26.common.state.SellableState;
+import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
@@ -24,7 +24,7 @@ public abstract class Sellable {
     public Sellable() {
     }
     
-    public abstract SellableState getState();
+    public abstract SellableDTO getState();
 
     /**
 	 * @return the price

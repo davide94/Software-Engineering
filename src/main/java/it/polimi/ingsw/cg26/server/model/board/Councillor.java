@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
 
 /**
  * 
@@ -26,8 +26,8 @@ public class Councillor {
         return new Councillor(color);
     }
 
-    public CouncillorState getState() {
-        return new CouncillorState(color.getState());
+    public CouncillorDTO getState() {
+        return new CouncillorDTO(color.getState());
     }
 
     /**

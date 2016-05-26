@@ -1,34 +1,34 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import it.polimi.ingsw.cg26.common.state.BalconyState;
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 
 public class BalconyChange extends ChangeDecorator {
 
-	private BalconyState balconyState;
+	private BalconyDTO balconyDTO;
 	
-	private RegionState regionState;
+	private RegionDTO regionDTO;
 	
-	public BalconyChange(Change decoratedChange, BalconyState balconyState, RegionState regionState){
+	public BalconyChange(Change decoratedChange, BalconyDTO balconyDTO, RegionDTO regionDTO){
 		super(decoratedChange);
-		this.balconyState = balconyState;
-		this.regionState = regionState;
+		this.balconyDTO = balconyDTO;
+		this.regionDTO = regionDTO;
 	}
 
 	@Override
-	public void apply(BoardState gameBoardState) {
-		super.apply(gameBoardState);
-		RegionState region = null;
-		for(RegionState iterRegionState : gameBoardState.getRegions()){
-			if(iterRegionState.equals(this.regionState)){
-				region = iterRegionState;
+	public void apply(GameBoardDTO gameGameBoardDTO) {
+		super.apply(gameGameBoardDTO);
+		RegionDTO region = null;
+		for(RegionDTO iterRegionDTO : gameGameBoardDTO.getRegions()){
+			if(iterRegionDTO.equals(this.regionDTO)){
+				region = iterRegionDTO;
 				break;
 			}
 		}
 		if(region == null)
 			throw new NullPointerException();
-		region.setBalcony(this.balconyState);
+		region.setBalcony(this.balconyDTO);
 	}
 	
 }

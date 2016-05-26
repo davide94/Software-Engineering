@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions;
 
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
@@ -14,12 +14,12 @@ public abstract class Elect extends Action {
 	/**
 	 * The Region where the player wants to elect the councillor
 	 */
-	private final RegionState region;
+	private final RegionDTO region;
 
 	/**
 	 * The Councillor that the player wants to elect
 	 */
-    private final CouncillorState councillor;
+    private final CouncillorDTO councillor;
 
     /**
      * Construct an elect action
@@ -27,7 +27,7 @@ public abstract class Elect extends Action {
      * @param councillor is the councillor that the player wants to elect
      * @throws NullPointerException if one or more arguments are null
      */
-    public Elect(RegionState region, CouncillorState councillor) {
+    public Elect(RegionDTO region, CouncillorDTO councillor) {
         if (region == null || councillor == null)
             throw new NullPointerException();
         this.region = region;

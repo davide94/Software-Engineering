@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.common.commands;
 
-import it.polimi.ingsw.cg26.common.state.CityState;
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 import java.util.List;
@@ -13,20 +13,20 @@ public class BuildKingCommand extends Command {
 
     private static final long serialVersionUID = 8976504149589335869L;
 
-    private final CityState city;
+    private final CityDTO city;
 
-    private final List<PoliticCardState> cards;
+    private final List<PoliticCardDTO> cards;
 
-    public BuildKingCommand(CityState city, List<PoliticCardState> cards) {
+    public BuildKingCommand(CityDTO city, List<PoliticCardDTO> cards) {
         this.city = city;
         this.cards = cards;
     }
 
-    public CityState getCity() {
+    public CityDTO getCity() {
         return city;
     }
 
-    public List<PoliticCardState> getCards() {
+    public List<PoliticCardDTO> getCards() {
         return cards;
     }
 

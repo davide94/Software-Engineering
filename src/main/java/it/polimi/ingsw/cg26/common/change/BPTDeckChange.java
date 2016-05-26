@@ -1,28 +1,28 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileDeckState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 
 public class BPTDeckChange extends ChangeDecorator {
 
-	private BusinessPermissionTileDeckState bPTDeckState;
+	private BusinessPermissionTileDeckDTO bPTDeckState;
 	
-	private RegionState regionState;
+	private RegionDTO regionDTO;
 	
-	public BPTDeckChange(Change decoratedChange, BusinessPermissionTileDeckState bPTDeckState, RegionState regionState) {
+	public BPTDeckChange(Change decoratedChange, BusinessPermissionTileDeckDTO bPTDeckState, RegionDTO regionDTO) {
 		super(decoratedChange);
 		this.bPTDeckState = bPTDeckState;
-		this.regionState = regionState;
+		this.regionDTO = regionDTO;
 	}
 	
 	@Override
-	public void apply(BoardState gameBoardState) {
-		super.apply(gameBoardState);
-		RegionState region = null;
-		for(RegionState iterRegionState : gameBoardState.getRegions()){
-			if(iterRegionState.equals(this.regionState)){
-				region = iterRegionState;
+	public void apply(GameBoardDTO gameGameBoardDTO) {
+		super.apply(gameGameBoardDTO);
+		RegionDTO region = null;
+		for(RegionDTO iterRegionDTO : gameGameBoardDTO.getRegions()){
+			if(iterRegionDTO.equals(this.regionDTO)){
+				region = iterRegionDTO;
 				break;
 			}
 		}

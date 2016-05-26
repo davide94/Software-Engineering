@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.client.view;
 
 import it.polimi.ingsw.cg26.common.commands.*;
-import it.polimi.ingsw.cg26.common.state.*;
+import it.polimi.ingsw.cg26.common.dto.*;
 
 import java.io.*;
 import java.util.*;
@@ -17,9 +17,9 @@ public class CLI implements Runnable {
 
     private PrintStream out;
 
-    private BoardState model;
+    private GameBoardDTO model;
 
-    public CLI(ObjectOutputStream outputStream, BoardState model) {
+    public CLI(ObjectOutputStream outputStream, GameBoardDTO model) {
         this.outputStream = outputStream;
         this.model = model;
         this.scanner = new Scanner(System.in);
@@ -101,27 +101,27 @@ public class CLI implements Runnable {
     private void print() {
 
         out.print("The King's balcony has");
-        for (CouncillorState c: model.getKingBalcony().getCouncillors())
+        for (CouncillorDTO c: model.getKingBalcony().getCouncillors())
             out.print(" " + c.getColor());
         out.println(" councillors");
 
         out.println("The board has " + model.getRegions().size() + " regions:");
 
-        for (RegionState r: model.getRegions()) {
+        for (RegionDTO r: model.getRegions()) {
             out.println("\n" + r.getName() + ": ");
             out.print("The balcony has");
-            for (CouncillorState c: r.getBalcony().getCouncillors())
+            for (CouncillorDTO c: r.getBalcony().getCouncillors())
                 out.print(" " + c.getColor());
             out.println(" councillors");
             out.println("the Business Permit Tiles open are: ");
-            for (BusinessPermissionTileState b: r.getDeck().getOpenCards()) {
+            for (BusinessPermissionTileDTO b: r.getDeck().getOpenCards()) {
                 printBPT(b);
                 out.println("");
             }
         }
     }
 
-    private void printBPT(BusinessPermissionTileState bpt) {
+    private void printBPT(BusinessPermissionTileDTO bpt) {
         int i = 0;
         for (String c: bpt.getCities()) {
             if (i != 0)
@@ -131,10 +131,10 @@ public class CLI implements Runnable {
         }
         out.print(" ");
         i = 0;
-        for (BonusState b: bpt.getBonuses()) {
+        for (BonusDTO b: bpt.getBonuses()) {
             if (i != 0)
                 out.print(", ");
-            out.print(b.getMultiplicity() + " " + b.getName());
+            out.print(b.getMultiplicity() + " " + b.getKind());
             i++;
         }
     }
@@ -148,8 +148,8 @@ public class CLI implements Runnable {
     }
 
     private void elect(boolean asMainAction) throws IOException {
-        RegionState region = askForRegion();
-        CouncillorState councillor = askForCouncillor();
+        RegionDTO region = askForRegion();
+        CouncillorDTO councillor = askForCouncillor();
         if (asMainAction)
             this.outputStream.writeObject(new ElectAsMainActionCommand(region, councillor));
         else
@@ -158,8 +158,8 @@ public class CLI implements Runnable {
     }
 
     private void acquire() throws IOException {
-        RegionState region = askForRegion();
-        List<PoliticCardState> cards = askForPoliticCards();
+        RegionDTO region = askForRegion();
+        List<PoliticCardDTO> cards = askForPoliticCards();
         this.output("Do you want the left(l) or the right(R) one? ");
         String response = this.scanner.nextLine();
         int position = 0;
@@ -169,14 +169,14 @@ public class CLI implements Runnable {
     }
 
     private void build() throws IOException {
-        CityState city = askForCity();
-        BusinessPermissionTileState tile = askForBPT();
+        CityDTO city = askForCity();
+        BusinessPermissionTileDTO tile = askForBPT();
         this.outputStream.writeObject(new BuildCommand(city, tile));
     }
 
     private void buildKing() throws IOException {
-        CityState city = askForCity();
-        List<PoliticCardState> cards = askForPoliticCards();
+        CityDTO city = askForCity();
+        List<PoliticCardDTO> cards = askForPoliticCards();
         this.outputStream.writeObject(new BuildKingCommand(city, cards));
     }
 
@@ -185,7 +185,7 @@ public class CLI implements Runnable {
     }
 
     private void changeBPT() throws IOException {
-        RegionState region = askForRegion();
+        RegionDTO region = askForRegion();
         this.outputStream.writeObject(new ChangeBPTCommand(region));
     }
 
@@ -197,11 +197,11 @@ public class CLI implements Runnable {
         this.outputStream.writeObject(new AdditionalMainActionCommand());
     }
 
-    private RegionState askForRegion() {
-        List<RegionState> regions = model.getRegions();
+    private RegionDTO askForRegion() {
+        List<RegionDTO> regions = model.getRegions();
         this.output("In which region? ");
         int i = 1;
-        for (RegionState r: regions) {
+        for (RegionDTO r: regions) {
             out.println("(" + i + ") " + r.getName());
             i++;
         }
@@ -209,12 +209,12 @@ public class CLI implements Runnable {
         return regions.get(regionNmber - 1);
     }
 
-    private CouncillorState askForCouncillor() {
+    private CouncillorDTO askForCouncillor() {
         out.println("Which Councillor's color? ");
-        List<CouncillorState> councillorsPool = model.getCouncillorsPool();
-        List<PoliticColorState> colors = new LinkedList<>();
+        Collection<CouncillorDTO> councillorsPool = model.getCouncillorsPool();
+        List<PoliticColorDTO> colors = new LinkedList<>();
         int i = 1;
-        for (CouncillorState c: councillorsPool) {
+        for (CouncillorDTO c: councillorsPool) {
             if (!colors.contains(c.getColor())) {
                 colors.add(c.getColor());
                 out.println("(" + i + ") " + c.getColor().getColor());
@@ -222,29 +222,29 @@ public class CLI implements Runnable {
             }
         }
         int colorNumber = this.scanner.nextInt();
-        for (CouncillorState c: councillorsPool)
+        for (CouncillorDTO c: councillorsPool)
             if (c.getColor().equals(colors.get(colorNumber - 1)))
                 return c;
         return null;
     }
 
-    private List<PoliticCardState> askForPoliticCards() {
+    private List<PoliticCardDTO> askForPoliticCards() {
         // TODO
         return null;
     }
 
-    private BusinessPermissionTileState askForBPT() {
+    private BusinessPermissionTileDTO askForBPT() {
         // TODO
         return null;
     }
 
-    private CityState askForCity() {
+    private CityDTO askForCity() {
         this.output("In which city? ");
-        List<CityState> cities = new LinkedList<>();
-        for (RegionState r: model.getRegions())
+        List<CityDTO> cities = new LinkedList<>();
+        for (RegionDTO r: model.getRegions())
             cities.addAll(r.getCities());
         int i = 1;
-        for (CityState c: cities) {
+        for (CityDTO c: cities) {
             out.println("(" + i + ") " +c.getName());
             i++;
         }

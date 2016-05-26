@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.common.state.KingDeckState;
-import it.polimi.ingsw.cg26.common.state.RewardTileState;
+import it.polimi.ingsw.cg26.common.dto.KingDeckDTO;
+import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 
 /**
  *
@@ -21,15 +21,15 @@ public class KingDeck extends Deck<RewardTile> {
     }
 
     /**
-     * Generates the state of the Deck
-     * @return the state of the deck
+     * Generates the dto of the Deck
+     * @return the dto of the deck
      */
-    public KingDeckState getState() {
-        List<RewardTileState> tileState = new LinkedList<>();
+    public KingDeckDTO getState() {
+        List<RewardTileDTO> tileState = new LinkedList<>();
         for (RewardTile t: this.cards) {
             tileState.add(t.getState());
         }
-        return new KingDeckState(tileState);
+        return new KingDeckDTO(tileState);
     }
 
 }

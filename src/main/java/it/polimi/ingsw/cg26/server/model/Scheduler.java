@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model;
 
-import it.polimi.ingsw.cg26.common.state.PlayerState;
+import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -41,11 +41,11 @@ public class Scheduler {
     }
     
     /**
-     * Returns a collection that represents the state of all the players
-     * @return the state of all the players
+     * Returns a collection that represents the dto of all the players
+     * @return the dto of all the players
      */
-    public List<PlayerState> getPlayersState(){
-    	List<PlayerState> playersState = new ArrayList<>();
+    public List<PlayerDTO> getPlayersState(){
+    	List<PlayerDTO> playersState = new ArrayList<>();
     	for(Player player : this.players){
     		playersState.add(player.getState());
     	}

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions;
 
-import it.polimi.ingsw.cg26.common.state.PoliticCardState;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
@@ -17,14 +17,14 @@ public abstract class Corrupt extends Action {
 	/**
 	 * The Politic Cards that the player wants to use to corrupt the balcony
 	 */
-    protected final Collection<PoliticCardState> politicCards;
+    protected final Collection<PoliticCardDTO> politicCards;
 
     /**
      * Create a corrupt action
-     * @param politicCards collection of PoliticCardState, the cards used to do the action
+     * @param politicCards collection of PoliticCardDTO, the cards used to do the action
      * @throws NullPointerException if the argument is null
      */
-    public Corrupt(Collection<PoliticCardState> politicCards) {
+    public Corrupt(Collection<PoliticCardDTO> politicCards) {
         if (politicCards == null)
             throw new NullPointerException();
         this.politicCards = politicCards;
@@ -36,11 +36,11 @@ public abstract class Corrupt extends Action {
      * @return number of coins the player must have in order to do the action
      * @throws NullPointerException if the argument is null
      */
-    protected int necessaryCoins(Collection<PoliticCardState> cards){
+    protected int necessaryCoins(Collection<PoliticCardDTO> cards){
     	if(cards == null)
     		throw new NullPointerException();
         int multicolorCardsNumber = 0;
-        for (PoliticCardState card: cards)
+        for (PoliticCardDTO card: cards)
             if (card.getColor().equals(new PoliticColor("multicolor").getState()))
                 multicolorCardsNumber++;
         int usedCoins = 0;

@@ -32,7 +32,7 @@ public class BonusesCreator {
         if (Creator.hasAttribute(root, "assistants"))
             bonuses.add(new AssistantBonus(Integer.parseInt(Creator.getAttribute(root, "assistants"))));
         if (Creator.hasAttribute(root, "nobility"))
-            bonuses.add(new NoblityBonus(Integer.parseInt(Creator.getAttribute(root, "nobility"))));
+            bonuses.add(new NobilityBonus(Integer.parseInt(Creator.getAttribute(root, "nobility"))));
         if (Creator.hasAttribute(root, "victory"))
             bonuses.add(new VictoryBonus(Integer.parseInt(Creator.getAttribute(root, "victory"))));
         if (Creator.hasAttribute(root, "action"))

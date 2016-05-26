@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -15,14 +15,14 @@ public class ChangeBPT extends Action {
 	/**
 	 * The region where the player wants to change the tiles faced up
 	 */
-    private final RegionState region;
+    private final RegionDTO region;
 
     /**
      * Construct the action to change the faced up tiles of a selected region
      * @param region the region where the player wants to change the tiles
      * @throws NullPointerException if the argument is null
      */
-    public ChangeBPT(RegionState region) {
+    public ChangeBPT(RegionDTO region) {
         if (region == null)
             throw new NullPointerException();
         this.region = region;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -10,7 +10,7 @@ public class SellBPT extends Sell {
 	/**
 	 * The Business Permit Tile the player wants to sell
 	 */
-	private BusinessPermissionTileState bpTileState;
+	private BusinessPermissionTileDTO bpTileState;
 	
 	/**
 	 * Construct an action to sell a Business Permit Tile
@@ -19,7 +19,7 @@ public class SellBPT extends Sell {
 	 * @throws NullPointerException if one or more parameters are null
 	 * @throws IllegalArgumentException if the price is less than 1
 	 */
-	public SellBPT(int price, BusinessPermissionTileState bpTileState) {
+	public SellBPT(int price, BusinessPermissionTileDTO bpTileState) {
 		super(price);
 		if(bpTileState == null)
 			throw new NullPointerException();
