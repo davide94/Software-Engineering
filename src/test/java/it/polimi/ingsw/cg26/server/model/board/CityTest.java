@@ -1,14 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
@@ -29,12 +26,13 @@ public class CityTest {
 	private List<Bonus> bonuses3;
 	private List<Emporium> emporiums1;
 	private List<Emporium> emporiums2;
+	private List<Emporium> emporiums3;
 	private Player Davide;
 	private Player Luca;
 	private Player Marco;
 	private Emporium empDavide;
-	//private Emporium empLuca;
-	//private Emporium empMarco;
+	private Emporium empLuca;
+	private Emporium empMarco;
 	private List<City> linkedCities;
 	
 	
@@ -48,12 +46,14 @@ public class CityTest {
 		    Marco=new Player(1236, "Marco", NobilityCell.createNobilityCell(12, null, new LinkedList<Bonus>()), 12, new LinkedList<>(), new LinkedList<>());
 		    emporiums1 = new ArrayList<>();
 		    emporiums2 = new ArrayList<>();
+		    emporiums3 = new ArrayList<>();
 		    empDavide=Emporium.createEmporium(Davide);
-		    //empLuca=Emporium.createEmporium(Luca);
-		    //empMarco=Emporium.createEmporium(Marco);
+		    empLuca=Emporium.createEmporium(Luca);
+		    empMarco=Emporium.createEmporium(Marco);
 		    emporiums2.add(empDavide);
-		    //emporiums2.add(empLuca);
-		    //emporiums2.add(empMarco);		
+		    emporiums3.add(empDavide);
+		    emporiums3.add(empLuca);
+		    emporiums3.add(empMarco);		
 		    bonuses1 = new LinkedList<>();
 		    bonuses2 = new LinkedList<>();
 		    bonuses3 = new LinkedList<>();
@@ -76,17 +76,25 @@ public class CityTest {
 		}
 	 
 	 
-	 /*
+	 
 	 @Test
-		public void testGetAllEmporiumsofCity1() {
+		public void testGetDavideEmporiumsofCity1() {
 			city1.build(Davide);
-			//city1.build(Luca);
-			//city1.build(Marco);
-			
 			assertEquals(city1.getEmporiums(),emporiums2);
 			
 		}
-		*/
+	 
+	 
+	 @Test
+		public void testGetAllEmporiumsofCity1() {
+			city1.build(Davide);
+			city1.build(Luca);
+			city1.build(Marco);
+			
+			assertEquals(city1.getEmporiums(),emporiums3);
+			
+		}
+		
 	 
 	 
 	 
@@ -200,7 +208,7 @@ public class CityTest {
 			
 		}
 	 
-	 /*
+	 
 	 @Test
 		public void testGetCollectionOfBonuses() {
 		        
@@ -214,7 +222,7 @@ public class CityTest {
 	        
 	        
 			
-		}*/
+		}
 	 
 	 
 
@@ -347,6 +355,7 @@ public class CityTest {
 	@Test
 	public void testGetState() {
 		
+				
 	}
 	
 	
