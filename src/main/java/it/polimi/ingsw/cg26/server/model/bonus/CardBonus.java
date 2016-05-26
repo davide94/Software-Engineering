@@ -14,6 +14,8 @@ public class CardBonus extends Bonus {
     /**
      * Create a CardBonus
      * @param multiplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
+     * @throws NullPointerException if the deck is null
      */
     public CardBonus(int multiplicity, PoliticDeck politicDeck) {
     	super(multiplicity);

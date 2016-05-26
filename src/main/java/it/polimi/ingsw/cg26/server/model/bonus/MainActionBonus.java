@@ -11,6 +11,7 @@ public class MainActionBonus extends Bonus {
     /**
      * Create a MainActionBonus
      * @param multilplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
      */
     public MainActionBonus(int multilplicity) {
     	super(multilplicity);

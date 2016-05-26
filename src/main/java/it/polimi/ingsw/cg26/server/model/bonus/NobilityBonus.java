@@ -11,13 +11,14 @@ public class NobilityBonus extends Bonus {
     /**
      * Create a NobilityBonus
      * @param multilplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
      */
     public NobilityBonus(int multilplicity) {
     	super(multilplicity);
     }
 
     /**
-     * increment the nobility cell of the player equal to the multiplicity
+     * increment the nobility cell of the player equal to the multiplicity, if the player has already reached the last cell remains on it
      * @param player the player to apply the bonus
      */
     @Override

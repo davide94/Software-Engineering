@@ -11,6 +11,7 @@ public class VictoryBonus extends Bonus {
     /**
      * Create a VictoryBonus
      * @param multilplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
      */
     public VictoryBonus(int multilplicity) {
     	super(multilplicity);

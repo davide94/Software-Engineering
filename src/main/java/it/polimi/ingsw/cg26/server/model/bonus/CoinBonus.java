@@ -11,6 +11,7 @@ public class CoinBonus extends Bonus {
     /**
      * Create a CoinBonus
      * @param multilplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
      */
     public CoinBonus(int multilplicity) {
     	super(multilplicity);
