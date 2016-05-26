@@ -17,7 +17,8 @@ public class BuyPoliticCard extends Buy {
 	 * Create the action to buy a Politic Card
 	 * @param politicCardDTO
 	 */
-	public BuyPoliticCard(PoliticCardDTO politicCardDTO) {
+	public BuyPoliticCard(PoliticCardDTO politicCardDTO, long token) {
+		super(token);
 		this.politicCardDTO = politicCardDTO;
 	}
 

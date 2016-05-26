@@ -18,8 +18,8 @@ public class ElectAsQuickAction extends Elect {
 	 * @param region the region where the player wants to elect the councillor
 	 * @param councillor the councillor the player wants to elect
 	 */
-	public ElectAsQuickAction(RegionDTO region, CouncillorDTO councillor) {
-		super(region, councillor);
+	public ElectAsQuickAction(RegionDTO region, CouncillorDTO councillor, long token) {
+		super(region, councillor, token);
 	}
 
 	/**

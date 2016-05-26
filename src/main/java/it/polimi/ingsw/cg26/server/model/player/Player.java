@@ -124,7 +124,7 @@ public class Player {
 			tilesState.add(tile.getState());
 		for (BusinessPermissionTile tile: discardedTiles)
 			discardedTilesState.add(tile.getState());
-		return new PlayerDTO(name, token, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
+		return new PlayerDTO(name, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
 	}
 
 	/**

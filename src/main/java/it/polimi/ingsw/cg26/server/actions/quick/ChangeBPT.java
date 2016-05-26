@@ -22,7 +22,8 @@ public class ChangeBPT extends Action {
      * @param region the region where the player wants to change the tiles
      * @throws NullPointerException if the argument is null
      */
-    public ChangeBPT(RegionDTO region) {
+    public ChangeBPT(RegionDTO region, long token) {
+        super(token);
         if (region == null)
             throw new NullPointerException();
         this.region = region;

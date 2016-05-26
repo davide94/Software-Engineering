@@ -35,8 +35,8 @@ public class Acquire extends Corrupt {
      * @throws NullPointerException if one or more arguments are null
      * @throws IllegalArgumentException if the position is <0
      */
-    public Acquire(RegionDTO region, Collection<PoliticCardDTO> politicCards, int position) {
-		super(politicCards);
+    public Acquire(RegionDTO region, Collection<PoliticCardDTO> politicCards, int position, long token) {
+		super(politicCards, token);
         if (region == null)
             throw new NullPointerException();
         if(position < 0)

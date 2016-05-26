@@ -5,6 +5,8 @@ import it.polimi.ingsw.cg26.common.dto.KingDTO;
 
 public class KingChange extends ChangeDecorator {
 
+	private static final long serialVersionUID = 5707210211297999062L;
+
 	private KingDTO kingDTO;
 	
 	public KingChange(Change decoratedChange, KingDTO kingDTO) {

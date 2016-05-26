@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.client.view;
 
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.io.*;
 import java.util.*;
@@ -19,11 +20,14 @@ public class CLI implements Runnable {
 
     private GameBoardDTO model;
 
-    public CLI(ObjectOutputStream outputStream, GameBoardDTO model) {
+    private PlayerDTO me;
+
+    public CLI(ObjectOutputStream outputStream, GameBoardDTO model, PlayerDTO me) {
         this.outputStream = outputStream;
         this.model = model;
         this.scanner = new Scanner(System.in);
         this.out = System.out;
+        this.me = me;
     }
 
     @Override
@@ -100,6 +104,10 @@ public class CLI implements Runnable {
 
     private void print() {
 
+        out.println("There are " + model.getPlayers().size() + " players:");
+        for (PlayerDTO p: model.getPlayers()) {
+            printPlayer(p);
+        }
         out.print("The King's balcony has");
         for (CouncillorDTO c: model.getKingBalcony().getCouncillors())
             out.print(" " + c.getColor());
@@ -119,6 +127,17 @@ public class CLI implements Runnable {
                 out.println("");
             }
         }
+    }
+
+    private void printPlayer(PlayerDTO player) {
+        out.println("\n" + player.getName());
+
+        out.println("victoryPoints: " + player.getVictoryPoints());
+        out.println("coins: " + player.getCoins());
+        out.println("nobilityCell: " + player.getNobilityCell());
+        out.println("assistantsNumber: " + player.getAssistantsNumber());
+
+        out.println();
     }
 
     private void printBPT(BusinessPermissionTileDTO bpt) {

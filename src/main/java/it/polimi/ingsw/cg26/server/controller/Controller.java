@@ -23,11 +23,14 @@ public class Controller implements Observer<Action>, Runnable {
     @Override
     public synchronized void update(Action action) {
         try {
-            // TODO check if current playerry {
-            action.apply(gameBoard);
-            Change decoratedChange = new BasicChange();
-            gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
-            gameBoard.actionPerformed();
+            if (gameBoard.getCurrentPlayer().getToken() == action.getToken()) {
+
+                action.apply(gameBoard);
+
+                Change decoratedChange = new BasicChange();
+                gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
+                gameBoard.actionPerformed();
+            }
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             // TODO notify the view that the action doesn't succeeded
@@ -39,6 +42,5 @@ public class Controller implements Observer<Action>, Runnable {
         System.out.println("Partita cominciata");
         Change decoratedChange = new BasicChange();
         gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
-        // TODO start the game
     }
 }

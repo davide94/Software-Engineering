@@ -19,8 +19,8 @@ public class SellBPT extends Sell {
 	 * @throws NullPointerException if one or more parameters are null
 	 * @throws IllegalArgumentException if the price is less than 1
 	 */
-	public SellBPT(int price, BusinessPermissionTileDTO bpTileState) {
-		super(price);
+	public SellBPT(int price, BusinessPermissionTileDTO bpTileState, long token) {
+		super(price, token);
 		if(bpTileState == null)
 			throw new NullPointerException();
 		this.bpTileState = bpTileState;

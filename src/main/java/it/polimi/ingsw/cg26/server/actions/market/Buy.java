@@ -12,8 +12,8 @@ public abstract class Buy extends Action {
 	/**
 	 * Construct a simple action buy
 	 */
-	public Buy() {
-
+	public Buy(long token) {
+		super(token);
 	}
 
 	@Override

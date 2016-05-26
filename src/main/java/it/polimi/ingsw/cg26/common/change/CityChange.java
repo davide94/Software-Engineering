@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 
 public class CityChange extends ChangeDecorator {
 
+	private static final long serialVersionUID = 5382493602096067408L;
+
 	private CityDTO cityDTO;
 	
 	public CityChange(Change decoratedChange, CityDTO cityDTO) {

@@ -11,8 +11,8 @@ public class SellAssistant extends Sell {
 	 * @param price the price to set to the Assistant
 	 * @throws IllegalArgumentException if the price is less than 1
 	 */
-	public SellAssistant(int price) {
-		super(price);
+	public SellAssistant(int price, long token) {
+		super(price, token);
 	}
 
 	@Override

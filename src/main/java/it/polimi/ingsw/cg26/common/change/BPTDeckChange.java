@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 
 public class BPTDeckChange extends ChangeDecorator {
 
+	private static final long serialVersionUID = 4492908129334448776L;
+
 	private BusinessPermissionTileDeckDTO bPTDeckState;
 	
 	private RegionDTO regionDTO;

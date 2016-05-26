@@ -24,7 +24,8 @@ public abstract class Corrupt extends Action {
      * @param politicCards collection of PoliticCardDTO, the cards used to do the action
      * @throws NullPointerException if the argument is null
      */
-    public Corrupt(Collection<PoliticCardDTO> politicCards) {
+    public Corrupt(Collection<PoliticCardDTO> politicCards, long token) {
+        super(token);
         if (politicCards == null)
             throw new NullPointerException();
         this.politicCards = politicCards;

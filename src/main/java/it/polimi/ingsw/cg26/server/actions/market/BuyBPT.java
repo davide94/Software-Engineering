@@ -17,7 +17,8 @@ public class BuyBPT extends Buy {
 	 * Create the action to buy a Business permit tile
 	 * @param bpTile
 	 */
-	public BuyBPT(BusinessPermissionTileDTO bpTile) {
+	public BuyBPT(BusinessPermissionTileDTO bpTile, long token) {
+		super(token);
 		this.bpTileState = bpTile;
 	}
 

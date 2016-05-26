@@ -46,6 +46,7 @@ public class Scheduler {
      */
     public List<PlayerDTO> getPlayersState(){
     	List<PlayerDTO> playersState = new ArrayList<>();
+        playersState.add(currentPlayer.getState());
     	for(Player player : this.players){
     		playersState.add(player.getState());
     	}
@@ -68,8 +69,8 @@ public class Scheduler {
     public void registerPlayer(Player player) {
         if (player == null)
             throw new NullPointerException();
-        this.players.add(player);
-        if (this.players.size() == 1)
+        players.add(player);
+        if (currentPlayer == null)
             this.currentPlayer = this.players.poll();
     }
 

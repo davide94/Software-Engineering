@@ -45,19 +45,6 @@ public class Server {
         this.controller = new Controller(model);
     }
 
-    private void newPlayerRegistered() {
-        this.playersNumber++;
-        if (playersNumber == 2) {
-            new java.util.Timer().schedule( new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    start();
-                }
-            }, 1);
-        }
-
-    }
-
     private void start() {
         this.playersNumber = 0;
         this.executor.submit(this.controller);
@@ -72,7 +59,6 @@ public class Server {
         while (true) {
             Socket socket = serverSocket.accept();
             registerPlayer(socket, "");
-            newPlayerRegistered();
         }
     }
 
@@ -85,11 +71,11 @@ public class Server {
                 public void run() {
                     start();
                 }
-            }, 20000);
+            }, 5000);
         }
 
         model.registerPlayer(player);
-        View view = new ServerSocketView(socket);
+        View view = new ServerSocketView(socket, player.getToken());
         view.registerObserver(this.controller);
         model.registerObserver(view);
         executor.submit(view);

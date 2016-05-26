@@ -7,11 +7,17 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
  */
 public abstract class Action {
 
+    private final long token;
+
 	/**
 	 * Build a simple action
 	 */
-    public Action() {
+    public Action(long token) {
+        this.token = token;
+    }
 
+    public long getToken() {
+        return token;
     }
 
     /**

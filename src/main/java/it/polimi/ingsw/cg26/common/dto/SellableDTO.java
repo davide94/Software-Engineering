@@ -1,7 +1,11 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-public abstract class SellableDTO {
-	
+import java.io.Serializable;
+
+public abstract class SellableDTO implements Serializable {
+
+	private static final long serialVersionUID = -6623553061225790883L;
+
 	private int price;
 	
 	private String owner;

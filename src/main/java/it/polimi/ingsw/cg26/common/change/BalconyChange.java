@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 
 public class BalconyChange extends ChangeDecorator {
 
+	private static final long serialVersionUID = 9200814381675839335L;
+
 	private BalconyDTO balconyDTO;
 	
 	private RegionDTO regionDTO;

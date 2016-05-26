@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg26.server.exceptions.NotValidPlayerException;
 
 public class PlayerChange extends ChangeDecorator {
 
+	private static final long serialVersionUID = -9080677273453131329L;
+
 	private PlayerDTO playerDTO;
 	
 	public PlayerChange(Change decoratedChange, PlayerDTO playerDTO) {

@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 public abstract class ChangeDecorator implements Change {
 
+	private static final long serialVersionUID = 3146183584551937856L;
+
 	private Change decoratedChange;
 	
 	public ChangeDecorator(Change decoratedChange) {

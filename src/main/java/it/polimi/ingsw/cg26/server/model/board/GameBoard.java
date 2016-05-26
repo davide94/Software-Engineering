@@ -76,7 +76,7 @@ public class GameBoard extends Observable<Change> {
 			councillorsState.add(c.getState());
 		List<PlayerDTO> playersState = scheduler.getPlayersState();
 		// TODO serialize market
-		return new GameBoardDTO(playersState, politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), null, kingDeck.getState());
+		return new GameBoardDTO(playersState, politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), new MarketDTO(), kingDeck.getState());
 	}
 
 	public void registerPlayer(Player player) {

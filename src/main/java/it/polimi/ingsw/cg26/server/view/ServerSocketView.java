@@ -18,17 +18,19 @@ public class ServerSocketView extends View {
     private Socket socket;
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
+    private long token;
     private ActionVisitor actionVisitor;
 
-    public ServerSocketView(Socket socket) throws IOException {
+    public ServerSocketView(Socket socket, long token) throws IOException {
         this.socket = socket;
         this.socketOut = new ObjectOutputStream(socket.getOutputStream());
-        this.actionVisitor = new ActionVisitor(this);
+        this.token = token;
+        this.actionVisitor = new ActionVisitor(this, token);
     }
 
     @Override
     public void update(Change o) {
-        System.out.println("Sending to the client " + o);
+        //System.out.println("Sending to the client " + o);
         try {
             socketOut.writeObject(o);
         } catch (IOException e) {

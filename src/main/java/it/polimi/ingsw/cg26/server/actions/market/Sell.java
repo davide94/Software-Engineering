@@ -17,7 +17,8 @@ public abstract class Sell extends Action {
 	 * @param price the price to set to the sellable in the market
 	 * @throws IllegalArgumentException if the price is less than 1
 	 */
-	public Sell(int price){
+	public Sell(int price, long token) {
+		super(token);
 		if(price<1)
 			throw new IllegalArgumentException();
 		this.price = price;

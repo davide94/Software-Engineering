@@ -14,8 +14,8 @@ public class ElectAsMainAction extends Elect {
 	 * @param region is the region where the player wants to elect the councillor
 	 * @param councillor is the councillor the player wants to elect 
 	 */
-	public ElectAsMainAction(RegionDTO region, CouncillorDTO councillor) {
-		super(region, councillor);
+	public ElectAsMainAction(RegionDTO region, CouncillorDTO councillor, long token) {
+		super(region, councillor, token);
 	}
 	
 	/**

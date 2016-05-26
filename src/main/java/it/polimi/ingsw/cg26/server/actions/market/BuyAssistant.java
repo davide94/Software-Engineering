@@ -10,7 +10,8 @@ public class BuyAssistant extends Buy {
 	/**
 	 * Simple constructor of the action, does nothing
 	 */
-	public BuyAssistant() {
+	public BuyAssistant(long token) {
+		super(token);
 		//the class only represent the action, the assistant is an immutable object so is created when needed
 	}
 

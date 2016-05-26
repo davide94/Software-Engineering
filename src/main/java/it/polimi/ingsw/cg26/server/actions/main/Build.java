@@ -32,7 +32,8 @@ public class Build extends Action {
      * @param bPTState the tile that the user wants to use to build
      * @throws NullPointerException if the argument is null
      */
-    public Build(CityDTO city, BusinessPermissionTileDTO bPTState) {
+    public Build(CityDTO city, BusinessPermissionTileDTO bPTState, long token) {
+        super(token);
         if (city == null || bPTState == null)
             throw new NullPointerException();
         this.city = city;

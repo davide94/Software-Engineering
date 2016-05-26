@@ -28,8 +28,8 @@ public class BuildKing extends Corrupt {
      * @param politicCards the cards the player wants to use to corrupt the king's balcony
      * @throws NullPointerException if one or more arguments are null
      */
-    public BuildKing(CityDTO city, Collection<PoliticCardDTO> politicCards) {
-        super(politicCards);
+    public BuildKing(CityDTO city, Collection<PoliticCardDTO> politicCards, long token) {
+        super(politicCards, token);
         if (city == null)
             throw new NullPointerException();
         this.city = city;

@@ -14,7 +14,8 @@ public class EngageAssistant extends Action {
 	/**
 	 * Construct an action to engage an assistant 
 	 */
-	public EngageAssistant() {
+	public EngageAssistant(long token) {
+		super(token);
 		//the assistant is an immutable object so is created when needed and not received in input
 	}
 

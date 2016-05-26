@@ -13,7 +13,8 @@ public class AdditionalMainAction extends Action {
 	/**
 	 * Construct an action to give one more main action to the player
 	 */
-	public AdditionalMainAction() {
+	public AdditionalMainAction(long token) {
+		super(token);
 		//this action needs only to check parameters of currentPlayer, all is done in apply method, so no elaborated construcor is needed
 	}
 

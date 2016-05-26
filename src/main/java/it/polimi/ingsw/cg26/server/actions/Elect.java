@@ -27,7 +27,8 @@ public abstract class Elect extends Action {
      * @param councillor is the councillor that the player wants to elect
      * @throws NullPointerException if one or more arguments are null
      */
-    public Elect(RegionDTO region, CouncillorDTO councillor) {
+    public Elect(RegionDTO region, CouncillorDTO councillor, long token) {
+		super(token);
         if (region == null || councillor == null)
             throw new NullPointerException();
         this.region = region;
