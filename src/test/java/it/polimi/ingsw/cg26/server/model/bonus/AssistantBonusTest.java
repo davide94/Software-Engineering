@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.common.state.BonusState;
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -50,10 +50,10 @@ public class AssistantBonusTest {
 	@Test
 	public void testGetState(){
 		AssistantBonus bonus = new AssistantBonus(4);
-		BonusState bonusState = bonus.getState();
+		BonusDTO bonusState = bonus.getState();
 		
 		assertEquals(bonus.getMultiplicity(), bonusState.getMultiplicity());
-		assertEquals("Assistants", bonusState.getName());
+		assertEquals("Assistants", bonusState.getKind());
 	}
 	
 	@Test
