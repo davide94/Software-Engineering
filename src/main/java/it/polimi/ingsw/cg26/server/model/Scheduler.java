@@ -59,7 +59,7 @@ public class Scheduler {
      */
     public List<PlayerDTO> getPlayersFullState(){
         List<PlayerDTO> playersState = new ArrayList<>();
-        playersState.add(currentPlayer.getState());
+        playersState.add(currentPlayer.getFullState());
         for(Player player : this.players){
             playersState.add(player.getFullState());
         }

@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg26.client.view.CLI;
 import it.polimi.ingsw.cg26.client.view.socket.ClientInHandler;
 import it.polimi.ingsw.cg26.common.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
-import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg26.client.view;
 
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.io.*;
 import java.util.*;
@@ -100,13 +99,24 @@ public class CLI implements Runnable {
     }
 
     private void print() {
+        // TODO Check if local player is not null
+        out.println("You:");
         printPlayer(model.getlocalPlayer());
+        out.print("Politic Cards:                 ");
+        for (PoliticCardDTO card: model.getlocalPlayer().getCards())
+            out.print(card.getColor().getColoredColor() + " ");
+        out.println();
+        out.print("Business Permit Tiles:         ");
+        for (BusinessPermissionTileDTO tile: model.getlocalPlayer().getTiles())
+            printBPT(tile);
 
-        out.println("There are " + model.getPlayers().size() + " players, you and:");
-        for (PlayerDTO p: model.getPlayers()) {
+        out.println();
+        out.println("Other players:");
+        for (PlayerDTO p: model.getPlayers())
             if (p.getName() != model.getlocalPlayer().getName())
                 printPlayer(p);
-        }
+
+        out.println();
         out.print("The King's balcony has");
         for (CouncillorDTO c: model.getKingBalcony().getCouncillors())
             out.print(" " + c.getColor());
@@ -132,12 +142,11 @@ public class CLI implements Runnable {
 
         out.println("\n" + player.getName());
 
-        out.println("victoryPoints: " + player.getVictoryPoints());
-        out.println("coins: " + player.getCoins());
-        out.println("nobilityCell: " + player.getNobilityCell());
-        out.println("assistantsNumber: " + player.getAssistantsNumber());
+        out.println("Victory Points number:         " + player.getVictoryPoints());
+        out.println("Coins number:                  " + player.getCoins());
+        out.println("Position in Nobility Track:    " + player.getNobilityCell());
+        out.println("Assistants number:             " + player.getAssistantsNumber());
 
-        out.println();
     }
 
     private void printBPT(BusinessPermissionTileDTO bpt) {
