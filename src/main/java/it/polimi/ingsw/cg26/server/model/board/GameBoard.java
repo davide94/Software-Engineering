@@ -79,6 +79,10 @@ public class GameBoard extends Observable<Change> {
 		return new GameBoardDTO(playersState, politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), new MarketDTO(), kingDeck.getState());
 	}
 
+	public Collection<PlayerDTO> getFullPlayers() {
+		return scheduler.getPlayersFullState();
+	}
+
 	public void registerPlayer(Player player) {
 		scheduler.registerPlayer(player);
 	}

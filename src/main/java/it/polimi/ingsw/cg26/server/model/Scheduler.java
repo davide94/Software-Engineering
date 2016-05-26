@@ -39,18 +39,31 @@ public class Scheduler {
         this.players = new LinkedList<>();
         this.gameBoard = gameBoard;
     }
-    
+
     /**
      * Returns a collection that represents the dto of all the players
      * @return the dto of all the players
      */
     public List<PlayerDTO> getPlayersState(){
-    	List<PlayerDTO> playersState = new ArrayList<>();
+        List<PlayerDTO> playersState = new ArrayList<>();
         playersState.add(currentPlayer.getState());
-    	for(Player player : this.players){
-    		playersState.add(player.getState());
-    	}
-    	return playersState;
+        for(Player player : this.players){
+            playersState.add(player.getState());
+        }
+        return playersState;
+    }
+
+    /**
+     * Returns a collection that represents the dto of all the players
+     * @return the dto of all the players
+     */
+    public List<PlayerDTO> getPlayersFullState(){
+        List<PlayerDTO> playersState = new ArrayList<>();
+        playersState.add(currentPlayer.getState());
+        for(Player player : this.players){
+            playersState.add(player.getFullState());
+        }
+        return playersState;
     }
 
     /**

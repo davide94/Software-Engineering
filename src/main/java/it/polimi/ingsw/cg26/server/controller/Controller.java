@@ -1,8 +1,7 @@
 package it.polimi.ingsw.cg26.server.controller;
 
-import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.change.*;
+import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.common.observer.Observer;
@@ -29,6 +28,9 @@ public class Controller implements Observer<Action>, Runnable {
 
                 Change decoratedChange = new BasicChange();
                 gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
+                for (PlayerDTO player: gameBoard.getFullPlayers()) {
+                    gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(decoratedChange, player), player.getToken()));
+                }
                 gameBoard.actionPerformed();
             }
         } catch (RuntimeException e) {
@@ -40,7 +42,10 @@ public class Controller implements Observer<Action>, Runnable {
     @Override
     public void run() {
         System.out.println("Partita cominciata");
-        Change decoratedChange = new BasicChange();
-        gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
+        gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
+
+        for (PlayerDTO player: gameBoard.getFullPlayers()) {
+            gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
+        }
     }
 }

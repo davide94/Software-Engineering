@@ -111,10 +111,24 @@ public class Player {
 	}
 
 	/**
-	 * Generates the dto of the player
-	 * @return a PlayerDTO object that represents the current player's dto
-     */
+	 * Generates the state of the player
+	 * @return a PlayerDTO object that represents the current player's state
+	 */
 	public PlayerDTO getState() {
+		LinkedList<BusinessPermissionTileDTO> tilesState = new LinkedList<>();
+		LinkedList<BusinessPermissionTileDTO> discardedTilesState = new LinkedList<>();
+		for (BusinessPermissionTile tile: tiles)
+			tilesState.add(tile.getState());
+		for (BusinessPermissionTile tile: discardedTiles)
+			discardedTilesState.add(tile.getState());
+		return new PlayerDTO(name, 0, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), null, tilesState, discardedTilesState);
+	}
+
+	/**
+	 * Generates the state of the player
+	 * @return a PlayerDTO object that represents the current player's state
+	 */
+	public PlayerDTO getFullState() {
 		LinkedList<PoliticCardDTO> cardsState = new LinkedList<>();
 		LinkedList<BusinessPermissionTileDTO> tilesState = new LinkedList<>();
 		LinkedList<BusinessPermissionTileDTO> discardedTilesState = new LinkedList<>();
@@ -124,7 +138,7 @@ public class Player {
 			tilesState.add(tile.getState());
 		for (BusinessPermissionTile tile: discardedTiles)
 			discardedTilesState.add(tile.getState());
-		return new PlayerDTO(name, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
+		return new PlayerDTO(name, token, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
 	}
 
 	/**

@@ -20,14 +20,11 @@ public class CLI implements Runnable {
 
     private GameBoardDTO model;
 
-    private PlayerDTO me;
-
-    public CLI(ObjectOutputStream outputStream, GameBoardDTO model, PlayerDTO me) {
+    public CLI(ObjectOutputStream outputStream, GameBoardDTO model) {
         this.outputStream = outputStream;
         this.model = model;
         this.scanner = new Scanner(System.in);
         this.out = System.out;
-        this.me = me;
     }
 
     @Override
@@ -35,7 +32,7 @@ public class CLI implements Runnable {
         try {
             waitInput();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -103,10 +100,12 @@ public class CLI implements Runnable {
     }
 
     private void print() {
+        printPlayer(model.getlocalPlayer());
 
-        out.println("There are " + model.getPlayers().size() + " players:");
+        out.println("There are " + model.getPlayers().size() + " players, you and:");
         for (PlayerDTO p: model.getPlayers()) {
-            printPlayer(p);
+            if (p.getName() != model.getlocalPlayer().getName())
+                printPlayer(p);
         }
         out.print("The King's balcony has");
         for (CouncillorDTO c: model.getKingBalcony().getCouncillors())
@@ -130,6 +129,7 @@ public class CLI implements Runnable {
     }
 
     private void printPlayer(PlayerDTO player) {
+
         out.println("\n" + player.getName());
 
         out.println("victoryPoints: " + player.getVictoryPoints());
@@ -248,13 +248,38 @@ public class CLI implements Runnable {
     }
 
     private List<PoliticCardDTO> askForPoliticCards() {
-        // TODO
-        return null;
+        out.println("Which card do you want to use?");
+        LinkedList<PoliticCardDTO> allCards = new LinkedList<>(model.getlocalPlayer().getCards());
+        LinkedList<PoliticCardDTO> cards = new LinkedList<>();
+        while (true) {
+            int i = 1;
+            for (PoliticCardDTO card: allCards) {
+                out.println("(" + i + ") " + card.getColor().getColoredColor());
+                i++;
+            }
+            int cardNumber = this.scanner.nextInt();
+            cards.add(allCards.get(cardNumber - 1));
+            if (cards.size() == 4)
+                break;
+            out.println("more? (Y/n)");
+            String response = this.scanner.nextLine();
+            if (response.substring(0,1).equalsIgnoreCase("n"))
+                break;
+        }
+        return cards;
     }
 
     private BusinessPermissionTileDTO askForBPT() {
-        // TODO
-        return null;
+        LinkedList<BusinessPermissionTileDTO> tiles = new LinkedList<>(model.getlocalPlayer().getTiles());
+        out.println("Which Permit Tile do you want to use?");
+        int i = 1;
+        for (BusinessPermissionTileDTO tile: tiles) {
+            out.print("(" + i + ") ");
+            printBPT(tile);
+            i++;
+        }
+        int tileNumber = this.scanner.nextInt();
+        return tiles.get(tileNumber - 1);
     }
 
     private CityDTO askForCity() {
