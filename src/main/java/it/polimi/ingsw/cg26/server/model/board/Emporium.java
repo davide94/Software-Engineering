@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.state.EmporiumState;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 
 /**
  * 
@@ -27,8 +27,8 @@ public class Emporium {
 		return new Emporium(player);
 	}
 
-	public EmporiumState getState() {
-		return new EmporiumState(player.getName());
+	public EmporiumDTO getState() {
+		return new EmporiumDTO(player.getName());
 	}
 
     public Player getPlayer(){

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
@@ -11,13 +11,13 @@ public class BuyBPT extends Buy {
 	/**
 	 * The Business Permit Tile the player wants to buy
 	 */
-	private BusinessPermissionTileState bpTileState;
+	private BusinessPermissionTileDTO bpTileState;
 	
 	/**
 	 * Create the action to buy a Business permit tile
 	 * @param bpTile
 	 */
-	public BuyBPT(BusinessPermissionTileState bpTile) {
+	public BuyBPT(BusinessPermissionTileDTO bpTile) {
 		this.bpTileState = bpTile;
 	}
 

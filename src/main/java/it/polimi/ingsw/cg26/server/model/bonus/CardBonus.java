@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.common.state.BonusState;
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -34,8 +34,8 @@ public class CardBonus extends Bonus {
     }
 
     @Override
-    public BonusState getState() {
-        return new BonusState("Cards", getMultiplicity());
+    public BonusDTO getState() {
+        return new BonusDTO("Cards", getMultiplicity());
     }
 
     @Override

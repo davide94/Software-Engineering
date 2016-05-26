@@ -1,22 +1,22 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import it.polimi.ingsw.cg26.common.state.BoardState;
-import it.polimi.ingsw.cg26.common.state.KingState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
+import it.polimi.ingsw.cg26.common.dto.KingDTO;
 
 public class KingChange extends ChangeDecorator {
 
-	private KingState kingState;
+	private KingDTO kingDTO;
 	
-	public KingChange(Change decoratedChange, KingState kingState) {
+	public KingChange(Change decoratedChange, KingDTO kingDTO) {
 		super(decoratedChange);
-		this.kingState = kingState;
+		this.kingDTO = kingDTO;
 	}
 	
 	@Override
-	public void apply(BoardState gameBoardState) {
-		super.apply(gameBoardState);
-		KingState oldKing = gameBoardState.getKing();
-		oldKing.setCurrentCity(this.kingState.getCurrentCity());
+	public void apply(GameBoardDTO gameGameBoardDTO) {
+		super.apply(gameGameBoardDTO);
+		KingDTO oldKing = gameGameBoardDTO.getKing();
+		oldKing.setCurrentCity(this.kingDTO.getCurrentCity());
 	}
 
 }

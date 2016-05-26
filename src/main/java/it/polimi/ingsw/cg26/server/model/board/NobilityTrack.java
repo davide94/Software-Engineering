@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.state.NobilityCellState;
-import it.polimi.ingsw.cg26.common.state.NobilityTrackState;
+import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
+import it.polimi.ingsw.cg26.common.dto.NobilityTrackDTO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,14 +29,14 @@ public class NobilityTrack {
 		return new NobilityTrack(firstCell);
 	}
 
-	public NobilityTrackState getState() {
-		List<NobilityCellState> cellsState = new LinkedList<>();
+	public NobilityTrackDTO getState() {
+		List<NobilityCellDTO> cellsState = new LinkedList<>();
 		NobilityCell cell = firstCell;
 		while (cell.hasNext()) {
 			cellsState.add(cell.getState());
 			cell=cell.next();
 		}
-		return new NobilityTrackState(cellsState);
+		return new NobilityTrackDTO(cellsState);
 	}
 
 	/**

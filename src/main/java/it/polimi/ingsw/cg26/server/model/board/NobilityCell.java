@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.common.state.BonusState;
-import it.polimi.ingsw.cg26.common.state.NobilityCellState;
+import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -46,11 +46,11 @@ public class NobilityCell {
         return new NobilityCell(index, next, new LinkedList<>(bonuses));
     }
 
-    public NobilityCellState getState() {
-        Collection<BonusState> bonusesState = new LinkedList<>();
+    public NobilityCellDTO getState() {
+        Collection<BonusDTO> bonusesState = new LinkedList<>();
         for (Bonus b: bonuses)
             bonusesState.add(b.getState());
-        return new NobilityCellState(index, bonusesState);
+        return new NobilityCellDTO(index, bonusesState);
     }
 
     /**

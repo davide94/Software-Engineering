@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.common.state.EmporiumState;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -16,6 +16,8 @@ public class EmporiumTest {
 	private Player Davide; 
 	private Player Luca;
 	private Emporium empDavide;
+	private Player Gianni; 
+	private EmporiumDTO state;
 	
 	 @Before
 	    public void setUp() throws Exception {
@@ -23,6 +25,8 @@ public class EmporiumTest {
 		 Davide=new Player(1234, "Davide", NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>()), 10, new LinkedList<>(), new LinkedList<>());
 		 Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new LinkedList<Bonus>()), 11, new LinkedList<>(), new LinkedList<>());
 		 empDavide= Emporium.createEmporium(Davide);
+		 Gianni=new Player(1234, "Gianni", NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>()), 10, new LinkedList<>(), new LinkedList<>());
+		 state= new EmporiumDTO("Gianni");
 	 }
 	
 	 
@@ -50,7 +54,7 @@ public class EmporiumTest {
 	
 	@Test
 	public void testGetState() {
-		EmporiumState state= new EmporiumState("Davide");		
+		EmporiumDTO state= new EmporiumDTO("Davide");		
 		
 	}
 	
@@ -64,6 +68,7 @@ public class EmporiumTest {
 	@Test
 	public void testNotEqualsEmporium() {
 		assertFalse((Emporium.createEmporium(Luca)).equals(empDavide) );
+		//assertEquals(new EmporiumDTO(Gianni.getKind()), dto);
 		
 	}
 

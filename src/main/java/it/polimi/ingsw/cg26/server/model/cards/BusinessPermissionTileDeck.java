@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileDeckState;
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -25,14 +25,14 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     }
 
     /**
-     * Generates the state of the Deck
-     * @return the state of the Deck
+     * Generates the dto of the Deck
+     * @return the dto of the Deck
      */
-    public BusinessPermissionTileDeckState getState() {
-        LinkedList<BusinessPermissionTileState> openCardsState = new LinkedList<>();
+    public BusinessPermissionTileDeckDTO getState() {
+        LinkedList<BusinessPermissionTileDTO> openCardsState = new LinkedList<>();
         for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
             openCardsState.add(this.cards.get(i).getState());
-        return new BusinessPermissionTileDeckState(openCardsState);
+        return new BusinessPermissionTileDeckDTO(openCardsState);
     }
 
     /**

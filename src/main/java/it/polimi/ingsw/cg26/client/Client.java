@@ -4,7 +4,7 @@ import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.view.CLI;
 import it.polimi.ingsw.cg26.client.view.socket.ClientInHandler;
 import it.polimi.ingsw.cg26.common.change.FullStateChange;
-import it.polimi.ingsw.cg26.common.state.BoardState;
+import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +34,7 @@ public class Client {
         if (!(object instanceof FullStateChange))
             throw new ClassNotFoundException();
 
-        BoardState model = ((FullStateChange)object).getState();
+        GameBoardDTO model = ((FullStateChange)object).getState();
 
         Controller controller = new Controller(model);
         ClientInHandler inView = new ClientInHandler(inputStream);

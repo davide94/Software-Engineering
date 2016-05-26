@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
-import it.polimi.ingsw.cg26.common.state.CouncillorState;
-import it.polimi.ingsw.cg26.common.state.RegionState;
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Elect;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -18,7 +18,7 @@ public class ElectAsQuickAction extends Elect {
 	 * @param region the region where the player wants to elect the councillor
 	 * @param councillor the councillor the player wants to elect
 	 */
-	public ElectAsQuickAction(RegionState region, CouncillorState councillor) {
+	public ElectAsQuickAction(RegionDTO region, CouncillorDTO councillor) {
 		super(region, councillor);
 	}
 

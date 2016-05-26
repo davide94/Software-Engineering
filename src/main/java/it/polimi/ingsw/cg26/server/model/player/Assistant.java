@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
-import it.polimi.ingsw.cg26.common.state.SellableState;
+import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 
 /**
@@ -25,7 +25,7 @@ public class Assistant extends Sellable {
     }
 
 	@Override
-	public SellableState getState() {
+	public SellableDTO getState() {
 		return null;
 	}
 

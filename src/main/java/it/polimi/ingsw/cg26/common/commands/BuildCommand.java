@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.common.commands;
 
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
-import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 /**
@@ -11,20 +11,20 @@ public class BuildCommand extends Command {
 
     private static final long serialVersionUID = -7169935530571666693L;
 
-    private final CityState city;
+    private final CityDTO city;
     
-    private final BusinessPermissionTileState bPTState;
+    private final BusinessPermissionTileDTO bPTState;
 
-    public BuildCommand(CityState city, BusinessPermissionTileState bPTState) {
+    public BuildCommand(CityDTO city, BusinessPermissionTileDTO bPTState) {
         this.city = city;
         this.bPTState = bPTState; 
     }
 
-    public CityState getCity() {
+    public CityDTO getCity() {
         return city;
     }
     
-    public BusinessPermissionTileState getTile(){
+    public BusinessPermissionTileDTO getTile(){
     	return bPTState;
     }
 

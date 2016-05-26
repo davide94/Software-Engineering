@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.state.BonusState;
-import it.polimi.ingsw.cg26.common.state.CityState;
-import it.polimi.ingsw.cg26.common.state.EmporiumState;
 
 import java.util.*;
 
@@ -40,17 +40,17 @@ public class City {
         return new City(name, color, new LinkedList<>(bonuses), new ArrayList<>(), new LinkedList<>());
     }
 
-    public CityState getState() {
-        LinkedList<BonusState> bonusesState = new LinkedList<>();
+    public CityDTO getState() {
+        LinkedList<BonusDTO> bonusesState = new LinkedList<>();
         for (Bonus b: bonuses)
             bonusesState.add(b.getState());
         LinkedList<String> nearCitiesState = new LinkedList<>();
         for (City c: nearCities)
             nearCitiesState.add(c.getName());
-        LinkedList<EmporiumState> emporiumsState = new LinkedList<>();
+        LinkedList<EmporiumDTO> emporiumsState = new LinkedList<>();
         for (Emporium e: emporiums)
             emporiumsState.add(e.getState());
-        return new CityState(name, color.getState(), bonusesState, emporiumsState, nearCitiesState);
+        return new CityDTO(name, color.getState(), bonusesState, emporiumsState, nearCitiesState);
     }
 
     /**

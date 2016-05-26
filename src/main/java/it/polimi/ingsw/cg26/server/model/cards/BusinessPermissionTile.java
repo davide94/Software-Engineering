@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.common.state.CityState;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
-import it.polimi.ingsw.cg26.common.state.BonusState;
-import it.polimi.ingsw.cg26.common.state.BusinessPermissionTileState;
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
@@ -41,21 +41,21 @@ public class BusinessPermissionTile extends Sellable {
 
     @Override
     /**
-     * Generates the state of the tile
-     * @return the state of the tile
+     * Generates the dto of the tile
+     * @return the dto of the tile
      */
-    public BusinessPermissionTileState getState() {
+    public BusinessPermissionTileDTO getState() {
         LinkedList<String> citiesState = new LinkedList<>();
         for (City c: cities)
             citiesState.add(c.getName());
-        LinkedList<BonusState> bonusesState = new LinkedList<>();
+        LinkedList<BonusDTO> bonusesState = new LinkedList<>();
         for (Bonus b: bonuses)
             bonusesState.add(b.getState());
         Player owner = this.getOwner();
         String name = "none";
         if (owner != null)
             name = owner.getName();
-        return new BusinessPermissionTileState(citiesState, bonusesState, this.getPrice(), name);
+        return new BusinessPermissionTileDTO(citiesState, bonusesState, this.getPrice(), name);
     }
 
     /**
@@ -63,7 +63,7 @@ public class BusinessPermissionTile extends Sellable {
      * @param city is the city where is checked if it is possible to build an emporium
      * @return true if it is possible to build an emporium in city with this tile, false if not
      */
-    public boolean canBuildIn(CityState city) {
+    public boolean canBuildIn(CityDTO city) {
         for (City c: this.cities)
             if (c.getName().equalsIgnoreCase(city.getName()))
                 return true;
