@@ -73,4 +73,33 @@ public class Balcony {
 				"councillors=" + councillors +
 				'}';
 	}
+
+	public Queue<Councillor> getCouncillors() {
+		return councillors;
+	}
+
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Balcony other = (Balcony) obj;
+		if (capacity != other.capacity)
+			return false;
+		if (councillors == null) {
+			if (other.councillors != null)
+				return false;
+		} else if (!councillors.equals(other.councillors))
+			return false;
+		return true;
+	}
+
+		
+	
+	
 }

@@ -209,6 +209,7 @@ public class CityTest {
 		}
 	 
 	 
+	 /*
 	 @Test
 		public void testGetCollectionOfBonuses() {
 		        
@@ -223,6 +224,7 @@ public class CityTest {
 	        
 			
 		}
+		*/
 	 
 	 
 
