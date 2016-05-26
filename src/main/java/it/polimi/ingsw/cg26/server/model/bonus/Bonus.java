@@ -16,8 +16,11 @@ public abstract class Bonus {
     /**
      * Create the bonus
      * @param multiplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
      */
     public Bonus(int multiplicity) {
+    	if(multiplicity < 1)
+    		throw new IllegalArgumentException();
     	this.multiplicity=multiplicity;
     }
 
@@ -27,6 +30,7 @@ public abstract class Bonus {
 	public int getMultiplicity() {
 		return multiplicity;
 	}
+	
     /**
      * @param player the player to apply the bonus
      */

@@ -12,6 +12,7 @@ public class AssistantBonus extends Bonus {
     /**
      * Create an AssistantBonus
      * @param multilplicity of the bonus
+     * @throws IllegalArgumentException if the multiplicity is less than 1
      */
     public AssistantBonus(int multilplicity) {
     	super(multilplicity);
