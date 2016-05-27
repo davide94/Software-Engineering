@@ -16,7 +16,7 @@ public abstract class RemainingActions {
      * Constructs an RemainingActions class with 0 commands remaining
      */
     public RemainingActions() {
-        this.remaining = 1;
+        this.remaining = 0;
     }
 
     /**

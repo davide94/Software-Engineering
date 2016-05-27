@@ -36,6 +36,8 @@ public class PlayerTest {
         LinkedList<Assistant> assistants = new LinkedList<>();
         assistants.add(new Assistant());
         player = new Player(1234, "name", nobilityCell2, 10, cards, assistants);
+        player.setRemainingMainActions(1);
+        player.setRemainingQuickActions(1);
     }
 
     @Test(expected = NullPointerException.class)

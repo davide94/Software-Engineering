@@ -31,7 +31,6 @@ public class MainActionBonusTest {
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		MainActionBonus bonus = new MainActionBonus(1);
 		bonus.apply(player);
-		player.performMainAction();
 		assertEquals(player.canPerformMainAction(), true);
 	}
 	
@@ -41,7 +40,6 @@ public class MainActionBonusTest {
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		MainActionBonus bonus = new MainActionBonus(1);
 		bonus.apply(player);
-		player.performMainAction();
 		player.performMainAction();
 		assertEquals(false, player.canPerformMainAction());
 	}

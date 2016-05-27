@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.client;
 
 import it.polimi.ingsw.cg26.client.controller.Controller;
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.CLI;
 import it.polimi.ingsw.cg26.client.view.socket.ClientInHandler;
 import it.polimi.ingsw.cg26.common.change.FullStateChange;
@@ -42,13 +43,14 @@ public class Client {
             return;
         }
 
-        GameBoardDTO model = ((FullStateChange)object).getState();
+        Model model = new Model(((FullStateChange)object).getState());
 
         Controller controller = new Controller(model);
         ClientInHandler inView = new ClientInHandler(inputStream);
         inView.registerObserver(controller);
 
         CLI outView = new CLI(outputStream, model);
+        controller.registerObserver(outView);
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
         executor.submit(inView);

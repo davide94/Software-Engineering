@@ -29,5 +29,15 @@ public class FullStateChange extends ChangeDecorator {
     }
 
 	@Override
-	public void apply(GameBoardDTO gameGameBoardDTO){}
+	public void apply(GameBoardDTO gameGameBoardDTO){
+        gameGameBoardDTO.setPlayers(state.getPlayers());
+        gameGameBoardDTO.setCurrentPlayer(state.getCurrentPlayer());
+        gameGameBoardDTO.setPoliticDeck(state.getPoliticDeck());
+        gameGameBoardDTO.setCouncillorsPool(state.getCouncillorsPool());
+        gameGameBoardDTO.setKingBalcony(state.getKingBalcony());
+        gameGameBoardDTO.setNobilityTrack(state.getNobilityTrack());
+        gameGameBoardDTO.setKing(state.getKing());
+        gameGameBoardDTO.setMarket(state.getMarket());
+        gameGameBoardDTO.setKingDeck(state.getKingDeck());
+    }
 }

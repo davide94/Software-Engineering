@@ -13,23 +13,25 @@ public class GameBoardDTO implements Serializable {
 
     private PlayerDTO localPlayer;
 
-    private final List<PlayerDTO> players;
+    private PlayerDTO currentPlayer;
 
-    private final PoliticDeckDTO politicDeck;
+    private List<PlayerDTO> players;
+
+    private PoliticDeckDTO politicDeck;
 
     private Collection<CouncillorDTO> councillorsPool;
 
-    private final KingDeckDTO kingDeck;
+    private KingDeckDTO kingDeck;
 
-    private final BalconyDTO kingBalcony;
+    private BalconyDTO kingBalcony;
 
-    private final List<RegionDTO> regions;
+    private List<RegionDTO> regions;
 
-    private final NobilityTrackDTO nobilityTrack;
+    private NobilityTrackDTO nobilityTrack;
 
-    private final KingDTO king;
+    private KingDTO king;
 
-    private final MarketDTO market;
+    private MarketDTO market;
 
     /**
      * Constructs a GameBoard DTO object
@@ -44,10 +46,11 @@ public class GameBoardDTO implements Serializable {
      * @param kingDeck is a king's deck DTO
      * @throws NullPointerException if any of the parameters is null
      */
-    public GameBoardDTO(List<PlayerDTO> players, PoliticDeckDTO deck, Collection<CouncillorDTO> councillorsPool, BalconyDTO kingBalcony, List<RegionDTO> regions, NobilityTrackDTO nobilityTrack, KingDTO king, MarketDTO market, KingDeckDTO kingDeck) {
-        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
+    public GameBoardDTO(List<PlayerDTO> players, PlayerDTO currentPlayer, PoliticDeckDTO deck, Collection<CouncillorDTO> councillorsPool, BalconyDTO kingBalcony, List<RegionDTO> regions, NobilityTrackDTO nobilityTrack, KingDTO king, MarketDTO market, KingDeckDTO kingDeck) {
+        if (players == null || currentPlayer == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
             throw new NullPointerException();
         this.players = players;
+        this.currentPlayer = currentPlayer;
         this.politicDeck = deck;
         this.councillorsPool = councillorsPool;
         this.kingBalcony = kingBalcony;
@@ -58,13 +61,36 @@ public class GameBoardDTO implements Serializable {
         this.kingDeck = kingDeck;
     }
 
-
-    public PlayerDTO getlocalPlayer() {
+    /**
+     *
+     * @return
+     */
+    public PlayerDTO getLocalPlayer() {
         return localPlayer;
     }
 
+    /**
+     *
+     * @param localPlayer
+     */
     public void setLocalPlayer(PlayerDTO localPlayer) {
         this.localPlayer = localPlayer;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public PlayerDTO getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     *
+     * @param currentPlayer
+     */
+    public void setCurrentPlayer(PlayerDTO currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     /**
@@ -76,11 +102,27 @@ public class GameBoardDTO implements Serializable {
     }
 
     /**
+     *
+     * @param players
+     */
+    public void setPlayers(List<PlayerDTO> players) {
+        this.players = players;
+    }
+
+    /**
      * Returns a politic Deck DTO
      * @return a politic Deck DTO
      */
     public PoliticDeckDTO getPoliticDeck() {
         return politicDeck;
+    }
+
+    /**
+     *
+     * @param politicDeck
+     */
+    public void setPoliticDeck(PoliticDeckDTO politicDeck) {
+        this.politicDeck = politicDeck;
     }
 
     /**
@@ -111,11 +153,27 @@ public class GameBoardDTO implements Serializable {
     }
 
     /**
+     *
+     * @param kingDeck
+     */
+    public void setKingDeck(KingDeckDTO kingDeck) {
+        this.kingDeck = kingDeck;
+    }
+
+    /**
      * Returns the King's Balcony DTO
      * @return the King's Balcony DTO
      */
     public BalconyDTO getKingBalcony() {
         return kingBalcony;
+    }
+
+    /**
+     *
+     * @param kingBalcony
+     */
+    public void setKingBalcony(BalconyDTO kingBalcony) {
+        this.kingBalcony = kingBalcony;
     }
 
     /**
@@ -127,11 +185,27 @@ public class GameBoardDTO implements Serializable {
     }
 
     /**
+     *
+     * @param regions
+     */
+    public void setRegions(List<RegionDTO> regions) {
+        this.regions = regions;
+    }
+
+    /**
      * Returns a Nobility Track DTO
      * @return a Nobility Track DTO
      */
     public NobilityTrackDTO getNobilityTrack() {
         return nobilityTrack;
+    }
+
+    /**
+     *
+     * @param nobilityTrack
+     */
+    public void setNobilityTrack(NobilityTrackDTO nobilityTrack) {
+        this.nobilityTrack = nobilityTrack;
     }
 
     /**
@@ -143,11 +217,27 @@ public class GameBoardDTO implements Serializable {
     }
 
     /**
+     *
+     * @param king
+     */
+    public void setKing(KingDTO king) {
+        this.king = king;
+    }
+
+    /**
      * Returns a Market DTO
      * @return a Market DTO
      */
     public MarketDTO getMarket() {
         return market;
+    }
+
+    /**
+     *
+     * @param market
+     */
+    public void setMarket(MarketDTO market) {
+        this.market = market;
     }
 
     @Override

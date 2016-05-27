@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model;
 
+import it.polimi.ingsw.cg26.common.change.*;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -83,8 +84,11 @@ public class Scheduler {
         if (player == null)
             throw new NullPointerException();
         players.add(player);
-        if (currentPlayer == null)
+        if (currentPlayer == null) {
             this.currentPlayer = this.players.poll();
+            currentPlayer.setRemainingMainActions(1);
+            currentPlayer.setRemainingQuickActions(1);
+        }
     }
 
     /**
@@ -95,7 +99,12 @@ public class Scheduler {
         if (currentPlayer.canPerformMainAction() || currentPlayer.canPerformQuickAction())
             return;
         // TODO controlli su terminazione partita
+        Player leastRecentCurrentPlayer = currentPlayer;
         players.add(currentPlayer);
         currentPlayer = players.poll();
+        currentPlayer.setRemainingMainActions(1);
+        currentPlayer.setRemainingQuickActions(1);
+        gameBoard.notifyObservers(new PrivateChange(new YourTurnEnds(new BasicChange()), leastRecentCurrentPlayer.getToken()));
+        gameBoard.notifyObservers(new PrivateChange(new YourTurnStarts(new BasicChange()), currentPlayer.getToken()));
     }
 }

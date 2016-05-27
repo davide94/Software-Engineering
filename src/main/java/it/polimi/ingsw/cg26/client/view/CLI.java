@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cg26.client.view;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.observer.Observer;
 
 import java.io.*;
 import java.util.*;
@@ -9,7 +12,7 @@ import java.util.*;
 /**
  *
  */
-public class CLI implements Runnable {
+public class CLI implements Observer<Change>, Runnable {
 
     private ObjectOutputStream outputStream;
 
@@ -17,9 +20,9 @@ public class CLI implements Runnable {
 
     private PrintStream out;
 
-    private GameBoardDTO model;
+    private Model model;
 
-    public CLI(ObjectOutputStream outputStream, GameBoardDTO model) {
+    public CLI(ObjectOutputStream outputStream, Model model) {
         this.outputStream = outputStream;
         this.model = model;
         this.scanner = new Scanner(System.in);
@@ -28,14 +31,14 @@ public class CLI implements Runnable {
 
     @Override
     public void run() {
-        try {
-            waitInput();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     private void waitInput() throws IOException {
+        if (!model.isYourTurn()) {
+            System.out.println("Wait your turn...");
+            return;
+        }
         boolean quit = false;
         while (!quit) {
             this.output("\n(-1)STACCAH" +
@@ -101,30 +104,30 @@ public class CLI implements Runnable {
     private void print() {
         // TODO Check if local player is not null
         out.println("You:");
-        printPlayer(model.getlocalPlayer());
+        printPlayer(model.getGameBoard().getLocalPlayer());
         out.print("Politic Cards:                 ");
-        for (PoliticCardDTO card: model.getlocalPlayer().getCards())
+        for (PoliticCardDTO card: model.getGameBoard().getLocalPlayer().getCards())
             out.print(card.getColor().getColoredColor() + " ");
         out.println();
         out.print("Business Permit Tiles:         ");
-        for (BusinessPermissionTileDTO tile: model.getlocalPlayer().getTiles())
+        for (BusinessPermissionTileDTO tile: model.getGameBoard().getLocalPlayer().getTiles())
             printBPT(tile);
 
         out.println();
         out.println("Other players:");
-        for (PlayerDTO p: model.getPlayers())
-            if (p.getName() != model.getlocalPlayer().getName())
+        for (PlayerDTO p: model.getGameBoard().getPlayers())
+            if (p.getName() != model.getGameBoard().getLocalPlayer().getName())
                 printPlayer(p);
 
         out.println();
-        out.print("The King's balcony has");
-        for (CouncillorDTO c: model.getKingBalcony().getCouncillors())
+        out.print("The King is in " + model.getGameBoard().getKing().getCurrentCity() + " and his balcony has");
+        for (CouncillorDTO c: model.getGameBoard().getKingBalcony().getCouncillors())
             out.print(" " + c.getColor().getColoredColor());
         out.println(" councillors");
 
-        out.println("The board has " + model.getRegions().size() + " regions:");
+        out.println("The board has " + model.getGameBoard().getRegions().size() + " regions:");
 
-        for (RegionDTO r: model.getRegions()) {
+        for (RegionDTO r: model.getGameBoard().getRegions()) {
             out.println("\n" + r.getName() + ": ");
             out.print("The balcony has");
             for (CouncillorDTO c: r.getBalcony().getCouncillors())
@@ -146,6 +149,8 @@ public class CLI implements Runnable {
         out.println("Coins number:                  " + player.getCoins());
         out.println("Position in Nobility Track:    " + player.getNobilityCell());
         out.println("Assistants number:             " + player.getAssistantsNumber());
+        out.println("Remaining Main Actions:        " + player.getRemainingMainActions());
+        out.println("Remaining Quick Actions:       " + player.getRemainingQuickActions());
 
     }
 
@@ -228,7 +233,7 @@ public class CLI implements Runnable {
     }
 
     private RegionDTO askForRegion() {
-        List<RegionDTO> regions = model.getRegions();
+        List<RegionDTO> regions = model.getGameBoard().getRegions();
         this.output("In which region? ");
         int i = 1;
         for (RegionDTO r: regions) {
@@ -241,7 +246,7 @@ public class CLI implements Runnable {
 
     private CouncillorDTO askForCouncillor() {
         out.println("Which Councillor's color? ");
-        Collection<CouncillorDTO> councillorsPool = model.getCouncillorsPool();
+        Collection<CouncillorDTO> councillorsPool = model.getGameBoard().getCouncillorsPool();
         List<PoliticColorDTO> colors = new LinkedList<>();
         int i = 1;
         for (CouncillorDTO c: councillorsPool) {
@@ -260,7 +265,7 @@ public class CLI implements Runnable {
 
     private List<PoliticCardDTO> askForPoliticCards() {
         out.println("Which card do you want to use?");
-        LinkedList<PoliticCardDTO> allCards = new LinkedList<>(model.getlocalPlayer().getCards());
+        LinkedList<PoliticCardDTO> allCards = new LinkedList<>(model.getGameBoard().getLocalPlayer().getCards());
         LinkedList<PoliticCardDTO> cards = new LinkedList<>();
         while (true) {
             int i = 1;
@@ -283,7 +288,7 @@ public class CLI implements Runnable {
     }
 
     private BusinessPermissionTileDTO askForBPT() {
-        LinkedList<BusinessPermissionTileDTO> tiles = new LinkedList<>(model.getlocalPlayer().getTiles());
+        LinkedList<BusinessPermissionTileDTO> tiles = new LinkedList<>(model.getGameBoard().getLocalPlayer().getTiles());
         out.println("Which Permit Tile do you want to use?");
         int i = 1;
         for (BusinessPermissionTileDTO tile: tiles) {
@@ -298,7 +303,7 @@ public class CLI implements Runnable {
     private CityDTO askForCity() {
         this.output("In which city? ");
         List<CityDTO> cities = new LinkedList<>();
-        for (RegionDTO r: model.getRegions())
+        for (RegionDTO r: model.getGameBoard().getRegions())
             cities.addAll(r.getCities());
         int i = 1;
         for (CityDTO c: cities) {
@@ -309,4 +314,16 @@ public class CLI implements Runnable {
         return cities.get(cityNmber - 1);
     }
 
+    @Override
+    public void update(Change o) {
+        //System.out.println(o);
+        if (model.isYourTurn()) {
+            System.out.println("Your turn begun...");
+            try {
+                waitInput();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

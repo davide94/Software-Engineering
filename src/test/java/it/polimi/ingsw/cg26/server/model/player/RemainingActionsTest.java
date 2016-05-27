@@ -16,6 +16,7 @@ public class RemainingActionsTest {
     @Before
     public void setUp() throws Exception {
         remainingActions = new RemainingMainActions();
+        remainingActions.setRemaining(1);
     }
 
     @Test
