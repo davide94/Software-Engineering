@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.client.view;
 
-import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.observer.Observer;
@@ -12,169 +11,173 @@ import java.util.*;
 /**
  *
  */
-public class CLI implements Observer<Change>, Runnable {
+public class CLI implements Observer<GameBoardDTO>, Runnable {
 
-    private ObjectOutputStream outputStream;
+    private ClientOutHandler outView;
 
     private Scanner scanner;
 
     private PrintStream out;
 
-    private Model model;
+    private GameBoardDTO gameBoard;
 
-    public CLI(ObjectOutputStream outputStream, Model model) {
-        this.outputStream = outputStream;
-        this.model = model;
+    private boolean isMyTurn;
+
+    public CLI(ClientOutHandler outView) {
+        this.outView = outView;
         this.scanner = new Scanner(System.in);
         this.out = System.out;
     }
 
     @Override
     public void run() {
-        askForCommand();
+
     }
 
     private void askForCommand() {
-        if (!model.isYourTurn()) {
-            out.println("Is not Your turn" +
-                        "\n(-1)STACCAH" +
-                        "\n(0) Print state");
-        } else {
-            out.println("Is Your turn..." +
-                        "\n(-1)STACCAH" +
-                        "\n(0) Print state" +
+        if (isMyTurn) {
+            out.println("Is Your turn!" +
+                    "\nYou have " + gameBoard.getCurrentPlayer().getRemainingMainActions() +
+                    " Main and " + gameBoard.getCurrentPlayer().getRemainingQuickActions() + " Quick actions to perform." +
+                    "\n\nCommands:" +
+                    "\n(Q) STACCAH" +
+                    "\n(p) Print state" +
 
-                        "\n\nMain commands:" +
-                        "\n(1) Elect a Councillor" +
-                        "\n(2) Acquire a Business Permit Tile" +
-                        "\n(3) Build an emporium using a Permit Tile" +
-                        "\n(4) Build an emporium with the help of the King" +
+                    "\n\nMain commands:" +
+                    "\n(1) Elect a Councillor" +
+                    "\n(2) Acquire a Business Permit Tile" +
+                    "\n(3) Build an emporium using a Permit Tile" +
+                    "\n(4) Build an emporium with the help of the King" +
 
-                        "\n\nQuick commands:" +
-                        "\n(5) Engage an Assistant" +
-                        "\n(6) Change Building Permit Tiles" +
-                        "\n(7) Send an Assistant to elect a Councillor" +
-                        "\n(8) Perform an additional Main Action" +
-                        "\n\nWhat do you want to do? ");
-        }
+                    "\n\nQuick commands:" +
+                    "\n(5) Engage an Assistant" +
+                    "\n(6) Change Building Permit Tiles" +
+                    "\n(7) Send an Assistant to elect a Councillor" +
+                    "\n(8) Perform an additional Main Action" +
+                    "\n(9) Don't perform Quick Action (Not implemented yet)" +
+                    "\n\nWhat do you want to do? ");
 
-        String command = this.scanner.nextLine();
-
-        try {
-
-            if (model.isYourTurn()) {
-                switch (command) {
-                    case "-1":
-                        quit();
-                        break;
-                    case "0":
-                        print();
-                        break;
-                    case "1":
-                        electAsMainAction();
-                        break;
-                    case "2":
-                        acquire();
-                        break;
-                    case "3":
-                        build();
-                        break;
-                    case "4":
-                        buildKing();
-                        break;
-                    case "5":
-                        engageAssistant();
-                        break;
-                    case "6":
-                        changeBPT();
-                        break;
-                    case "7":
-                        electAsQuickAction();
-                        break;
-                    case "8":
-                        additionalMainAction();
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                switch (command) {
-                    case "-1":
-                        quit();
-                        break;
-                    case "0":
-                        print();
-                        break;
-                    default:
-                        break;
-                }
+            String command = this.scanner.nextLine();
+            switch (command) {
+                case "Q":
+                    quit();
+                    break;
+                case "p":
+                    print();
+                    break;
+                case "1":
+                    electAsMainAction();
+                    break;
+                case "2":
+                    acquire();
+                    break;
+                case "3":
+                    build();
+                    break;
+                case "4":
+                    buildKing();
+                    break;
+                case "5":
+                    engageAssistant();
+                    break;
+                case "6":
+                    changeBPT();
+                    break;
+                case "7":
+                    electAsQuickAction();
+                    break;
+                case "8":
+                    additionalMainAction();
+                    break;
+                case "9":
+                    break;
+                default:
+                    break;
             }
+        } else {
+            out.println("Is not Your turn." +
+                    "\n\nCommands:" +
+                    "\n(Q) STACCAH" +
+                    "\n(p) Print state");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            askForCommand();
+            String command = this.scanner.nextLine();
+            switch (command) {
+                case "-1":
+                    quit();
+                    break;
+                case "0":
+                    print();
+                    break;
+                default:
+                    break;
+            }
         }
-
-
 
     }
 
     private void print() {
         // TODO Check if local player is not null
+
+        //print players
+        out.println();
         out.println("You:");
-        printPlayer(model.getGameBoard().getLocalPlayer());
-        out.print("Politic Cards:                 ");
-        for (PoliticCardDTO card: model.getGameBoard().getLocalPlayer().getCards())
-            out.print(card.getColor().getColoredColor() + " ");
         out.println();
-        out.print("Business Permit Tiles:         ");
-        for (BusinessPermissionTileDTO tile: model.getGameBoard().getLocalPlayer().getTiles())
-            printBPT(tile);
-
-        out.println("\n");
+        printPlayer(gameBoard.getLocalPlayer(), true);
         out.println("Other players:");
-        for (PlayerDTO p: model.getGameBoard().getPlayers())
-            if (p.getName() != model.getGameBoard().getLocalPlayer().getName())
-                printPlayer(p);
+        for (PlayerDTO p: gameBoard.getPlayers())
+            if (p.getName() != gameBoard.getLocalPlayer().getName()) {
+                out.println();
+                printPlayer(p, false);
+            }
 
+        // print councillors pool
+        out.print("Councillors pool: [");
+        for (CouncillorDTO c: gameBoard.getCouncillorsPool())
+            out.print("\t" + c.getColor().getColoredColor());
+        out.println(" ]");
         out.println();
-        out.print("Councillors pool: ");
-        for (CouncillorDTO c: model.getGameBoard().getCouncillorsPool())
-            out.print(" " + c.getColor().getColoredColor());
-        out.println();
-        out.print("The King is in " + model.getGameBoard().getKing().getCurrentCity() + " and his balcony has");
-        for (CouncillorDTO c: model.getGameBoard().getKingBalcony().getCouncillors())
-            out.print(" " + c.getColor().getColoredColor());
-        out.println("| councillors");
 
-        out.println("The board has " + model.getGameBoard().getRegions().size() + " regions:");
+        //print king an king's balcony
+        out.print("The King is in " + gameBoard.getKing().getCurrentCity() + " and his balcony has: [");
+        for (CouncillorDTO c: gameBoard.getKingBalcony().getCouncillors())
+            out.print("\t" + c.getColor().getColoredColor());
+        out.println(" ]<- councillors");
 
-        for (RegionDTO r: model.getGameBoard().getRegions()) {
+        // print regions
+        out.println("The board has " + gameBoard.getRegions().size() + " regions:");
+        for (RegionDTO r: gameBoard.getRegions()) {
             out.println("\n" + r.getName() + ": ");
-            out.print("The balcony has");
+            out.print("The balcony has: [");
             for (CouncillorDTO c: r.getBalcony().getCouncillors())
                 out.print(" " + c.getColor().getColoredColor());
-            out.println("| councillors");
+            out.println(" ]<- councillors");
             out.println("the Business Permit Tiles open are: ");
             for (BusinessPermissionTileDTO b: r.getDeck().getOpenCards()) {
                 printBPT(b);
-                out.println("");
+                out.println();
             }
         }
+        out.println("\n");
+        askForCommand();
     }
 
-    private void printPlayer(PlayerDTO player) {
-
-        out.println("\n" + player.getName());
-
+    private void printPlayer(PlayerDTO player, boolean full) {
+        out.println(player.getName());
         out.println("Victory Points number:         " + player.getVictoryPoints());
         out.println("Coins number:                  " + player.getCoins());
         out.println("Position in Nobility Track:    " + player.getNobilityCell());
         out.println("Assistants number:             " + player.getAssistantsNumber());
         out.println("Remaining Main Actions:        " + player.getRemainingMainActions());
         out.println("Remaining Quick Actions:       " + player.getRemainingQuickActions());
-
+        if (full) {
+            out.print("Politic Cards:                 ");
+            for (PoliticCardDTO card: gameBoard.getLocalPlayer().getCards())
+                out.print(card.getColor().getColoredColor() + " ");
+            out.print("\nBusiness Permit Tiles:         ");
+            for (BusinessPermissionTileDTO tile: gameBoard.getLocalPlayer().getTiles())
+                printBPT(tile);
+        }
+        out.println("\n");
     }
 
     private void printBPT(BusinessPermissionTileDTO bpt) {
@@ -197,25 +200,25 @@ public class CLI implements Observer<Change>, Runnable {
         }
     }
 
-    private void quit() throws IOException {
-        this.outputStream.writeObject(new Staccah());
+    private void quit() {
+        outView.writeObject(new Staccah());
     }
 
-    private void electAsMainAction() throws IOException {
+    private void electAsMainAction() {
         elect(true);
     }
 
-    private void elect(boolean asMainAction) throws IOException {
+    private void elect(boolean asMainAction) {
         RegionDTO region = askForRegion();
         CouncillorDTO councillor = askForCouncillor();
         if (asMainAction)
-            this.outputStream.writeObject(new ElectAsMainActionCommand(region, councillor));
+            outView.writeObject(new ElectAsMainActionCommand(region, councillor));
         else
-            this.outputStream.writeObject(new ElectAsQuickActionCommand(region, councillor));
+            outView.writeObject(new ElectAsQuickActionCommand(region, councillor));
 
     }
 
-    private void acquire() throws IOException {
+    private void acquire() {
         RegionDTO region = askForRegion();
         List<PoliticCardDTO> cards = askForPoliticCards();
         out.println("Do you want the left(l) or the right(R) one? ");
@@ -223,40 +226,40 @@ public class CLI implements Observer<Change>, Runnable {
         int position = 0;
         if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
             position = 1;
-        this.outputStream.writeObject(new AcquireCommand(region, cards, position));
+        outView.writeObject(new AcquireCommand(region, cards, position));
     }
 
-    private void build() throws IOException {
+    private void build() {
         CityDTO city = askForCity();
         BusinessPermissionTileDTO tile = askForBPT();
-        this.outputStream.writeObject(new BuildCommand(city, tile));
+        outView.writeObject(new BuildCommand(city, tile));
     }
 
-    private void buildKing() throws IOException {
+    private void buildKing() {
         CityDTO city = askForCity();
         List<PoliticCardDTO> cards = askForPoliticCards();
-        this.outputStream.writeObject(new BuildKingCommand(city, cards));
+        outView.writeObject(new BuildKingCommand(city, cards));
     }
 
-    private void engageAssistant() throws IOException {
-        this.outputStream.writeObject(new EngageAssistantCommand());
+    private void engageAssistant() {
+        outView.writeObject(new EngageAssistantCommand());
     }
 
-    private void changeBPT() throws IOException {
+    private void changeBPT() {
         RegionDTO region = askForRegion();
-        this.outputStream.writeObject(new ChangeBPTCommand(region));
+        outView.writeObject(new ChangeBPTCommand(region));
     }
 
-    private void electAsQuickAction() throws IOException {
+    private void electAsQuickAction() {
         elect(false);
     }
 
-    private void additionalMainAction() throws IOException {
-        this.outputStream.writeObject(new AdditionalMainActionCommand());
+    private void additionalMainAction() {
+        outView.writeObject(new AdditionalMainActionCommand());
     }
 
     private RegionDTO askForRegion() {
-        List<RegionDTO> regions = model.getGameBoard().getRegions();
+        List<RegionDTO> regions = gameBoard.getRegions();
         out.println("In which region? ");
         int i = 1;
         for (RegionDTO r: regions) {
@@ -278,7 +281,7 @@ public class CLI implements Observer<Change>, Runnable {
 
     private CouncillorDTO askForCouncillor() {
         out.println("Which Councillor's color? ");
-        Collection<CouncillorDTO> councillorsPool = model.getGameBoard().getCouncillorsPool();
+        Collection<CouncillorDTO> councillorsPool = gameBoard.getCouncillorsPool();
         List<PoliticColorDTO> colors = new LinkedList<>();
         int i = 1;
         for (CouncillorDTO c: councillorsPool) {
@@ -294,7 +297,7 @@ public class CLI implements Observer<Change>, Runnable {
                 colorNumber = Integer.parseInt(this.scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                out.println("The number is invalid, try again: ");
+                out.println("This is not a number, try again: ");
             }
 
         }
@@ -306,7 +309,7 @@ public class CLI implements Observer<Change>, Runnable {
 
     private List<PoliticCardDTO> askForPoliticCards() {
         out.println("Which card do you want to use?");
-        LinkedList<PoliticCardDTO> allCards = new LinkedList<>(model.getGameBoard().getLocalPlayer().getCards());
+        LinkedList<PoliticCardDTO> allCards = new LinkedList<>(gameBoard.getLocalPlayer().getCards());
         LinkedList<PoliticCardDTO> cards = new LinkedList<>();
         while (true) {
             int i = 1;
@@ -336,7 +339,7 @@ public class CLI implements Observer<Change>, Runnable {
     }
 
     private BusinessPermissionTileDTO askForBPT() {
-        LinkedList<BusinessPermissionTileDTO> tiles = new LinkedList<>(model.getGameBoard().getLocalPlayer().getTiles());
+        LinkedList<BusinessPermissionTileDTO> tiles = new LinkedList<>(gameBoard.getLocalPlayer().getTiles());
         out.println("Which Permit Tile do you want to use?");
         int i = 1;
         for (BusinessPermissionTileDTO tile: tiles) {
@@ -360,7 +363,7 @@ public class CLI implements Observer<Change>, Runnable {
     private CityDTO askForCity() {
         out.println("In which city? ");
         List<CityDTO> cities = new LinkedList<>();
-        for (RegionDTO r: model.getGameBoard().getRegions())
+        for (RegionDTO r: gameBoard.getRegions())
             cities.addAll(r.getCities());
         int i = 1;
         for (CityDTO c: cities) {
@@ -381,15 +384,10 @@ public class CLI implements Observer<Change>, Runnable {
     }
 
     @Override
-    public void update(Change o) {
+    public void update(GameBoardDTO o) {
         System.out.println(o);
-        /*if (model.isYourTurn()) {
-            System.out.println("Your turn begun...");
-            try {
-                waitInput();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
+        this.gameBoard = o;
+        isMyTurn = gameBoard.getCurrentPlayer().getName().equals(gameBoard.getLocalPlayer().getName());
+        askForCommand();
     }
 }

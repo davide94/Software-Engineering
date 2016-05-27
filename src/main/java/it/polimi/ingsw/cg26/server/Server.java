@@ -19,12 +19,13 @@ import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.jar.Attributes;
 
 /**
  *
  */
 public class Server {
+
+    private final static int START_DELAY = 1000;
 
     private final static int PORT = 29999;
 
@@ -82,7 +83,7 @@ public class Server {
                 public void run() {
                     start();
                 }
-            }, 5000);
+            }, START_DELAY);
         }
 
         model.registerPlayer(player);
