@@ -26,11 +26,11 @@ public class Controller implements Observer<Action>, Runnable {
 
                 action.apply(gameBoard);
 
-                Change decoratedChange = new BasicChange();
-                gameBoard.notifyObservers(new FullStateChange(decoratedChange, gameBoard.getState()));
-                for (PlayerDTO player: gameBoard.getFullPlayers()) {
-                    gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(decoratedChange, player), player.getToken()));
-                }
+                gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
+                for (PlayerDTO player: gameBoard.getFullPlayers())
+                    gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
+                gameBoard.notifyObservers(new PrivateChange(new YourTurnStarts(new BasicChange()), gameBoard.getCurrentPlayer().getToken()));
+
                 gameBoard.actionPerformed();
             }
         } catch (RuntimeException e) {
@@ -42,11 +42,10 @@ public class Controller implements Observer<Action>, Runnable {
     @Override
     public void run() {
         System.out.println("Partita cominciata");
-        gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
 
+        gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
         for (PlayerDTO player: gameBoard.getFullPlayers())
             gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
-
         gameBoard.notifyObservers(new PrivateChange(new YourTurnStarts(new BasicChange()), gameBoard.getCurrentPlayer().getToken()));
 
     }

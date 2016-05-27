@@ -31,17 +31,17 @@ public class CLI implements Observer<Change>, Runnable {
 
     @Override
     public void run() {
-
+        askForCommand();
     }
 
-    private void waitInput() throws IOException {
+    private void askForCommand() {
         if (!model.isYourTurn()) {
-            System.out.println("Wait your turn...");
-            return;
-        }
-        boolean quit = false;
-        while (!quit) {
-            this.output("\n(-1)STACCAH" +
+            out.println("Is not Your turn" +
+                        "\n(-1)STACCAH" +
+                        "\n(0) Print state");
+        } else {
+            out.println("Is Your turn..." +
+                        "\n(-1)STACCAH" +
                         "\n(0) Print state" +
 
                         "\n\nMain commands:" +
@@ -56,49 +56,68 @@ public class CLI implements Observer<Change>, Runnable {
                         "\n(7) Send an Assistant to elect a Councillor" +
                         "\n(8) Perform an additional Main Action" +
                         "\n\nWhat do you want to do? ");
-
-            String command = this.scanner.nextLine();
-
-            switch (command) {
-                case "-1":
-                    quit();
-                    quit = true;
-                    break;
-                case "0":
-                    print();
-                    break;
-                case "1":
-                    electAsMainAction();
-                    break;
-                case "2":
-                    acquire();
-                    break;
-                case "3":
-                    build();
-                    break;
-                case "4":
-                    buildKing();
-                    break;
-                case "5":
-                    engageAssistant();
-                    break;
-                case "6":
-                    changeBPT();
-                    break;
-                case "7":
-                    electAsQuickAction();
-                    break;
-                case "8":
-                    additionalMainAction();
-                    break;
-                default:
-                    break;
-            }
         }
-    }
 
-    private void output(String msg) {
-        out.println(msg);
+        String command = this.scanner.nextLine();
+
+        try {
+
+            if (model.isYourTurn()) {
+                switch (command) {
+                    case "-1":
+                        quit();
+                        break;
+                    case "0":
+                        print();
+                        break;
+                    case "1":
+                        electAsMainAction();
+                        break;
+                    case "2":
+                        acquire();
+                        break;
+                    case "3":
+                        build();
+                        break;
+                    case "4":
+                        buildKing();
+                        break;
+                    case "5":
+                        engageAssistant();
+                        break;
+                    case "6":
+                        changeBPT();
+                        break;
+                    case "7":
+                        electAsQuickAction();
+                        break;
+                    case "8":
+                        additionalMainAction();
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                switch (command) {
+                    case "-1":
+                        quit();
+                        break;
+                    case "0":
+                        print();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            askForCommand();
+        }
+
+
+
     }
 
     private void print() {
@@ -113,17 +132,21 @@ public class CLI implements Observer<Change>, Runnable {
         for (BusinessPermissionTileDTO tile: model.getGameBoard().getLocalPlayer().getTiles())
             printBPT(tile);
 
-        out.println();
+        out.println("\n");
         out.println("Other players:");
         for (PlayerDTO p: model.getGameBoard().getPlayers())
             if (p.getName() != model.getGameBoard().getLocalPlayer().getName())
                 printPlayer(p);
 
         out.println();
+        out.print("Councillors pool: ");
+        for (CouncillorDTO c: model.getGameBoard().getCouncillorsPool())
+            out.print(" " + c.getColor().getColoredColor());
+        out.println();
         out.print("The King is in " + model.getGameBoard().getKing().getCurrentCity() + " and his balcony has");
         for (CouncillorDTO c: model.getGameBoard().getKingBalcony().getCouncillors())
             out.print(" " + c.getColor().getColoredColor());
-        out.println(" councillors");
+        out.println("| councillors");
 
         out.println("The board has " + model.getGameBoard().getRegions().size() + " regions:");
 
@@ -132,7 +155,7 @@ public class CLI implements Observer<Change>, Runnable {
             out.print("The balcony has");
             for (CouncillorDTO c: r.getBalcony().getCouncillors())
                 out.print(" " + c.getColor().getColoredColor());
-            out.println(" councillors");
+            out.println("| councillors");
             out.println("the Business Permit Tiles open are: ");
             for (BusinessPermissionTileDTO b: r.getDeck().getOpenCards()) {
                 printBPT(b);
@@ -195,7 +218,7 @@ public class CLI implements Observer<Change>, Runnable {
     private void acquire() throws IOException {
         RegionDTO region = askForRegion();
         List<PoliticCardDTO> cards = askForPoliticCards();
-        this.output("Do you want the left(l) or the right(R) one? ");
+        out.println("Do you want the left(l) or the right(R) one? ");
         String response = this.scanner.nextLine();
         int position = 0;
         if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
@@ -234,14 +257,23 @@ public class CLI implements Observer<Change>, Runnable {
 
     private RegionDTO askForRegion() {
         List<RegionDTO> regions = model.getGameBoard().getRegions();
-        this.output("In which region? ");
+        out.println("In which region? ");
         int i = 1;
         for (RegionDTO r: regions) {
             out.println("(" + i + ") " + r.getName());
             i++;
         }
-        int regionNmber = this.scanner.nextInt();
-        return regions.get(regionNmber - 1);
+        int regionNumber;
+        while (true) {
+            try {
+                regionNumber = Integer.parseInt(this.scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                out.println("The number is invalid, try again: ");
+            }
+
+        }
+        return regions.get(regionNumber - 1);
     }
 
     private CouncillorDTO askForCouncillor() {
@@ -252,11 +284,20 @@ public class CLI implements Observer<Change>, Runnable {
         for (CouncillorDTO c: councillorsPool) {
             if (!colors.contains(c.getColor())) {
                 colors.add(c.getColor());
-                out.println("(" + i + ") " + c.getColor().getColor());
+                out.println("(" + i + ") " + c.getColor().getColoredColor());
                 i++;
             }
         }
-        int colorNumber = this.scanner.nextInt();
+        int colorNumber;
+        while (true) {
+            try {
+                colorNumber = Integer.parseInt(this.scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                out.println("The number is invalid, try again: ");
+            }
+
+        }
         for (CouncillorDTO c: councillorsPool)
             if (c.getColor().equals(colors.get(colorNumber - 1)))
                 return c;
@@ -273,9 +314,16 @@ public class CLI implements Observer<Change>, Runnable {
                 out.println("(" + i + ") " + card.getColor().getColoredColor());
                 i++;
             }
-            int cardNumber = this.scanner.nextInt();
-            this.scanner.nextLine();
+            int cardNumber;
+            while (true) {
+                try {
+                    cardNumber = Integer.parseInt(this.scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    out.println("The number is invalid, try again: ");
+                }
 
+            }
             cards.add(allCards.remove(cardNumber - 1));
             if (cards.size() == 4)
                 break;
@@ -296,12 +344,21 @@ public class CLI implements Observer<Change>, Runnable {
             printBPT(tile);
             i++;
         }
-        int tileNumber = this.scanner.nextInt();
+        int tileNumber;
+        while (true) {
+            try {
+                tileNumber = Integer.parseInt(this.scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                out.println("The number is invalid, try again: ");
+            }
+
+        }
         return tiles.get(tileNumber - 1);
     }
 
     private CityDTO askForCity() {
-        this.output("In which city? ");
+        out.println("In which city? ");
         List<CityDTO> cities = new LinkedList<>();
         for (RegionDTO r: model.getGameBoard().getRegions())
             cities.addAll(r.getCities());
@@ -310,20 +367,29 @@ public class CLI implements Observer<Change>, Runnable {
             out.println("(" + i + ") " +c.getName());
             i++;
         }
-        int cityNmber = this.scanner.nextInt();
+        int cityNmber;
+        while (true) {
+            try {
+                cityNmber = Integer.parseInt(this.scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                out.println("The number is invalid, try again: ");
+            }
+
+        }
         return cities.get(cityNmber - 1);
     }
 
     @Override
     public void update(Change o) {
-        //System.out.println(o);
-        if (model.isYourTurn()) {
+        System.out.println(o);
+        /*if (model.isYourTurn()) {
             System.out.println("Your turn begun...");
             try {
                 waitInput();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 }

@@ -86,7 +86,7 @@ public class Server {
         }
 
         model.registerPlayer(player);
-        View view = new ServerSocketView(socketIn, socketOut, player.getToken());
+        View view = new ServerSocketView(socket, socketIn, socketOut, player.getToken());
         view.registerObserver(this.controller);
         model.registerObserver(view);
         executor.submit(view);

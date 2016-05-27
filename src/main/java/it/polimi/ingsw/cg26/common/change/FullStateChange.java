@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
-import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 
 /**
  *
@@ -30,11 +29,13 @@ public class FullStateChange extends ChangeDecorator {
 
 	@Override
 	public void apply(GameBoardDTO gameGameBoardDTO){
+        super.apply(gameGameBoardDTO);
         gameGameBoardDTO.setPlayers(state.getPlayers());
         gameGameBoardDTO.setCurrentPlayer(state.getCurrentPlayer());
         gameGameBoardDTO.setPoliticDeck(state.getPoliticDeck());
         gameGameBoardDTO.setCouncillorsPool(state.getCouncillorsPool());
         gameGameBoardDTO.setKingBalcony(state.getKingBalcony());
+        gameGameBoardDTO.setRegions(state.getRegions());
         gameGameBoardDTO.setNobilityTrack(state.getNobilityTrack());
         gameGameBoardDTO.setKing(state.getKing());
         gameGameBoardDTO.setMarket(state.getMarket());

@@ -24,6 +24,8 @@ public class Client {
 
     private final static String IP = "127.0.0.1";
 
+    ExecutorService executor = Executors.newCachedThreadPool();
+
     public void startSocketClient() throws IOException, InterruptedException, ClassNotFoundException {
 
         Socket socket = new Socket(IP, PORT);
@@ -46,15 +48,14 @@ public class Client {
         Model model = new Model(((FullStateChange)object).getState());
 
         Controller controller = new Controller(model);
-        ClientInHandler inView = new ClientInHandler(inputStream);
+        ClientInHandler inView = new ClientInHandler(inputStream, model);
         inView.registerObserver(controller);
 
         CLI outView = new CLI(outputStream, model);
         controller.registerObserver(outView);
-
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(inView);
         executor.submit(outView);
+        executor.submit(inView);
+        executor.submit(controller);
 
     }
 

@@ -8,7 +8,7 @@ import it.polimi.ingsw.cg26.common.observer.Observer;
 /**
  *
  */
-public class Controller extends Observable<Change> implements Observer<Change> {
+public class Controller extends Observable<Change> implements Observer<Change>, Runnable {
 
     private final Model model;
 
@@ -26,4 +26,8 @@ public class Controller extends Observable<Change> implements Observer<Change> {
         notifyObservers(change);
     }
 
+    @Override
+    public void run() {
+
+    }
 }

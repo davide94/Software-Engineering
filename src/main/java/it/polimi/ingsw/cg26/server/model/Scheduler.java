@@ -99,12 +99,9 @@ public class Scheduler {
         if (currentPlayer.canPerformMainAction() || currentPlayer.canPerformQuickAction())
             return;
         // TODO controlli su terminazione partita
-        Player leastRecentCurrentPlayer = currentPlayer;
         players.add(currentPlayer);
         currentPlayer = players.poll();
         currentPlayer.setRemainingMainActions(1);
         currentPlayer.setRemainingQuickActions(1);
-        gameBoard.notifyObservers(new PrivateChange(new YourTurnEnds(new BasicChange()), leastRecentCurrentPlayer.getToken()));
-        gameBoard.notifyObservers(new PrivateChange(new YourTurnStarts(new BasicChange()), currentPlayer.getToken()));
     }
 }

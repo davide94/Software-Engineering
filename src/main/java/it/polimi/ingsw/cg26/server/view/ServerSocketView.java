@@ -9,18 +9,21 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 /**
  *
  */
 public class ServerSocketView extends View {
 
+    private Socket socket;
     private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
     private ActionVisitor actionVisitor;
     private final long token;
 
-    public ServerSocketView(ObjectInputStream socketIn, ObjectOutputStream socketOut, long token) throws IOException {
+    public ServerSocketView(Socket socket, ObjectInputStream socketIn, ObjectOutputStream socketOut, long token) throws IOException {
+        this.socket = socket;
         this.socketIn = socketIn;
         this.socketOut = socketOut;
         this.actionVisitor = new ActionVisitor(this, token);
@@ -43,14 +46,13 @@ public class ServerSocketView extends View {
     @Override
     public void run() {
 
-        boolean staccah = false;
-        while (!staccah) {
+        while (true) {
             try {
                 Object object = socketIn.readObject();
 
                 if (object instanceof Staccah) {
                     System.out.println("STACCAH STACCAH STACCAH");
-                    staccah = true;
+                    break;
                 }
 
                 Visitable visitable = (Visitable) object;
