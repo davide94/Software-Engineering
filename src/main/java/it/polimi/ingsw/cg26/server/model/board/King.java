@@ -40,8 +40,20 @@ public class King {
     public int priceToMove(City city) {
         return this.currentCity.distanceFrom(city) * LINK_PRICE;
     }
+    
+    
 
-    @Override
+    public City getCurrentCity() {
+		return currentCity;
+	}
+
+	public void setCurrentCity(City currentCity) {
+		if (currentCity == null)
+            throw new NullPointerException();
+		this.currentCity = currentCity;
+	}
+
+	@Override
     public String toString() {
         return "King{" +
                 "currentCity='" + currentCity.getName() + "\'" +
