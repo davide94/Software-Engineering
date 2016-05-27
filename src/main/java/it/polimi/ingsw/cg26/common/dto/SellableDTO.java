@@ -37,4 +37,40 @@ public abstract class SellableDTO implements Serializable {
 	public String getOwner() {
 		return owner;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
+		result = prime * result + price;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SellableDTO other = (SellableDTO) obj;
+		if (owner == null) {
+			if (other.owner != null)
+				return false;
+		} else if (!owner.equals(other.owner))
+			return false;
+		if (price != other.price)
+			return false;
+		return true;
+	}
+	
+	
 }
