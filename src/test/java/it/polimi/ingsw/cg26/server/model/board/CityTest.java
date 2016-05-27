@@ -195,6 +195,14 @@ public class CityTest {
 		}
 	 
 	 
+    @Test (expected=NullPointerException.class)
+		public void testShouldNotLinkCity1withNullCity() {
+	 
+	 	 city1.link(null);
+		
+	}
+	 
+	 
 	 @Test 
 		public void testLinkOneCitywithCity1() {
 		 city1.link(city2);
@@ -218,13 +226,7 @@ public class CityTest {
 		}
 	 
 	 
-	 @Test
-		public void testEqualsObject() {
-		City city4= City.createCity("Roma", color2, bonuses1);
-		assertEquals(city4, city2);
-		
-			
-		}
+	 
 	 
 	 @Test
 		public void testNotEqualsNameofCities() {
@@ -443,6 +445,22 @@ public class CityTest {
 		assertEquals(city1.hashCode(), city1.hashCode());
 		assertNotEquals(city1.hashCode(), city2.hashCode());
 		
+		
+	}
+	
+	
+	@Test
+	public void testEqualsObject() {
+	City city4= City.createCity("Roma", color2, bonuses1);
+	City city5=null;
+	CityColor blu= CityColor.createCityColor("blu");
+	
+	assertEquals(city4, city2);
+	assertFalse(city4.equals(city5));
+	assertFalse((city4.getClass()).equals(blu.getClass()));
+	assertFalse(city4.equals(blu));
+	
+	
 		
 	}
 	

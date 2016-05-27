@@ -30,9 +30,30 @@ public class EmporiumTest {
 	 }
 	
 	 
+	@Test
+		public void testEqualsEmporium() {
+		
+			Emporium emp1=Emporium.createEmporium(Davide);
+			Emporium emp2=null;
+			CityColor blu= CityColor.createCityColor("blu");
+		
+			assertTrue(emp1.equals(empDavide) );
+			assertTrue(emp1.equals(emp1) );
+			assertFalse(emp1.equals(emp2));
+			assertFalse(emp1.equals(blu));
+			
+		}
+	 
+	 
 	@Test(expected=NullPointerException.class)
-	public void testCreateEmporium() {
-		assertNull(Emporium.createEmporium(null));
+	public void testshouldNotCreateEmporium() {
+		Emporium.createEmporium(null);
+		assertNotNull(Emporium.createEmporium(Davide));
+	}
+	
+	@Test
+	public void testshouldCreateEmporium() {
+		
 		assertNotNull(Emporium.createEmporium(Davide));
 	}
 
@@ -62,11 +83,7 @@ public class EmporiumTest {
 	}
 	
 	
-	@Test
-	public void testEqualsEmporium() {
-		assertTrue((Emporium.createEmporium(Davide)).equals(empDavide) );
-		
-	}
+	
 	
 	@Test
 	public void testNotEqualsEmporium() {

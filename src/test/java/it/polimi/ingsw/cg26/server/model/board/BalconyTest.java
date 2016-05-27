@@ -90,8 +90,22 @@ public class BalconyTest {
 	public void testIfTwoBalconiesAreEquals() {
 		
 		Balcony b=Balcony.createBalcony(4);
+		Balcony b2=null;
+		Balcony b3=Balcony.createBalcony(5);
+		Balcony b4=Balcony.createBalcony(4);
+		CityColor blu= CityColor.createCityColor("blu");
 		b.elect(c1);
+		
+		
 		assertTrue(b.equals(balcony1));
+		assertTrue(b.equals(b));
+		assertFalse(b.equals(b2));
+		assertFalse(b.equals(blu));
+		assertFalse(b.equals(b3));
+		assertFalse(b.equals(b4));
+		
+		
+		
 		
 		
 	}

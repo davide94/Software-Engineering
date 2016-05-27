@@ -67,15 +67,7 @@ public class KingTest {
 		
 	}
 	
-	@Test
-	public void testGetState() {
-		King king= King.createKing(city1);
-		KingDTO kingDTO= new KingDTO(city1.getName());
-		
-		assertEquals(city1.getName(), kingDTO.getCurrentCity());
-		
-	}
-
+	
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotMoveTheKing() {
@@ -190,6 +182,17 @@ public class KingTest {
 		assertEquals(king.toString(), "King{" +
                 "currentCity='" + "Milano" + "\'" +
                 '}');
+		
+	}
+	
+	
+	@Test
+	public void testGetState() {
+		King king= King.createKing(city1);
+		//KingDTO kingDTO=king.getState();
+		KingDTO kingDTO= new KingDTO("Milano");
+		
+		assertEquals(king.getState(), kingDTO);
 		
 	}
 	

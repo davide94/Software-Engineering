@@ -49,4 +49,32 @@ public class KingDTO implements Serializable {
                 "currentCity='" + currentCity + '\'' +
                 '}';
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((currentCity == null) ? 0 : currentCity.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		KingDTO other = (KingDTO) obj;
+		if (currentCity == null) {
+			if (other.currentCity != null)
+				return false;
+		} else if (!currentCity.equals(other.currentCity))
+			return false;
+		return true;
+	}
+    
+    
+    
 }

@@ -2,10 +2,14 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import static org.junit.Assert.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 
 public class CityColorTest {
 	
@@ -59,28 +63,7 @@ public class CityColorTest {
 	}
 
 	
-	
-	@Test
-	public void testEqualsCityColor() {
-		CityColor blu= CityColor.createCityColor("blu");
-		CityColor viola= CityColor.createCityColor("viola");
 		
-		assertTrue(blu.equals(blu));
-		assertTrue(blu.equals(cityBlu));
-		assertFalse(blu.equals(cityViola));
-		assertFalse(blu.equals(viola));
-		
-				
-		assertTrue(viola.equals(viola));
-		assertTrue(viola.equals(cityViola));
-		assertFalse(viola.equals(blu));
-		assertFalse(viola.equals(cityBlu));
-		
-		
-		
-	}
-	
-	
 
 	@Test
 	public void testToString() {
@@ -110,5 +93,35 @@ public class CityColorTest {
 				
 		
 	}
+	
+
+	@Test
+	public void testEqualsCityColor() {
+		CityColor blu= CityColor.createCityColor("blu");
+		CityColor viola= CityColor.createCityColor("viola");
+		CityColor verde=null;
+		CityColor giallo2=null;
+		List<Bonus> bonuses= new LinkedList<>();
+		City rosa=City.createCity("Torino", CityColor.createCityColor("rosa"),bonuses );
+		//City giallo=City.createCity("Napoli", CityColor.createCityColor("giallo"),bonuses );
+		CityColor giallo= (CityColor) giallo2;
+		
+		
+		assertTrue(blu.equals(blu));
+		assertFalse(blu.equals(verde));
+		assertFalse(blu.equals(rosa));
+		assertTrue(blu.equals(cityBlu));
+		assertFalse(blu.equals(cityViola));
+		assertFalse(blu.equals(viola));
+		
+		
+		
+				
+		
+		
+		
+		
+	}
+	
 
 }
