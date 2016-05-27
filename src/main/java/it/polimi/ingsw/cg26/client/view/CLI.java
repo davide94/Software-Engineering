@@ -119,7 +119,7 @@ public class CLI implements Runnable {
         out.println();
         out.print("The King's balcony has");
         for (CouncillorDTO c: model.getKingBalcony().getCouncillors())
-            out.print(" " + c.getColor());
+            out.print(" " + c.getColor().getColoredColor());
         out.println(" councillors");
 
         out.println("The board has " + model.getRegions().size() + " regions:");
@@ -128,7 +128,7 @@ public class CLI implements Runnable {
             out.println("\n" + r.getName() + ": ");
             out.print("The balcony has");
             for (CouncillorDTO c: r.getBalcony().getCouncillors())
-                out.print(" " + c.getColor());
+                out.print(" " + c.getColor().getColoredColor());
             out.println(" councillors");
             out.println("the Business Permit Tiles open are: ");
             for (BusinessPermissionTileDTO b: r.getDeck().getOpenCards()) {
@@ -157,7 +157,9 @@ public class CLI implements Runnable {
             out.print(c.toUpperCase().charAt(0));
             i++;
         }
-        out.print(" ");
+        if (bpt.getCities().size() < 3)
+            out.print("\t");
+        out.print("\t");
         i = 0;
         for (BonusDTO b: bpt.getBonuses()) {
             if (i != 0)
@@ -267,12 +269,14 @@ public class CLI implements Runnable {
                 i++;
             }
             int cardNumber = this.scanner.nextInt();
-            cards.add(allCards.get(cardNumber - 1));
+            this.scanner.nextLine();
+
+            cards.add(allCards.remove(cardNumber - 1));
             if (cards.size() == 4)
                 break;
             out.println("more? (Y/n)");
             String response = this.scanner.nextLine();
-            if (response.substring(0,1).equalsIgnoreCase("n"))
+            if (!response.isEmpty() && response.substring(0,1).equalsIgnoreCase("n"))
                 break;
         }
         return cards;
