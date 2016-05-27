@@ -54,7 +54,10 @@ public class EmporiumTest {
 	
 	@Test
 	public void testGetState() {
-		EmporiumDTO state= new EmporiumDTO("Davide");		
+		EmporiumDTO state= new EmporiumDTO("Davide");
+		
+		//assertEquals(state, empDavide.getState());
+		
 		
 	}
 	
@@ -68,7 +71,17 @@ public class EmporiumTest {
 	@Test
 	public void testNotEqualsEmporium() {
 		assertFalse((Emporium.createEmporium(Luca)).equals(empDavide) );
-		//assertEquals(new EmporiumDTO(Gianni.getKind()), dto);
+		
+		
+	}
+	
+	@Test
+	public void testHashCode() {
+		
+		Emporium empLuca= Emporium.createEmporium(Luca);
+		assertEquals(empLuca.hashCode(), empLuca.hashCode());
+		assertNotEquals(empLuca.hashCode(), empDavide.hashCode());
+		
 		
 	}
 

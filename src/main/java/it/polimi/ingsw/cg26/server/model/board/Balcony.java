@@ -81,6 +81,15 @@ public class Balcony {
 	
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + capacity;
+		result = prime * result + ((councillors == null) ? 0 : councillors.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -98,6 +107,8 @@ public class Balcony {
 			return false;
 		return true;
 	}
+	
+	
 
 		
 	

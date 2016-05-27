@@ -2,12 +2,14 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
 public class BalconyTest {
@@ -63,6 +65,12 @@ public class BalconyTest {
 	
 	@Test
 	public void testCheckPoliticCards() {
+		
+		Collection<PoliticCardDTO> politicCards;
+		
+		//DA IMPLEMENTARE
+		
+		
 		
 	}
 	
@@ -166,6 +174,17 @@ public class BalconyTest {
 	@Test
 	public void testGetState() {
 		balcony1.getState();
+		
+	}
+	
+	
+	@Test
+	public void testHashCode() {
+		
+		
+		assertEquals(balcony1.hashCode(), balcony1.hashCode());
+		assertNotEquals(balcony1.hashCode(), balcony2.hashCode());
+		
 		
 	}
 

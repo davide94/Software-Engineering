@@ -1,0 +1,114 @@
+package it.polimi.ingsw.cg26.server.model.board;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+
+public class CityColorTest {
+	
+	private CityColor cityBlu;
+	private CityColor cityViola;
+	
+	
+	
+	@Before
+    public void setUp() throws Exception {
+		
+		cityBlu= CityColor.createCityColor("blu");
+		cityViola= CityColor.createCityColor("viola");
+		
+		
+	}
+
+	
+
+	@Test (expected=NullPointerException.class)
+	public void testShouldNotCreateCityColor() {
+		CityColor blu= CityColor.createCityColor(null);
+	}
+	
+	
+	@Test 
+	public void testShouldCreateCityColorBlu() {
+		CityColor blu= CityColor.createCityColor("blu");
+		assertNotNull(blu);
+		assertEquals(blu, cityBlu);
+		
+		CityColor arancione= CityColor.createCityColor("arancione");
+		assertNotNull(arancione);
+	}
+	
+	
+
+
+	@Test
+	public void testGetColor() {
+		CityColor blu= CityColor.createCityColor("blu");
+		CityColor arancione= CityColor.createCityColor("arancione");
+		CityColor viola= CityColor.createCityColor("viola");
+		CityColor rosa= CityColor.createCityColor("rosa");
+		
+		assertEquals(blu.getColor(), "blu");
+		assertEquals(arancione.getColor(), "arancione");
+		assertEquals(viola.getColor(), "viola");
+		assertEquals(rosa.getColor(), "rosa");
+			
+	}
+
+	
+	
+	@Test
+	public void testEqualsCityColor() {
+		CityColor blu= CityColor.createCityColor("blu");
+		CityColor viola= CityColor.createCityColor("viola");
+		
+		assertTrue(blu.equals(blu));
+		assertTrue(blu.equals(cityBlu));
+		assertFalse(blu.equals(cityViola));
+		assertFalse(blu.equals(viola));
+		
+				
+		assertTrue(viola.equals(viola));
+		assertTrue(viola.equals(cityViola));
+		assertFalse(viola.equals(blu));
+		assertFalse(viola.equals(cityBlu));
+		
+		
+		
+	}
+	
+	
+
+	@Test
+	public void testToString() {
+		CityColor viola= CityColor.createCityColor("viola");
+		
+		assertEquals(viola.toString(), "CityColor='" + "viola" + '\'' +
+				'}');
+		assertEquals(cityBlu.toString(), "CityColor='" + "blu" + '\'' +
+				'}' );
+		
+	}
+	
+	
+	@Test
+	public void testHashCode() {
+		assertEquals(cityBlu.hashCode(), cityBlu.hashCode());
+		assertNotEquals(cityBlu.hashCode(), cityViola.hashCode());
+		
+		
+	}
+	
+	@Test
+	public void testGetState() {
+		CityColorDTO colorDTO= cityBlu.getState();
+		
+		assertEquals(cityBlu.getColor(), colorDTO.getColor());
+				
+		
+	}
+
+}
