@@ -13,6 +13,7 @@ public class EngageAssistant extends Action {
 
 	/**
 	 * Construct an action to engage an assistant 
+	 * @param token the token of the player
 	 */
 	public EngageAssistant(long token) {
 		super(token);

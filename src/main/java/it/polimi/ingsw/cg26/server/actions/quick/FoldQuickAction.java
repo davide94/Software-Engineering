@@ -11,14 +11,16 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 public class FoldQuickAction extends Action {
 
     /**
-     * Build a simple action
-     *
-     * @param token
+     * Construct an action that represent the decision of the player to not perform the quick action
+     * @param token the token of the player
      */
     public FoldQuickAction(long token) {
         super(token);
     }
 
+    /**
+     * @throws NoRemainingActionsException if the player has no more remaining actions to do
+     */
     @Override
     public void apply(GameBoard gameBoard) {
         Player currentPlayer = gameBoard.getCurrentPlayer();

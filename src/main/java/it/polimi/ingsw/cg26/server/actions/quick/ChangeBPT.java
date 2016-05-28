@@ -20,6 +20,7 @@ public class ChangeBPT extends Action {
     /**
      * Construct the action to change the faced up tiles of a selected region
      * @param region the region where the player wants to change the tiles
+     * @param token the token of the player
      * @throws NullPointerException if the argument is null
      */
     public ChangeBPT(RegionDTO region, long token) {

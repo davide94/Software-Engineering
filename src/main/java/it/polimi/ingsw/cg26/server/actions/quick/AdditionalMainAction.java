@@ -12,6 +12,7 @@ public class AdditionalMainAction extends Action {
 
 	/**
 	 * Construct an action to give one more main action to the player
+	 * @param token the token of the player
 	 */
 	public AdditionalMainAction(long token) {
 		super(token);

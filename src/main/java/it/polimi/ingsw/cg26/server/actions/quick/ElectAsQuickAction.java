@@ -17,6 +17,8 @@ public class ElectAsQuickAction extends Elect {
 	 * Construct an action to elect a councillor as quick action
 	 * @param region the region where the player wants to elect the councillor
 	 * @param councillor the councillor the player wants to elect
+	 * @param token the token of the player
+	 * @throws NullPointerException if one or more arguments are null
 	 */
 	public ElectAsQuickAction(RegionDTO region, CouncillorDTO councillor, long token) {
 		super(region, councillor, token);
