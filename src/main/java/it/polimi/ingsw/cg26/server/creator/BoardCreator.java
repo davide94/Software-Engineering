@@ -2,11 +2,13 @@ package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.board.*;
 import org.w3c.dom.Node;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -37,7 +39,9 @@ public class BoardCreator {
 
         KingDeck kingDeck = KingDeckCreator.createKingDeck(root, politicDeck);
 
-        return GameBoard.createGameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market, kingDeck);
+        Map<CityColor, RewardTile> colorBonuses = CityColorsBonusesCreator.createCityColorsBonuses(root, politicDeck);
+
+        return GameBoard.createGameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
     }
 
 }

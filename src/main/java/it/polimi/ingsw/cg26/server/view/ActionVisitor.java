@@ -1,24 +1,13 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
-import it.polimi.ingsw.cg26.common.commands.AdditionalMainActionCommand;
-import it.polimi.ingsw.cg26.common.commands.BuildCommand;
-import it.polimi.ingsw.cg26.common.commands.BuildKingCommand;
-import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
-import it.polimi.ingsw.cg26.common.commands.ElectAsMainActionCommand;
-import it.polimi.ingsw.cg26.common.commands.ElectAsQuickActionCommand;
-import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
-import it.polimi.ingsw.cg26.common.commands.Staccah;
+import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.actions.main.Acquire;
 import it.polimi.ingsw.cg26.server.actions.main.Build;
 import it.polimi.ingsw.cg26.server.actions.main.BuildKing;
 import it.polimi.ingsw.cg26.server.actions.main.ElectAsMainAction;
-import it.polimi.ingsw.cg26.server.actions.quick.AdditionalMainAction;
-import it.polimi.ingsw.cg26.server.actions.quick.ChangeBPT;
-import it.polimi.ingsw.cg26.server.actions.quick.ElectAsQuickAction;
-import it.polimi.ingsw.cg26.server.actions.quick.EngageAssistant;
+import it.polimi.ingsw.cg26.server.actions.quick.*;
 
 public class ActionVisitor implements Visitor {
 
@@ -82,6 +71,12 @@ public class ActionVisitor implements Visitor {
 	public void visit(Staccah staccah) {
 		
 
+	}
+
+	@Override
+	public void visit(FoldQuickActionCommand foldQuickActionCommand) {
+		Action action = new FoldQuickAction(token);
+		this.view.notifyObservers(action);
 	}
 
 }

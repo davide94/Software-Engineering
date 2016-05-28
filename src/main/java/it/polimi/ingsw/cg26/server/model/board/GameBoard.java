@@ -10,10 +10,8 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.observer.Observable;
-import java.util.Collection;
-import java.util.Dictionary;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.*;
 
 /**
  * 
@@ -36,20 +34,12 @@ public class GameBoard extends Observable<Change> {
 
 	private final Market market;
 	
-	private Dictionary<CityColor, RewardTile> colorBonuses;
-
-	
-	
-	
-	
-	
-
-	
+	private Map<CityColor, RewardTile> colorBonuses;
 
 	private final Scheduler scheduler;
 
-	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
-		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
+	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, RewardTile> colorBonuses) {
+		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null || colorBonuses == null)
 			throw new NullPointerException();
 		this.politicDeck = deck;
 		this.councillorsPool = councillorsPool;
@@ -59,12 +49,13 @@ public class GameBoard extends Observable<Change> {
 		this.king = king;
 		this.market = market;
 		this.kingDeck = kingDeck;
+		this.colorBonuses = colorBonuses;
 		this.scheduler = new Scheduler(this);
 
 	}
 
-	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck) {
-		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck);
+	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, RewardTile> colorBonuses) {
+		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck, colorBonuses);
 	}
 
 	public GameBoardDTO getState() {

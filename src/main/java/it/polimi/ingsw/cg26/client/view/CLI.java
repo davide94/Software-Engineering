@@ -54,7 +54,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                     "\n(6) Change Building Permit Tiles" +
                     "\n(7) Send an Assistant to elect a Councillor" +
                     "\n(8) Perform an additional Main Action" +
-                    "\n(9) Don't perform Quick Action (Not implemented yet)" +
+                    "\n(9) Fold Quick Action" +
                     "\n\nWhat do you want to do? ");
 
             String command = this.scanner.nextLine();
@@ -90,6 +90,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                     additionalMainAction();
                     break;
                 case "9":
+                    foldQuickAction();
                     break;
                 default:
                     break;
@@ -256,6 +257,10 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private void additionalMainAction() {
         outView.writeObject(new AdditionalMainActionCommand());
+    }
+
+    private void foldQuickAction() {
+        outView.writeObject(new FoldQuickActionCommand());
     }
 
     private RegionDTO askForRegion() {

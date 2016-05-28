@@ -41,28 +41,34 @@
         <color name="pink" councillors="4" cards="13" />
         <color name="violet" councillors="4" cards="13" />
     </politic>
+    <cityColorsBonuses>
+        <color name="blue"><bonus victory="5" /></color>
+        <color name="red"><bonus victory="8" /></color>
+        <color name="grey"><bonus victory="12" /></color>
+        <color name="yellow"><bonus victory="20" /></color>
+    </cityColorsBonuses>
     <regions>
         <region name="coast">
             <bonus earn="5" />
             <cities>
-                <city name="arkon" position="" color="blu">
+                <city name="arkon" position="" color="blue">
                     <near name="castrum" />
                     <near name="burgen" />
                 </city>
-                <city name="burgen" position="" color="giallo">
+                <city name="burgen" position="" color="yellow">
                     <near name="arkon" />
                     <near name="dorful" />
                     <near name="esti" />
                 </city>
-                <city name="castrum" position="" color="grigio">
+                <city name="castrum" position="" color="grey">
                     <near name="arkon" />
                     <near name="framek" />
                 </city>
-                <city name="dorful" position="" color="grigio">
+                <city name="dorful" position="" color="grey">
                     <near name="burgen" />
                     <near name="graden" />
                 </city>
-                <city name="esti" position="" color="rosso">
+                <city name="esti" position="" color="red">
                     <near name="burgen" />
                     <near name="hellar" />
                 </city>
@@ -178,25 +184,25 @@
         <region name="hills">
             <bonus earn="5" />
             <cities>
-                <city name="framek" position="" color="giallo">
+                <city name="framek" position="" color="yellow">
                     <near name="castrum" />
                     <near name="indur" />
                 </city>
-                <city name="graden" position="" color="grigio">
+                <city name="graden" position="" color="grey">
                     <near name="dorful" />
                     <near name="juvelar" />
                 </city>
-                <city name="hellar" position="" color="giallo">
+                <city name="hellar" position="" color="yellow">
                     <near name="esti" />
                     <near name="juvelar" />
                     <near name="merkatim" />
                 </city>
-                <city name="indur" position="" color="rosso">
+                <city name="indur" position="" color="red">
                     <near name="framek" />
                     <near name="juvelar" />
                     <near name="kultos" />
                 </city>
-                <city name="juvelar" position="" color="viola">
+                <city name="juvelar" position="" color="violet">
                     <near name="indur" />
                     <near name="lyram" />
                     <near name="hellar" />
@@ -315,23 +321,23 @@
         <region name="mountains">
             <bonus earn="5" />
             <cities>
-                <city name="kultos" position="" color="giallo">
+                <city name="kultos" position="" color="yellow">
                     <near name="indur" />
                     <near name="naris" />
                 </city>
-                <city name="lyram" position="" color="grigio">
+                <city name="lyram" position="" color="grey">
                     <near name="juvelar" />
                     <near name="osium" />
                 </city>
-                <city name="merkatim" position="" color="blu">
+                <city name="merkatim" position="" color="blue">
                     <near name="hellar" />
                     <near name="osium" />
                 </city>
-                <city name="naris" position="" color="rosso">
+                <city name="naris" position="" color="red">
                     <near name="kultos" />
                     <near name="osium" />
                 </city>
-                <city name="osium" position="" color="giallo">
+                <city name="osium" position="" color="yellow">
                     <near name="merkatim" />
                     <near name="lyram" />
                     <near name="naris" />

@@ -116,6 +116,20 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="cityColorsBonuses">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="color" minOccurs='0' maxOccurs='unbounded'>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="bonus" type="bonusType" />
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="regions">
 					<xs:complexType>
 						<xs:sequence>

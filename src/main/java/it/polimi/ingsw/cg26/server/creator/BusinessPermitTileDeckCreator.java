@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import org.w3c.dom.Node;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class BusinessPermitTileDeckCreator {
 
     protected static BusinessPermissionTileDeck createDeck(Node root, List<City> cities, PoliticDeck politicDeck) {
         List<BusinessPermissionTile> tiles = createTiles(root, cities, politicDeck);
+        Collections.shuffle(tiles);
         return new BusinessPermissionTileDeck(tiles);
     }
 

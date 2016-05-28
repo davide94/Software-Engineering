@@ -19,6 +19,8 @@ public interface Visitor {
 	public void visit(ElectAsQuickActionCommand electAsQuickActionCommmand);
 	
 	public void visit(EngageAssistantCommand engageAssistantCommand);
-	
+
 	public void visit(Staccah staccah);
+
+	public void visit(FoldQuickActionCommand foldQuickActionCommand);
 }
