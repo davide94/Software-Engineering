@@ -77,7 +77,7 @@ public class EmporiumTest {
 	public void testGetState() {
 		EmporiumDTO state= new EmporiumDTO("Davide");
 		
-		//assertEquals(state, empDavide.getState());
+		assertEquals(state, empDavide.getState());
 		
 		
 	}

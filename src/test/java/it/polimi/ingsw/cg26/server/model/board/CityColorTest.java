@@ -103,8 +103,7 @@ public class CityColorTest {
 		CityColor giallo2=null;
 		List<Bonus> bonuses= new LinkedList<>();
 		City rosa=City.createCity("Torino", CityColor.createCityColor("rosa"),bonuses );
-		//City giallo=City.createCity("Napoli", CityColor.createCityColor("giallo"),bonuses );
-		CityColor giallo= (CityColor) giallo2;
+		
 		
 		
 		assertTrue(blu.equals(blu));

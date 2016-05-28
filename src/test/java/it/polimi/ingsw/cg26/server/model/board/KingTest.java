@@ -189,7 +189,6 @@ public class KingTest {
 	@Test
 	public void testGetState() {
 		King king= King.createKing(city1);
-		//KingDTO kingDTO=king.getState();
 		KingDTO kingDTO= new KingDTO("Milano");
 		
 		assertEquals(king.getState(), kingDTO);
