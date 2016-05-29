@@ -43,8 +43,8 @@ public class RewardTileTest {
 
     @Test
     public void testApply() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();

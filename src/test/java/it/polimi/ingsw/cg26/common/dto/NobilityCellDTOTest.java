@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +22,7 @@ public class NobilityCellDTOTest {
     public void setUp() throws Exception {
         bonuses = new LinkedList<>();
         bonuses.add(new BonusDTO("bonusName", 4));
-        cell = new NobilityCellDTO(8, bonuses);
+        cell = new NobilityCellDTO(8, new RewardTileDTO(bonuses));
     }
 
     @Test (expected = NullPointerException.class)
@@ -30,7 +32,7 @@ public class NobilityCellDTOTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail2() throws Exception {
-        new NobilityCellDTO(-2, bonuses);
+        new NobilityCellDTO(-2, new RewardTileDTO(bonuses));
     }
 
     @Test

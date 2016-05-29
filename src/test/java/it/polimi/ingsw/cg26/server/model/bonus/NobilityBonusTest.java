@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.BonusDTO;
@@ -27,9 +28,9 @@ public class NobilityBonusTest {
 	
 	@Test
 	public void testApplyBonusWithMultiplicity2ToAPlayerOnCell1ShouldPutOnCell3(){
-		NobilityCell cell3 = NobilityCell.createNobilityCell(3, null, new ArrayList<>());
-		NobilityCell cell2 = NobilityCell.createNobilityCell(2, cell3, new ArrayList<>());
-		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new ArrayList<>());
+		NobilityCell cell3 = NobilityCell.createNobilityCell(3, null, new RewardTile(new LinkedList<Bonus>()));
+		NobilityCell cell2 = NobilityCell.createNobilityCell(2, cell3, new RewardTile(new LinkedList<Bonus>()));
+		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new RewardTile(new LinkedList<Bonus>()));
 		Player player = new Player(1, "Marco", cell1, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		NobilityBonus bonus = new NobilityBonus(2);
 		bonus.apply(player);
@@ -39,8 +40,8 @@ public class NobilityBonusTest {
 	
 	@Test
 	public void testApplyBonusWithMultiplicity1ToAPlayerOnCell1ShouldPutOnCell2(){
-		NobilityCell cell2 = NobilityCell.createNobilityCell(2, null, new ArrayList<>());
-		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new ArrayList<>());
+		NobilityCell cell2 = NobilityCell.createNobilityCell(2, null, new RewardTile(new LinkedList<Bonus>()));
+		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new RewardTile(new LinkedList<Bonus>()));
 		Player player = new Player(1, "Marco", cell1, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		NobilityBonus bonus = new NobilityBonus(1);
 		bonus.apply(player);
@@ -50,10 +51,10 @@ public class NobilityBonusTest {
 	
 	@Test
 	public void testApplyBonusWithMultiplicity4ToAPlayerOnCell1ShouldPutOnCell4MaximumCell(){
-		NobilityCell cell4 = NobilityCell.createNobilityCell(4, null, new ArrayList<>());
-		NobilityCell cell3 = NobilityCell.createNobilityCell(3, cell4, new ArrayList<>());
-		NobilityCell cell2 = NobilityCell.createNobilityCell(2, cell3, new ArrayList<>());
-		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new ArrayList<>());
+		NobilityCell cell4 = NobilityCell.createNobilityCell(4, null, new RewardTile(new LinkedList<Bonus>()));
+		NobilityCell cell3 = NobilityCell.createNobilityCell(3, cell4, new RewardTile(new LinkedList<Bonus>()));
+		NobilityCell cell2 = NobilityCell.createNobilityCell(2, cell3, new RewardTile(new LinkedList<Bonus>()));
+		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new RewardTile(new LinkedList<Bonus>()));
 		Player player = new Player(1, "Marco", cell1, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		NobilityBonus bonus = new NobilityBonus(4);
 		bonus.apply(player);

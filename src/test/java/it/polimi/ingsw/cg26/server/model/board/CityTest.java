@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,11 +50,11 @@ public class CityTest {
 	 @Before
 	    public void setUp() throws Exception {
 		 
-		    NobilityCell next= NobilityCell.createNobilityCell(11, next2, new LinkedList<Bonus>()); 
-		    NobilityCell next2= NobilityCell.createNobilityCell(12, null, new LinkedList<Bonus>());
-		    Davide=new Player(1234, "Davide", NobilityCell.createNobilityCell(10, next, new LinkedList<Bonus>()), 5, new LinkedList<>(), new LinkedList<>());
-		    Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new LinkedList<Bonus>()), 11, new LinkedList<>(), new LinkedList<>());
-		    Marco=new Player(1236, "Marco", NobilityCell.createNobilityCell(12, null, new LinkedList<Bonus>()), 12, new LinkedList<>(), new LinkedList<>());
+		    NobilityCell next= NobilityCell.createNobilityCell(11, next2, new RewardTile(new LinkedList<Bonus>()));
+		    NobilityCell next2= NobilityCell.createNobilityCell(12, null, new RewardTile(new LinkedList<Bonus>()));
+		    Davide=new Player(1234, "Davide", NobilityCell.createNobilityCell(10, next, new RewardTile(new LinkedList<Bonus>())), 5, new LinkedList<>(), new LinkedList<>());
+		    Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new RewardTile(new LinkedList<Bonus>())), 11, new LinkedList<>(), new LinkedList<>());
+		    Marco=new Player(1236, "Marco", NobilityCell.createNobilityCell(12, null, new RewardTile(new LinkedList<Bonus>())), 12, new LinkedList<>(), new LinkedList<>());
 		    emporiums1 = new ArrayList<>();
 		    emporiums2 = new ArrayList<>();
 		    emporiums3 = new ArrayList<>();
@@ -70,9 +72,9 @@ public class CityTest {
 		    bonuses3.add(new MainActionBonus(2));
 	        color1= CityColor.createCityColor("blu");
 	        color2= CityColor.createCityColor("verde");
-	        city1 = City.createCity("Milano", CityColor.createCityColor("blu"),bonuses1 );
-	        city2= City.createCity("Roma", color2,bonuses1 );
-	        city3= City.createCity("Firenze", color1,bonuses2 );
+	        city1 = City.createCity("Milano", CityColor.createCityColor("blu"), new RewardTile(bonuses1));
+	        city2= City.createCity("Roma", color2, new RewardTile(bonuses1));
+	        city3= City.createCity("Firenze", color1, new RewardTile(bonuses2));
 	        linkedCities=new LinkedList<>();
 	        linkedCities.add(city2);
 	        
@@ -84,17 +86,17 @@ public class CityTest {
 		 List<Bonus> bonusesA=new LinkedList<>();
 		 bonusesA.add(new CoinBonus(5));
 		 //bonusesA.add(new NobilityBonus(1));		 
-		 City cityA= City.createCity("Napoli", color1, bonusesA);
+		 City cityA= City.createCity("Napoli", color1, new RewardTile(bonusesA));
 		 
 		 List<Bonus> bonusesB=new LinkedList<>();
 		 bonusesB.add(new AssistantBonus(15));
 		 bonusesB.add(new MainActionBonus(2));
-		 City cityB= City.createCity("Roma", color2, bonusesB);
+		 City cityB= City.createCity("Roma", color2, new RewardTile(bonusesB));
 		 
 		 List<Bonus> bonusesC=new LinkedList<>();
 		 bonusesC.add(new VictoryBonus(10));
 		 //bonusesC.add(new CardBonus(50)); perché CardBonus ha due parametri?
-		 City cityC= City.createCity("Firenze", color1, bonusesC);
+		 City cityC= City.createCity("Firenze", color1, new RewardTile(bonusesC));
 		 
 		 cityA.link(cityB);
 		 cityA.link(cityC);
@@ -130,7 +132,7 @@ public class CityTest {
 	 @Test
 		public void testCity1DistanceFromCity4() {
 		 
-		 City city4= City.createCity("Napoli", CityColor.createCityColor("Viola"),bonuses2 );
+		 City city4= City.createCity("Napoli", CityColor.createCityColor("Viola"), new RewardTile(bonuses2));
 		 city3.link(city4);
 		 city2.link(city3);
 		 city1.link(city2);
@@ -230,7 +232,7 @@ public class CityTest {
 	 
 	 @Test
 		public void testNotEqualsNameofCities() {
-		City city4= City.createCity("Genova", color2, bonuses1);
+		City city4= City.createCity("Genova", color2, new RewardTile(bonuses1));
 		assertNotEquals(city4, city2);
 		
 			
@@ -238,7 +240,7 @@ public class CityTest {
 	 
 	 @Test
 		public void testNotEqualsColorofCities() {
-		City city4= City.createCity("Roma", color1, bonuses1);
+		City city4= City.createCity("Roma", color1, new RewardTile(bonuses1));
 		assertNotEquals(city4, city2);
 		
 			
@@ -247,7 +249,7 @@ public class CityTest {
 	 /*
 	 @Test
 		public void testNotEqualsBonusesOfCities() {
-		City city4= City.createCity("Roma", color2, bonuses3);
+		City city4= City.createCity("Roma", color2, new RewardTile(bonuses3));
 		assertNotEquals(city4, city2);
 		
 			
@@ -258,8 +260,8 @@ public class CityTest {
 		public void testGetAssistantBonuses() {
 			Bonus bonus = new AssistantBonus(4);
 	        bonuses2.add(bonus);
-	        City city4= City.createCity("Genova", color1,bonuses2 );
-	        assertEquals(city4.getBonuses(), bonuses2);
+	        City city4= City.createCity("Genova", color1, new RewardTile(bonuses2));
+	        assertEquals(city4.getReward().getBonuses(), bonuses2);
 	        
 	        
 			
@@ -270,8 +272,8 @@ public class CityTest {
 		public void testGetVictoryBonuses() {
 			Bonus bonus = new VictoryBonus(4);
 	        bonuses2.add(bonus);
-	        City city4= City.createCity("Genova", color1,bonuses2 );
-	        assertEquals(city4.getBonuses(), bonuses2);
+	        City city4= City.createCity("Genova", color1, new RewardTile(bonuses2));
+	        assertEquals(city4.getReward().getBonuses(), bonuses2);
 	        
 	        
 			
@@ -287,7 +289,7 @@ public class CityTest {
 	        bonuses2.add(bonus1);
 	        bonuses2.add(bonus2);
 	        
-	        City city4= City.createCity("Genova", color1,bonuses2 );
+	        City city4= City.createCity("Genova", color1, new RewardTile(bonuses2));
 	        assertEquals(city4.getBonuses(), bonuses3);
 	        
 	        
@@ -308,14 +310,14 @@ public class CityTest {
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateCityWithoutaValidName() {
-			City.createCity(null,color1,bonuses1);
+			City.createCity(null,color1, new RewardTile(bonuses1));
 			
 			}
 	
 	
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateCityWithoutaColor() {
-			City.createCity("Firenze",null,bonuses1);
+			City.createCity("Firenze",null, new RewardTile(bonuses1));
 			
 			}
 	
@@ -329,8 +331,8 @@ public class CityTest {
 	@Test 
 	public void testShouldCreateCity() {
 		
-		assertNotNull(City.createCity("Firenze",color1,bonuses1));
-		assertEquals(City.createCity("Firenze",color1,bonuses1) , city3);
+		assertNotNull(City.createCity("Firenze",color1, new RewardTile(bonuses1)));
+		assertEquals(City.createCity("Firenze",color1, new RewardTile(bonuses1)), city3);
 		
 		
 			}
@@ -352,12 +354,15 @@ public class CityTest {
 	
 	@Test
 	public void testToString() {
+		System.out.println(city1);
 		assertEquals(city1.toString(), "City{" +
-                "name=" + "Milano" + '\'' +
-                ", color=" + "blu" +
-                ", emporiums=" + "[]" +
-                ", bonuses=" + "[]" +
-                '}');		
+				"distance=" + "Infinity" +
+				", name='" + "Milano'" +
+				", color=" + "CityColor='blu'" +
+				", emporiums=" + "[]" +
+				", reward=" + "RewardTile{bonuses=[]}" +
+				", nearCities=" + "[]" +
+				'}');
 	}
 	
 	
@@ -427,7 +432,7 @@ public class CityTest {
 	public void testGetState() {
 		
 		
-		City city4= City.createCity("Napoli", color1, bonuses3);
+		City city4= City.createCity("Napoli", color1, new RewardTile(bonuses3));
 		city4.build(Davide);
 		city4.link(city1);
 		CityDTO cityDTO= city4.getState();
@@ -451,7 +456,7 @@ public class CityTest {
 	
 	@Test
 	public void testEqualsObject() {
-	City city4= City.createCity("Roma", color2, bonuses1);
+	City city4= City.createCity("Roma", color2, new RewardTile(bonuses1));
 	City city5=null;
 	CityColor blu= CityColor.createCityColor("blu");
 	

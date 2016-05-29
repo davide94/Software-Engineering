@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.*;
@@ -22,35 +23,32 @@ public class City {
 
     private List<Emporium> emporiums;
     
-    private List<Bonus> bonuses;
+    private RewardTile reward;
     
     private List<City> nearCities;
 
-    private City(String name, CityColor color, List<Bonus> bonuses, List<Emporium> emporiums, List<City> nearCities) {
-        if (name == null || color == null || bonuses == null || emporiums == null || nearCities == null)
+    private City(String name, CityColor color, RewardTile reward, List<Emporium> emporiums, List<City> nearCities) {
+        if (name == null || color == null || reward == null || emporiums == null || nearCities == null)
             throw new NullPointerException();
         this.name = name;
         this.color = color;
-        this.bonuses = bonuses;
+        this.reward = reward;
         this.emporiums = emporiums;
         this.nearCities = nearCities;
     }
 
-    public static City createCity(String name, CityColor color,List<Bonus> bonuses) {
-        return new City(name, color, new LinkedList<>(bonuses), new ArrayList<>(), new LinkedList<>());
+    public static City createCity(String name, CityColor color, RewardTile bonuses) {
+        return new City(name, color, bonuses, new ArrayList<>(), new LinkedList<>());
     }
 
     public CityDTO getState() {
-        LinkedList<BonusDTO> bonusesState = new LinkedList<>();
-        for (Bonus b: bonuses)
-            bonusesState.add(b.getState());
         LinkedList<String> nearCitiesState = new LinkedList<>();
         for (City c: nearCities)
             nearCitiesState.add(c.getName());
         LinkedList<EmporiumDTO> emporiumsState = new LinkedList<>();
         for (Emporium e: emporiums)
             emporiumsState.add(e.getState());
-        return new CityDTO(name, color.getState(), bonusesState, emporiumsState, nearCitiesState);
+        return new CityDTO(name, color.getState(), reward.getState(), emporiumsState, nearCitiesState);
     }
 
     /**
@@ -85,8 +83,8 @@ public class City {
 
 
 	
-	public List<Bonus> getBonuses() {
-		return bonuses;
+	public RewardTile getReward() {
+		return reward;
 	}
 
     public int getEmporiumsNumber() {
@@ -105,9 +103,7 @@ public class City {
      * @param
      */
     private void takeBonus(Player p) {
-        for(Bonus iterBonus:bonuses){
-            iterBonus.apply(p);
-        }
+        reward.apply(p);
     }
     
     
@@ -180,16 +176,18 @@ public class City {
     @Override
     public String toString() {
         return "City{" +
-                "name=" + name + '\'' +
-                ", color=" + color.getColor() +
+                "distance=" + distance +
+                ", name='" + name + '\'' +
+                ", color=" + color +
                 ", emporiums=" + emporiums +
-                ", bonuses=" + bonuses +
+                ", reward=" + reward +
+                ", nearCities=" + nearCities +
                 '}';
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+    /* (non-Javadoc)
+         * @see java.lang.Object#hashCode()
+         */
 	@Override
 	public int hashCode() {
 		final int prime = 31;

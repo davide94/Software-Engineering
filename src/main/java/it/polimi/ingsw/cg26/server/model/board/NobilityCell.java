@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
@@ -26,31 +27,29 @@ public class NobilityCell {
     /**
      *
      */
-    private Collection<Bonus> bonuses;
+    private RewardTile reward;
 
 
     /**
      * Default constructor
      */
-    private NobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
+    private NobilityCell(int index, NobilityCell next, RewardTile reword) {
         if (index < 0)
             throw new IllegalArgumentException();
-        if (bonuses == null)
+        if (reword == null)
             throw new NullPointerException();
         this.index = index;
         this.next = next;
-        this.bonuses = bonuses;
+        this.reward = reword;
     }
 
-    public static NobilityCell createNobilityCell(int index, NobilityCell next, Collection<Bonus> bonuses) {
-        return new NobilityCell(index, next, new LinkedList<>(bonuses));
+    public static NobilityCell createNobilityCell(int index, NobilityCell next, RewardTile reward) {
+        return new NobilityCell(index, next, reward);
     }
 
     public NobilityCellDTO getState() {
-        Collection<BonusDTO> bonusesState = new LinkedList<>();
-        for (Bonus b: bonuses)
-            bonusesState.add(b.getState());
-        return new NobilityCellDTO(index, bonusesState);
+
+        return new NobilityCellDTO(index, reward.getState());
     }
 
     /**
@@ -76,8 +75,7 @@ public class NobilityCell {
     }
 
     public void apply(Player player) {
-        for (Bonus bonus: this.bonuses)
-            bonus.apply(player);
+        reward.apply(player);
     }
 
 }

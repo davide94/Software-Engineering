@@ -62,7 +62,15 @@ public class Server {
 
         while (true) {
             Socket socket = serverSocket.accept();
-            registerPlayer(socket);
+            new Thread(() -> {
+                try {
+                    registerPlayer(socket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
     }
 
@@ -77,6 +85,13 @@ public class Server {
 
         Player player = newPlayer(playersNumber, name);
         playersNumber++;
+
+        model.registerPlayer(player);
+        View view = new ServerSocketView(socket, socketIn, socketOut, player.getToken());
+        view.registerObserver(this.controller);
+        model.registerObserver(view);
+        executor.submit(view);
+
         if (playersNumber == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
@@ -85,13 +100,6 @@ public class Server {
                 }
             }, START_DELAY);
         }
-
-        model.registerPlayer(player);
-        View view = new ServerSocketView(socket, socketIn, socketOut, player.getToken());
-        view.registerObserver(this.controller);
-        model.registerObserver(view);
-        executor.submit(view);
-
     }
 
     private Player newPlayer(int playerNumber, String name) {

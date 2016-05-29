@@ -1,9 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.market;
 
+import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
@@ -43,8 +45,8 @@ public class SellableTest {
 
     @Test
     public void testSetAndGetOwner() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
         LinkedList<PoliticCard> cards = new LinkedList<>();
         LinkedList<Assistant> assistants = new LinkedList<>();
         Player player = new Player(1234, "name", nobilityCell2, 10, cards, assistants);

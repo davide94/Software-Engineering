@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.BonusDTO;
@@ -35,7 +36,7 @@ public class CoinBonusTest {
 	
 	@Test
 	public void testApplyCoinBonusWithMultiplicity6ToAPlayerWith2CoinsShouldAtTheEndHave8Coins(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		CoinBonus bonus = new CoinBonus(6);
 		bonus.apply(player);

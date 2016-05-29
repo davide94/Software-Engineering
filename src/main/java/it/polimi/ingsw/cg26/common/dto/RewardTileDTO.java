@@ -27,6 +27,20 @@ public class RewardTileDTO implements Serializable {
 	public Collection<BonusDTO> getBonuses() {
 		return bonuses;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		RewardTileDTO that = (RewardTileDTO) o;
+
+		return bonuses != null ? bonuses.equals(that.bonuses) : that.bonuses == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return bonuses != null ? bonuses.hashCode() : 0;
+	}
 }

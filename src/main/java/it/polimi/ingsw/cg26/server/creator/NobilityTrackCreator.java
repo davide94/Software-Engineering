@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class NobilityTrackCreator {
         Node nobilityTrackRoot = Creator.getNode(root, "nobilitytrack");
 
         int len = Integer.parseInt(Creator.getAttribute(nobilityTrackRoot, "len"));
-        List<List<Bonus>> bonuses = new ArrayList<>(Collections.nCopies(len, new LinkedList<>()));
+        List<RewardTile> bonuses = new ArrayList<>(Collections.nCopies(len, new RewardTile(new LinkedList<>())));
 
         for (Node node: Creator.getNodes(nobilityTrackRoot, "bonus")) {
             int position = Integer.parseInt(Creator.getAttribute(node, "position")) - 1;
@@ -32,7 +33,7 @@ public class NobilityTrackCreator {
         }
         NobilityCell last = NobilityCell.createNobilityCell(len - 1, null, bonuses.get(len - 1));
         for (int i = len - 2; i >= 0; i--) {
-            List<Bonus> bonus = bonuses.get(i);
+            RewardTile bonus = bonuses.get(i);
             last = NobilityCell.createNobilityCell(i, last, bonus);
         }
         return NobilityTrack.createNobilityTrack(last);

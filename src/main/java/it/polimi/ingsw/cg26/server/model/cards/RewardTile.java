@@ -55,4 +55,27 @@ public class RewardTile {
     	for (Bonus b: bonuses)
     		b.apply(player);
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		RewardTile that = (RewardTile) o;
+
+		return bonuses != null ? bonuses.equals(that.bonuses) : that.bonuses == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return bonuses != null ? bonuses.hashCode() : 0;
+	}
+
+	@Override
+	public String toString() {
+		return "RewardTile{" +
+				"bonuses=" + bonuses +
+				'}';
+	}
 }

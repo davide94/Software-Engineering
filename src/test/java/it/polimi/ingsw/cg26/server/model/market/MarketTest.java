@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
@@ -48,7 +50,7 @@ public class MarketTest {
 		Market market = new Market();
 		List<City> cities = new ArrayList<>();
 		List<Bonus> tileBonuses = new ArrayList<>();
-		BusinessPermissionTile tile = new BusinessPermissionTile(cities, tileBonuses);
+		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(tileBonuses));
 		Assistant assistant = new Assistant();
 		
 		market.addToMarket(tile);
@@ -121,7 +123,7 @@ public class MarketTest {
 	
 	@Test
 	public void testEndMarket(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<Bonus>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>()));
 		Player player1 = new Player(1, "Marco", cell, 4, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
 		//created player with 0 assistants and 0 politic cards
 		

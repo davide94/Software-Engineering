@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,10 +70,8 @@ public class CityColorTest {
 	public void testToString() {
 		CityColor viola= CityColor.createCityColor("viola");
 		
-		assertEquals(viola.toString(), "CityColor='" + "viola" + '\'' +
-				'}');
-		assertEquals(cityBlu.toString(), "CityColor='" + "blu" + '\'' +
-				'}' );
+		assertEquals(viola.toString(), "CityColor='" + "viola" + '\'');
+		assertEquals(cityBlu.toString(), "CityColor='" + "blu" + '\'');
 		
 	}
 	
@@ -102,7 +101,7 @@ public class CityColorTest {
 		CityColor verde=null;
 		CityColor giallo2=null;
 		List<Bonus> bonuses= new LinkedList<>();
-		City rosa=City.createCity("Torino", CityColor.createCityColor("rosa"),bonuses );
+		City rosa=City.createCity("Torino", CityColor.createCityColor("rosa"), new RewardTile(bonuses));
 		
 		
 		

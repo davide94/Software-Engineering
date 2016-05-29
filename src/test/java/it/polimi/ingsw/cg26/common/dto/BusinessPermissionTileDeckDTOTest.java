@@ -24,7 +24,7 @@ public class BusinessPermissionTileDeckDTOTest {
         LinkedList<BonusDTO> bonuses = new LinkedList<>();
         bonuses.add(new BonusDTO("bonusName", 6));
         cards = new LinkedList<>();
-        cards.add(new BusinessPermissionTileDTO(cities, bonuses, 0, "playerName"));
+        cards.add(new BusinessPermissionTileDTO(cities, new RewardTileDTO(bonuses), 0, "playerName"));
 
         deck = new BusinessPermissionTileDeckDTO(cards);
     }

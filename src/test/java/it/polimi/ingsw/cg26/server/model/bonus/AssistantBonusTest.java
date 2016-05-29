@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.BonusDTO;
@@ -27,7 +28,7 @@ public class AssistantBonusTest {
 	
 	@Test
 	public void testApply3AssistantsToAPlayerWith0AssistantsShouldHave3Assistants(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		AssistantBonus bonus = new AssistantBonus(3);
 		bonus.apply(player);
@@ -37,7 +38,7 @@ public class AssistantBonusTest {
 
 	@Test
 	public void testApply1AssistantToAPlayerWith5AssistantsShouldHave6Assistants(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		for(int i=0; i<5; i++)
 			player.addAssistant(new Assistant());

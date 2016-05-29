@@ -88,6 +88,7 @@ public class Scheduler {
             this.currentPlayer = this.players.poll();
             currentPlayer.setRemainingMainActions(1);
             currentPlayer.setRemainingQuickActions(1);
+            currentPlayer.addPoliticCard(gameBoard.getPoliticDeck().draw());
         }
     }
 
@@ -103,5 +104,6 @@ public class Scheduler {
         currentPlayer = players.poll();
         currentPlayer.setRemainingMainActions(1);
         currentPlayer.setRemainingQuickActions(1);
+        currentPlayer.addPoliticCard(gameBoard.getPoliticDeck().draw());
     }
 }

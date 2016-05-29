@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.w3c.dom.Node;
 
 import java.util.*;
@@ -18,7 +19,7 @@ public class CitiesCreator {
     }
 
     protected static List<List<City>> createCities(Node root, PoliticDeck politicDeck) {
-        List<List<Bonus>> bonuses = BonusesCreator.createBonuses(Creator.getNode(root, "cityBonuses"), politicDeck);
+        List<RewardTile> bonuses = BonusesCreator.createBonuses(Creator.getNode(root, "cityBonuses"), politicDeck);
         Collections.shuffle(bonuses);
 
         List<List<City>> cities = new LinkedList<>();
@@ -37,13 +38,13 @@ public class CitiesCreator {
         return cities;
     }
 
-    private static City createCity(Node root, List<List<Bonus>> bonuses) {
+    private static City createCity(Node root, List<RewardTile> bonuses) {
         String colorString = Creator.getAttribute(root, "color");
         String name = Creator.getAttribute(root, "name");
         CityColor color = CityColor.createCityColor(colorString);
-        LinkedList<Bonus> bonus = new LinkedList<>();
+        RewardTile bonus = new RewardTile(new LinkedList<>());
         if (!Creator.hasChild("king", root))
-            bonus.addAll(bonuses.get(0));
+            bonus = bonuses.get(0);
         return City.createCity(name, color, bonus);
     }
 

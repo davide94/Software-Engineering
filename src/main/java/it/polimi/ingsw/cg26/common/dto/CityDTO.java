@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -16,7 +18,7 @@ public class CityDTO implements Serializable {
 
     private Collection<EmporiumDTO> emporiums;
 
-    private final Collection<BonusDTO> bonuses;
+    private final RewardTileDTO reward;
 
     private final Collection<String> nearCities;
 
@@ -24,20 +26,20 @@ public class CityDTO implements Serializable {
      * Constructs a City DTO object
      * @param name is the name string
      * @param color is a City Color DTO
-     * @param bonuses is a collection of Bonuses DTO
+     * @param reward is a Reward Tile DTO
      * @param emporiums is a collection of Emporiums DTO
      * @param nearCities is a collection of strings that identifies the near cities
      * @throws NullPointerException if any of the parameters is null
      * @throws IllegalArgumentException if name is empty
      */
-    public CityDTO(String name, CityColorDTO color, Collection<BonusDTO> bonuses, Collection<EmporiumDTO> emporiums, Collection<String> nearCities) {
-        if (name == null || color == null || bonuses == null || emporiums == null || nearCities == null)
+    public CityDTO(String name, CityColorDTO color, RewardTileDTO reward, Collection<EmporiumDTO> emporiums, Collection<String> nearCities) {
+        if (name == null || color == null || reward == null || emporiums == null || nearCities == null)
             throw new NullPointerException();
         if (name.isEmpty())
             throw new IllegalArgumentException();
         this.name = name;
         this.color = color;
-        this.bonuses = bonuses;
+        this.reward = reward;
         this.emporiums = emporiums;
         this.nearCities = nearCities;
     }
@@ -81,8 +83,8 @@ public class CityDTO implements Serializable {
      * Returns a collection of Bonuses DTO
      * @return a collection of Bonuses DTO
      */
-    public Collection<BonusDTO> getBonuses() {
-        return bonuses;
+    public RewardTileDTO getReward() {
+        return reward;
     }
 
     /**
@@ -94,42 +96,38 @@ public class CityDTO implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityDTO cityDTO = (CityDTO) o;
+
+        if (name != null ? !name.equals(cityDTO.name) : cityDTO.name != null) return false;
+        if (color != null ? !color.equals(cityDTO.color) : cityDTO.color != null) return false;
+        if (emporiums != null ? !emporiums.equals(cityDTO.emporiums) : cityDTO.emporiums != null) return false;
+        if (reward != null ? !reward.equals(cityDTO.reward) : cityDTO.reward != null) return false;
+        return nearCities != null ? nearCities.equals(cityDTO.nearCities) : cityDTO.nearCities == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (emporiums != null ? emporiums.hashCode() : 0);
+        result = 31 * result + (reward != null ? reward.hashCode() : 0);
+        result = 31 * result + (nearCities != null ? nearCities.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "CityDTO{" +
                 "name='" + name + '\'' +
                 ", color=" + color +
                 ", emporiums=" + emporiums +
-                ", bonuses=" + bonuses +
+                ", reward=" + reward +
                 ", nearCities=" + nearCities +
                 '}';
     }
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		CityDTO cityDTO = (CityDTO) o;
-
-		if (name != null ? !name.equals(cityDTO.name) : cityDTO.name != null)
-			return false;
-		if (color != null ? !color.equals(cityDTO.color) : cityDTO.color != null)
-			return false;
-		if (emporiums != null ? !emporiums.equals(cityDTO.emporiums) : cityDTO.emporiums != null)
-			return false;
-		if (bonuses != null ? !bonuses.equals(cityDTO.bonuses) : cityDTO.bonuses != null)
-			return false;
-		return nearCities != null ? nearCities.equals(cityDTO.nearCities) : cityDTO.nearCities == null;
-
-	}
-
-	@Override
-	public int hashCode() {
-		int result = name != null ? name.hashCode() : 0;
-		result = 31 * result + (color != null ? color.hashCode() : 0);
-		result = 31 * result + (emporiums != null ? emporiums.hashCode() : 0);
-		result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
-		result = 31 * result + (nearCities != null ? nearCities.hashCode() : 0);
-		return result;
-	}
 }

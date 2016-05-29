@@ -62,7 +62,7 @@ public class Controller implements Observer<Action>, Runnable {
         System.out.println("Other players:");
         for (PlayerDTO p: model.getPlayers()) {
                 System.out.println();
-                printPlayer(p, false);
+                printPlayer(p);
         }
 
         // print councillors pool
@@ -95,7 +95,7 @@ public class Controller implements Observer<Action>, Runnable {
         System.out.println("\n");
     }
 
-    private void printPlayer(PlayerDTO player, boolean full) {
+    private void printPlayer(PlayerDTO player) {
         System.out.println(player.getName());
         System.out.println("Victory Points number:         " + player.getVictoryPoints());
         System.out.println("Coins number:                  " + player.getCoins());
@@ -103,6 +103,12 @@ public class Controller implements Observer<Action>, Runnable {
         System.out.println("Assistants number:             " + player.getAssistantsNumber());
         System.out.println("Remaining Main Actions:        " + player.getRemainingMainActions());
         System.out.println("Remaining Quick Actions:       " + player.getRemainingQuickActions());
+        System.out.print("Politic Cards:                 ");
+        for (PoliticCardDTO card: player.getCards())
+            System.out.print(card.getColor().getColoredColor() + " ");
+        System.out.print("\nBusiness Permit Tiles:         ");
+        for (BusinessPermissionTileDTO tile: player.getTiles())
+            printBPT(tile);
         System.out.println("\n");
     }
 
@@ -118,7 +124,7 @@ public class Controller implements Observer<Action>, Runnable {
             System.out.print("\t");
         System.out.print("\t");
         i = 0;
-        for (BonusDTO b: bpt.getBonuses()) {
+        for (BonusDTO b: bpt.getReward().getBonuses()) {
             if (i != 0)
                 System.out.print(", ");
             System.out.print(b.getMultiplicity() + " " + b.getKind());

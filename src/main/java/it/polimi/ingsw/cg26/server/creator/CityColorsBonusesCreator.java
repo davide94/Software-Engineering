@@ -23,7 +23,7 @@ public class CityColorsBonusesCreator {
         for (Node colorNode: Creator.getNodes(colorsRoot, "color")) {
             String colorString = Creator.getAttribute(colorNode, "name");
             CityColor color = CityColor.createCityColor(colorString);
-            RewardTile tile = new RewardTile(BonusesCreator.createBonus(Creator.getNode(colorNode, "bonus"), politicDeck));
+            RewardTile tile = BonusesCreator.createBonus(Creator.getNode(colorNode, "bonus"), politicDeck);
             map.put(color, tile);
         }
         return map;

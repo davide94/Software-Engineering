@@ -13,10 +13,6 @@ public class BalconyCreator {
 
     private static final int BALCONY_SIZE = 4;
 
-    private BalconyCreator() {
-        // Nothing to do here
-    }
-
     protected static Balcony createBalcony(List<Councillor> councillors) {
         Balcony balcony = Balcony.createBalcony(BALCONY_SIZE);
         for (int i = 0; i < BALCONY_SIZE; i++) {

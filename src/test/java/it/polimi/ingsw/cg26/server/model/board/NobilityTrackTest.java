@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
@@ -29,7 +31,7 @@ public class NobilityTrackTest {
 	public void testShouldCreateNobilityTrack() {
 		List<Bonus> bonuses1;
 		bonuses1= new LinkedList<>();
-	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, bonuses1);
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new RewardTile(bonuses1));
 	    
 	    assertNotNull(NobilityTrack.createNobilityTrack(cell1));
 	    
@@ -41,7 +43,7 @@ public class NobilityTrackTest {
 	public void testGetState() {
 		List<Bonus> bonuses1;
 		bonuses1= new LinkedList<>();
-	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, bonuses1);
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new RewardTile(bonuses1));
 	    NobilityTrack track= NobilityTrack.createNobilityTrack(cell1);
 	   
 	    
@@ -63,7 +65,7 @@ public class NobilityTrackTest {
 		
 		List<Bonus> bonuses1;
 		bonuses1= new LinkedList<>();
-	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, bonuses1);
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new RewardTile(bonuses1));
 	    NobilityTrack track= NobilityTrack.createNobilityTrack(cell1);
 	    
 	    

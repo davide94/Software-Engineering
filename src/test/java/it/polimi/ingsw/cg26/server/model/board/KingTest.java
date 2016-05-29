@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,18 +18,20 @@ public class KingTest {
 	
 	private City city1;
 	private City city2;
-	private List<Bonus> bonuses1;
-	private List<Bonus> bonuses2;
+	private RewardTile bonuses1;
+	private RewardTile bonuses2;
 	
 
 	
 	 @Before
 	    public void setUp() throws Exception {
 		 
-		 bonuses1 = new LinkedList<>();
-		 bonuses2 = new LinkedList<>();
-		 bonuses1.add(new VictoryBonus(4));
-		 bonuses2.add(new CoinBonus(5));
+		 LinkedList<Bonus> bonuses1List = new LinkedList<>();
+		 LinkedList<Bonus> bonuses2List = new LinkedList<>();
+		 bonuses1List.add(new VictoryBonus(4));
+		 bonuses2List.add(new CoinBonus(5));
+		 bonuses1 = new RewardTile(bonuses1List);
+		 bonuses2 = new RewardTile(bonuses2List);
 		 city1 = City.createCity("Milano", CityColor.createCityColor("blu"),bonuses1);
 		 city2 = City.createCity("Torino", CityColor.createCityColor("rosa"),bonuses2);
 		 

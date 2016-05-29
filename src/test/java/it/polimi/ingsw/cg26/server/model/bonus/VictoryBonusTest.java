@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.BonusDTO;
@@ -27,7 +28,7 @@ public class VictoryBonusTest {
 	
 	@Test
 	public void testApplyVicoryBonusWithMultiplicity5OnPlayerWith0PointsShouldHave5Points(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		VictoryBonus bonus = new VictoryBonus(5);
 		bonus.apply(player);
@@ -38,7 +39,7 @@ public class VictoryBonusTest {
 	
 	@Test
 	public void testApplyVicoryBonusWithMultiplicity16OnPlayerWith5PointsShouldHave21Points(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		player.addVictoryPoints(5);
 		VictoryBonus bonus = new VictoryBonus(16);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +53,7 @@ public class CardBonusTest {
 	
 	@Test
 	public void testApplyTheBonusWithMultiplicity1ShouldGiveTheFirstCardOfTheDeckToThePlayer(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new ArrayList<>());
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
 		List<PoliticCard> playerCards = new LinkedList<>();
 		Player player = new Player(1, "Marco", cell, 2, playerCards, new LinkedList<Assistant>());
 		CardBonus bonus = new CardBonus(1, politicDeck);

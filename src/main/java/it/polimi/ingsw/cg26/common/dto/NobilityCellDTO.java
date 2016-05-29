@@ -12,22 +12,22 @@ public class NobilityCellDTO implements Serializable {
 
     private int index;
 
-    private Collection<BonusDTO> bonuses;
+    private RewardTileDTO reward;
 
     /**
      * Constructs a Nobility Cell DTO object
      * @param index is the index of the cell in the Nobility Track
-     * @param bonuses is a collection of Bonuses DTO
+     * @param reward is a RewardTileDTO
      * @throws NullPointerException if bonuses is null
      * @throws IllegalArgumentException if index is negative
      */
-    public NobilityCellDTO(int index, Collection<BonusDTO> bonuses) {
-        if (bonuses == null)
+    public NobilityCellDTO(int index, RewardTileDTO reward) {
+        if (reward == null)
             throw new NullPointerException();
         if (index < 0)
             throw new IllegalArgumentException();
         this.index = index;
-        this.bonuses = bonuses;
+        this.reward = reward;
     }
 
     /**
@@ -43,14 +43,14 @@ public class NobilityCellDTO implements Serializable {
      * @return a collection of Bonuses DTO
      */
     public Collection<BonusDTO> getBonuses() {
-        return bonuses;
+        return reward.getBonuses();
     }
 
     @Override
     public String toString() {
         return "NobilityCellDTO{" +
                 "index=" + index +
-                ", bonuses=" + bonuses +
+                ", reward=" + reward +
                 '}';
     }
 }

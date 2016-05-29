@@ -24,19 +24,19 @@ public class BusinessPermissionTile extends Sellable {
     /**
      * Collection of bonuses that the tile makes you earn
      */
-    private Collection<Bonus> bonuses;
+    private RewardTile reward;
 
     /**
      * Constructs a Business Permit Tile
      * @param cities is a collection of cities in which the tile permits to build
-     * @param bonuses is a collection of bonuses that the tile makes you earn
+     * @param reward is reward tile that the tile makes you earn
      * @throws NullPointerException if cities or bonuses are null
      */
-    public BusinessPermissionTile(Collection<City> cities, Collection<Bonus> bonuses) {
-        if (cities == null || bonuses == null)
+    public BusinessPermissionTile(Collection<City> cities, RewardTile reward) {
+        if (cities == null || reward == null)
             throw new NullPointerException();
         this.cities = new LinkedList<>(cities);
-        this.bonuses = new LinkedList<>(bonuses);
+        this.reward = reward;
     }
 
     @Override
@@ -48,14 +48,11 @@ public class BusinessPermissionTile extends Sellable {
         LinkedList<String> citiesState = new LinkedList<>();
         for (City c: cities)
             citiesState.add(c.getName());
-        LinkedList<BonusDTO> bonusesState = new LinkedList<>();
-        for (Bonus b: bonuses)
-            bonusesState.add(b.getState());
         Player owner = this.getOwner();
         String name = "none";
         if (owner != null)
             name = owner.getName();
-        return new BusinessPermissionTileDTO(citiesState, bonusesState, this.getPrice(), name);
+        return new BusinessPermissionTileDTO(citiesState, reward.getState(), this.getPrice(), name);
     }
 
     /**
@@ -76,16 +73,6 @@ public class BusinessPermissionTile extends Sellable {
     @Override
     public void backToOwner() {
     	this.getOwner().addPermissionTile(this);
-    }
-
-    @Override
-    public String toString() {
-        String ret = "BusinessPermissionTile{cities={";
-        for (City city: this.cities)
-            ret += city.getName() + " ,";
-        ret = ret.substring(0, ret.length() - 3);
-        ret += "}, bonuses=" + bonuses + '}';
-        return ret;
     }
 
 	@Override
@@ -112,5 +99,12 @@ public class BusinessPermissionTile extends Sellable {
 			return false;
 		return true;
 	}
-    
+
+    @Override
+    public String toString() {
+        return "BusinessPermissionTile{" +
+                "cities=" + cities +
+                ", reward=" + reward +
+                '}';
+    }
 }

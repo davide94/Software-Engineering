@@ -193,7 +193,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             out.print("\t");
         out.print("\t");
         i = 0;
-        for (BonusDTO b: bpt.getBonuses()) {
+        for (BonusDTO b: bpt.getReward().getBonuses()) {
             if (i != 0)
                 out.print(", ");
             out.print(b.getMultiplicity() + " " + b.getKind());
@@ -268,7 +268,10 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         out.println("In which region? ");
         int i = 1;
         for (RegionDTO r: regions) {
-            out.println("(" + i + ") " + r.getName());
+            out.print("(" + i + ") " + r.getName() + "\t\t[");
+            for (CouncillorDTO c: r.getBalcony().getCouncillors())
+                out.print(" " + c.getColor().getColoredColor());
+            out.println(" ]");
             i++;
         }
         int regionNumber;
@@ -313,10 +316,15 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     private List<PoliticCardDTO> askForPoliticCards() {
-        out.println("Which card do you want to use?");
         LinkedList<PoliticCardDTO> allCards = new LinkedList<>(gameBoard.getLocalPlayer().getCards());
         LinkedList<PoliticCardDTO> cards = new LinkedList<>();
+        int n = 0;
+        outerLoop:
         while (true) {
+            out.print("Which card do you want to use?");
+            if (n > 0)
+                out.print(" (press return to end)");
+            out.println();
             int i = 1;
             for (PoliticCardDTO card: allCards) {
                 out.println("(" + i + ") " + card.getColor().getColoredColor());
@@ -325,7 +333,10 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             int cardNumber;
             while (true) {
                 try {
-                    cardNumber = Integer.parseInt(this.scanner.nextLine());
+                    String line = this.scanner.nextLine();
+                    if (line.isEmpty())
+                        break outerLoop;
+                    cardNumber = Integer.parseInt(line);
                     break;
                 } catch (NumberFormatException e) {
                     out.println("The number is invalid, try again: ");
@@ -335,10 +346,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             cards.add(allCards.remove(cardNumber - 1));
             if (cards.size() == 4)
                 break;
-            out.println("more? (Y/n)");
-            String response = this.scanner.nextLine();
-            if (!response.isEmpty() && response.substring(0,1).equalsIgnoreCase("n"))
-                break;
+            n++;
         }
         return cards;
     }

@@ -32,8 +32,8 @@ public class PoliticCardTest {
     public void testGetState() throws Exception {
         card.getState();
 
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();
@@ -56,8 +56,8 @@ public class PoliticCardTest {
 
     @Test
     public void testBackToOwner() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();

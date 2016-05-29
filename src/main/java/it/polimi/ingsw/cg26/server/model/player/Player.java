@@ -3,10 +3,7 @@ package it.polimi.ingsw.cg26.server.model.player;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
+import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
@@ -115,13 +112,14 @@ public class Player {
 	 * @return a PlayerDTO object that represents the current player's state
 	 */
 	public PlayerDTO getState() {
+		LinkedList<PoliticCardDTO> cardsState = new LinkedList<>();
 		LinkedList<BusinessPermissionTileDTO> tilesState = new LinkedList<>();
 		LinkedList<BusinessPermissionTileDTO> discardedTilesState = new LinkedList<>();
 		for (BusinessPermissionTile tile: tiles)
 			tilesState.add(tile.getState());
 		for (BusinessPermissionTile tile: discardedTiles)
 			discardedTilesState.add(tile.getState());
-		return new PlayerDTO(name, 0, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), null, tilesState, discardedTilesState);
+		return new PlayerDTO(name, 0, victoryPoints.getValue(), coins.getValue(), remainingMainActions.getValue(), remainingQuickActions.getValue(), currentNobilityCell.getIndex(), assistants.size(), cardsState, tilesState, discardedTilesState);
 	}
 
 	/**

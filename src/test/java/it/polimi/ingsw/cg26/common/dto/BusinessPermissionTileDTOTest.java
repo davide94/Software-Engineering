@@ -15,7 +15,7 @@ public class BusinessPermissionTileDTOTest {
 
     private LinkedList<String> cities;
 
-    private LinkedList<BonusDTO> bonuses;
+    private RewardTileDTO bonuses;
 
     private BusinessPermissionTileDTO tile;
 
@@ -24,8 +24,9 @@ public class BusinessPermissionTileDTOTest {
         cities = new LinkedList<>();
         cities.add("city1Name");
         cities.add("city2Name");
-        bonuses = new LinkedList<>();
-        bonuses.add(new BonusDTO("bonusName", 6));
+        LinkedList<BonusDTO> bonusesList = new LinkedList<>();
+        bonuses = new RewardTileDTO(bonusesList);
+        bonusesList.add(new BonusDTO("bonusName", 6));
         tile = new BusinessPermissionTileDTO(cities, bonuses, 0, "playerName");
     }
 
@@ -51,7 +52,7 @@ public class BusinessPermissionTileDTOTest {
 
     @Test
     public void testGetBonuses() throws Exception {
-        assertEquals(tile.getBonuses(), bonuses);
+        assertEquals(tile.getReward(), bonuses);
     }
 
     @Test
@@ -65,7 +66,7 @@ public class BusinessPermissionTileDTOTest {
         assertTrue(tile.equals(tile));
         assertTrue(tile.equals(new BusinessPermissionTileDTO(cities, bonuses, 0, "playerName")));
         assertFalse(tile.equals(new BusinessPermissionTileDTO(c, bonuses, 0, "PlayerName")));
-        assertFalse(tile.equals(new BusinessPermissionTileDTO(cities, b, 0, "PlayerName")));
+        assertFalse(tile.equals(new BusinessPermissionTileDTO(cities, new RewardTileDTO(b), 0, "PlayerName")));
         assertFalse(tile.equals(null));
         assertFalse(tile.equals(new Assistant()));
     }

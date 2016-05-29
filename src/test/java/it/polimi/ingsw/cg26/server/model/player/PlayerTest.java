@@ -12,6 +12,7 @@ import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,16 +27,19 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     private Player player;
+    private NobilityCell nobilityCell;
+    private LinkedList<PoliticCard> cards;
+    private LinkedList<Assistant> assistants;
 
     @Before
     public void setUp() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
-        LinkedList<PoliticCard> cards = new LinkedList<>();
+        NobilityCell nobilityCell1 = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
+        nobilityCell = NobilityCell.createNobilityCell(9, nobilityCell1, new RewardTile(new LinkedList<Bonus>()));
+        cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
-        LinkedList<Assistant> assistants = new LinkedList<>();
+        assistants = new LinkedList<>();
         assistants.add(new Assistant());
-        player = new Player(1234, "name", nobilityCell2, 10, cards, assistants);
+        player = new Player(1234, "name", nobilityCell, 10, cards, assistants);
         player.setRemainingMainActions(1);
         player.setRemainingQuickActions(1);
     }
@@ -47,8 +51,8 @@ public class PlayerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorShouldThrowIllegalArgumentException() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new LinkedList<Bonus>());
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new LinkedList<Bonus>());
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
         LinkedList<PoliticCard> cards = new LinkedList<>();
         LinkedList<Assistant> assistants = new LinkedList<>();
         player = new Player(1234, "name", nobilityCell2, -10, cards, assistants);
@@ -56,7 +60,19 @@ public class PlayerTest {
 
     @Test
     public void testGetState() throws Exception {
-        player.getState();
+        Player player2 = new Player(1234, "name", nobilityCell, 10, cards, assistants);
+        player2.setRemainingMainActions(1);
+        player2.setRemainingQuickActions(1);
+        assertEquals(player.getState().getName(), player2.getState().getName());
+        assertEquals(player.getState().getAssistantsNumber(), player2.getState().getAssistantsNumber());
+        assertEquals(player.getState().getTiles(), player2.getState().getTiles());
+        assertEquals(player.getState().getCards(), player2.getState().getCards());
+        assertEquals(player.getState().getCoins(), player2.getState().getCoins());
+        assertEquals(player.getState().getDiscardedTiles(), player2.getState().getDiscardedTiles());
+        assertEquals(player.getState().getNobilityCell(), player2.getState().getNobilityCell());
+        assertEquals(player.getState().getRemainingMainActions(), player2.getState().getRemainingMainActions());
+        assertEquals(player.getState().getRemainingQuickActions(), player2.getState().getRemainingQuickActions());
+        assertEquals(player.getState().getToken(), player2.getState().getToken());
     }
 
     @Test
@@ -210,12 +226,12 @@ public class PlayerTest {
     @Test
     public void testHasPermissionTile() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
         cities.add(city);
         LinkedList<Bonus> bonuses = new LinkedList<>();
         Bonus bonus = new AssistantBonus(4);
         bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(bonuses));
         player.addPermissionTile(tile);
         assertEquals(player.hasPermissionTile(tile.getState()), tile);
     }
@@ -223,12 +239,12 @@ public class PlayerTest {
     @Test
     public void testGetRealBPT() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
         cities.add(city);
         LinkedList<Bonus> bonuses = new LinkedList<>();
         Bonus bonus = new AssistantBonus(4);
         bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities,  new RewardTile(bonuses));
         player.addPermissionTile(tile);
         assertEquals(player.getRealBPT(tile.getState()), tile);
     }
@@ -236,12 +252,12 @@ public class PlayerTest {
     @Test
     public void testUseBPT() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"),  new RewardTile(new LinkedList<Bonus>()));
         cities.add(city);
         LinkedList<Bonus> bonuses = new LinkedList<>();
         Bonus bonus = new AssistantBonus(4);
         bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities,  new RewardTile(bonuses));
         player.addPermissionTile(tile);
         player.useBPT(tile);
     }
@@ -249,12 +265,12 @@ public class PlayerTest {
     @Test
     public void testAddPermissionTile() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new LinkedList<Bonus>());
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
         cities.add(city);
         LinkedList<Bonus> bonuses = new LinkedList<>();
         Bonus bonus = new AssistantBonus(4);
         bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(bonuses));
         player.addPermissionTile(tile);
         assertEquals(player.hasPermissionTile(tile.getState()), tile);
     }

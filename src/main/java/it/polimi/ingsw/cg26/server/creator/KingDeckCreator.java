@@ -20,10 +20,8 @@ public class KingDeckCreator {
 
     protected static KingDeck createKingDeck(Node root, PoliticDeck politicDeck) {
         Node bonusesRoot = Creator.getNode(root, "kingDeck");
-        List<List<Bonus>> bonuses = BonusesCreator.createBonuses(bonusesRoot, politicDeck);
+        List<RewardTile> bonuses = BonusesCreator.createBonuses(bonusesRoot, politicDeck);
         List<RewardTile> tiles = new LinkedList<>();
-        for (List<Bonus> b: bonuses)
-            tiles.add(new RewardTile(b));
         return new KingDeck(tiles);
     }
 

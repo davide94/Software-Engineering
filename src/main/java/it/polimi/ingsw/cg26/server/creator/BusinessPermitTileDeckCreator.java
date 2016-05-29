@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.w3c.dom.Node;
 
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class BusinessPermitTileDeckCreator {
         List<BusinessPermissionTile> tiles = new LinkedList<>();
         for (Node node: Creator.getNodes(root, "permissionTile")) {
             List<City> cardCities = CitiesCreator.getCities(Creator.getNode(node, "cities"), cities);
-            List<Bonus> cardBonuses = BonusesCreator.createBonus(Creator.getNode(node, "bonus"), politicDeck);
+            RewardTile cardBonuses = BonusesCreator.createBonus(Creator.getNode(node, "bonus"), politicDeck);
             tiles.add(new BusinessPermissionTile(cardCities, cardBonuses));
         }
         return tiles;

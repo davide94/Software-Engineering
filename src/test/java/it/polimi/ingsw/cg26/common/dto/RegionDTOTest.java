@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class RegionDTOTest {
         emporiums.add(new EmporiumDTO("aPlayerName"));
         LinkedList<String> nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
-        cities.add(new CityDTO("cityName", color, bonuses, emporiums, nearCities));
+        cities.add(new CityDTO("cityName", color, new RewardTileDTO(bonuses), emporiums, nearCities));
         deck = new BusinessPermissionTileDeckDTO(new LinkedList<>());
         balcony = new BalconyDTO(new LinkedList<>());
         bonus = new RewardTileDTO(new LinkedList<>());
@@ -116,7 +117,7 @@ public class RegionDTOTest {
         c.add("city2Name");
         LinkedList<BonusDTO> b = new LinkedList<>();
         b.add(new BonusDTO("bonusName", 6));
-        cards.add(new BusinessPermissionTileDTO(c, b, 0, "playerName"));
+        cards.add(new BusinessPermissionTileDTO(c, new RewardTileDTO(b), 0, "playerName"));
         BusinessPermissionTileDeckDTO d = new BusinessPermissionTileDeckDTO(cards);
         region.setDeck(d);
         assertEquals(region.getDeck(), d);
@@ -149,7 +150,7 @@ public class RegionDTOTest {
         emporiums.add(new EmporiumDTO("aPlayerName"));
         LinkedList<String> nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
-        c.add(new CityDTO("othercityName", color, bonuses, emporiums, nearCities));
+        c.add(new CityDTO("othercityName", color, new RewardTileDTO(bonuses), emporiums, nearCities));
 
         assertTrue(region.equals(region));
         assertTrue(region.equals(new RegionDTO(name, cities, deck, balcony, bonus)));
