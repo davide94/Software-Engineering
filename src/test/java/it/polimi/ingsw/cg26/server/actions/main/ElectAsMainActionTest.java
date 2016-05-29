@@ -1,8 +1,12 @@
-package it.polimi.ingsw.cg26.server.actions.quick;
+package it.polimi.ingsw.cg26.server.actions.main;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +15,6 @@ import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -34,9 +37,9 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-public class ElectAsQuickActionTest {
-	
-	private GameBoard gameBoard;
+public class ElectAsMainActionTest {
+
+private GameBoard gameBoard;
 	
 	private Region region;
 	
@@ -65,6 +68,7 @@ public class ElectAsQuickActionTest {
 		pool.add(Councillor.createCouncillor(new PoliticColor("giallo")));
 		pool.add(Councillor.createCouncillor(new PoliticColor("blu")));
 		pool.add(Councillor.createCouncillor(new PoliticColor("rosso")));
+		pool.add(Councillor.createCouncillor(new PoliticColor("arancione")));
 		return pool;
 	}
 	
@@ -96,47 +100,39 @@ public class ElectAsQuickActionTest {
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), 38);
+		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("giallo")), 42);
 		
-		assertEquals(38, action.getToken());
+		assertEquals(42, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
 	public void testConstructActionWithRegionNullShouldThrowNullPointerException(){
-		new ElectAsQuickAction(null, new CouncillorDTO(new PoliticColorDTO("verde")), 16);
+		new ElectAsMainAction(null, new CouncillorDTO(new PoliticColorDTO("giallo")), 16);
 	}
 	
 	@Test (expected = NullPointerException.class)
 	public void testConstructActionWithCouncillorNullShouldThrowNullPointerException(){
-		new ElectAsQuickAction(createRegion().getState(), null, 58);
+		new ElectAsMainAction(createRegion().getState(), null, 58);
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingQickActionsShouldThrowAnException(){
-		gameBoard.getCurrentPlayer().performQuickAction();
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), 1);
-		
-		action.apply(gameBoard);
-	}
-	
-	@Test (expected = NoRemainingAssistantsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingAssistantsShouldThrowAnException(){
-		gameBoard.getCurrentPlayer().takeAssistants(3);
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("arancione")), 1);
+	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException(){
+		gameBoard.getCurrentPlayer().performMainAction();
+		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), 1);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test (expected = NotExistingCouncillorException.class)
 	public void testApplyActionWithACouncillorThatIsntInThePoolShouldThrowAnException(){
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), 1);
+		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), 1);
 		
 		action.apply(gameBoard);
 	}
-
+	
 	@Test
 	public void testApplyCheckChangesOnTheGameBoard(){
-		Action action = new ElectAsQuickAction(region.getState(), addedCouncillor.getState(), 1);
+		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), 1);
 		
 		action.apply(gameBoard);
 		
@@ -144,15 +140,16 @@ public class ElectAsQuickActionTest {
 		assertFalse(gameBoard.getRegion(createRegion().getState()).getBalcony().getCouncillors().contains(droppedCouncillor));
 		assertFalse(gameBoard.getCouncillorsPool().contains(addedCouncillor));
 		assertTrue(gameBoard.getCouncillorsPool().contains(droppedCouncillor));
+		assertEquals(6, gameBoard.getCouncillorsPool().size());
 	}
-	
+
 	@Test
 	public void testApplyCheckChangesOnThePlayer(){
-		Action action = new ElectAsQuickAction(region.getState(), addedCouncillor.getState(), 1);
+		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), 1);
 		
 		action.apply(gameBoard);
 
-		assertEquals(2 ,gameBoard.getCurrentPlayer().getAssistantsNumber());
-		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
+		assertEquals(9 ,gameBoard.getCurrentPlayer().getCoinsNumber());
+		assertFalse(gameBoard.getCurrentPlayer().canPerformMainAction());
 	}
 }
