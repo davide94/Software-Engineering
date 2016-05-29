@@ -2,10 +2,7 @@ package it.polimi.ingsw.cg26.server.actions.quick;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -73,7 +70,9 @@ public class ElectAsQuickActionTest {
 	
 	@Before
 	public void setUp(){
-		PoliticDeck politicDeck = new PoliticDeck(new ArrayList<PoliticCard>());
+		LinkedList<PoliticCard> politicCards = new LinkedList<>();
+		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = createCouncillorsPool();
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		List<Region> regions = new ArrayList<>();
