@@ -31,7 +31,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     @Override
     public void run() {
-
+        askForCommand();
     }
 
     private void askForCommand() {
@@ -113,7 +113,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                     break;
             }
         }
-
+        askForCommand();
     }
 
     private void print() {
@@ -398,9 +398,8 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     @Override
     public void update(GameBoardDTO o) {
-        System.out.println(o);
+        //System.out.println(o);
         this.gameBoard = o;
         isMyTurn = gameBoard.getCurrentPlayer().getName().equals(gameBoard.getLocalPlayer().getName());
-        askForCommand();
     }
 }

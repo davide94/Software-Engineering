@@ -5,7 +5,9 @@ import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.CLI;
 import it.polimi.ingsw.cg26.client.view.socket.ClientInHandler;
 import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
+import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.change.PrivateChange;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 import java.io.IOException;
@@ -47,6 +49,7 @@ public class Client {
         }
 
         Model model = new Model(((FullStateChange)object).getState());
+
         Controller controller = new Controller(model);
 
         ClientInHandler inView = new ClientInHandler(inputStream);
@@ -56,6 +59,14 @@ public class Client {
 
         CLI cli = new CLI(outView);
         model.registerObserver(cli);
+
+        object = inputStream.readObject();
+        if (!(object instanceof PrivateChange)) {
+            System.out.println("Connection failed.");
+            return;
+        }
+
+        inView.notifyObservers((Change)object);
 
         executor.submit(cli);
         executor.submit(inView);
