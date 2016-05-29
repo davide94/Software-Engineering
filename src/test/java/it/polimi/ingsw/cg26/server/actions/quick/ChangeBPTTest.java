@@ -41,24 +41,24 @@ public class ChangeBPTTest {
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		List<City> cities1 = new ArrayList<>();
-		cities1.add(City.createCity("Milano", CityColor.createCityColor("giallo"), new ArrayList<Bonus>()));
-		cities1.add(City.createCity("Roma", CityColor.createCityColor("verde"), new ArrayList<Bonus>()));
-		tiles.add(new BusinessPermissionTile(cities1, new ArrayList<Bonus>()));
+		cities1.add(City.createCity("Milano", CityColor.createCityColor("giallo"), new RewardTile(new ArrayList<Bonus>())));
+		cities1.add(City.createCity("Roma", CityColor.createCityColor("verde"), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(cities1, new RewardTile(new ArrayList<Bonus>())));
 		
 		List<City> cities2 = new ArrayList<>();
-		cities2.add(City.createCity("Firenze", CityColor.createCityColor("rosso"), new ArrayList<Bonus>()));
-		cities2.add(City.createCity("Napoli", CityColor.createCityColor("blu"), new ArrayList<Bonus>()));
-		tiles.add(new BusinessPermissionTile(cities2, new ArrayList<Bonus>()));
+		cities2.add(City.createCity("Firenze", CityColor.createCityColor("rosso"), new RewardTile(new ArrayList<Bonus>())));
+		cities2.add(City.createCity("Napoli", CityColor.createCityColor("blu"), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(cities2, new RewardTile(new ArrayList<Bonus>())));
 		
 		List<City> cities3 = new ArrayList<>();
-		cities3.add(City.createCity("Milano", CityColor.createCityColor("giallo"), new ArrayList<Bonus>()));
-		cities3.add(City.createCity("Firenze", CityColor.createCityColor("rosso"), new ArrayList<Bonus>()));
-		tiles.add(new BusinessPermissionTile(cities3, new ArrayList<Bonus>()));
+		cities3.add(City.createCity("Milano", CityColor.createCityColor("giallo"), new RewardTile(new ArrayList<Bonus>())));
+		cities3.add(City.createCity("Firenze", CityColor.createCityColor("rosso"), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(cities3, new RewardTile(new ArrayList<Bonus>())));
 		
 		List<City> cities4 = new ArrayList<>();
-		cities4.add(City.createCity("Napoli", CityColor.createCityColor("blu"), new ArrayList<Bonus>()));
-		cities4.add(City.createCity("Roma", CityColor.createCityColor("verde"), new ArrayList<Bonus>()));
-		tiles.add(new BusinessPermissionTile(cities4, new ArrayList<Bonus>()));
+		cities4.add(City.createCity("Napoli", CityColor.createCityColor("blu"),new RewardTile( new ArrayList<Bonus>())));
+		cities4.add(City.createCity("Roma", CityColor.createCityColor("verde"), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(cities4, new RewardTile(new ArrayList<Bonus>())));
 		
 		BusinessPermissionTileDeck bPTDeck = new BusinessPermissionTileDeck(tiles);
 		return Region.createRegion("hills", new ArrayList<City>(), bPTDeck, Balcony.createBalcony(4), new RewardTile(new ArrayList<Bonus>()));
@@ -70,8 +70,8 @@ public class ChangeBPTTest {
 		List<Councillor> pool = new ArrayList<Councillor>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		List<Region> regions = new ArrayList<>();
-		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new ArrayList<Bonus>()));
-		King king = King.createKing(City.createCity("Milano", CityColor.createCityColor("Oro"), new ArrayList<Bonus>()));
+		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())));
+		King king = King.createKing(City.createCity("Milano", CityColor.createCityColor("Oro"), new RewardTile(new ArrayList<Bonus>())));
 		Market market = new Market();
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
 		Map<CityColor, RewardTile> map = new HashMap<>();
@@ -83,8 +83,8 @@ public class ChangeBPTTest {
 		List<Assistant> assistants = new ArrayList<>();
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new ArrayList<Bonus>()), 5, new ArrayList<PoliticCard>(), assistants);
-		Player player2 = new Player(2, "Gianni", NobilityCell.createNobilityCell(2, null, new ArrayList<Bonus>()), 8, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 5, new ArrayList<PoliticCard>(), assistants);
+		Player player2 = new Player(2, "Gianni", NobilityCell.createNobilityCell(2, null, new RewardTile(new ArrayList<Bonus>())), 8, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
 		gameBoard.registerPlayer(player1);
 		gameBoard.registerPlayer(player2);
 	}
@@ -122,9 +122,9 @@ public class ChangeBPTTest {
 		changeBPT.apply(gameBoard);
 		
 		List<City> cities3 = new ArrayList<>();
-		cities3.add(City.createCity("Milano", CityColor.createCityColor("giallo"), new ArrayList<Bonus>()));
-		cities3.add(City.createCity("Firenze", CityColor.createCityColor("rosso"), new ArrayList<Bonus>()));
-		BusinessPermissionTile tile = new BusinessPermissionTile(cities3, new ArrayList<Bonus>());
+		cities3.add(City.createCity("Milano", CityColor.createCityColor("giallo"), new RewardTile(new ArrayList<Bonus>())));
+		cities3.add(City.createCity("Firenze", CityColor.createCityColor("rosso"), new RewardTile(new ArrayList<Bonus>())));
+		BusinessPermissionTile tile = new BusinessPermissionTile(cities3, new RewardTile(new ArrayList<Bonus>()));
 		
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
 		assertEquals(2, gameBoard.getCurrentPlayer().getAssistantsNumber());
@@ -137,9 +137,9 @@ public class ChangeBPTTest {
 		changeBPT.apply(gameBoard);
 		
 		List<City> cities4 = new ArrayList<>();
-		cities4.add(City.createCity("Napoli", CityColor.createCityColor("blu"), new ArrayList<Bonus>()));
-		cities4.add(City.createCity("Roma", CityColor.createCityColor("verde"), new ArrayList<Bonus>()));
-		BusinessPermissionTile tile = new BusinessPermissionTile(cities4, new ArrayList<Bonus>());
+		cities4.add(City.createCity("Napoli", CityColor.createCityColor("blu"), new RewardTile(new ArrayList<Bonus>())));
+		cities4.add(City.createCity("Roma", CityColor.createCityColor("verde"), new RewardTile(new ArrayList<Bonus>())));
+		BusinessPermissionTile tile = new BusinessPermissionTile(cities4, new RewardTile(new ArrayList<Bonus>()));
 		
 		assertEquals(tile, gameBoard.getRegion(createRegion().getState()).getBPTDeck().draw(1));
 	}

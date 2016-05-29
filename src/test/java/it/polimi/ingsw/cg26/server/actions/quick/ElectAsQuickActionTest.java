@@ -49,8 +49,8 @@ public class ElectAsQuickActionTest {
 	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new ArrayList<Bonus>()));
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new ArrayList<Bonus>()));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
 		BusinessPermissionTileDeck bPTDeck = new BusinessPermissionTileDeck(tiles);
 		
 		Balcony balcony = Balcony.createBalcony(4);
@@ -77,8 +77,8 @@ public class ElectAsQuickActionTest {
 		List<Councillor> pool = createCouncillorsPool();
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		List<Region> regions = new ArrayList<>();
-		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new ArrayList<Bonus>()));
-		King king = King.createKing(City.createCity("Milano", CityColor.createCityColor("Oro"), new ArrayList<Bonus>()));
+		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())));
+		King king = King.createKing(City.createCity("Milano", CityColor.createCityColor("Oro"), new RewardTile(new ArrayList<Bonus>())));
 		Market market = new Market();
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
 		Map<CityColor, RewardTile> map = new HashMap<>();
@@ -91,7 +91,7 @@ public class ElectAsQuickActionTest {
 		List<Assistant> assistants = new ArrayList<>();
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new ArrayList<Bonus>()), 5, new ArrayList<PoliticCard>(), assistants);
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 5, new ArrayList<PoliticCard>(), assistants);
 		gameBoard.registerPlayer(player1);
 	}
 	
