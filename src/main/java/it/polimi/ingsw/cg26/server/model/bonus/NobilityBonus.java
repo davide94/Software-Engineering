@@ -34,6 +34,16 @@ public class NobilityBonus extends Bonus {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "NobilityBonus{" +
                 "multiplicity=" + super.getMultiplicity() +

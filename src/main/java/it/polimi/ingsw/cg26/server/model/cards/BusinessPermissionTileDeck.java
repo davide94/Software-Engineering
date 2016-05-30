@@ -56,10 +56,20 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public String toString() {
-        return "BusinessPermissionTileDeck{" +
-                "leftCard='" + super.cards.get(1) + "\'" +
-                ", rightCard='" + super.cards.get(0) + "\'" +
-                "}";
+        String ret = "BusinessPermissionTileDeck{";
+        for (int i = 0; i < (OPEN_CARDS_NUMBER < cards.size() ? OPEN_CARDS_NUMBER : cards.size()); i++)
+            ret+= "openCard" + i + "='" + super.cards.get(i) + "\'";
+        return ret + "}";
     }
 }

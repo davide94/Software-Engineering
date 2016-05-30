@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 
 import java.util.Collection;
 import java.util.Queue;
@@ -55,7 +56,7 @@ public class Balcony {
 		for (Councillor councillor: this.councillors) {
 			PoliticCardDTO c = null;
 			for (PoliticCardDTO card: cards) {
-				if (councillor.getColor().getState().equals(card.getColor())) {
+				if (councillor.getColor().getState().equals(card.getColor()) || card.getColor().equals(new PoliticColorDTO("multicolor"))) {
 					c = card;
 					break;
 				}

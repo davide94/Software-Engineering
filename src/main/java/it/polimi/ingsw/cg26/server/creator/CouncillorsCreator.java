@@ -32,6 +32,9 @@ public class CouncillorsCreator {
                 Councillor councillor = Councillor.createCouncillor(color);
                 councillors.add(councillor);
             }
+
+            /*Councillor councillor = Councillor.createCouncillor(color);
+            councillors.addAll(Collections.nCopies(councillorsNumber, councillor));*/
         }
         Collections.shuffle(councillors);
         return councillors;

@@ -53,7 +53,23 @@ public class King {
 		this.currentCity = currentCity;
 	}
 
-	@Override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        King king = (King) o;
+
+        return currentCity != null ? currentCity.equals(king.currentCity) : king.currentCity == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return currentCity != null ? currentCity.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "King{" +
                 "currentCity='" + currentCity.getName() + "\'" +

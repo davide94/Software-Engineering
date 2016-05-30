@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,14 +15,14 @@ public class RewardTile {
 	/**
 	 * List of bonuses
 	 */
-	private List<Bonus> bonuses;
+	private Collection<Bonus> bonuses;
 
 	/**
 	 * Creates a Reward Tile with a collection of bonuses
 	 * @param bonuses is the collection of bonuses that the tile will contain
 	 * @throws NullPointerException if bonuses is null
      */
-	public RewardTile(List<Bonus> bonuses) {
+	public RewardTile(Collection<Bonus> bonuses) {
 		if (bonuses == null)
 			throw new NullPointerException();
 		this.bonuses = bonuses;
@@ -43,7 +44,7 @@ public class RewardTile {
 	 * Returns a list of bonuses contained by the tile
      * @return a list of bonuses contained by the tile
      */
-    public List<Bonus> getBonuses() {
+    public Collection<Bonus> getBonuses() {
         return new LinkedList<>(this.bonuses);
     }
 
@@ -63,7 +64,7 @@ public class RewardTile {
 
 		RewardTile that = (RewardTile) o;
 
-		return bonuses != null ? bonuses.equals(that.bonuses) : that.bonuses == null;
+		return bonuses != null ? bonuses.containsAll(that.bonuses) && that.bonuses.containsAll(bonuses) : that.bonuses == null;
 
 	}
 

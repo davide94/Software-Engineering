@@ -304,15 +304,33 @@ public class PlayerTest {
     }
 
     @Test (expected = InvalidCardsException.class)
-    public void testTakeCardsShouldThrowInvalidCardsException() throws Exception {
+    public void testTakeCardsShouldThrowInvalidCardsException1() throws Exception {
         LinkedList<PoliticCardDTO> cards = new LinkedList<>();
         cards.add(new PoliticCardDTO(new PoliticColorDTO("colorname"), 0, "giocatore"));
         player.takeCards(cards);
     }
 
     @Test (expected = InvalidCardsException.class)
-    public void testTakeCard() throws Exception {
+    public void testTakeCardsShouldThrowInvalidCardsException2() throws Exception {
         player.takeCard(new PoliticCardDTO(new PoliticColorDTO("colorname"), 0, "giocatore"));
+    }
+
+    @Test
+    public void testTakeCards() throws Exception {
+        PoliticCard card1 = new PoliticCard(new PoliticColor("color1"));
+        PoliticCard card2 = new PoliticCard(new PoliticColor("color2"));
+        PoliticCard card3 = new PoliticCard(new PoliticColor("color3"));
+
+        player.addPoliticCard(card1);
+        player.addPoliticCard(card2);
+
+        Collection<PoliticCardDTO> required = new LinkedList<>();
+        required.add(card1.getState());
+
+        Collection<PoliticCard> expected = new LinkedList<>();
+        expected.add(card1);
+
+        assertEquals(player.takeCards(required), expected);
     }
 
     @Test

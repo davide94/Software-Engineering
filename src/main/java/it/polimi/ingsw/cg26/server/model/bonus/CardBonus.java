@@ -41,6 +41,25 @@ public class CardBonus extends Bonus {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        CardBonus cardBonus = (CardBonus) o;
+
+        return politicDeck != null ? politicDeck.equals(cardBonus.politicDeck) : cardBonus.politicDeck == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (politicDeck != null ? politicDeck.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "CardBonus{" +
                 "multiplicity=" + super.getMultiplicity() +
