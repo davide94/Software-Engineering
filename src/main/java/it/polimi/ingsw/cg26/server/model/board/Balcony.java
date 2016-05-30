@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 
 import java.util.Collection;
 import java.util.Queue;
@@ -51,19 +52,19 @@ public class Balcony {
 		return null;
     }
 
-	public boolean checkPoliticCards(Collection<PoliticCardDTO> politicCards) {
-		LinkedList<PoliticCardDTO> cards = new LinkedList<>(politicCards);
-		for (Councillor councillor: this.councillors) {
-			PoliticCardDTO c = null;
-			for (PoliticCardDTO card: cards) {
+	public boolean checkPoliticCards(Collection<PoliticCardDTO> requiredCards) {
+		LinkedList<Councillor> councillors = new LinkedList<>(this.councillors);
+		for (PoliticCardDTO card: requiredCards) {
+			Councillor c = null;
+			for (Councillor councillor: councillors) {
 				if (councillor.getColor().getState().equals(card.getColor()) || card.getColor().equals(new PoliticColorDTO("multicolor"))) {
-					c = card;
+					c = councillor;
 					break;
 				}
 			}
 			if (c == null)
 				return false;
-			cards.remove(c);
+			councillors.remove(c);
 		}
 		return true;
 	}

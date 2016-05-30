@@ -120,12 +120,12 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         // TODO Check if local player is not null
 
         // print councillors pool
-        out.print("Councillors pool: [");
+        out.print("Councillors pool: ");
         printList(new LinkedList(gameBoard.getCouncillorsPool()));
         out.println();
 
         //print king an king's balcony
-        out.print("The King is in " + gameBoard.getKing().getCurrentCity() + " and his balcony has: [");
+        out.print("The King is in " + gameBoard.getKing().getCurrentCity() + " and his balcony has: ");
         printList(gameBoard.getKingBalcony().getCouncillors());
         out.println("<- councillors");
         out.println();
@@ -135,7 +135,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         for (RegionDTO r: gameBoard.getRegions()) {
             printRegion(r);
         }
-        out.println("\n");
+        out.println();
 
         //print players
         out.println();
@@ -153,6 +153,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private void printList(List<CouncillorDTO> councillors) {
         int longestName = 0;
+        out.print("[");
         for (CouncillorDTO c: councillors)
             if (c.getColor().getColoredColor().length() > longestName)
                 longestName = c.getColor().getColoredColor().length();
@@ -176,19 +177,20 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             out.print("\t\tPolitic Cards:                 ");
             for (PoliticCardDTO card: gameBoard.getLocalPlayer().getCards())
                 out.print(card.getColor().getColoredColor() + " ");
-            out.print("\n\t\tBusiness Permit Tiles:         ");
-            for (BusinessPermissionTileDTO tile: gameBoard.getLocalPlayer().getTiles())
-                printBPT(tile);
+            if (!gameBoard.getLocalPlayer().getTiles().isEmpty()) {
+                out.print("\n\t\tBusiness Permit Tiles:         ");
+                for (BusinessPermissionTileDTO tile: gameBoard.getLocalPlayer().getTiles())
+                    printBPT(tile);
+            }
         }
         out.println("\n");
     }
 
     private void printRegion(RegionDTO region) {
         out.println("\n\t" + region.getName() + ": ");
-        out.print("\t\tThe balcony has: [");
-        for (CouncillorDTO c: region.getBalcony().getCouncillors())
-            out.print(" " + c.getColor().getColoredColor());
-        out.println(" ]<- councillors");
+        out.print("\t\tThe balcony has: ");
+        printList(region.getBalcony().getCouncillors());
+        out.println(" <- councillors");
         out.println("\n\t\tThe open Business Permit Tiles are: ");
         for (BusinessPermissionTileDTO b: region.getDeck().getOpenCards()) {
             printBPT(b);
