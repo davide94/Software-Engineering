@@ -138,7 +138,6 @@ private GameBoard gameBoard;
 		
 		assertTrue(gameBoard.getRegion(region.getState()).getBalcony().getCouncillors().contains(addedCouncillor));
 		assertFalse(gameBoard.getRegion(createRegion().getState()).getBalcony().getCouncillors().contains(droppedCouncillor));
-		assertFalse(gameBoard.getCouncillorsPool().contains(addedCouncillor));
 		assertTrue(gameBoard.getCouncillorsPool().contains(droppedCouncillor));
 		assertEquals(6, gameBoard.getCouncillorsPool().size());
 	}
