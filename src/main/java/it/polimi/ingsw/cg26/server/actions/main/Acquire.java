@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -46,6 +47,8 @@ public class Acquire extends Corrupt {
     }
 
     /**
+     * @throws NoRemainingActionsException if the player has no more remaining actions to do
+     * @throws InvalidCardsException if the cards given by the user doesn't match with the real cards of the player
      * @throws NotEnoughMoneyException if the player hasn't got enough money to do the action
      * @throws InvalidCardsException if the cards given by the user don't match the colors of the councillors in the balcony
      */

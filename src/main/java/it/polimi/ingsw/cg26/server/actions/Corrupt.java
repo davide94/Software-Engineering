@@ -32,19 +32,17 @@ public abstract class Corrupt extends Action {
     }
 
     /**
-     *
+     * Gives the number of coins necessary to do the action
      * @param cards to be used in the action
      * @return number of coins the player must have in order to do the action
      * @throws NullPointerException if the argument is null
      */
     protected int necessaryCoins(Collection<PoliticCardDTO> cards){
-    	if(cards == null)
-    		throw new NullPointerException();
         int multicolorCardsNumber = 0;
         for (PoliticCardDTO card: cards)
             if (card.getColor().equals(new PoliticColor("multicolor").getState()))
                 multicolorCardsNumber++;
-        int usedCoins = 0;
+        int usedCoins;
         switch(cards.size()) {
             case 1 :
                 usedCoins = 10;
@@ -59,7 +57,7 @@ public abstract class Corrupt extends Action {
                 usedCoins = 0;
                 break;
             default :
-                break;
+                throw new InvalidCardsException();
         }
         return usedCoins + multicolorCardsNumber;
     }
@@ -75,7 +73,6 @@ public abstract class Corrupt extends Action {
             throw new NoRemainingActionsException();
         if (!currentPlayer.hasCards(this.politicCards))
             throw new InvalidCardsException();
-
     }
 
 }
