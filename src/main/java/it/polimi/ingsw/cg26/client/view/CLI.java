@@ -119,6 +119,24 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     private void print() {
         // TODO Check if local player is not null
 
+        // print councillors pool
+        out.print("Councillors pool: [");
+        printList(new LinkedList(gameBoard.getCouncillorsPool()));
+        out.println();
+
+        //print king an king's balcony
+        out.print("The King is in " + gameBoard.getKing().getCurrentCity() + " and his balcony has: [");
+        printList(gameBoard.getKingBalcony().getCouncillors());
+        out.println("<- councillors");
+        out.println();
+
+        // print regions
+        out.println("The board has " + gameBoard.getRegions().size() + " regions:");
+        for (RegionDTO r: gameBoard.getRegions()) {
+            printRegion(r);
+        }
+        out.println("\n");
+
         //print players
         out.println();
         out.println("You:");
@@ -130,61 +148,67 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                 out.println();
                 printPlayer(p, false);
             }
-
-        // print councillors pool
-        out.print("Councillors pool: [");
-        for (CouncillorDTO c: gameBoard.getCouncillorsPool())
-            out.print("\t" + c.getColor().getColoredColor());
-        out.println(" ]");
-        out.println();
-
-        //print king an king's balcony
-        out.print("The King is in " + gameBoard.getKing().getCurrentCity() + " and his balcony has: [");
-        for (CouncillorDTO c: gameBoard.getKingBalcony().getCouncillors())
-            out.print("\t" + c.getColor().getColoredColor());
-        out.println(" ]<- councillors");
-
-        // print regions
-        out.println("The board has " + gameBoard.getRegions().size() + " regions:");
-        for (RegionDTO r: gameBoard.getRegions()) {
-            out.println("\n" + r.getName() + ": ");
-            out.print("The balcony has: [");
-            for (CouncillorDTO c: r.getBalcony().getCouncillors())
-                out.print(" " + c.getColor().getColoredColor());
-            out.println(" ]<- councillors");
-            out.println("the Business Permit Tiles open are: ");
-            for (BusinessPermissionTileDTO b: r.getDeck().getOpenCards()) {
-                printBPT(b);
-                out.println();
-            }
-        }
-        out.println("\n");
         askForCommand();
     }
 
+    private void printList(List<CouncillorDTO> councillors) {
+        int longestName = 0;
+        for (CouncillorDTO c: councillors)
+            if (c.getColor().getColoredColor().length() > longestName)
+                longestName = c.getColor().getColoredColor().length();
+        for (CouncillorDTO c: councillors) {
+            out.print(" " + c.getColor().getColoredColor());
+            for (int i = 0; i < longestName - c.getColor().getColoredColor().length(); i++)
+                out.print(" ");
+        }
+        out.print("]");
+    }
+
     private void printPlayer(PlayerDTO player, boolean full) {
-        out.println(player.getName());
-        out.println("Victory Points number:         " + player.getVictoryPoints());
-        out.println("Coins number:                  " + player.getCoins());
-        out.println("Position in Nobility Track:    " + player.getNobilityCell());
-        out.println("Assistants number:             " + player.getAssistantsNumber());
-        out.println("Remaining Main Actions:        " + player.getRemainingMainActions());
-        out.println("Remaining Quick Actions:       " + player.getRemainingQuickActions());
+        out.println("\t" + player.getName());
+        out.println("\t\tVictory Points number:         " + player.getVictoryPoints());
+        out.println("\t\tCoins number:                  " + player.getCoins());
+        out.println("\t\tPosition in Nobility Track:    " + player.getNobilityCell());
+        out.println("\t\tAssistants number:             " + player.getAssistantsNumber());
+        out.println("\t\tRemaining Main Actions:        " + player.getRemainingMainActions());
+        out.println("\t\tRemaining Quick Actions:       " + player.getRemainingQuickActions());
         if (full) {
-            out.print("Politic Cards:                 ");
+            out.print("\t\tPolitic Cards:                 ");
             for (PoliticCardDTO card: gameBoard.getLocalPlayer().getCards())
                 out.print(card.getColor().getColoredColor() + " ");
-            out.print("\nBusiness Permit Tiles:         ");
+            out.print("\n\t\tBusiness Permit Tiles:         ");
             for (BusinessPermissionTileDTO tile: gameBoard.getLocalPlayer().getTiles())
                 printBPT(tile);
         }
         out.println("\n");
     }
 
+    private void printRegion(RegionDTO region) {
+        out.println("\n\t" + region.getName() + ": ");
+        out.print("\t\tThe balcony has: [");
+        for (CouncillorDTO c: region.getBalcony().getCouncillors())
+            out.print(" " + c.getColor().getColoredColor());
+        out.println(" ]<- councillors");
+        out.println("\n\t\tThe open Business Permit Tiles are: ");
+        for (BusinessPermissionTileDTO b: region.getDeck().getOpenCards()) {
+            printBPT(b);
+            out.println();
+        }
+        out.println();
+
+        out.println("\t\tCities: ");
+        for (CityDTO c: region.getCities()) {
+            printCity(c);
+            out.println();
+        }
+    }
+
     private void printBPT(BusinessPermissionTileDTO bpt) {
         int i = 0;
         for (String c: bpt.getCities()) {
-            if (i != 0)
+            if (i == 0)
+                out.print("\t\t\t");
+            else
                 out.print("/");
             out.print(c.toUpperCase().charAt(0));
             i++;
@@ -198,6 +222,22 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                 out.print(", ");
             out.print(b.getMultiplicity() + " " + b.getKind());
             i++;
+        }
+    }
+    private void printCity(CityDTO city) {
+        out.print("\t\t\t" + city.getName());
+        if (gameBoard.getKing().getCurrentCity().equalsIgnoreCase(city.getName()))
+            out.print(" (KING) ");
+        if (!city.getEmporiums().isEmpty()) {
+            out.print(" [");
+            int i = 0;
+            for (EmporiumDTO e: city.getEmporiums()) {
+                out.print(" " + e.getPlayer());
+                if (i != city.getEmporiums().size() - 1)
+                    out.print(", ");
+                i++;
+            }
+            out.print(" ]");
         }
     }
 
@@ -265,10 +305,17 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private RegionDTO askForRegion() {
         List<RegionDTO> regions = gameBoard.getRegions();
+        int longestName = 0;
+        for (RegionDTO r: regions)
+            if (r.getName().length() > longestName)
+                longestName = r.getName().length();
         out.println("In which region? ");
         int i = 1;
         for (RegionDTO r: regions) {
-            out.print("(" + i + ") " + r.getName() + "\t\t[");
+            out.print("(" + i + ") " + r.getName());
+            for (int j = 0; j < longestName - r.getName().length(); j++)
+                System.out.print(" ");
+            System.out.print(" [");
             for (CouncillorDTO c: r.getBalcony().getCouncillors())
                 out.print(" " + c.getColor().getColoredColor());
             out.println(" ]");
@@ -383,17 +430,17 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             out.println("(" + i + ") " +c.getName());
             i++;
         }
-        int cityNmber;
+        int cityNumber;
         while (true) {
             try {
-                cityNmber = Integer.parseInt(this.scanner.nextLine());
+                cityNumber = Integer.parseInt(this.scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
                 out.println("The number is invalid, try again: ");
             }
 
         }
-        return cities.get(cityNmber - 1);
+        return cities.get(cityNumber - 1);
     }
 
     @Override

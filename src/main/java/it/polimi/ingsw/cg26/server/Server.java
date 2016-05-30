@@ -45,7 +45,7 @@ public class Server {
     }
 
     private void newGame() {
-        model = Creator.createGame("src/main/resources/configTest.xml");
+        model = Creator.createGame("src/main/resources/config.xml");
         this.controller = new Controller(model);
     }
 

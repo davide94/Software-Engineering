@@ -25,18 +25,35 @@ public class Client {
 
     private final static int PORT = 29999;
 
-    private final static String IP = "127.0.0.1";
+    private final static String DEFAULT_IP = "localhost";
 
     ExecutorService executor = Executors.newCachedThreadPool();
 
-    public void startSocketClient() throws IOException, InterruptedException, ClassNotFoundException {
+    public void startSocketClient() throws IOException, ClassNotFoundException {
 
-        Socket socket = new Socket(IP, PORT);
+        Scanner scanner = new Scanner(System.in);
+        Socket socket;
+
+        while (true) {
+
+            System.out.println("Insert server ip/host-name: (Default " + DEFAULT_IP + ")");
+            String ip = scanner.nextLine();
+            if (ip.isEmpty())
+                ip = DEFAULT_IP;
+
+            try {
+                socket = new Socket(ip, PORT);
+                break;
+
+            } catch (Exception e) {
+                System.out.println("ip/host-name may be wrong, try again...");
+            }
+
+        }
 
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Connection created, which name do you want? ");
-        Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
         System.out.println("Waiting to start...");
 
