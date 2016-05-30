@@ -204,7 +204,7 @@ public class AcquireTest {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
-		userCards.add(new PoliticCardDTO(new PoliticColorDTO("arancione"), 0, "Marco"));
+		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
 		gameBoard.getCurrentPlayer().addCoins(10);
