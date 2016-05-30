@@ -18,8 +18,10 @@ public class CouncillorsCreator {
     }
 
     protected static List<Councillor> createCouncillors(Node root) {
-        Node politicRoot = Creator.getNode(root, "politic");
+        if (root == null)
+            throw new NullPointerException();
 
+        Node politicRoot = Creator.getNode(root, "politic");
         List<Councillor> councillors = new LinkedList<>();
         for (Node node: Creator.getNodes(politicRoot, "color")) {
             String colorString = Creator.getAttribute(node, "name");

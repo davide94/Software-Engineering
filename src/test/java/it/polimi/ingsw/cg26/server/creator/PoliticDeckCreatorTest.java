@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.creator;
 
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 /**
  *
  */
-public class CouncillorsCreatorTest {
+public class PoliticDeckCreatorTest {
 
     private Node root;
     private PoliticDeck politicDeck;
@@ -33,16 +33,15 @@ public class CouncillorsCreatorTest {
 
         root = document.getFirstChild();
 
-        politicDeck = new PoliticDeck(new LinkedList<>());
     }
 
     @Test (expected = NullPointerException.class)
-    public void testCreateCouncillorsShouldThrowNullPointerException() throws Exception {
-        CouncillorsCreator.createCouncillors(null);
+    public void testCreateDeckShouldThrowNullPointerException() throws Exception {
+        PoliticDeckCreator.createDeck(null);
     }
 
     @Test
-    public void testCreateCouncillors() throws Exception {
+    public void testCreateDeck() throws Exception {
         /*
             <politic>
                 <color name="multicolor" cards="13" />
@@ -55,17 +54,15 @@ public class CouncillorsCreatorTest {
             </politic>
          */
 
-        List<Councillor> councillors = CouncillorsCreator.createCouncillors(root);
+        List<PoliticCard> cards = new LinkedList<>();
 
-        List<Councillor> councillorsTest = new LinkedList<>();
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("white"))));
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("black"))));
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("blue"))));
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("orange"))));
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("pink"))));
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("violet"))));
 
-        councillorsTest.addAll(Collections.nCopies(4, Councillor.createCouncillor(new PoliticColor("white"))));
-        councillorsTest.addAll(Collections.nCopies(4, Councillor.createCouncillor(new PoliticColor("black"))));
-        councillorsTest.addAll(Collections.nCopies(4, Councillor.createCouncillor(new PoliticColor("blue"))));
-        councillorsTest.addAll(Collections.nCopies(4, Councillor.createCouncillor(new PoliticColor("orange"))));
-        councillorsTest.addAll(Collections.nCopies(4, Councillor.createCouncillor(new PoliticColor("pink"))));
-        councillorsTest.addAll(Collections.nCopies(4, Councillor.createCouncillor(new PoliticColor("violet"))));
-
-        assertTrue(councillors.containsAll(councillorsTest) && councillorsTest.containsAll(councillors));
+        assertEquals(PoliticDeckCreator.createDeck(root), new PoliticDeck(cards));
     }
 }

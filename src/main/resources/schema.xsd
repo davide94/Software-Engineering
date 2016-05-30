@@ -91,15 +91,7 @@
 				<xs:element name="kingDeck">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="bonus"  minOccurs='0' maxOccurs='unbounded'>
-								<xs:complexType>
-									<xs:complexContent>
-										<xs:extension base="bonusType">
-											<xs:attribute name="position" type="xs:integer" />
-										</xs:extension>
-									</xs:complexContent>
-								</xs:complexType>
-							</xs:element>
+							<xs:element name="bonus" type="bonusType" minOccurs='0' maxOccurs='unbounded' />
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

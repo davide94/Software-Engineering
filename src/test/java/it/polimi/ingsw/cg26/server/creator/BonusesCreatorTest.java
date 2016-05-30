@@ -36,9 +36,18 @@ public class BonusesCreatorTest {
         politicDeck = new PoliticDeck(new LinkedList<>());
     }
 
+    @Test (expected = NullPointerException.class)
+    public void testcreateBonusShouldThrowNullPointerException1() throws Exception {
+        BonusesCreator.createBonuses(Creator.getNode(root, "cityBonuses"), null);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testcreateBonusShouldThrowNullPointerException2() throws Exception {
+        BonusesCreator.createBonuses(null, politicDeck);
+    }
+
     @Test
     public void testCreateBonuses() throws Exception {
-
         /*
             <bonus assistants="1" earn="2" />
             <bonus nobility="3" victory="4" />

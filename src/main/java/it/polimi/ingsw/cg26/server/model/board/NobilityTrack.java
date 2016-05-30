@@ -46,4 +46,27 @@ public class NobilityTrack {
 	public NobilityCell getFirstCell() {
 		return firstCell;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		NobilityTrack that = (NobilityTrack) o;
+
+		return firstCell != null ? firstCell.equals(that.firstCell) : that.firstCell == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return firstCell != null ? firstCell.hashCode() : 0;
+	}
+
+	@Override
+	public String toString() {
+		return "NobilityTrack{" +
+				"firstCell=" + firstCell +
+				'}';
+	}
 }

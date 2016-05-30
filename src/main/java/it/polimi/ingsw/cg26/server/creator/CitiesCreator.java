@@ -18,6 +18,8 @@ public class CitiesCreator {
     }
 
     protected static List<List<City>> createCities(Node root, PoliticDeck politicDeck) {
+        if (root == null || politicDeck == null)
+            throw new NullPointerException();
         List<RewardTile> bonuses = BonusesCreator.createBonuses(Creator.getNode(root, "cityBonuses"), politicDeck);
         Collections.shuffle(bonuses);
 

@@ -47,6 +47,7 @@ public class BusinessPermissionTileTest {
 
         tile.setOwner(new Player(1234, "name", nobilityCell2, 10, cards, assistants));
         tile.getState();
+        // TODO
     }
 
     @Test
@@ -71,8 +72,12 @@ public class BusinessPermissionTileTest {
         LinkedList<Assistant> assistants = new LinkedList<>();
         assistants.add(new Assistant());
 
-        tile.setOwner(new Player(1234, "name", nobilityCell2, 10, cards, assistants));
+        Player player = new Player(1234, "name", nobilityCell2, 10, cards, assistants);
+
+        tile.setOwner(player);
         tile.backToOwner();
+
+        assertTrue(player.hasPermissionTile(tile.getState()).equals(tile));
     }
 
     @Test

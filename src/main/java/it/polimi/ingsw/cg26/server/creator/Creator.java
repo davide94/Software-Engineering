@@ -36,13 +36,6 @@ public class Creator {
         Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
 
         return BoardCreator.createBoard(document.getFirstChild());
-
-        //Controller controller = new Controller(gameBoard);
-
-        //System.out.println("Game created in " + Duration.between(before, Instant.now()).toMillis() + " ms");
-
-        //return controller;
-
     }
 
     protected static Boolean hasChild(String name, Node root) {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
 import it.polimi.ingsw.cg26.server.model.board.Region;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
@@ -24,6 +23,9 @@ public class RegionsCreator {
     }
 
     protected static List<Region> createRegions(Node root, List<List<City>> cities, PoliticDeck politicDeck, List<Councillor> councillors) {
+        if (root == null || cities == null || politicDeck == null || councillors == null)
+            throw new NullPointerException();
+
         List<Region> regions = new LinkedList<>();
 
         int i = 0;

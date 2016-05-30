@@ -18,6 +18,8 @@ public class KingCreator {
     }
 
     protected static King createKing(Node root, List<List<City>> cities) {
+        if (root == null || cities == null)
+            throw new NullPointerException();
         King king = null;
         List<City> allCities = new LinkedList<>();
         for (List<City> region: cities)

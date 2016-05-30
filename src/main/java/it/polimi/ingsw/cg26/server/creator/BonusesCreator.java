@@ -18,6 +18,8 @@ public class BonusesCreator {
     }
 
     protected static List<RewardTile> createBonuses(Node root, PoliticDeck politicDeck) {
+        if (root == null || politicDeck == null)
+            throw new NullPointerException();
         List<RewardTile> bonuses = new LinkedList<>();
         for (Node node: Creator.getNodes(root, "bonus"))
             bonuses.add(createBonus(node, politicDeck));

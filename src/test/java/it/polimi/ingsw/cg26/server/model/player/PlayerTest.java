@@ -44,12 +44,27 @@ public class PlayerTest {
         player.setRemainingQuickActions(1);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testConstructorShouldThrowNullPointerException() throws Exception {
-        new Player(1, "", null, 1, null, null);
+    @Test (expected = NullPointerException.class)
+    public void testConstructorShouldThrowNullPointerException1() throws Exception {
+        new Player(1, null, nobilityCell, 1, cards, assistants);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test (expected = NullPointerException.class)
+    public void testConstructorShouldThrowNullPointerException2() throws Exception {
+        new Player(1, "", null, 1, cards, assistants);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testConstructorShouldThrowNullPointerException3() throws Exception {
+        new Player(1, "", nobilityCell, 1, null, assistants);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testConstructorShouldThrowNullPointerException4() throws Exception {
+        new Player(1, "", nobilityCell, 1, cards, null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldThrowIllegalArgumentException() throws Exception {
         NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
         NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));

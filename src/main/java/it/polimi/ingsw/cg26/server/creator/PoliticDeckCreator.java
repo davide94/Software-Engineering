@@ -18,6 +18,9 @@ public class PoliticDeckCreator {
     }
 
     protected static PoliticDeck createDeck(Node root) {
+        if (root == null)
+            throw new NullPointerException();
+
         Node politicRoot = Creator.getNode(root, "politic");
 
         LinkedList<PoliticCard> cards = new LinkedList<>();

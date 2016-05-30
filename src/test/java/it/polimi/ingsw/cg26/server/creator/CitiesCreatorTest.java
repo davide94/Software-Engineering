@@ -38,6 +38,16 @@ public class CitiesCreatorTest {
         politicDeck = new PoliticDeck(new LinkedList<>());
     }
 
+    @Test (expected = NullPointerException.class)
+    public void testCreateCitiesShouldThrowNullPointerException1() throws Exception {
+        CitiesCreator.createCities(null, politicDeck);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testCreateCitiesShouldThrowNullPointerException2() throws Exception {
+        CitiesCreator.createCities(root, null);
+    }
+
     @Test
     public void testCreateCities() throws Exception {
         /*

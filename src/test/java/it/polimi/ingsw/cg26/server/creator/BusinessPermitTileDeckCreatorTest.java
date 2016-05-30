@@ -46,9 +46,26 @@ public class BusinessPermitTileDeckCreatorTest {
             cities.addAll(l);
     }
 
+    @Test (expected = NullPointerException.class)
+    public void testCreateDeckShouldThrowNullPointerException1() throws Exception {
+        BusinessPermitTileDeckCreator.createDeck(null, cities, politicDeck);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testCreateDeckShouldThrowNullPointerException2() throws Exception {
+        Node node = getNode(getNode(getNode(root, "regions"), "region"), "permissionTiles");
+        BusinessPermitTileDeckCreator.createDeck(node, null, politicDeck);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testCreateDeckShouldThrowNullPointerException3() throws Exception {
+        Node node = getNode(getNode(getNode(root, "regions"), "region"), "permissionTiles");
+        BusinessPermitTileDeckCreator.createDeck(node, cities, null);
+    }
+
+
     @Test
     public void testCreateDeck() throws Exception {
-
         /*
             <permissionTiles>
                 <permissionTile>
@@ -59,6 +76,7 @@ public class BusinessPermitTileDeckCreatorTest {
                 </permissionTile>
             </permissionTiles>
          */
+
         Node node = getNode(getNode(getNode(root, "regions"), "region"), "permissionTiles");
 
         BusinessPermissionTileDeck deck = BusinessPermitTileDeckCreator.createDeck(node, cities, politicDeck);

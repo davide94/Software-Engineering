@@ -14,6 +14,8 @@ public class BalconyCreator {
     private static final int BALCONY_SIZE = 4;
 
     protected static Balcony createBalcony(List<Councillor> councillors) {
+        if (councillors == null)
+            throw new NullPointerException();
         Balcony balcony = Balcony.createBalcony(BALCONY_SIZE);
         for (int i = 0; i < BALCONY_SIZE; i++) {
             if (councillors.isEmpty())

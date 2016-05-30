@@ -18,6 +18,8 @@ public class CityColorsBonusesCreator {
     }
 
     protected static Map<CityColor, RewardTile> createCityColorsBonuses(Node root, PoliticDeck politicDeck) {
+        if (root == null || politicDeck == null)
+            throw new NullPointerException();
         Node colorsRoot = Creator.getNode(root, "cityColorsBonuses");
         Map<CityColor, RewardTile> map =  new HashMap<>();
         for (Node colorNode: Creator.getNodes(colorsRoot, "color")) {

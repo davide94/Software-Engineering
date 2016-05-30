@@ -36,6 +36,16 @@ public class KingCreatorTest {
         politicDeck = new PoliticDeck(new LinkedList<>());
     }
 
+    @Test (expected = NullPointerException.class)
+    public void testCreateKingShouldThrowNullPointerException1() throws Exception {
+        KingCreator.createKing(null, CitiesCreator.createCities(root, politicDeck));
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testCreateKingShouldThrowNullPointerException2() throws Exception {
+        KingCreator.createKing(root, null);
+    }
+
     @Test
     public void testCreateKing() throws Exception {
 

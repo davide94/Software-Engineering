@@ -181,7 +181,7 @@ public class City {
                 ", color=" + color +
                 ", emporiums=" + emporiums +
                 ", reward=" + reward +
-                ", nearCities=" + nearCities +
+                ", nearCities=" + nearCities + // Attenzione che entra in un ciclo infinito se il grafo è ciclico
                 '}';
     }
 

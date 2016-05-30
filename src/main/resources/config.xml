@@ -26,11 +26,11 @@
         <bonus position="20" victory="3" />
     </nobilityTrack>
     <kingDeck>
-        <bonus position="1" victory="25" />
-        <bonus position="2" victory="18" />
-        <bonus position="3" victory="14" />
-        <bonus position="4" victory="8" />
-        <bonus position="5" victory="5" />
+        <bonus victory="25" />
+        <bonus victory="18" />
+        <bonus victory="14" />
+        <bonus victory="8" />
+        <bonus victory="5" />
     </kingDeck>
     <politic>
         <color name="multicolor" cards="13" />
@@ -49,7 +49,7 @@
     </cityColorsBonuses>
     <regions>
         <region name="coast">
-            <bonus earn="5" />
+            <bonus victory="5" />
             <cities>
                 <city name="arkon" position="" color="blue">
                     <near name="castrum" />
@@ -182,7 +182,7 @@
             </permissionTiles>
         </region>
         <region name="hills">
-            <bonus earn="5" />
+            <bonus victory="5" />
             <cities>
                 <city name="framek" position="" color="yellow">
                     <near name="castrum" />
@@ -319,7 +319,7 @@
             </permissionTiles>
         </region>
         <region name="mountains">
-            <bonus earn="5" />
+            <bonus victory="5" />
             <cities>
                 <city name="kultos" position="" color="yellow">
                     <near name="indur" />
