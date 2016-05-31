@@ -56,7 +56,6 @@ public class Build extends Action {
             throw new NoRemainingAssistantsException();
         realCity.build(currentPlayer);
         
-        
         CityColor color=realCity.getColor();
         gameBoard.checkBonuses(currentPlayer, color);
         currentPlayer.takeAssistants(empNumber);

@@ -264,6 +264,7 @@ public class BuildKingTest {
 		assertEquals(7, gameBoard.getCurrentPlayer().getCoinsNumber());
 		assertEquals(0, gameBoard.getCurrentPlayer().getAssistantsNumber());
 		assertEquals(2, chosenCity.getEmporiumsNumber());
+		assertEquals(chosenCity, gameBoard.getKing().getCurrentCity());
 		assertEquals(4, gameBoard.getCurrentPlayer().getFullState().getCards().size()); //player has 7 cards and draws 1 card, then uses 4 cards
 		assertFalse(gameBoard.getCurrentPlayer().canPerformMainAction());
 	}

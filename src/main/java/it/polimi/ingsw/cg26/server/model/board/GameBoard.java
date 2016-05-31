@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.server.exceptions.NotExistingRegionException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
@@ -115,7 +116,7 @@ public class GameBoard extends Observable<Change> {
 			if (city != null)
 				return city;
 		}
-		return null;
+		throw new NotExistingRegionException();
 	}
 
 	public PoliticDeck getPoliticDeck() {
