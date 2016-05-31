@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
+import it.polimi.ingsw.cg26.server.model.board.King;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
@@ -46,7 +47,8 @@ public class BuildKing extends Corrupt {
         super.apply(gameBoard);
         int coins = super.necessaryCoins(politicCards);
         City realCity = gameBoard.getCity(city);
-        coins += gameBoard.getKing().priceToMove(realCity);
+        King king = gameBoard.getKing();
+        coins += king.priceToMove(realCity);
         if (currentPlayer.getCoinsNumber() < coins)
             throw new NotEnoughMoneyException();
         if (!gameBoard.getKingBalcony().checkPoliticCards(politicCards))
@@ -55,6 +57,7 @@ public class BuildKing extends Corrupt {
         if (currentPlayer.getAssistantsNumber() < empNumber)
             throw new NoRemainingAssistantsException();
         realCity.build(currentPlayer);
+        king.move(realCity);
         currentPlayer.removeCoins(coins);
         currentPlayer.takeCards(politicCards);
         currentPlayer.takeAssistants(empNumber);

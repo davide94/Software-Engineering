@@ -429,7 +429,10 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             cities.addAll(r.getCities());
         int i = 1;
         for (CityDTO c: cities) {
-            out.println("(" + i + ") " +c.getName());
+            out.print("(" + i + ") " +c.getName());
+            if (gameBoard.getKing().getCurrentCity().equalsIgnoreCase(c.getName()))
+                out.print(" (KING)");
+            out.println();
             i++;
         }
         int cityNumber;

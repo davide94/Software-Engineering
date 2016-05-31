@@ -63,6 +63,7 @@ public class Acquire extends Corrupt {
     		throw new InvalidCardsException();
     	BusinessPermissionTile addedBPT = gameBoard.getRegion(this.region).getBPTDeck().draw(this.position);
     	currentPlayer.addPermissionTile(addedBPT);
+		addedBPT.getReward(currentPlayer);
     	Collection<PoliticCard> discarded = currentPlayer.takeCards(this.politicCards);
 		gameBoard.getPoliticDeck().discardAll(discarded);
 		currentPlayer.removeCoins(usedCoins);

@@ -67,6 +67,10 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
+    public void getReward(Player p) {
+        reward.apply(p);
+    }
+
     /**
      * Reassigns the tile to his owner
      */
