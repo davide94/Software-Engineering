@@ -2,9 +2,7 @@ package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.model.board.City;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -77,6 +75,11 @@ public class BusinessPermissionTile extends Sellable {
     @Override
     public void backToOwner() {
     	this.getOwner().addPermissionTile(this);
+    }
+    
+    @Override
+	public void giveToNewOwner(Player player){
+    	player.addPermissionTile(this);
     }
 
 	@Override

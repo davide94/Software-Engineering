@@ -56,6 +56,8 @@ public abstract class Sellable {
 		this.owner = owner;
 	}
 	
+	public abstract void giveToNewOwner(Player player);
+	
 	public abstract void backToOwner();
 
 	/* (non-Javadoc)

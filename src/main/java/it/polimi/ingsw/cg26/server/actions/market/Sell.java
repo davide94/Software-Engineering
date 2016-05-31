@@ -33,7 +33,6 @@ public abstract class Sell extends Action {
 	 * @param sellable the sellable put in the market by the player
 	 */
 	public void sell(GameBoard gameBoard, Sellable sellable){
-		sellable.setOwner(gameBoard.getCurrentPlayer());
 		sellable.setPrice(this.price);
 		gameBoard.getMarket().addToMarket(sellable);
 	}

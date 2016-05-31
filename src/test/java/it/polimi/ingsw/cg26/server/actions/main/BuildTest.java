@@ -47,7 +47,7 @@ public class BuildTest {
 	
 	private Region region;
 	
-	BusinessPermissionTile tileToUse; 
+	private BusinessPermissionTile tileToUse; 
 	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();

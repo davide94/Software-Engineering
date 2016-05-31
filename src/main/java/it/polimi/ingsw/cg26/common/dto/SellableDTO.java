@@ -14,6 +14,7 @@ public abstract class SellableDTO implements Serializable {
 	 * Constructs a Sellable DTO object
 	 * @param price is the price of the item if the tile is in the store
 	 * @param owner is a string that identifies the player who owns the item if the item is in the store
+	 * @throws IllegalArgumentException if the price is negative
 	 */
 	public SellableDTO(int price, String owner) {
 		if (price < 0)

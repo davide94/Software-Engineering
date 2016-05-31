@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.player;
 
-import it.polimi.ingsw.cg26.common.dto.SellableDTO;
+import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 
 /**
@@ -25,8 +25,18 @@ public class Assistant extends Sellable {
     }
 
 	@Override
-	public SellableDTO getState() {
-		return null;
+	public AssistantDTO getState() {
+		Player owner = this.getOwner();
+		String name = "none";
+		if(owner != null){
+			name = owner.getName();
+		}
+		return new AssistantDTO(this.getPrice(), name);
+	}
+
+	@Override
+	public void giveToNewOwner(Player player) {
+		player.addAssistant(this);
 	}
 
 }

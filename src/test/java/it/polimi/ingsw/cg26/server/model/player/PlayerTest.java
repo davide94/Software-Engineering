@@ -261,7 +261,7 @@ public class PlayerTest {
         bonuses.add(bonus);
         BusinessPermissionTile tile = new BusinessPermissionTile(cities,  new RewardTile(bonuses));
         player.addPermissionTile(tile);
-        assertEquals(player.getRealBPT(tile.getState()), tile);
+        assertEquals(player.removeRealBPT(tile.getState()), tile);
     }
 
     @Test

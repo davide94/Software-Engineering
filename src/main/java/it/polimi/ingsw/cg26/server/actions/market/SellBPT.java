@@ -29,7 +29,7 @@ public class SellBPT extends Sell {
 	@Override
 	public void apply(GameBoard gameBoard) {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
-		BusinessPermissionTile bpTile = currentPlayer.getRealBPT(bpTileState);
+		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileState);
 		super.sell(gameBoard, bpTile);
 	}
 

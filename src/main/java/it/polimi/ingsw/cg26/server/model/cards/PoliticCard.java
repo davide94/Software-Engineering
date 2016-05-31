@@ -29,6 +29,7 @@ public class PoliticCard extends Sellable {
      * Generates the dto of the card
      * @return the dto of the card
      */
+    @Override
     public PoliticCardDTO getState() {
         Player owner = this.getOwner();
         String name = "none";
@@ -49,6 +50,11 @@ public class PoliticCard extends Sellable {
     @Override
     public void backToOwner() {
     	this.getOwner().addPoliticCard(this);
+    }
+    
+    @Override
+	public void giveToNewOwner(Player player){
+    	player.addPoliticCard(this);
     }
 
     @Override

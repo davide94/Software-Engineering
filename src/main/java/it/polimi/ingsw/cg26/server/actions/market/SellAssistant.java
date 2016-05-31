@@ -20,6 +20,7 @@ public class SellAssistant extends Sell {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);
 		Assistant assistantToAdd = new Assistant();
+		assistantToAdd.setOwner(currentPlayer);
 		super.sell(gameBoard, assistantToAdd);
 	}
 

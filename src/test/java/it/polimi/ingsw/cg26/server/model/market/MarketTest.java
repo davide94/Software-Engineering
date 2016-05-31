@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingSellableException;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -75,13 +75,26 @@ public class MarketTest {
 	}
 	
 	@Test
-	public void testGetRealSellable(){
+	public void testGetRealSellableWithAPoliticCard(){
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("blu"));
 		market.addToMarket(card);
 		PoliticCardDTO cardDTO = card.getState();
 		
 		assertEquals(card, market.getRealSellable(cardDTO));
+	}
+	
+	@Test
+	public void testGetRealSellableWithAnAssistant(){
+		Market market = new Market();
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 5, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
+		Assistant assistant = new Assistant();
+		assistant.setPrice(3);
+		assistant.setOwner(player1);
+		market.addToMarket(assistant);
+		AssistantDTO assistantDTO = assistant.getState();
+		
+		assertEquals(assistant, market.getRealSellable(assistantDTO));
 	}
 	
 	@Test (expected = NotExistingSellableException.class)

@@ -335,7 +335,7 @@ public class Player {
 	 * @param tileState the tileState given by the user
 	 * @return the tile removed from the player
 	 */
-	public BusinessPermissionTile getRealBPT(BusinessPermissionTileDTO tileState){
+	public BusinessPermissionTile removeRealBPT(BusinessPermissionTileDTO tileState){
 		BusinessPermissionTile tile = null;
 		for(BusinessPermissionTile t : tiles){
 			if(t.getState().equals(tileState)){
