@@ -10,6 +10,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -17,11 +23,11 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class RegionTest {
 	
-	private City Foggia;
-	private City Bari;
-	private City Brindisi; 
-	private City Taranto;
-	private City Lecce;
+	private City foggia;
+	private City bari;
+	private City brindisi; 
+	private City taranto;
+	private City lecce;
 	private Collection<City> cities;
 	private Balcony balcony;
 	private RewardTile premio;
@@ -69,18 +75,18 @@ public class RegionTest {
 		balcony= Balcony.createBalcony(4);
 		premio= new RewardTile(bonusesRegion);
 		
-		Foggia = City.createCity("Foggia", CityColor.createCityColor("nero"), tile1);
-		Bari = City.createCity("Bari", CityColor.createCityColor("bianco"), tile2);
-		Brindisi = City.createCity("Brindisi", CityColor.createCityColor("blu"), tile3);
-		Taranto = City.createCity("Taranto", CityColor.createCityColor("rosso"), tile4);
-		Lecce = City.createCity("Lecce", CityColor.createCityColor("giallo"), tile5);
+		foggia = City.createCity("Foggia", CityColor.createCityColor("nero"), tile1);
+		bari = City.createCity("Bari", CityColor.createCityColor("bianco"), tile2);
+		brindisi = City.createCity("Brindisi", CityColor.createCityColor("blu"), tile3);
+		taranto = City.createCity("Taranto", CityColor.createCityColor("rosso"), tile4);
+		lecce = City.createCity("Lecce", CityColor.createCityColor("giallo"), tile5);
 		
 		cities= new LinkedList<>();
-		cities.add(Foggia);
-		cities.add(Bari);
-		cities.add(Brindisi);
-		cities.add(Taranto);
-		cities.add(Lecce);
+		cities.add(foggia);
+		cities.add(bari);
+		cities.add(brindisi);
+		cities.add(taranto);
+		cities.add(lecce);
 		
 		Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new RewardTile(new LinkedList<Bonus>())), 10, new LinkedList<>(), new LinkedList<>());
 		
@@ -130,78 +136,78 @@ public class RegionTest {
 	}
 	
 
-		//DA RIVEDERE ACCADONO COSE STRANE
+	@Test	
 	public void testShouldCreateRegion() {
 		
-		Region Puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
 		
-		assertNotNull(Puglia);
-		assertEquals(Puglia.getBalcony(), balcony);
-		assertEquals(Puglia.getBPTDeck(), deck);
-		assertEquals(Puglia.getCities(), cities);
-		assertEquals(Puglia.getName(), "Puglia");
+		assertNotNull(puglia);
 		
 		
 	}
 	
-	/*
+	
 
 	@Test
 	public void testCheckRegionBonusesIsFalseBecauseThereAreNotEmporiumInCities() {
-		Region Puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
 		
-		assertFalse(Puglia.checkRegionBonuses(Luca));
+		assertFalse(puglia.checkRegionBonuses(Luca));
 		
 		
 		
 	}
+	
 	
 	
 	@Test
 	public void testCheckRegionBonusesIsFalseBecauseThereAreNoEnoughEmporiumsInCities() {
-		Region Puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
-		Foggia.build(Luca);
-		Lecce.build(Luca);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		foggia.build(Luca);
+		lecce.build(Luca);
 		
-		assertFalse(Puglia.checkRegionBonuses(Luca));
+		assertFalse(puglia.checkRegionBonuses(Luca));
 		
 	}
+	
 	
 	@Test
 	public void testCheckRegionBonusesIsTrueBecauseThereAreAllTheEmporiums() {
 		
-		Region Puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
 		
-		Foggia.build(Luca);
-		Lecce.build(Luca);
-		Bari.build(Luca);
-		Brindisi.build(Luca);
-		Taranto.build(Luca);
+		foggia.build(Luca);
+		lecce.build(Luca);
+		bari.build(Luca);
+		brindisi.build(Luca);
+		taranto.build(Luca);
 		
-		assertTrue(Puglia.checkRegionBonuses(Luca));
+		assertTrue(puglia.checkRegionBonuses(Luca));
+		
 		
 		
 		
 	}
+	
 	
 	
 
 	@Test
 	public void testGetRegionBonus() { 
-		Region Puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
 		
-		assertEquals(Puglia.getRegionBonus(), premio);
+		assertEquals(puglia.getRegionBonus(), premio);
 		
-	}*/
+	}
 		
 	
 	
 
 	@Test
 	public void testGetCities() {
-		Region Puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
 		
-		assertEquals(Puglia.getCities(), cities);
+		assertEquals(puglia.getCities(), cities);
 		
 	}
 	
@@ -209,41 +215,112 @@ public class RegionTest {
 
 	@Test
 	public void testGetCity() {
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> strings= new LinkedList<>();
+		Collection<BonusDTO> bonuses= new ArrayList<>();
+		
+		CityDTO requiredCity= new CityDTO("Lecce", new CityColorDTO("marrone"),new RewardTileDTO (bonuses), emporiums, strings);
+		
+		assertEquals(puglia.getCity(requiredCity), lecce);
 		
 	}
 
 	@Test
 	public void testGetBalcony() {
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		assertEquals(puglia.getBalcony(), balcony);
+		
+		
 		
 	}
 
 	@Test
 	public void testGetBPTDeck() {
 		
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		assertEquals(puglia.getBPTDeck(), deck);
+		
 	}
 
 	@Test
 	public void testGetName() {
 		
-	}
-
-	@Test
-	public void testEqualsObject() {
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		assertEquals(puglia.getName(), "Puglia");
 		
 	}
+
+	
 	
 	@Test
 	public void testHashCode() {
 		
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		
+		
+		assertNotEquals(puglia.hashCode(),0);
+		
+		
 	}
+	
+	
+	
 
 	@Test
 	public void testToString() {
 		
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		assertEquals(puglia.toString(), "Region{" +
+				"name='" + "Puglia" + '\'' +
+				", cities=" + cities +
+				", balcony=" + balcony +
+				", deck=" + deck +
+				", bonus=" + premio +
+				'}');
+		
 	}
+	
+	
+	
 	
 	@Test
 	public void testGetState() {
+		
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		
+		RegionDTO pugliaDTO= puglia.getState();
+		LinkedList<CityDTO> citiesState = new LinkedList<>();
+		for (City c: cities)
+			citiesState.add(c.getState());
+		
+		RegionDTO regionTest = new RegionDTO("Puglia", citiesState, deck.getState(), balcony.getState(), premio.getState());
+		System.out.println(pugliaDTO);
+		System.out.println(regionTest);
+		assertEquals(pugliaDTO, regionTest);
+		
+	}
+	
+	
+	
+	
+	@Test
+	public void testEqualsObject() {
+		
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia2=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region Molise=null;
+		
+		assertEquals(puglia, puglia2);
+		assertFalse(puglia.equals(Molise));
+		
+		
 		
 	}
 

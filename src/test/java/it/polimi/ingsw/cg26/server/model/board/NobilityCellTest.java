@@ -45,9 +45,10 @@ public class NobilityCellTest {
 		tile2= new RewardTile(bonuses2);
 		tile3= new RewardTile(bonuses3);
 		
-		cell2= NobilityCell.createNobilityCell(2, cell3, tile2);
-		cell3= NobilityCell.createNobilityCell(3, cell4, tile3);
+		
 		cell4= NobilityCell.createNobilityCell(4, null, tile3);
+		cell3= NobilityCell.createNobilityCell(3, cell4, tile3);
+		cell2= NobilityCell.createNobilityCell(2, cell3, tile2);
 		Luca=new Player(1235, "Luca", cell2 , 10, new LinkedList<>(), new LinkedList<>());
 		Davide=new Player(1236, "davide", cell3 , 10, new LinkedList<>(), new LinkedList<>());
 		
@@ -74,8 +75,7 @@ public class NobilityCellTest {
 		
 		
 		
-		//QUESTO TEST FALLISCE PERO' DEVE PASSARE
-		//assertEquals(Davide.getNobilityCell(), cell4);
+		assertEquals(Davide.getNobilityCell().getIndex(), 4);
 		
 	}
 	
@@ -125,7 +125,7 @@ public class NobilityCellTest {
 
 	@Test
 	public void testHasNextShouldBeTrue() {
-		//assertTrue(cell3.hasNext());
+		assertTrue(cell3.hasNext());
 		
 	}
 	

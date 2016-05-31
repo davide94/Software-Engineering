@@ -50,8 +50,8 @@ public class CityTest {
 	 @Before
 	    public void setUp() throws Exception {
 		 
-		    NobilityCell next= NobilityCell.createNobilityCell(11, next2, new RewardTile(new LinkedList<Bonus>()));
-		    NobilityCell next2= NobilityCell.createNobilityCell(12, null, new RewardTile(new LinkedList<Bonus>()));
+		    next2= NobilityCell.createNobilityCell(12, null, new RewardTile(new LinkedList<Bonus>()));		 
+		    next= NobilityCell.createNobilityCell(11, next2, new RewardTile(new LinkedList<Bonus>()));
 		    Davide=new Player(1234, "Davide", NobilityCell.createNobilityCell(10, next, new RewardTile(new LinkedList<Bonus>())), 5, new LinkedList<>(), new LinkedList<>());
 		    Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new RewardTile(new LinkedList<Bonus>())), 11, new LinkedList<>(), new LinkedList<>());
 		    Marco=new Player(1236, "Marco", NobilityCell.createNobilityCell(12, null, new RewardTile(new LinkedList<Bonus>())), 12, new LinkedList<>(), new LinkedList<>());
@@ -81,34 +81,110 @@ public class CityTest {
 	    }
 	 
 	 
-	 @Test
-		public void testTakeBonusesOfAllCitiesLinkedToCity1() {
+	 
+	 public void testTakeBonusesOfCityC() {
 		 List<Bonus> bonusesA=new LinkedList<>();
 		 bonusesA.add(new CoinBonus(5));
-		 //bonusesA.add(new NobilityBonus(1));		 
+		 bonusesA.add(new NobilityBonus(1));		 
 		 City cityA= City.createCity("Napoli", color1, new RewardTile(bonusesA));
+		
 		 
 		 List<Bonus> bonusesB=new LinkedList<>();
-		 bonusesB.add(new AssistantBonus(15));
+		 bonusesB.add(new AssistantBonus(3));
 		 bonusesB.add(new MainActionBonus(2));
 		 City cityB= City.createCity("Roma", color2, new RewardTile(bonusesB));
 		 
 		 List<Bonus> bonusesC=new LinkedList<>();
 		 bonusesC.add(new VictoryBonus(10));
-		 //bonusesC.add(new CardBonus(50)); perché CardBonus ha due parametri?
+		
 		 City cityC= City.createCity("Firenze", color1, new RewardTile(bonusesC));
 		 
 		 cityA.link(cityB);
 		 cityA.link(cityC);
 		 
+		 
+		 
+		 cityC.build(Davide);
+		 
+		 
+		 
+		 
+		 assertEquals(Davide.getVictoryPoints(), 10);   
+		 	 
+		 
+		 
+	 }
+	 
+	 
+	 public void testTakeBonusesOfCityBandCityCLinkedWithB() {
+		 List<Bonus> bonusesA=new LinkedList<>();
+		 bonusesA.add(new CoinBonus(5));
+		 bonusesA.add(new NobilityBonus(1));		 
+		 City cityA= City.createCity("Napoli", color1, new RewardTile(bonusesA));
+		
+		 
+		 List<Bonus> bonusesB=new LinkedList<>();
+		 bonusesB.add(new AssistantBonus(3));
+		 bonusesB.add(new MainActionBonus(2));
+		 City cityB= City.createCity("Roma", color2, new RewardTile(bonusesB));
+		 
+		 List<Bonus> bonusesC=new LinkedList<>();
+		 bonusesC.add(new VictoryBonus(10));
+		 
+		 City cityC= City.createCity("Firenze", color1, new RewardTile(bonusesC));
+		 
+		 
+		 cityB.link(cityC);
+		 cityA.link(cityB);
+		 
+		 
+		 
+		 cityC.build(Davide);
+		 cityB.build(Davide);
+		 
+		 
+		 
+		 
+		 assertEquals(Davide.getVictoryPoints(), 20);   
+		 assertEquals(Davide.getAssistantsNumber(), 3); 
+		 assertTrue(Davide.canPerformMainAction());
+		 	 
+		 
+		 
+	 }
+	 
+	 @Test
+		public void testTakeBonusesOfAllCitiesLinkedToCityA() {
+		 List<Bonus> bonusesA=new LinkedList<>();
+		 bonusesA.add(new CoinBonus(5));
+		 bonusesA.add(new NobilityBonus(1));		 
+		 City cityA= City.createCity("Napoli", color1, new RewardTile(bonusesA));
+		
+		 
+		 List<Bonus> bonusesB=new LinkedList<>();
+		 bonusesB.add(new AssistantBonus(3));
+		 bonusesB.add(new MainActionBonus(1));
+		 City cityB= City.createCity("Roma", color2, new RewardTile(bonusesB));
+		 
+		 List<Bonus> bonusesC=new LinkedList<>();
+		 bonusesC.add(new VictoryBonus(10));
+		
+		 City cityC= City.createCity("Firenze", color1, new RewardTile(bonusesC));
+		 
+		 cityB.link(cityC);
+		 cityA.link(cityB);
+		 
+		 
+		 
 		 cityC.build(Davide);
 		 cityB.build(Davide);
 		 cityA.build(Davide);
 		 
-		 assertEquals(Davide.getAssistantsNumber(), 30); //perché raddoppia il numero di assistenti?
+		 
+		 assertEquals(Davide.getAssistantsNumber(), 6); 
 		 assertEquals(Davide.getCoinsNumber(), 10);
-		 assertEquals(Davide.getVictoryPoints(), 20);////perché raddoppia il numero di punti vittoria?
-		 //assertEquals(Davide.getNobilityCell(), next2);
+		 assertEquals(Davide.getVictoryPoints(), 30);   
+		 assertEquals(Davide.getNobilityCell(), next);
 		 assertTrue(Davide.canPerformMainAction());
 		 
 		 
@@ -124,7 +200,31 @@ public class CityTest {
 		 
 		 assertEquals(city1.distanceFrom(city3),2);
 		 
-		 //se due città non sono collegate proprio quanto vale la distanza?
+		 
+		 
+		}
+	 
+	 @Test
+		public void testGetDistanceOfCityFromCity2AndThereIsNotALink() {
+		 
+		 int maxDistance= 2147483647;
+		 assertEquals(city1.distanceFrom(city2), maxDistance );
+		 
+		
+		 
+		}
+	 
+	 @Test
+		public void testGetDistance1() {
+		 
+		 city1.link(city2);
+		 city2.link(city1);
+		 
+		 int maxDistance= 2147483647;
+		 assertEquals(city1.distanceFrom(city2), 1 );
+		 assertEquals(city3.distanceFrom(city2), maxDistance );
+		 
+		
 		 
 		}
 	 
@@ -246,14 +346,7 @@ public class CityTest {
 			
 		}
 	 
-	 /*
-	 @Test
-		public void testNotEqualsBonusesOfCities() {
-		City city4= City.createCity("Roma", color2, new RewardTile(bonuses3));
-		assertNotEquals(city4, city2);
-		
-			
-		}*/
+	 
 	 
 	 
 	 @Test
@@ -280,7 +373,7 @@ public class CityTest {
 		}
 	 
 	 
-	 /*
+	 
 	 @Test
 		public void testGetCollectionOfBonuses() {
 		        
@@ -290,12 +383,12 @@ public class CityTest {
 	        bonuses2.add(bonus2);
 	        
 	        City city4= City.createCity("Genova", color1, new RewardTile(bonuses2));
-	        assertEquals(city4.getBonuses(), bonuses3);
+	        assertEquals(city4.getReward().getBonuses(), bonuses3);
 	        
 	        
 			
 		}
-		*/
+		
 	 
 	 
 
@@ -361,7 +454,7 @@ public class CityTest {
 				", color=" + "CityColor='blu'" +
 				", emporiums=" + "[]" +
 				", reward=" + "RewardTile{bonuses=[]}" +
-				", nearCities=" + "[]" +
+				//", nearCities=" + "[]" +
 				'}');
 	}
 	
@@ -438,8 +531,8 @@ public class CityTest {
 		CityDTO cityDTO= city4.getState();
 		
 		assertEquals(city4.getName(), cityDTO.getName());
-		//assertEquals(city4.getEmporiums(), cityDTO.getEmporiums());
-		//assertEquals(city4.getBonuses(), cityDTO.getBonuses());
+		assertEquals(city4.getColor().getState(), cityDTO.getColor());
+	
 		
 				
 	}

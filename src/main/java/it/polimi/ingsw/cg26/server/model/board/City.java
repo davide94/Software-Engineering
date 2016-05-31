@@ -154,6 +154,7 @@ public class City {
     }
 
     public int distanceFrom(City city) {
+        city.distance = Double.POSITIVE_INFINITY;
         this.initDistance();
         this.distance = 0.;
         LinkedList<City> queue = new LinkedList<>();
@@ -181,7 +182,7 @@ public class City {
                 ", color=" + color +
                 ", emporiums=" + emporiums +
                 ", reward=" + reward +
-                ", nearCities=" + nearCities + // Attenzione che entra in un ciclo infinito se il grafo è ciclico
+                //", nearCities=" + nearCities + // Attenzione che entra in un ciclo infinito se il grafo è ciclico
                 '}';
     }
 

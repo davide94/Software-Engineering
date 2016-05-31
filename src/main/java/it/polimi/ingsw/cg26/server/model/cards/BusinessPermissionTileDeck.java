@@ -30,7 +30,7 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
      */
     public BusinessPermissionTileDeckDTO getState() {
         LinkedList<BusinessPermissionTileDTO> openCardsState = new LinkedList<>();
-        for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
+        for (int i = 0; i < OPEN_CARDS_NUMBER && i < cards.size(); i++)
             openCardsState.add(this.cards.get(i).getState());
         return new BusinessPermissionTileDeckDTO(openCardsState);
     }
