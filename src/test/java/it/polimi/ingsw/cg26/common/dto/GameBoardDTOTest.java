@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class GameBoardDTOTest {
         regions = new LinkedList<>();
         nobilityTrack = new NobilityTrackDTO(new LinkedList<>());
         king = new KingDTO("cityname");
-        market = new MarketDTO();
+        market = new MarketDTO(new ArrayList<SellableDTO>());
         kingDeck = new KingDeckDTO(new LinkedList<>());
 
         board = new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);

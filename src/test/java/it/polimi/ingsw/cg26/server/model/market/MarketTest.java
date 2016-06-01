@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
+import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingSellableException;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -28,6 +29,25 @@ public class MarketTest {
 		Market market = new Market();
 		
 		assertEquals(new ArrayList<Sellable>(), market.getOnSale());
+	}
+	
+	@Test
+	public void testGetState(){
+		Market market = new Market();
+		PoliticCard card = new PoliticCard(new PoliticColor("arancione"));
+		List<City> cities = new ArrayList<>();
+		List<Bonus> tileBonuses = new ArrayList<>();
+		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(tileBonuses));
+		Assistant assistant = new Assistant();
+		market.addToMarket(tile);
+		market.addToMarket(assistant);
+		market.addToMarket(card);
+		MarketDTO marketDTO = market.getState();
+		
+		assertEquals(3, marketDTO.getOnSale().size());
+		assertTrue(marketDTO.getOnSale().contains(tile.getState()));
+		assertTrue(marketDTO.getOnSale().contains(card.getState()));
+		assertTrue(marketDTO.getOnSale().contains(assistant.getState()));
 	}
 	
 	@Test (expected = NullPointerException.class)

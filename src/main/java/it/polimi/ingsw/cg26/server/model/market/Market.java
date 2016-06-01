@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.model.market;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingSellableException;
 
@@ -17,10 +18,22 @@ public class Market {
     private final List<Sellable> onSale;
 
     /**
-     * Default constructor
+     * Construct an empty market  
      */
     public Market() {
     	this.onSale = new ArrayList<>();
+    }
+    
+    /**
+     * Construct a DTO of the market
+     * @return the MarketDTO of the market
+     */
+    public MarketDTO getState(){
+    	List<SellableDTO> onSaleDTO = new ArrayList<>();
+    	for(Sellable s : this.onSale){
+    		onSaleDTO.add(s.getState());
+    	}
+    	return new MarketDTO(onSaleDTO);
     }
     
     /**
