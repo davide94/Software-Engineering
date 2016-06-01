@@ -10,13 +10,13 @@ import it.polimi.ingsw.cg26.common.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.change.PrivateChange;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -53,6 +53,7 @@ public class Client {
 
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+
         System.out.println("Connection created, which name do you want? ");
         String name = scanner.nextLine();
         System.out.println("Waiting to start...");
@@ -74,7 +75,7 @@ public class Client {
 
         ClientOutHandler outView = new ClientOutHandler(outputStream);
 
-        CLI cli = new CLI(outView);
+        CLI cli = new CLI(new Scanner(System.in), new PrintWriter(System.out), outView);
         model.registerObserver(cli);
 
         object = inputStream.readObject();
@@ -87,7 +88,6 @@ public class Client {
 
         executor.submit(cli);
         executor.submit(inView);
-
     }
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {

@@ -38,7 +38,7 @@ public class PoliticColorDTOTest {
         String colors[] = {"white", "black", "blue", "orange", "pink", "violet", "multicolor"};
         for (String c: colors) {
             color = new PoliticColorDTO(c);
-            color.getColoredColor();
+            color.getColor();
         }
     }
 

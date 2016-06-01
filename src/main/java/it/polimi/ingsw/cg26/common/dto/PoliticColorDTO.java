@@ -56,16 +56,6 @@ public class PoliticColorDTO implements Serializable {
         return color;
     }
 
-    /**
-     * Returns the color name string enriched with ANSI colors
-     * @return the color name string enriched with ANSI colors
-     */
-    public String getColoredColor() {
-        if (color.equals("multicolor"))
-            return "\u001B[31mm\u001B[32mu\u001B[33ml\u001B[34mt\u001B[35mi\u001B[36mc\u001B[37mo\u001B[38ml\u001B[31mo\u001B[32mr\u001B[0m";
-        return ansiString + color + "\u001B[0m";
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,11 +72,15 @@ public class PoliticColorDTO implements Serializable {
         return color != null ? color.hashCode() : 0;
     }
 
+    /**
+     * Returns the color name string enriched with ANSI colors
+     * @return the color name string enriched with ANSI colors
+     */
     @Override
     public String toString() {
-        return "PoliticColorDTO{" +
-                "color='" + color + '\'' +
-                '}';
+        if (color.equals("multicolor"))
+            return "\u001B[31mm\u001B[32mu\u001B[33ml\u001B[34mt\u001B[35mi\u001B[36mc\u001B[37mo\u001B[38ml\u001B[31mo\u001B[32mr\u001B[0m";
+        return ansiString + color + "\u001B[0m";
     }
 
 }
