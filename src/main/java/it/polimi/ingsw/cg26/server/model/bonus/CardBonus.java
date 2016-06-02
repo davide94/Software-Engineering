@@ -1,13 +1,14 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CardBonusDTO;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  * 
  */
-public class CardBonus extends Bonus {
+public class CardBonus extends BonusDecorator {
 
     private PoliticDeck politicDeck;
 
@@ -17,8 +18,8 @@ public class CardBonus extends Bonus {
      * @throws IllegalArgumentException if the multiplicity is less than 1
      * @throws NullPointerException if the deck is null
      */
-    public CardBonus(int multiplicity, PoliticDeck politicDeck) {
-    	super(multiplicity);
+    public CardBonus(Bonus decoratedBonus, int multiplicity, PoliticDeck politicDeck) {
+    	super(decoratedBonus, multiplicity);
         if (politicDeck == null)
             throw new NullPointerException();
         this.politicDeck = politicDeck;
@@ -30,6 +31,7 @@ public class CardBonus extends Bonus {
      */
     @Override
     public void apply(Player player) {
+    	super.apply(player);
         for(int i=0; i<this.getMultiplicity(); i++) {
             player.addPoliticCard(this.politicDeck.draw());
         }
@@ -37,14 +39,17 @@ public class CardBonus extends Bonus {
 
     @Override
     public BonusDTO getState() {
-        return new BonusDTO("Cards", getMultiplicity());
+        return new CardBonusDTO(super.getState(), getMultiplicity());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) 
+        	return true;
+        if (o == null || getClass() != o.getClass()) 
+        	return false;
+        if (!super.equals(o)) 
+        	return false;
 
         CardBonus cardBonus = (CardBonus) o;
 
@@ -61,7 +66,7 @@ public class CardBonus extends Bonus {
 
     @Override
     public String toString() {
-        return "CardBonus{" +
+        return super.toString()+"\nCardBonus{" +
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }

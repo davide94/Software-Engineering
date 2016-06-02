@@ -1,20 +1,22 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.NobilityBonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  * 
  */
-public class NobilityBonus extends Bonus {
+public class NobilityBonus extends BonusDecorator {
 
     /**
      * Create a NobilityBonus
+     * @param decoratedBonus the bonus to be decorated
      * @param multilplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
      */
-    public NobilityBonus(int multilplicity) {
-    	super(multilplicity);
+    public NobilityBonus(Bonus decoratedBonus, int multilplicity) {
+    	super(decoratedBonus, multilplicity);
     }
 
     /**
@@ -23,6 +25,7 @@ public class NobilityBonus extends Bonus {
      */
     @Override
     public void apply(Player player) {
+    	super.apply(player);
         for(int i=0; i<this.getMultiplicity(); i++){
         	player.incrementNobility();
         }
@@ -30,7 +33,7 @@ public class NobilityBonus extends Bonus {
 
     @Override
     public BonusDTO getState() {
-        return new BonusDTO("Nobility points", getMultiplicity());
+        return new NobilityBonusDTO(super.getState(), getMultiplicity());
     }
 
     @Override
@@ -45,7 +48,7 @@ public class NobilityBonus extends Bonus {
 
     @Override
     public String toString() {
-        return "NobilityBonus{" +
+        return super.toString()+"\nNobilityBonus{" +
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }

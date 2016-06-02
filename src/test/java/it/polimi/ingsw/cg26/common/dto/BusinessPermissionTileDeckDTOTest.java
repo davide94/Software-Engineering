@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg26.common.dto;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -21,10 +23,8 @@ public class BusinessPermissionTileDeckDTOTest {
         LinkedList<String> cities = new LinkedList<>();
         cities.add("city1Name");
         cities.add("city2Name");
-        LinkedList<BonusDTO> bonuses = new LinkedList<>();
-        bonuses.add(new BonusDTO("bonusName", 6));
         cards = new LinkedList<>();
-        cards.add(new BusinessPermissionTileDTO(cities, new RewardTileDTO(bonuses), 0, "playerName"));
+        cards.add(new BusinessPermissionTileDTO(cities, new EmptyBonusDTO(), 0, "playerName"));
 
         deck = new BusinessPermissionTileDeckDTO(cards);
     }

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.VictoryBonusDTO;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.LinkedList;
 
 import static org.junit.Assert.*;
 
@@ -16,13 +16,12 @@ public class NobilityCellDTOTest {
 
     private NobilityCellDTO cell;
 
-    private LinkedList<BonusDTO> bonuses;
+    private BonusDTO bonuses;
 
     @Before
     public void setUp() throws Exception {
-        bonuses = new LinkedList<>();
-        bonuses.add(new BonusDTO("bonusName", 4));
-        cell = new NobilityCellDTO(8, new RewardTileDTO(bonuses));
+        bonuses = new VictoryBonusDTO(new CoinBonusDTO(new EmptyBonusDTO(), 3), 2);
+        cell = new NobilityCellDTO(8, bonuses);
     }
 
     @Test (expected = NullPointerException.class)
@@ -32,7 +31,7 @@ public class NobilityCellDTOTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail2() throws Exception {
-        new NobilityCellDTO(-2, new RewardTileDTO(bonuses));
+        new NobilityCellDTO(-2, bonuses);
     }
 
     @Test

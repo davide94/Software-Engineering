@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 /**
  *
@@ -15,7 +15,7 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
 
     private Collection<String> cities;
 
-    private RewardTileDTO reward;
+    private BonusDTO bonuses;
 
     /**
      * Constructs a  Business Permit Tile DTO object
@@ -25,12 +25,12 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
      * @param owner is a string that identifies the player who owns the tile if the tile is in the store
      * @throws NullPointerException if cities or bonuses are null
      */
-    public BusinessPermissionTileDTO(Collection<String> cities, RewardTileDTO reward, int price, String owner) {
+    public BusinessPermissionTileDTO(Collection<String> cities, BonusDTO bonuses, int price, String owner) {
         super(price, owner);
-    	if (cities == null || reward == null)
+    	if (cities == null || bonuses == null)
             throw new NullPointerException();
         this.cities = new LinkedList<>(cities);
-        this.reward = reward;
+        this.bonuses = bonuses;
     }
 
     /**
@@ -45,20 +45,24 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
      * Returns a Reward Tile DTO
      * @return a Reward Tile DTO
      */
-    public RewardTileDTO getReward() {
-        return reward;
+    public BonusDTO getBonuses() {
+        return bonuses;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) 
+        	return true;
+        if (o == null || getClass() != o.getClass()) 
+        	return false;
+        if (!super.equals(o)) 
+        	return false;
 
         BusinessPermissionTileDTO that = (BusinessPermissionTileDTO) o;
 
-        if (cities != null ? !cities.equals(that.cities) : that.cities != null) return false;
-        return reward != null ? reward.equals(that.reward) : that.reward == null;
+        if (cities != null ? !cities.equals(that.cities) : that.cities != null) 
+        	return false;
+        return bonuses != null ? bonuses.equals(that.bonuses) : that.bonuses == null;
 
     }
 
@@ -66,7 +70,7 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (cities != null ? cities.hashCode() : 0);
-        result = 31 * result + (reward != null ? reward.hashCode() : 0);
+        result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
         return result;
     }
 
@@ -74,7 +78,7 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
     public String toString() {
         return "BusinessPermissionTileDTO{" +
                 "cities=" + cities +
-                ", reward=" + reward +
+                ", bonuses=" + bonuses +
                 '}';
     }
 }

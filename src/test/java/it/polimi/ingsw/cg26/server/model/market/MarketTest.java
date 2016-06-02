@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
@@ -15,7 +14,7 @@ import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingSellableException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
@@ -36,8 +35,7 @@ public class MarketTest {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("arancione"));
 		List<City> cities = new ArrayList<>();
-		List<Bonus> tileBonuses = new ArrayList<>();
-		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(tileBonuses));
+		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new EmptyBonus());
 		Assistant assistant = new Assistant();
 		market.addToMarket(tile);
 		market.addToMarket(assistant);
@@ -69,8 +67,7 @@ public class MarketTest {
 	public void testAddToMarketABPTAndAnAssistant(){
 		Market market = new Market();
 		List<City> cities = new ArrayList<>();
-		List<Bonus> tileBonuses = new ArrayList<>();
-		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(tileBonuses));
+		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new EmptyBonus());
 		Assistant assistant = new Assistant();
 		
 		market.addToMarket(tile);
@@ -107,7 +104,7 @@ public class MarketTest {
 	@Test
 	public void testGetRealSellableWithAnAssistant(){
 		Market market = new Market();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 5, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
 		Assistant assistant = new Assistant();
 		assistant.setPrice(3);
 		assistant.setOwner(player1);
@@ -156,7 +153,7 @@ public class MarketTest {
 	
 	@Test
 	public void testEndMarket(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>()));
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player1 = new Player(1, "Marco", cell, 4, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
 		//created player with 0 assistants and 0 politic cards
 		

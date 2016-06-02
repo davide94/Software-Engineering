@@ -26,6 +26,7 @@ import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.CoinBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
@@ -51,8 +52,8 @@ public class BuildTest {
 	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
 		BusinessPermissionTileDeck bPTDeck = new BusinessPermissionTileDeck(tiles);
 		
 		Balcony balcony = Balcony.createBalcony(4);
@@ -61,24 +62,22 @@ public class BuildTest {
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("blu")));
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("nero")));
 		
-		List<Bonus> bonuses = new ArrayList<>();
-		bonuses.add(new CoinBonus(3));
-		bonuses.add(new AssistantBonus(2));
+		Bonus bonuses = new CoinBonus(new AssistantBonus(new EmptyBonus(), 2), 3);
 		
-		chosenCity = City.createCity("Milano", CityColor.createCityColor("grigio"), new RewardTile(bonuses));
-		otherCity = City.createCity("KingsLanding", CityColor.createCityColor("oro"), new RewardTile(new ArrayList<Bonus>()));
+		chosenCity = City.createCity("Milano", CityColor.createCityColor("grigio"), bonuses);
+		otherCity = City.createCity("KingsLanding", CityColor.createCityColor("oro"), new EmptyBonus());
 		//kingCity = City.createCity("Roma", CityColor.createCityColor("rosso"), new RewardTile(new ArrayList<Bonus>()));
 		//chosenCity.link(kingCity);
 		//kingCity.link(chosenCity);
-		Player player2 = new Player(2, "Ajeje", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
+		Player player2 = new Player(2, "Ajeje", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
 		chosenCity.build(player2);
 		List<City> cities = new ArrayList<>();
 		cities.add(chosenCity);
 		//cities.add(kingCity);
 		cities.add(otherCity);
-		cities.add(City.createCity("Firenze", CityColor.createCityColor("blu"), new RewardTile(new ArrayList<Bonus>())));
-		cities.add(City.createCity("Torino", CityColor.createCityColor("nero"), new RewardTile(new ArrayList<Bonus>())));
-		return Region.createRegion("hills", cities, bPTDeck, balcony, new RewardTile(new ArrayList<Bonus>()));
+		cities.add(City.createCity("Firenze", CityColor.createCityColor("blu"), new EmptyBonus()));
+		cities.add(City.createCity("Torino", CityColor.createCityColor("nero"), new EmptyBonus()));
+		return Region.createRegion("hills", cities, bPTDeck, balcony, new EmptyBonus());
 	}
 
 	@Before
@@ -91,11 +90,11 @@ public class BuildTest {
 		List<Region> regions = new ArrayList<>();
 		region = createRegion();
 		regions.add(region);
-		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())));
-		King king = King.createKing(City.createCity("c1", CityColor.createCityColor("aa"), new RewardTile(new ArrayList<Bonus>())));
+		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new EmptyBonus()));
+		King king = King.createKing(City.createCity("c1", CityColor.createCityColor("aa"), new EmptyBonus()));
 		Market market = new Market();
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
-		Map<CityColor, RewardTile> map = new HashMap<>();
+		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		
 		
@@ -105,11 +104,11 @@ public class BuildTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());*/
 		List<PoliticCard> cards = new ArrayList<PoliticCard>();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, cards, new LinkedList<Assistant>());
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
 		List<City> tileCities = new ArrayList<>();
 		tileCities.add(chosenCity);
 		tileCities.add(otherCity);
-		tileToUse = new BusinessPermissionTile(tileCities, new RewardTile(new ArrayList<Bonus>()));
+		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		player1.addPermissionTile(tileToUse);
 		gameBoard.registerPlayer(player1);
 	}

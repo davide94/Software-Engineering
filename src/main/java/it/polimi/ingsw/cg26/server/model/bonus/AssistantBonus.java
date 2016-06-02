@@ -1,21 +1,22 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.AssistantBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  * 
  */
-public class AssistantBonus extends Bonus {
+public class AssistantBonus extends BonusDecorator {
 
     /**
      * Create an AssistantBonus
      * @param multilplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
      */
-    public AssistantBonus(int multilplicity) {
-    	super(multilplicity);
+    public AssistantBonus(Bonus decoratedBonus, int multilplicity) {
+    	super(decoratedBonus, multilplicity);
     }
 
     /**
@@ -24,6 +25,7 @@ public class AssistantBonus extends Bonus {
      */
     @Override
     public void apply(Player player) {
+    	super.apply(player);
     	for(int i=0; i<this.getMultiplicity(); i++){
         	player.addAssistant(new Assistant());
     	}
@@ -31,7 +33,7 @@ public class AssistantBonus extends Bonus {
 
     @Override
     public BonusDTO getState() {
-        return new BonusDTO("Assistants", getMultiplicity());
+        return new AssistantBonusDTO(super.getState(), getMultiplicity());
     }
 
     @Override
@@ -46,7 +48,7 @@ public class AssistantBonus extends Bonus {
 
     @Override
     public String toString() {
-        return "AssistantBonus{" +
+        return super.toString()+"\nAssistantBonus{" +
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }

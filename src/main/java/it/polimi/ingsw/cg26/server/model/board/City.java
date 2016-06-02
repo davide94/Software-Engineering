@@ -1,11 +1,9 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.*;
@@ -23,21 +21,21 @@ public class City {
 
     private List<Emporium> emporiums;
     
-    private RewardTile reward;
+    private Bonus bonuses;
     
     private List<City> nearCities;
 
-    private City(String name, CityColor color, RewardTile reward, List<Emporium> emporiums, List<City> nearCities) {
-        if (name == null || color == null || reward == null || emporiums == null || nearCities == null)
+    private City(String name, CityColor color, Bonus bonuses, List<Emporium> emporiums, List<City> nearCities) {
+        if (name == null || color == null || bonuses == null || emporiums == null || nearCities == null)
             throw new NullPointerException();
         this.name = name;
         this.color = color;
-        this.reward = reward;
+        this.bonuses = bonuses;
         this.emporiums = emporiums;
         this.nearCities = nearCities;
     }
 
-    public static City createCity(String name, CityColor color, RewardTile bonuses) {
+    public static City createCity(String name, CityColor color, Bonus bonuses) {
         return new City(name, color, bonuses, new ArrayList<>(), new LinkedList<>());
     }
 
@@ -48,7 +46,7 @@ public class City {
         LinkedList<EmporiumDTO> emporiumsState = new LinkedList<>();
         for (Emporium e: emporiums)
             emporiumsState.add(e.getState());
-        return new CityDTO(name, color.getState(), reward.getState(), emporiumsState, nearCitiesState);
+        return new CityDTO(name, color.getState(), bonuses.getState(), emporiumsState, nearCitiesState);
     }
 
     /**
@@ -83,8 +81,8 @@ public class City {
 
 
 	
-	public RewardTile getReward() {
-		return reward;
+	public Bonus getBonuses() {
+		return bonuses;
 	}
 
     public int getEmporiumsNumber() {
@@ -103,23 +101,21 @@ public class City {
      * @param
      */
     private void takeBonus(Player p) {
-        reward.apply(p);
+        bonuses.apply(p);
     }
     
-    
-    
-    
-    
-
+    /**
+     * 
+     * @return
+     */
     public List<City> getNearCities() {
 		return nearCities;
 	}
 
-	
-
 	/**
-     *
-     */
+	 * 
+	 * @param p
+	 */
     private void takeRecursivelyBonus(Player p) {
         LinkedList<City> queue = new LinkedList<>();
         LinkedList<City> taken = new LinkedList<>();
@@ -145,6 +141,9 @@ public class City {
             this.nearCities.add(c);
     }
 
+    /**
+     * 
+     */
     private void initDistance() {
         if (this.distance.isInfinite())
             return;
@@ -153,6 +152,11 @@ public class City {
             city.initDistance();
     }
 
+    /**
+     * 
+     * @param city
+     * @return
+     */
     public int distanceFrom(City city) {
         city.distance = Double.POSITIVE_INFINITY;
         this.initDistance();
@@ -181,7 +185,7 @@ public class City {
                 ", name='" + name + '\'' +
                 ", color=" + color +
                 ", emporiums=" + emporiums +
-                ", reward=" + reward +
+                ", bonuses=" + bonuses +
                 //", nearCities=" + nearCities + // Attenzione che entra in un ciclo infinito se il grafo è ciclico
                 '}';
     }

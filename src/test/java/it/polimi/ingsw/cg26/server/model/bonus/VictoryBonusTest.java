@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -16,22 +16,29 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class VictoryBonusTest {
 
+	private Bonus bonus;
+	
+	@Before
+	public void setUp(){
+		this.bonus = new EmptyBonus();
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithNegativeMultiplicity() {
-		new VictoryBonus(-1);
+		new VictoryBonus(bonus, -1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithZeroMultiplicity() {
-		new VictoryBonus(0);
+		new VictoryBonus(bonus, 0);
 	}
 	
 	@Test
 	public void testApplyVicoryBonusWithMultiplicity5OnPlayerWith0PointsShouldHave5Points(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		VictoryBonus bonus = new VictoryBonus(5);
-		bonus.apply(player);
+		VictoryBonus victoryBonus = new VictoryBonus(bonus, 5);
+		victoryBonus.apply(player);
 		
 		assertEquals(5, player.getVictoryPoints());
 		
@@ -39,11 +46,11 @@ public class VictoryBonusTest {
 	
 	@Test
 	public void testApplyVicoryBonusWithMultiplicity16OnPlayerWith5PointsShouldHave21Points(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		player.addVictoryPoints(5);
-		VictoryBonus bonus = new VictoryBonus(16);
-		bonus.apply(player);
+		VictoryBonus victoryBonus = new VictoryBonus(bonus, 16);
+		victoryBonus.apply(player);
 		
 		assertEquals(21, player.getVictoryPoints());
 		
@@ -51,17 +58,24 @@ public class VictoryBonusTest {
 
 	@Test
 	public void testGetState(){
-		VictoryBonus bonus = new VictoryBonus(7);
-		BonusDTO bonusDTO = bonus.getState();
+		VictoryBonus victoryBonus = new VictoryBonus(bonus, 7);
+		BonusDTO bonusDTO = victoryBonus.getState();
 		
-		assertEquals("Victory points", bonusDTO.getKind());
-		assertEquals(7, bonusDTO.getMultiplicity());
+		assertEquals("\nVictoryBonus{multiplicity=7}", bonusDTO.toString());
 	}
 	
 	@Test
 	public void testToString(){
-		VictoryBonus bonus = new VictoryBonus(3);
+		VictoryBonus victoryBonus = new VictoryBonus(bonus, 3);
 		
-		assertEquals("VictoryBonus{multiplicity=3}", bonus.toString());
+		assertEquals("\nVictoryBonus{multiplicity=3}", victoryBonus.toString());
+	}
+	
+	@Test
+	public void testEquals(){
+		Bonus b1 = new VictoryBonus(new EmptyBonus(), 3);
+		
+		assertFalse(b1.equals(new VictoryBonus(new EmptyBonus(), 5)));
+		assertTrue(b1.equals(new VictoryBonus(new EmptyBonus(), 3)));
 	}
 }

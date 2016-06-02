@@ -2,9 +2,9 @@ package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -59,25 +59,21 @@ public class CityColorsBonusesCreatorTest {
             </cityColorsBonuses>
          */
 
-        Map<CityColor, RewardTile> cityColorsBonuses = CityColorsBonusesCreator.createCityColorsBonuses(root, politicDeck);
+        Map<CityColor, Bonus> cityColorsBonuses = CityColorsBonusesCreator.createCityColorsBonuses(root, politicDeck);
 
-        Map<CityColor, RewardTile> cityColorsBonusesTest = new HashMap<>();
+        Map<CityColor, Bonus> cityColorsBonusesTest = new HashMap<>();
 
-        LinkedList<Bonus> b1 = new LinkedList<>();
-        b1.add(new VictoryBonus(5));
-        cityColorsBonusesTest.put(CityColor.createCityColor("blue"), new RewardTile(b1));
+        Bonus b1 = new VictoryBonus(new EmptyBonus(), 5);
+        cityColorsBonusesTest.put(CityColor.createCityColor("blue"), b1);
 
-        LinkedList<Bonus> b2 = new LinkedList<>();
-        b2.add(new VictoryBonus(8));
-        cityColorsBonusesTest.put(CityColor.createCityColor("red"), new RewardTile(b2));
+        Bonus b2 = new VictoryBonus(new EmptyBonus(), 8);
+        cityColorsBonusesTest.put(CityColor.createCityColor("red"), b2);
 
-        LinkedList<Bonus> b3 = new LinkedList<>();
-        b3.add(new VictoryBonus(12));
-        cityColorsBonusesTest.put(CityColor.createCityColor("grey"), new RewardTile(b3));
+        Bonus b3 = new VictoryBonus(new EmptyBonus(), 12);
+        cityColorsBonusesTest.put(CityColor.createCityColor("grey"), b3);
 
-        LinkedList<Bonus> b4 = new LinkedList<>();
-        b4.add(new VictoryBonus(20));
-        cityColorsBonusesTest.put(CityColor.createCityColor("yellow"), new RewardTile(b4));
+        Bonus b4 = new VictoryBonus(new EmptyBonus(), 20);
+        cityColorsBonusesTest.put(CityColor.createCityColor("yellow"), b4);
 
         assertEquals(cityColorsBonuses, cityColorsBonusesTest);
     }

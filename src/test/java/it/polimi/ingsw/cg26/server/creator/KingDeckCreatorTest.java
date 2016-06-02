@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
@@ -59,24 +60,19 @@ public class KingDeckCreatorTest {
          */
         LinkedList<RewardTile> tiles = new LinkedList<>();
 
-        LinkedList<Bonus> b1 = new LinkedList<>();
-        b1.add(new VictoryBonus(25));
+        Bonus b1 = new VictoryBonus(new EmptyBonus(), 25);
         tiles.add(new RewardTile(b1));
 
-        LinkedList<Bonus> b2 = new LinkedList<>();
-        b2.add(new VictoryBonus(18));
+        Bonus b2 = new VictoryBonus(new EmptyBonus(), 18);
         tiles.add(new RewardTile(b2));
 
-        LinkedList<Bonus> b3 = new LinkedList<>();
-        b3.add(new VictoryBonus(14));
+        Bonus b3 = new VictoryBonus(new EmptyBonus(), 14);
         tiles.add(new RewardTile(b3));
 
-        LinkedList<Bonus> b4 = new LinkedList<>();
-        b4.add(new VictoryBonus(8));
+        Bonus b4 = new VictoryBonus(new EmptyBonus(), 8);
         tiles.add(new RewardTile(b4));
 
-        LinkedList<Bonus> b5 = new LinkedList<>();
-        b5.add(new VictoryBonus(5));
+        Bonus b5 = new VictoryBonus(new EmptyBonus(), 5);
         tiles.add(new RewardTile(b5));
 
         assertEquals(new KingDeck(tiles), KingDeckCreator.createKingDeck(root, politicDeck));

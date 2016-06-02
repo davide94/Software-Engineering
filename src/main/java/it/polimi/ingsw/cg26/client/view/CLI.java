@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.client.view;
 import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 
 import java.io.*;
@@ -24,7 +25,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private boolean isMyTurn;
 
-    private Consumer<BonusDTO> bonusPrinter = e -> writer.print(e.getMultiplicity() + " " + e.getKind());
+    private Consumer<BonusDTO> bonusPrinter = e -> writer.print(e.toString());
 
     private Consumer<CouncillorDTO> councillorPrinter = e -> writer.print(e.getColor().toString());
 
@@ -33,10 +34,8 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     private Consumer<BusinessPermissionTileDTO> bptPrinter = e -> {
         e.getCities().forEach(c -> writer.print(c.toUpperCase().charAt(0) + "/"));
         writer.print("\t\t");
-        e.getReward().getBonuses().forEach(b -> {
-            bonusPrinter.accept(b);
-            writer.print(", ");
-        });
+        bonusPrinter.accept(e.getBonuses());
+        writer.print(", ");
     }; // TODO fix
 
     private Consumer<PlayerDTO> playerPrinter = p -> {

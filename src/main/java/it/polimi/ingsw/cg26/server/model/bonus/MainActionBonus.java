@@ -1,20 +1,22 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.MainActionBonsDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  * 
  */
-public class MainActionBonus extends Bonus {
+public class MainActionBonus extends BonusDecorator {
 
     /**
      * Create a MainActionBonus
+     * @param decoratedBonus the bonus to be decorated
      * @param multilplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
      */
-    public MainActionBonus(int multilplicity) {
-    	super(multilplicity);
+    public MainActionBonus(Bonus decoratedBonus, int multilplicity) {
+    	super(decoratedBonus, multilplicity);
     }
 
     /**
@@ -23,12 +25,13 @@ public class MainActionBonus extends Bonus {
      */
     @Override
     public void apply(Player player) {
+    	super.apply(player);
         player.addRemainingMainActions(getMultiplicity());
     }
 
     @Override
     public BonusDTO getState() {
-        return new BonusDTO("Additional main actions", getMultiplicity());
+        return new MainActionBonsDTO(super.getState(), getMultiplicity());
     }
 
     @Override
@@ -43,7 +46,7 @@ public class MainActionBonus extends Bonus {
 
     @Override
     public String toString() {
-        return "MainActionBonus{" +
+        return super.toString()+"\nMainActionBonus{" +
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }

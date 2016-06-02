@@ -1,56 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 
-/**
- * 
- */
-public abstract class Bonus {
+public interface Bonus {
 
-    /**
-     * Number of times that the bonus has to be applied
-     */
-    private final int multiplicity;
+	public void apply(Player player);
 	
-    /**
-     * Create the bonus
-     * @param multiplicity of the bonus
-     * @throws IllegalArgumentException if the multiplicity is less than 1
-     */
-    public Bonus(int multiplicity) {
-    	if(multiplicity < 1)
-    		throw new IllegalArgumentException();
-    	this.multiplicity=multiplicity;
-    }
-
-	/**
-	 * @return the multiplicity of the bonus
-	 */
-	public int getMultiplicity() {
-		return multiplicity;
-	}
-	
-    /**
-     * @param player the player to apply the bonus
-     */
-    public abstract void apply(Player player);
-
-    public abstract BonusDTO getState();
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Bonus bonus = (Bonus) o;
-
-		return multiplicity == bonus.multiplicity;
-
-	}
-
-	@Override
-	public int hashCode() {
-		return multiplicity;
-	}
+	public BonusDTO getState();
 }

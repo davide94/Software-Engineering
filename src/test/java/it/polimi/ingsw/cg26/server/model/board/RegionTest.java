@@ -5,17 +5,16 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
-import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -30,20 +29,13 @@ public class RegionTest {
 	private City lecce;
 	private Collection<City> cities;
 	private Balcony balcony;
-	private RewardTile premio;
 	
-	private List<Bonus> bonuses1;
-	private List<Bonus> bonuses2;
-	private List<Bonus> bonuses3;
-	private List<Bonus> bonuses4;
-	private List<Bonus> bonuses5;
-	private List<Bonus> bonusesRegion;
-	
-	private RewardTile tile1;
-	private RewardTile tile2;
-	private RewardTile tile3;
-	private RewardTile tile4;
-	private RewardTile tile5;
+	private Bonus bonuses1;
+	private Bonus bonuses2;
+	private Bonus bonuses3;
+	private Bonus bonuses4;
+	private Bonus bonuses5;
+	private Bonus bonusesRegion;
 	
 	private Collection<BusinessPermissionTile> cards;
 	private BusinessPermissionTileDeck deck;
@@ -52,34 +44,23 @@ public class RegionTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		 bonuses1=new LinkedList<>();
-		 bonuses2=new LinkedList<>();
-		 bonuses3=new LinkedList<>();
-		 bonuses4=new LinkedList<>();
-		 bonuses5=new LinkedList<>();
-		 bonusesRegion=new LinkedList<>();
-		 bonusesRegion.add(new VictoryBonus(5));
-		 
-		 
-		 tile1=new RewardTile(bonuses1);
-		 tile2=new RewardTile(bonuses2);
-		 tile3=new RewardTile(bonuses3);
-		 tile4=new RewardTile(bonuses4);
-		 tile5=new RewardTile(bonuses5);
-		 
-		
+		 bonuses1=new EmptyBonus();
+		 bonuses2=new EmptyBonus();
+		 bonuses3=new EmptyBonus();
+		 bonuses4=new EmptyBonus();
+		 bonuses5=new EmptyBonus();
+		 bonusesRegion=new VictoryBonus(new EmptyBonus(), 5);
 		
 		cards= new LinkedList<BusinessPermissionTile>();
 		deck= new BusinessPermissionTileDeck(cards);
 		
 		balcony= Balcony.createBalcony(4);
-		premio= new RewardTile(bonusesRegion);
 		
-		foggia = City.createCity("Foggia", CityColor.createCityColor("nero"), tile1);
-		bari = City.createCity("Bari", CityColor.createCityColor("bianco"), tile2);
-		brindisi = City.createCity("Brindisi", CityColor.createCityColor("blu"), tile3);
-		taranto = City.createCity("Taranto", CityColor.createCityColor("rosso"), tile4);
-		lecce = City.createCity("Lecce", CityColor.createCityColor("giallo"), tile5);
+		foggia = City.createCity("Foggia", CityColor.createCityColor("nero"), bonuses1);
+		bari = City.createCity("Bari", CityColor.createCityColor("bianco"), bonuses2);
+		brindisi = City.createCity("Brindisi", CityColor.createCityColor("blu"), bonuses3);
+		taranto = City.createCity("Taranto", CityColor.createCityColor("rosso"), bonuses4);
+		lecce = City.createCity("Lecce", CityColor.createCityColor("giallo"), bonuses5);
 		
 		cities= new LinkedList<>();
 		cities.add(foggia);
@@ -88,7 +69,7 @@ public class RegionTest {
 		cities.add(taranto);
 		cities.add(lecce);
 		
-		Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new RewardTile(new LinkedList<Bonus>())), 10, new LinkedList<>(), new LinkedList<>());
+		Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new EmptyBonus()), 10, new LinkedList<>(), new LinkedList<>());
 		
 		
 	}
@@ -98,7 +79,7 @@ public class RegionTest {
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateRegionIfNameIsNull() {
 		
-		Region.createRegion(null, cities, deck, balcony, premio);
+		Region.createRegion(null, cities, deck, balcony, bonusesRegion);
 		
 	}
 	
@@ -106,7 +87,7 @@ public class RegionTest {
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateRegionIfTheListOfCitiesIsNull() {
 		
-		Region.createRegion("Puglia", null, deck, balcony, premio);
+		Region.createRegion("Puglia", null, deck, balcony, bonusesRegion);
 		
 	}
 	
@@ -115,7 +96,7 @@ public class RegionTest {
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateRegionIfBPTDeckIsNull() {
 		
-		Region.createRegion("Puglia", cities, null, balcony, premio);
+		Region.createRegion("Puglia", cities, null, balcony, bonusesRegion);
 	}
 	
 	
@@ -123,7 +104,7 @@ public class RegionTest {
 	@Test (expected=NullPointerException.class)
 	public void testShouldNotCreateRegionIfBalconyIsNull() {
 		
-		Region.createRegion("Puglia", cities, deck, null, premio);
+		Region.createRegion("Puglia", cities, deck, null, bonusesRegion);
 	}
 	
 	
@@ -139,7 +120,7 @@ public class RegionTest {
 	@Test
 	public void testShouldCreateRegion() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		
 		assertNotNull(puglia);
 		
@@ -150,7 +131,7 @@ public class RegionTest {
 
 	@Test
 	public void testCheckRegionBonusesIsFalseBecauseThereAreNotEmporiumInCities() {
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		
 		assertFalse(puglia.checkRegionBonuses(Luca));
 		
@@ -162,7 +143,7 @@ public class RegionTest {
 	
 	@Test
 	public void testCheckRegionBonusesIsFalseBecauseThereAreNoEnoughEmporiumsInCities() {
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		foggia.build(Luca);
 		lecce.build(Luca);
 		
@@ -174,7 +155,7 @@ public class RegionTest {
 	@Test
 	public void testCheckRegionBonusesIsTrueBecauseThereAreAllTheEmporiums() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		
 		foggia.build(Luca);
 		lecce.build(Luca);
@@ -194,9 +175,9 @@ public class RegionTest {
 
 	@Test
 	public void testGetRegionBonus() { 
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		
-		assertEquals(puglia.getRegionBonus(), premio);
+		assertEquals(puglia.getRegionBonus(), bonusesRegion);
 		
 	}
 		
@@ -205,7 +186,7 @@ public class RegionTest {
 
 	@Test
 	public void testGetCities() {
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		
 		assertEquals(puglia.getCities(), cities);
 		
@@ -215,13 +196,13 @@ public class RegionTest {
 
 	@Test
 	public void testGetCity() {
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 		Collection<EmporiumDTO> emporiums= new ArrayList<>();
 		Collection<String> strings= new LinkedList<>();
-		Collection<BonusDTO> bonuses= new ArrayList<>();
+		BonusDTO bonuses= new EmptyBonusDTO();
 
-		CityDTO requiredCity= new CityDTO("Lecce", new CityColorDTO("marrone"),new RewardTileDTO (bonuses), emporiums, strings);
+		CityDTO requiredCity= new CityDTO("Lecce", new CityColorDTO("marrone"), bonuses, emporiums, strings);
 
 		assertEquals(puglia.getCity(requiredCity), lecce);
 
@@ -229,7 +210,7 @@ public class RegionTest {
 
 	@Test
 	public void testGetBalcony() {
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 		assertEquals(puglia.getBalcony(), balcony);
 
@@ -240,7 +221,7 @@ public class RegionTest {
 	@Test
 	public void testGetBPTDeck() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 		assertEquals(puglia.getBPTDeck(), deck);
 
@@ -249,7 +230,7 @@ public class RegionTest {
 	@Test
 	public void testGetName() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 		assertEquals(puglia.getName(), "Puglia");
 
@@ -260,7 +241,7 @@ public class RegionTest {
 	@Test
 	public void testHashCode() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 
 
@@ -275,14 +256,14 @@ public class RegionTest {
 	@Test
 	public void testToString() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 		assertEquals(puglia.toString(), "Region{" +
 				"name='" + "Puglia" + '\'' +
 				", cities=" + cities +
 				", balcony=" + balcony +
 				", deck=" + deck +
-				", bonus=" + premio +
+				", bonus=" + bonusesRegion +
 				'}');
 
 	}
@@ -293,14 +274,14 @@ public class RegionTest {
 	@Test
 	public void testGetState() {
 		
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 
 		RegionDTO pugliaDTO= puglia.getState();
 		LinkedList<CityDTO> citiesState = new LinkedList<>();
 		for (City c: cities)
 			citiesState.add(c.getState());
 
-		RegionDTO regionTest = new RegionDTO("Puglia", citiesState, deck.getState(), balcony.getState(), premio.getState());
+		RegionDTO regionTest = new RegionDTO("Puglia", citiesState, deck.getState(), balcony.getState(), bonusesRegion.getState());
 		System.out.println(pugliaDTO);
 		System.out.println(regionTest);
 		assertEquals(pugliaDTO, regionTest);
@@ -313,8 +294,8 @@ public class RegionTest {
 	@Test
 	public void testEqualsObject() {
 
-		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, premio);
-		Region puglia2=Region.createRegion("Puglia", cities, deck, balcony, premio);
+		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
+		Region puglia2=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		Region Molise=null;
 
 		assertEquals(puglia, puglia2);

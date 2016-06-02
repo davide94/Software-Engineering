@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.AssistantBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CardBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,23 +23,22 @@ public class RegionDTOTest {
     private LinkedList<CityDTO> cities;
     private BusinessPermissionTileDeckDTO deck;
     private BalconyDTO balcony;
-    private RewardTileDTO bonus;
+    private BonusDTO bonus;
 
     @Before
     public void setUp() throws Exception {
         name = "regionName";
         cities = new LinkedList<>();
         CityColorDTO color = new CityColorDTO("colorName");
-        LinkedList<BonusDTO> bonuses = new LinkedList<>();
-        bonuses.add(new BonusDTO("bonus1Name", 3));
+        BonusDTO cityBonuses = new AssistantBonusDTO(new EmptyBonusDTO(), 2);
         LinkedList<EmporiumDTO> emporiums = new LinkedList<>();
         emporiums.add(new EmporiumDTO("aPlayerName"));
         LinkedList<String> nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
-        cities.add(new CityDTO("cityName", color, new RewardTileDTO(bonuses), emporiums, nearCities));
+        cities.add(new CityDTO("cityName", color, cityBonuses, emporiums, nearCities));
         deck = new BusinessPermissionTileDeckDTO(new LinkedList<>());
         balcony = new BalconyDTO(new LinkedList<>());
-        bonus = new RewardTileDTO(new LinkedList<>());
+        bonus = new EmptyBonusDTO();
         region = new RegionDTO(name, cities, deck, balcony, bonus);
     }
 
@@ -115,9 +117,8 @@ public class RegionDTOTest {
         LinkedList<String > c = new LinkedList<>();
         c.add("city1Name");
         c.add("city2Name");
-        LinkedList<BonusDTO> b = new LinkedList<>();
-        b.add(new BonusDTO("bonusName", 6));
-        cards.add(new BusinessPermissionTileDTO(c, new RewardTileDTO(b), 0, "playerName"));
+        BonusDTO b = new CardBonusDTO(new EmptyBonusDTO(), 3);
+        cards.add(new BusinessPermissionTileDTO(c, b, 0, "playerName"));
         BusinessPermissionTileDeckDTO d = new BusinessPermissionTileDeckDTO(cards);
         region.setDeck(d);
         assertEquals(region.getDeck(), d);
@@ -144,13 +145,12 @@ public class RegionDTOTest {
         LinkedList<CityDTO> c = new LinkedList<>();
 
         CityColorDTO color = new CityColorDTO("colorName");
-        LinkedList<BonusDTO> bonuses = new LinkedList<>();
-        bonuses.add(new BonusDTO("bonus1Name", 3));
+        BonusDTO cityBonuses = new AssistantBonusDTO(new EmptyBonusDTO(), 2);
         LinkedList<EmporiumDTO> emporiums = new LinkedList<>();
         emporiums.add(new EmporiumDTO("aPlayerName"));
         LinkedList<String> nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
-        c.add(new CityDTO("othercityName", color, new RewardTileDTO(bonuses), emporiums, nearCities));
+        c.add(new CityDTO("othercityName", color, cityBonuses, emporiums, nearCities));
 
         assertTrue(region.equals(region));
         assertTrue(region.equals(new RegionDTO(name, cities, deck, balcony, bonus)));

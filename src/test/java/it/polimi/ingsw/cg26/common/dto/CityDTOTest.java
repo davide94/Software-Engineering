@@ -1,5 +1,9 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.NobilityBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.VictoryBonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,16 +20,14 @@ public class CityDTOTest {
     private CityDTO city;
 
     private CityColorDTO color;
-    private RewardTileDTO bonuses;
+    private BonusDTO bonuses;
     private LinkedList<EmporiumDTO> emporiums;
     private LinkedList<String> nearCities;
 
     @Before
     public void setUp() throws Exception {
         color = new CityColorDTO("colorName");
-        LinkedList<BonusDTO> bonusesList = new LinkedList<>();
-        bonusesList.add(new BonusDTO("bonus1Name", 3));
-        bonuses = new RewardTileDTO(bonusesList);
+        bonuses = new VictoryBonusDTO(new EmptyBonusDTO(), 4);
         emporiums = new LinkedList<>();
         emporiums.add(new EmporiumDTO("aPlayerName"));
         nearCities = new LinkedList<>();
@@ -94,7 +96,7 @@ public class CityDTOTest {
 
     @Test
     public void testGetBonuses() throws Exception {
-        assertEquals(city.getReward(), bonuses);
+        assertEquals(city.getBonuses(), bonuses);
     }
 
     @Test
@@ -109,8 +111,7 @@ public class CityDTOTest {
 
     @Test
     public void testEquals() throws Exception {
-        LinkedList<BonusDTO> b = new LinkedList<>();
-        b.add(new BonusDTO("bonus2Name", 3));
+        BonusDTO b = new NobilityBonusDTO(new EmptyBonusDTO(), 5);
         LinkedList<EmporiumDTO> e = new LinkedList<>();
         e.add(new EmporiumDTO("otherPlayerName"));
         LinkedList<String> c = new LinkedList<>();
@@ -119,7 +120,7 @@ public class CityDTOTest {
         assertTrue(city.equals(new CityDTO("cityName", color, bonuses, emporiums, nearCities)));
         assertFalse(city.equals(new CityDTO("otherCityName", color, bonuses, emporiums, nearCities)));
         assertFalse(city.equals(new CityDTO("cityName", new CityColorDTO("otherColorName"), bonuses, emporiums, nearCities)));
-        assertFalse(city.equals(new CityDTO("cityName", color, new RewardTileDTO(b), emporiums, nearCities)));
+        assertFalse(city.equals(new CityDTO("cityName", color, b, emporiums, nearCities)));
         assertFalse(city.equals(new CityDTO("cityName", color, bonuses, e, nearCities)));
         assertFalse(city.equals(new CityDTO("cityName", color, bonuses, emporiums, c)));
         assertFalse(city.equals(null));

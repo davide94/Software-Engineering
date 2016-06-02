@@ -2,11 +2,11 @@ package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -83,11 +83,10 @@ public class BusinessPermitTileDeckCreatorTest {
 
         Collection<BusinessPermissionTile> tiles = new LinkedList<>();
 
-        LinkedList<Bonus> bonuses = new LinkedList<Bonus>();
-        bonuses.add(new VictoryBonus(7));
+        Bonus bonuses = new VictoryBonus(new EmptyBonus(), 7);
         LinkedList<City> tileCities = new LinkedList<>();
         tileCities.add(cities.get(0));
-        tiles.add(new BusinessPermissionTile(tileCities, new RewardTile(bonuses)));
+        tiles.add(new BusinessPermissionTile(tileCities, bonuses));
 
         BusinessPermissionTileDeck deck1 = new BusinessPermissionTileDeck(tiles);
         assertEquals(deck, deck1);

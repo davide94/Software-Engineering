@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.model.board.City;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -22,7 +23,7 @@ public class BusinessPermissionTile extends Sellable {
     /**
      * Collection of bonuses that the tile makes you earn
      */
-    private RewardTile reward;
+    private Bonus bonuses;
 
     /**
      * Constructs a Business Permit Tile
@@ -30,11 +31,11 @@ public class BusinessPermissionTile extends Sellable {
      * @param reward is reward tile that the tile makes you earn
      * @throws NullPointerException if cities or bonuses are null
      */
-    public BusinessPermissionTile(Collection<City> cities, RewardTile reward) {
-        if (cities == null || reward == null)
+    public BusinessPermissionTile(Collection<City> cities, Bonus bonuses) {
+        if (cities == null || bonuses == null)
             throw new NullPointerException();
         this.cities = new LinkedList<>(cities);
-        this.reward = reward;
+        this.bonuses = bonuses;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class BusinessPermissionTile extends Sellable {
         String name = "none";
         if (owner != null)
             name = owner.getName();
-        return new BusinessPermissionTileDTO(citiesState, reward.getState(), this.getPrice(), name);
+        return new BusinessPermissionTileDTO(citiesState, bonuses.getState(), this.getPrice(), name);
     }
 
     /**
@@ -66,7 +67,7 @@ public class BusinessPermissionTile extends Sellable {
     }
 
     public void getReward(Player p) {
-        reward.apply(p);
+        bonuses.apply(p);
     }
 
     /**
@@ -111,7 +112,7 @@ public class BusinessPermissionTile extends Sellable {
     public String toString() {
         return "BusinessPermissionTile{" +
                 "cities=" + cities +
-                ", reward=" + reward +
+                ", bonuses=" + bonuses +
                 '}';
     }
 }

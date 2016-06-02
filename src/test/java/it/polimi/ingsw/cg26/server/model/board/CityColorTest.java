@@ -2,15 +2,12 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import static org.junit.Assert.*;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 
 public class CityColorTest {
 	
@@ -100,8 +97,8 @@ public class CityColorTest {
 		CityColor viola= CityColor.createCityColor("viola");
 		CityColor verde=null;
 		CityColor giallo2=null;
-		List<Bonus> bonuses= new LinkedList<>();
-		City rosa=City.createCity("Torino", CityColor.createCityColor("rosa"), new RewardTile(bonuses));
+		Bonus bonuses= new EmptyBonus();
+		City rosa=City.createCity("Torino", CityColor.createCityColor("rosa"), bonuses);
 		
 		
 		

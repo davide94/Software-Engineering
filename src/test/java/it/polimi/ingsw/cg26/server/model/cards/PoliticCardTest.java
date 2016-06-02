@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
@@ -32,8 +32,8 @@ public class PoliticCardTest {
     public void testGetState() throws Exception {
         card.getState();
 
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new EmptyBonus());
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new EmptyBonus());
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();
@@ -56,8 +56,8 @@ public class PoliticCardTest {
 
     @Test
     public void testBackToOwner() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new EmptyBonus());
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new EmptyBonus());
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();

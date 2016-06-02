@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,7 +18,7 @@ public class CityDTO implements Serializable {
 
     private Collection<EmporiumDTO> emporiums;
 
-    private final RewardTileDTO reward;
+    private final BonusDTO bonuses;
 
     private final Collection<String> nearCities;
 
@@ -32,14 +32,14 @@ public class CityDTO implements Serializable {
      * @throws NullPointerException if any of the parameters is null
      * @throws IllegalArgumentException if name is empty
      */
-    public CityDTO(String name, CityColorDTO color, RewardTileDTO reward, Collection<EmporiumDTO> emporiums, Collection<String> nearCities) {
-        if (name == null || color == null || reward == null || emporiums == null || nearCities == null)
+    public CityDTO(String name, CityColorDTO color, BonusDTO bonuses, Collection<EmporiumDTO> emporiums, Collection<String> nearCities) {
+        if (name == null || color == null || bonuses == null || emporiums == null || nearCities == null)
             throw new NullPointerException();
         if (name.isEmpty())
             throw new IllegalArgumentException();
         this.name = name;
         this.color = color;
-        this.reward = reward;
+        this.bonuses = bonuses;
         this.emporiums = emporiums;
         this.nearCities = nearCities;
     }
@@ -80,11 +80,11 @@ public class CityDTO implements Serializable {
     }
 
     /**
-     * Returns a collection of Bonuses DTO
+     * Returns a collection decorated bonus DTO
      * @return a collection of Bonuses DTO
      */
-    public RewardTileDTO getReward() {
-        return reward;
+    public BonusDTO getBonuses() {
+        return this.bonuses;
     }
 
     /**
@@ -97,15 +97,21 @@ public class CityDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) 
+        	return true;
+        if (o == null || getClass() != o.getClass()) 
+        	return false;
 
         CityDTO cityDTO = (CityDTO) o;
 
-        if (name != null ? !name.equals(cityDTO.name) : cityDTO.name != null) return false;
-        if (color != null ? !color.equals(cityDTO.color) : cityDTO.color != null) return false;
-        if (emporiums != null ? !emporiums.equals(cityDTO.emporiums) : cityDTO.emporiums != null) return false;
-        if (reward != null ? !reward.equals(cityDTO.reward) : cityDTO.reward != null) return false;
+        if (name != null ? !name.equals(cityDTO.name) : cityDTO.name != null) 
+        	return false;
+        if (color != null ? !color.equals(cityDTO.color) : cityDTO.color != null) 
+        	return false;
+        if (emporiums != null ? !emporiums.equals(cityDTO.emporiums) : cityDTO.emporiums != null) 
+        	return false;
+        if (bonuses != null ? !bonuses.equals(cityDTO.bonuses) : cityDTO.bonuses != null) 
+        	return false;
         return nearCities != null ? nearCities.equals(cityDTO.nearCities) : cityDTO.nearCities == null;
 
     }
@@ -115,7 +121,7 @@ public class CityDTO implements Serializable {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (emporiums != null ? emporiums.hashCode() : 0);
-        result = 31 * result + (reward != null ? reward.hashCode() : 0);
+        result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
         result = 31 * result + (nearCities != null ? nearCities.hashCode() : 0);
         return result;
     }
@@ -126,7 +132,7 @@ public class CityDTO implements Serializable {
                 "name='" + name + '\'' +
                 ", color=" + color +
                 ", emporiums=" + emporiums +
-                ", reward=" + reward +
+                ", bonuses=" + bonuses +
                 ", nearCities=" + nearCities +
                 '}';
     }

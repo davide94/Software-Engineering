@@ -2,16 +2,9 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import static org.junit.Assert.*;
 
-
-import java.util.LinkedList;
-import java.util.List;
-
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Test;
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
-import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
-import it.polimi.ingsw.cg26.common.dto.NobilityTrackDTO;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 
 public class NobilityTrackTest {
 	
@@ -29,9 +22,7 @@ public class NobilityTrackTest {
 	
 	@Test 
 	public void testShouldCreateNobilityTrack() {
-		List<Bonus> bonuses1;
-		bonuses1= new LinkedList<>();
-	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new RewardTile(bonuses1));
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 	    
 	    assertNotNull(NobilityTrack.createNobilityTrack(cell1));
 	    
@@ -41,9 +32,7 @@ public class NobilityTrackTest {
 	
 	@Test
 	public void testGetState() {
-		List<Bonus> bonuses1;
-		bonuses1= new LinkedList<>();
-	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new RewardTile(bonuses1));
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 	    NobilityTrack track= NobilityTrack.createNobilityTrack(cell1);
 	   
 	    
@@ -62,10 +51,7 @@ public class NobilityTrackTest {
 
 	@Test
 	public void testGetFirstCell() {
-		
-		List<Bonus> bonuses1;
-		bonuses1= new LinkedList<>();
-	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new RewardTile(bonuses1));
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 	    NobilityTrack track= NobilityTrack.createNobilityTrack(cell1);
 	    
 	    

@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -16,48 +16,54 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class MainActionBonusTest {
 
+	private Bonus bonus;
+	
+	@Before
+	public void setUp(){
+		this.bonus = new EmptyBonus();
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithNegativeMultiplicity() {
-		new MainActionBonus(-1);
+		new MainActionBonus(bonus, -1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithZeroMultiplicity() {
-		new MainActionBonus(0);
+		new MainActionBonus(bonus, 0);
 	}
 	
 	@Test
 	public void testApplyOneMoreActionToAPlayerThatHasArleadyOneMainActionToDo(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		MainActionBonus bonus = new MainActionBonus(1);
-		bonus.apply(player);
+		MainActionBonus mainBonus = new MainActionBonus(bonus, 1);
+		mainBonus.apply(player);
 		assertEquals(player.canPerformMainAction(), true);
 	}
 	
 	@Test
 	public void testApplyOneMoreActionToAPlayerThatHasAlreadyOneMainActionToDoAndPerform2MainActionShuldntBePossibleToPerformAnotherOne(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		MainActionBonus bonus = new MainActionBonus(1);
-		bonus.apply(player);
+		MainActionBonus mainBonus = new MainActionBonus(bonus, 1);
+		mainBonus.apply(player);
 		player.performMainAction();
 		assertEquals(false, player.canPerformMainAction());
 	}
 
 	@Test
 	public void testGetState(){
-		MainActionBonus bonus = new MainActionBonus(3);
-		BonusDTO bonusDTO = bonus.getState();
+		MainActionBonus mainBonus = new MainActionBonus(bonus, 3);
+		BonusDTO bonusDTO = mainBonus.getState();
 		
-		assertEquals("Additional main actions", bonusDTO.getKind());
-		assertEquals(3, bonusDTO.getMultiplicity());
+		assertEquals("\nMainActionBonus{multiplicity=3}", bonusDTO.toString());
 	}
 	
 	@Test
 	public void testToString(){
-		MainActionBonus bonus = new MainActionBonus(2);
+		MainActionBonus mainBonus = new MainActionBonus(bonus, 2);
 		
-		assertEquals("MainActionBonus{multiplicity=2}", bonus.toString());
+		assertEquals("\nMainActionBonus{multiplicity=2}", mainBonus.toString());
 	}
 }

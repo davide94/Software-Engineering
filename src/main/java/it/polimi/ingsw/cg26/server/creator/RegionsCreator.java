@@ -4,9 +4,9 @@ import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
 import it.polimi.ingsw.cg26.server.model.board.Region;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 
 import org.w3c.dom.Node;
 
@@ -40,7 +40,7 @@ public class RegionsCreator {
         String name = Creator.getAttribute(root, "name");
         BusinessPermissionTileDeck tilesDeck = BusinessPermitTileDeckCreator.createDeck(Creator.getNode(root, "permissionTiles"), cities, politicDeck);
         Balcony balcony = BalconyCreator.createBalcony(councillors);
-        RewardTile bonus = BonusesCreator.createBonus(Creator.getNode(root, "bonus"), politicDeck);
+        Bonus bonus = BonusesCreator.createBonus(Creator.getNode(root, "bonus"), politicDeck);
         return Region.createRegion(name, cities, tilesDeck, balcony, bonus);
     }
 

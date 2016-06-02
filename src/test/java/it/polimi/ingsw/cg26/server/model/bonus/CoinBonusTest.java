@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -19,44 +19,50 @@ import java.util.LinkedList;
  */
 public class CoinBonusTest {
 
+	private Bonus bonus;
+	
+	@Before
+	public void setUp(){
+		this.bonus = new EmptyBonus();
+	}
+	
     @Test
     public void thestCreate() {
-        assertNotNull("Not possible", new CoinBonus(100));
+        assertNotNull("Not possible", new CoinBonus(bonus, 100));
     }
 
     @Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithNegativeMultiplicity() {
-		new CoinBonus(-1);
+		new CoinBonus(bonus, -1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithZeroMultiplicity() {
-		new CoinBonus(0);
+		new CoinBonus(bonus, 0);
 	}
 	
 	@Test
 	public void testApplyCoinBonusWithMultiplicity6ToAPlayerWith2CoinsShouldAtTheEndHave8Coins(){
-		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<>()));
+		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		CoinBonus bonus = new CoinBonus(6);
-		bonus.apply(player);
+		CoinBonus coinBonus = new CoinBonus(bonus, 6);
+		coinBonus.apply(player);
 		
 		assertEquals(8, player.getCoinsNumber());
 	}
 	
 	@Test
 	public void testGetState(){
-		CoinBonus bonus = new CoinBonus(3);
-		BonusDTO bonusDTO = bonus.getState();
+		CoinBonus coinBonus = new CoinBonus(bonus, 3);
+		BonusDTO bonusDTO = coinBonus.getState();
 		
-		assertEquals("Coins", bonusDTO.getKind());
-		assertEquals(3, bonusDTO.getMultiplicity());
+		assertEquals("\nCoinBonus{multiplicity=3}", bonusDTO.toString());
 	}
 	
 	@Test
 	public void testToString(){
-		CoinBonus bonus = new CoinBonus(5);
+		CoinBonus coinBonus = new CoinBonus(bonus, 5);
 		
-		assertEquals("CoinBonus{multiplicity=5}", bonus.toString());
+		assertEquals("\nCoinBonus{multiplicity=5}", coinBonus.toString());
 	}
 }

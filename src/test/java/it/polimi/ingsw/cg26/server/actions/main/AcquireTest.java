@@ -27,6 +27,7 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
@@ -48,8 +49,8 @@ public class AcquireTest {
 	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
 		BusinessPermissionTileDeck bPTDeck = new BusinessPermissionTileDeck(tiles);
 		
 		Balcony balcony = Balcony.createBalcony(4);
@@ -57,7 +58,7 @@ public class AcquireTest {
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("verde")));
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("blu")));
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("nero")));
-		return Region.createRegion("hills", new ArrayList<City>(), bPTDeck, balcony, new RewardTile(new ArrayList<Bonus>()));
+		return Region.createRegion("hills", new ArrayList<City>(), bPTDeck, balcony, new EmptyBonus());
 	}
 	
 	private List<PoliticCard> createPlayersCards(){
@@ -80,11 +81,11 @@ public class AcquireTest {
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		List<Region> regions = new ArrayList<>();
-		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())));
-		King king = King.createKing(City.createCity("Milano", CityColor.createCityColor("Oro"), new RewardTile(new ArrayList<Bonus>())));
+		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new EmptyBonus()));
+		King king = King.createKing(City.createCity("Milano", CityColor.createCityColor("Oro"), new EmptyBonus()));
 		Market market = new Market();
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
-		Map<CityColor, RewardTile> map = new HashMap<>();
+		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		region = createRegion();
 		regions.add(region);
@@ -95,7 +96,7 @@ public class AcquireTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
 		cards = createPlayersCards();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, cards, assistants);
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, assistants);
 		gameBoard.registerPlayer(player1);
 	}
 	

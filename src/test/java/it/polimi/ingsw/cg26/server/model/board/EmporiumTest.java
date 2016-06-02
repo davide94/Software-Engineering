@@ -5,11 +5,10 @@ import static org.junit.Assert.*;
 import java.util.LinkedList;
 
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class EmporiumTest {
@@ -23,10 +22,10 @@ public class EmporiumTest {
 	 @Before
 	    public void setUp() throws Exception {
 		 
-		 Davide=new Player(1234, "Davide", NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>())), 10, new LinkedList<>(), new LinkedList<>());
-		 Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new RewardTile(new LinkedList<Bonus>())), 11, new LinkedList<>(), new LinkedList<>());
+		 Davide=new Player(1234, "Davide", NobilityCell.createNobilityCell(10, null, new EmptyBonus()), 10, new LinkedList<>(), new LinkedList<>());
+		 Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new EmptyBonus()), 11, new LinkedList<>(), new LinkedList<>());
 		 empDavide= Emporium.createEmporium(Davide);
-		 Gianni=new Player(1234, "Gianni", NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>())), 10, new LinkedList<>(), new LinkedList<>());
+		 Gianni=new Player(1234, "Gianni", NobilityCell.createNobilityCell(10, null, new EmptyBonus()), 10, new LinkedList<>(), new LinkedList<>());
 		 state= new EmporiumDTO("Gianni");
 	 }
 	

@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg26.common.dto;
 import java.io.Serializable;
 import java.util.Collection;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+
 /**
  *
  */
@@ -18,7 +20,7 @@ public class RegionDTO implements Serializable {
 
     private BusinessPermissionTileDeckDTO deck;
 
-    private final RewardTileDTO bonus;
+    private final BonusDTO bonus;
 
 	/**
 	 * Constructs a Region DTO object
@@ -30,7 +32,7 @@ public class RegionDTO implements Serializable {
 	 * @throws NullPointerException if any parameter is null
 	 * @throws IllegalArgumentException if name is empty
      */
-    public RegionDTO(String name, Collection<CityDTO> cities, BusinessPermissionTileDeckDTO deck, BalconyDTO balcony, RewardTileDTO bonus) {
+    public RegionDTO(String name, Collection<CityDTO> cities, BusinessPermissionTileDeckDTO deck, BalconyDTO balcony, BonusDTO bonus) {
         if (name.isEmpty())
 			throw new IllegalArgumentException();
 		if (cities == null || deck == null || balcony == null || bonus == null)
@@ -100,7 +102,7 @@ public class RegionDTO implements Serializable {
 	 * Returns a Reward Tile DTO
 	 * @return a Reward Tile DTO
      */
-    public RewardTileDTO getBonus() {
+    public BonusDTO getBonus() {
         return bonus;
     }
 

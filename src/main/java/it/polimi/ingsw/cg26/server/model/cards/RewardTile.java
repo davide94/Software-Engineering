@@ -1,11 +1,5 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -15,14 +9,14 @@ public class RewardTile {
 	/**
 	 * List of bonuses
 	 */
-	private Collection<Bonus> bonuses;
+	private Bonus bonuses;
 
 	/**
 	 * Creates a Reward Tile with a collection of bonuses
 	 * @param bonuses is the collection of bonuses that the tile will contain
 	 * @throws NullPointerException if bonuses is null
      */
-	public RewardTile(Collection<Bonus> bonuses) {
+	public RewardTile(Bonus bonuses) {
 		if (bonuses == null)
 			throw new NullPointerException();
 		this.bonuses = bonuses;
@@ -33,44 +27,54 @@ public class RewardTile {
 	 * @return the dto of the tile
 	 */
 	public RewardTileDTO getState(){
-		List<BonusDTO> bonusesState = new ArrayList<>();
-		for(Bonus iterBonus : this.bonuses){
-			bonusesState.add(iterBonus.getState());
-		}
-		return new RewardTileDTO(bonusesState);
+		return new RewardTileDTO(bonuses.getState());
 	}
 	
 	/**
 	 * Returns a list of bonuses contained by the tile
      * @return a list of bonuses contained by the tile
      */
-    public Collection<Bonus> getBonuses() {
-        return new LinkedList<>(this.bonuses);
+    public Bonus getBonuses() {
+        return this.bonuses; //TODO prima ritornava una copia verificare
     }
 
     /**
-	 * Applay the bonuses to a player
-	 * @param player is the player who whill earn the bonuses
+	 * Apply the bonuses to a player
+	 * @param player is the player who will earn the bonuses
      */
     public void apply(Player player) {
-    	for (Bonus b: bonuses)
-    		b.apply(player);
+    	this.bonuses.apply(player);
     }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		RewardTile that = (RewardTile) o;
-
-		return bonuses != null ? bonuses.containsAll(that.bonuses) && that.bonuses.containsAll(bonuses) : that.bonuses == null;
-
-	}
-
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
-		return bonuses != null ? bonuses.hashCode() : 0;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bonuses == null) ? 0 : bonuses.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RewardTile other = (RewardTile) obj;
+		if (bonuses == null) {
+			if (other.bonuses != null)
+				return false;
+		} else if (!bonuses.equals(other.bonuses))
+			return false;
+		return true;
 	}
 
 	@Override

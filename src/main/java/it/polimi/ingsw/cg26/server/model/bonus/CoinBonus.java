@@ -1,20 +1,21 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import it.polimi.ingsw.cg26.common.dto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  * 
  */
-public class CoinBonus extends Bonus {
+public class CoinBonus extends BonusDecorator {
 
     /**
      * Create a CoinBonus
      * @param multilplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
      */
-    public CoinBonus(int multilplicity) {
-    	super(multilplicity);
+    public CoinBonus(Bonus decoratedBonus, int multilplicity) {
+    	super(decoratedBonus, multilplicity);
     }
 
     /**
@@ -23,12 +24,13 @@ public class CoinBonus extends Bonus {
      */
     @Override
     public void apply(Player player) {
+    	super.apply(player);
         player.addCoins(this.getMultiplicity());
     }
 
     @Override
     public BonusDTO getState() {
-        return new BonusDTO("Coins", getMultiplicity());
+        return new CoinBonusDTO(super.getState(), getMultiplicity());
     }
 
     @Override
@@ -43,7 +45,7 @@ public class CoinBonus extends Bonus {
 
     @Override
     public String toString() {
-        return "CoinBonus{" +
+        return super.toString()+"\nCoinBonus{" +
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }

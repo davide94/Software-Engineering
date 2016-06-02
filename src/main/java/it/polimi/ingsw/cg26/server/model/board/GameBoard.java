@@ -4,9 +4,9 @@ import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingRegionException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
@@ -35,11 +35,11 @@ public class GameBoard extends Observable<Change> {
 
 	private final Market market;
 	
-	private Map<CityColor, RewardTile> colorBonuses;
+	private Map<CityColor, Bonus> colorBonuses;
 
 	private final Scheduler scheduler;
 
-	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, RewardTile> colorBonuses) {
+	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, Bonus> colorBonuses) {
 		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null || colorBonuses == null)
 			throw new NullPointerException();
 		this.politicDeck = deck;
@@ -55,7 +55,7 @@ public class GameBoard extends Observable<Change> {
 
 	}
 
-	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, RewardTile> colorBonuses) {
+	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, Bonus> colorBonuses) {
 		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck, colorBonuses);
 	}
 
@@ -149,7 +149,7 @@ public class GameBoard extends Observable<Change> {
 	
 	 public void checkBonuses(Player player, CityColor color){
 		 if (checkColorBonuses(player, color)) {
-			 RewardTile bonus = colorBonuses.get(color);
+			 Bonus bonus = colorBonuses.get(color);
 		        if (bonus == null)
 		        	return;
 		        bonus.apply(player);
@@ -159,7 +159,7 @@ public class GameBoard extends Observable<Change> {
 		 
 		 for (Region r: regions) {
 			 if (r.checkRegionBonuses(player)) {
-				 RewardTile regionBonus = r.getRegionBonus();
+				 Bonus regionBonus = r.getRegionBonus();
 				 if (regionBonus != null) {
 					 regionBonus.apply(player);
 				 }
@@ -187,7 +187,7 @@ public class GameBoard extends Observable<Change> {
 	    }
 	 
 	 
-	 public RewardTile getColorBonus(CityColor color) {
+	 public Bonus getColorBonus(CityColor color) {
 			return colorBonuses.get(color);
 		}
 

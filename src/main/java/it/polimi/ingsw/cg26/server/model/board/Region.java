@@ -2,8 +2,8 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 
@@ -22,9 +22,9 @@ public class Region {
 	private Collection<City> cities;
 	private Balcony balcony;
 	private BusinessPermissionTileDeck deck;
-	private RewardTile bonus;
+	private Bonus bonus;
 
-	private Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, RewardTile bonus) {
+	private Region(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Bonus bonus) {
 		if (name == null || cities == null || deck == null || balcony == null || bonus == null)
 			throw new NullPointerException();
 		this.name = name;
@@ -34,7 +34,7 @@ public class Region {
 		this.bonus = bonus;
 	}
 
-	public static Region createRegion(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, RewardTile bonus) {
+	public static Region createRegion(String name, Collection<City> cities, BusinessPermissionTileDeck deck, Balcony balcony, Bonus bonus) {
 		return new Region(name, new LinkedList<>(cities), deck, balcony, bonus);
 	}
 
@@ -59,8 +59,8 @@ public class Region {
     	return true;
     }
     
-    public RewardTile getRegionBonus() {
-    	RewardTile ret = this.bonus;
+    public Bonus getRegionBonus() {
+    	Bonus ret = this.bonus;
     	this.bonus = null;
     	return ret;
     }
@@ -99,8 +99,10 @@ public class Region {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || (getClass() != o.getClass() && RegionDTO.class != o.getClass())) return false;
+		if (this == o) 
+			return true;
+		if (o == null || (getClass() != o.getClass() && RegionDTO.class != o.getClass())) 
+			return false;
 
 		Region region = (Region) o;
 

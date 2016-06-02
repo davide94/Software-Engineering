@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class KingDeckTest {
     @Before
     public void setUp() throws Exception {
         Collection<RewardTile> tiles = new LinkedList<>();
-        tiles.add(new RewardTile(new LinkedList<Bonus>()));
+        tiles.add(new RewardTile(new EmptyBonus()));
         deck = new KingDeck(tiles);
     }
 

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.board.*;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class BoardCreatorTest {
         King king = KingCreator.createKing(root, cities);
         Market market = new Market();
         KingDeck kingDeck = KingDeckCreator.createKingDeck(root, politicDeck);
-        Map<CityColor, RewardTile> colorBonuses = CityColorsBonusesCreator.createCityColorsBonuses(root, politicDeck);
+        Map<CityColor, Bonus> colorBonuses = CityColorsBonusesCreator.createCityColorsBonuses(root, politicDeck);
 
         gameBoard = GameBoard.createGameBoard(politicDeck, councillors, kingsBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
         gameBoardTest = BoardCreator.createBoard(root);

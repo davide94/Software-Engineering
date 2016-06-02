@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.MainActionBonsDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class NobilityTrackDTOTest {
     @Before
     public void setUp() throws Exception {
         cells = new LinkedList<>();
-        cells.add(new NobilityCellDTO(0, new RewardTileDTO(new LinkedList<BonusDTO>())));
+        cells.add(new NobilityCellDTO(0, new MainActionBonsDTO(new EmptyBonusDTO(), 1)));
         track = new NobilityTrackDTO(cells);
     }
 

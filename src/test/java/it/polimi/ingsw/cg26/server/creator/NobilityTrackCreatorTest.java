@@ -4,10 +4,10 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.CoinBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.MainActionBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -59,21 +59,18 @@ public class NobilityTrackCreatorTest {
 
         NobilityTrack nobilityTrack = NobilityTrackCreator.createNobilityTrack(root, politicDeck);
 
-        LinkedList<Bonus> b2 = new LinkedList<>();
-        b2.add(new CoinBonus(2));
-        b2.add(new VictoryBonus(2));
+        Bonus b2 = new VictoryBonus(new CoinBonus(new EmptyBonus(), 2), 2);
 
-        LinkedList<Bonus> b6 = new LinkedList<>();
-        b6.add(new MainActionBonus(1));
+        Bonus b6 = new MainActionBonus(new EmptyBonus(), 1);
 
-        NobilityCell c7 = NobilityCell.createNobilityCell(7, null, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell c6 = NobilityCell.createNobilityCell(6, c7, new RewardTile(b6));
-        NobilityCell c5 = NobilityCell.createNobilityCell(5, c6, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell c4 = NobilityCell.createNobilityCell(4, c5, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell c3 = NobilityCell.createNobilityCell(3, c4, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell c2 = NobilityCell.createNobilityCell(2, c3, new RewardTile(b2));
-        NobilityCell c1 = NobilityCell.createNobilityCell(1, c2, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell c0 = NobilityCell.createNobilityCell(0, c1, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell c7 = NobilityCell.createNobilityCell(7, null, new EmptyBonus());
+        NobilityCell c6 = NobilityCell.createNobilityCell(6, c7, b6);
+        NobilityCell c5 = NobilityCell.createNobilityCell(5, c6, new EmptyBonus());
+        NobilityCell c4 = NobilityCell.createNobilityCell(4, c5, new EmptyBonus());
+        NobilityCell c3 = NobilityCell.createNobilityCell(3, c4, new EmptyBonus());
+        NobilityCell c2 = NobilityCell.createNobilityCell(2, c3, b2);
+        NobilityCell c1 = NobilityCell.createNobilityCell(1, c2, new EmptyBonus());
+        NobilityCell c0 = NobilityCell.createNobilityCell(0, c1, new EmptyBonus());
 
         NobilityTrack nobilityTrackTest = NobilityTrack.createNobilityTrack(c0);
 

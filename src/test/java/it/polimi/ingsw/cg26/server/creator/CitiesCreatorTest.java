@@ -2,9 +2,8 @@ package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -72,9 +71,9 @@ public class CitiesCreatorTest {
             cities.addAll(l);
 
         Collection<City> citiesTest = new LinkedList<>();
-        citiesTest.add(City.createCity("arkon", CityColor.createCityColor("blue"), new RewardTile(new LinkedList<Bonus>())));
-        citiesTest.add(City.createCity("burgen", CityColor.createCityColor("blue"), new RewardTile(new LinkedList<Bonus>())));
-        citiesTest.add(City.createCity("castrum", CityColor.createCityColor("blue"), new RewardTile(new LinkedList<Bonus>())));
+        citiesTest.add(City.createCity("arkon", CityColor.createCityColor("blue"), new EmptyBonus()));
+        citiesTest.add(City.createCity("burgen", CityColor.createCityColor("blue"), new EmptyBonus()));
+        citiesTest.add(City.createCity("castrum", CityColor.createCityColor("blue"), new EmptyBonus()));
 
         assertEquals(cities, citiesTest);
     }

@@ -3,6 +3,10 @@ package it.polimi.ingsw.cg26.common.dto;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+
 import java.util.LinkedList;
 
 import static org.junit.Assert.*;
@@ -14,14 +18,13 @@ public class KingDeckDTOTest {
 
     private KingDeckDTO deck;
 
-    private LinkedList<BonusDTO> bonuses;
+    private BonusDTO bonuses;
 
     private LinkedList<RewardTileDTO> cards;
 
     @Before
     public void setUp() throws Exception {
-        bonuses = new LinkedList<>();
-        bonuses.add(new BonusDTO("bonusName", 3));
+        bonuses = new CoinBonusDTO(new EmptyBonusDTO(), 2);
         cards = new LinkedList<>();
         cards.add(new RewardTileDTO(bonuses));
         deck = new KingDeckDTO(cards);

@@ -3,8 +3,8 @@ package it.polimi.ingsw.cg26.server.creator;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.board.King;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -51,7 +51,7 @@ public class KingCreatorTest {
 
         King king = KingCreator.createKing(root, CitiesCreator.createCities(root, politicDeck));
 
-        King kingTest = King.createKing(City.createCity("arkon", CityColor.createCityColor("blue"), new RewardTile(new LinkedList<>())));
+        King kingTest = King.createKing(City.createCity("arkon", CityColor.createCityColor("blue"), new EmptyBonus()));
 
         assertEquals(king, kingTest);
     }

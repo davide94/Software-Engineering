@@ -5,10 +5,10 @@ import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -50,9 +50,7 @@ public class RegionsCreatorTest {
         List<City> cities = CitiesCreator.createCities(root, politicDeck).get(0);
         BusinessPermissionTileDeck deck = BusinessPermitTileDeckCreator.createDeck(getNode(getNode(getNode(root, "regions"), "region"), "permissionTiles"), cities, politicDeck);
         Balcony balcony = Balcony.createBalcony(4);
-        LinkedList<Bonus> b = new LinkedList<>();
-        b.add(new VictoryBonus(5));
-        RewardTile bonus = new RewardTile(b);
+        Bonus bonus = new VictoryBonus(new EmptyBonus(), 5);
 
         regionTest = RegionsCreator.createRegions(root, CitiesCreator.createCities(root, politicDeck),politicDeck,councillors).get(0);
         region = Region.createRegion("coast", cities, deck, balcony, bonus);

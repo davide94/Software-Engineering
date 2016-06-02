@@ -2,14 +2,12 @@ package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,29 +53,21 @@ public class BonusesCreatorTest {
             <bonus draw="7" action="8" />
         */
 
-        List<RewardTile> tiles = new LinkedList<>();
+        List<Bonus> tiles = new LinkedList<>();
 
-        Collection<Bonus> bonuses1 = new LinkedList<>();
-        bonuses1.add(new AssistantBonus(1));
-        bonuses1.add(new CoinBonus(2));
-        tiles.add(new RewardTile(bonuses1));
+        Bonus bonuses1 = new AssistantBonus(new CoinBonus(new EmptyBonus(), 2), 1);
+        tiles.add(bonuses1);
 
-        Collection<Bonus> bonuses2 = new LinkedList<>();
-        bonuses2.add(new NobilityBonus(3));
-        bonuses2.add(new VictoryBonus(4));
-        tiles.add(new RewardTile(bonuses2));
+        Bonus bonuses2 = new VictoryBonus(new NobilityBonus(new EmptyBonus(), 3), 4);
+        tiles.add(bonuses2);
 
-        Collection<Bonus> bonuses3 = new LinkedList<>();
-        bonuses3.add(new CoinBonus(5));
-        bonuses3.add(new VictoryBonus(6));
-        tiles.add(new RewardTile(bonuses3));
+        Bonus bonuses3 = new VictoryBonus(new CoinBonus(new EmptyBonus(), 5), 6);
+        tiles.add(bonuses3);
 
-        Collection<Bonus> bonuses4 = new LinkedList<>();
-        bonuses4.add(new CardBonus(7, politicDeck));
-        bonuses4.add(new MainActionBonus(8));
-        tiles.add(new RewardTile(bonuses4));
+        Bonus bonuses4 = new MainActionBonus(new CardBonus(new EmptyBonus(), 7, politicDeck), 8);
+        tiles.add(bonuses4);
 
-        List<RewardTile> bonuses = BonusesCreator.createBonuses(Creator.getNode(root, "cityBonuses"), politicDeck);
+        List<Bonus> bonuses = BonusesCreator.createBonuses(Creator.getNode(root, "cityBonuses"), politicDeck);
 
         assertEquals(bonuses, tiles);
     }

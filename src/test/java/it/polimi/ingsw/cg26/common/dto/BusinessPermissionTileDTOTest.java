@@ -1,5 +1,9 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CardBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +19,7 @@ public class BusinessPermissionTileDTOTest {
 
     private LinkedList<String> cities;
 
-    private RewardTileDTO bonuses;
+    private BonusDTO bonuses;
 
     private BusinessPermissionTileDTO tile;
 
@@ -24,9 +28,7 @@ public class BusinessPermissionTileDTOTest {
         cities = new LinkedList<>();
         cities.add("city1Name");
         cities.add("city2Name");
-        LinkedList<BonusDTO> bonusesList = new LinkedList<>();
-        bonuses = new RewardTileDTO(bonusesList);
-        bonusesList.add(new BonusDTO("bonusName", 6));
+        bonuses = new CoinBonusDTO(new EmptyBonusDTO(), 7);
         tile = new BusinessPermissionTileDTO(cities, bonuses, 0, "playerName");
     }
 
@@ -52,7 +54,7 @@ public class BusinessPermissionTileDTOTest {
 
     @Test
     public void testGetBonuses() throws Exception {
-        assertEquals(tile.getReward(), bonuses);
+        assertEquals(tile.getBonuses(), bonuses);
     }
 
     @Test
@@ -60,13 +62,12 @@ public class BusinessPermissionTileDTOTest {
         LinkedList<String> c = new LinkedList<>();
         c.add("otherCity1Name");
         c.add("city2Name");
-        LinkedList<BonusDTO> b = new LinkedList<>();
-        b.add(new BonusDTO("otherBonusName", 3));
+        BonusDTO b = new CardBonusDTO(new EmptyBonusDTO(), 8);
 
         assertTrue(tile.equals(tile));
         assertTrue(tile.equals(new BusinessPermissionTileDTO(cities, bonuses, 0, "playerName")));
         assertFalse(tile.equals(new BusinessPermissionTileDTO(c, bonuses, 0, "PlayerName")));
-        assertFalse(tile.equals(new BusinessPermissionTileDTO(cities, new RewardTileDTO(b), 0, "PlayerName")));
+        assertFalse(tile.equals(new BusinessPermissionTileDTO(cities, b, 0, "PlayerName")));
         assertFalse(tile.equals(null));
         assertFalse(tile.equals(new Assistant()));
     }

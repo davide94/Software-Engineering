@@ -24,6 +24,7 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
@@ -59,9 +60,9 @@ public class BuyAssistantTest {
 		card3.setPrice(3);
 		
 		List<City> tileCities = new ArrayList<>();
-		tileCities.add(City.createCity("Milano", CityColor.createCityColor("grigio"), new RewardTile(new ArrayList<Bonus>())));
-		tileCities.add(City.createCity("Torino", CityColor.createCityColor("orosa"), new RewardTile(new ArrayList<Bonus>())));
-		BusinessPermissionTile tile = new BusinessPermissionTile(tileCities, new RewardTile(new ArrayList<Bonus>()));
+		tileCities.add(City.createCity("Milano", CityColor.createCityColor("grigio"), new EmptyBonus()));
+		tileCities.add(City.createCity("Torino", CityColor.createCityColor("orosa"), new EmptyBonus()));
+		BusinessPermissionTile tile = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		tile.setOwner(player3);
 		tile.setPrice(8);
 		
@@ -88,9 +89,9 @@ public class BuyAssistantTest {
 	
 	@Before
 	public void setUp(){
-		this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
 		politicCards.add(new PoliticCard(new PoliticColor("c1")));
@@ -98,11 +99,11 @@ public class BuyAssistantTest {
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		List<Region> regions = new ArrayList<>();
-		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())));
-		King king = King.createKing(City.createCity("c1", CityColor.createCityColor("aa"), new RewardTile(new ArrayList<Bonus>())));
+		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new EmptyBonus()));
+		King king = King.createKing(City.createCity("c1", CityColor.createCityColor("aa"), new EmptyBonus()));
 		Market market = buildMarket();
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
-		Map<CityColor, RewardTile> map = new HashMap<>();
+		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		

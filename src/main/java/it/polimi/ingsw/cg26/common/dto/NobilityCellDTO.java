@@ -1,7 +1,8 @@
 package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
+
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 /**
  *
@@ -12,7 +13,7 @@ public class NobilityCellDTO implements Serializable {
 
     private int index;
 
-    private RewardTileDTO reward;
+    private BonusDTO bonuses;
 
     /**
      * Constructs a Nobility Cell DTO object
@@ -21,13 +22,13 @@ public class NobilityCellDTO implements Serializable {
      * @throws NullPointerException if bonuses is null
      * @throws IllegalArgumentException if index is negative
      */
-    public NobilityCellDTO(int index, RewardTileDTO reward) {
-        if (reward == null)
+    public NobilityCellDTO(int index, BonusDTO bonuses) {
+        if (bonuses == null)
             throw new NullPointerException();
         if (index < 0)
             throw new IllegalArgumentException();
         this.index = index;
-        this.reward = reward;
+        this.bonuses = bonuses;
     }
 
     /**
@@ -42,15 +43,15 @@ public class NobilityCellDTO implements Serializable {
      * Returns a collection of Bonuses DTO
      * @return a collection of Bonuses DTO
      */
-    public Collection<BonusDTO> getBonuses() {
-        return reward.getBonuses();
+    public BonusDTO getBonuses() {
+        return bonuses;
     }
 
     @Override
     public String toString() {
         return "NobilityCellDTO{" +
                 "index=" + index +
-                ", reward=" + reward +
+                ", bonuses=" + bonuses +
                 '}';
     }
 }

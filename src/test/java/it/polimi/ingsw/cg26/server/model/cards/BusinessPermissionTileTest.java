@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
@@ -24,11 +25,10 @@ public class BusinessPermissionTileTest {
     @Before
     public void setUp() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        LinkedList<Bonus> bonuses = new LinkedList<>();
-        bonuses.add(new AssistantBonus(4));
-        tile = new BusinessPermissionTile(cities, new RewardTile(bonuses));
+        Bonus bonuses = new AssistantBonus(new EmptyBonus(), 4);
+        tile = new BusinessPermissionTile(cities, bonuses);
     }
 
     @Test (expected = NullPointerException.class)
@@ -38,8 +38,8 @@ public class BusinessPermissionTileTest {
 
     @Test
     public void testGetState() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new EmptyBonus());
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new EmptyBonus());
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();
@@ -52,8 +52,8 @@ public class BusinessPermissionTileTest {
 
     @Test
     public void testCanBuildIn() throws Exception {
-        City city1 = City.createCity("cityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
-        City city2 = City.createCity("othercityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city1 = City.createCity("cityname", CityColor.createCityColor("colorname"), new EmptyBonus());
+        City city2 = City.createCity("othercityname", CityColor.createCityColor("colorname"), new EmptyBonus());
         assertTrue(tile.canBuildIn(city1.getState()));
         assertFalse(tile.canBuildIn(city2.getState()));
     }
@@ -65,8 +65,8 @@ public class BusinessPermissionTileTest {
 
     @Test
     public void testBackToOwnerAndSetOwnerShouldSucceed() throws Exception {
-        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new RewardTile(new LinkedList<Bonus>()));
-        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new RewardTile(new LinkedList<Bonus>()));
+        NobilityCell nobilityCell = NobilityCell.createNobilityCell(10, null, new EmptyBonus());
+        NobilityCell nobilityCell2 = NobilityCell.createNobilityCell(9, nobilityCell, new EmptyBonus());
         LinkedList<PoliticCard> cards = new LinkedList<>();
         cards.add(new PoliticCard(new PoliticColor("aaaa")));
         LinkedList<Assistant> assistants = new LinkedList<>();
@@ -93,12 +93,11 @@ public class BusinessPermissionTileTest {
     @Test
     public void testEquals() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city = City.createCity("cityname", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        LinkedList<Bonus> bonuses = new LinkedList<>();
-        bonuses.add(new AssistantBonus(4));
+        Bonus bonuses = new AssistantBonus(new EmptyBonus(), 4);
 
-        assertTrue(tile.equals(new BusinessPermissionTile(cities, new RewardTile(bonuses))));
+        assertTrue(tile.equals(new BusinessPermissionTile(cities, bonuses)));
         assertTrue(tile.equals(tile));
         assertFalse(tile.equals(null));
         assertFalse(tile.equals(new PoliticColor("red")));

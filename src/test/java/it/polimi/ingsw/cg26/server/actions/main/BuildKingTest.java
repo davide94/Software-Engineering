@@ -28,6 +28,7 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
@@ -53,8 +54,8 @@ public class BuildKingTest {
 	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
-		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new RewardTile(new ArrayList<Bonus>())));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
+		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
 		BusinessPermissionTileDeck bPTDeck = new BusinessPermissionTileDeck(tiles);
 		
 		Balcony balcony = Balcony.createBalcony(4);
@@ -63,18 +64,18 @@ public class BuildKingTest {
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("blu")));
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("nero")));
 		
-		chosenCity = City.createCity("Milano", CityColor.createCityColor("grigio"), new RewardTile(new ArrayList<Bonus>()));
-		kingCity = City.createCity("Roma", CityColor.createCityColor("rosso"), new RewardTile(new ArrayList<Bonus>()));
+		chosenCity = City.createCity("Milano", CityColor.createCityColor("grigio"), new EmptyBonus());
+		kingCity = City.createCity("Roma", CityColor.createCityColor("rosso"), new EmptyBonus());
 		chosenCity.link(kingCity);
 		kingCity.link(chosenCity);
-		Player player2 = new Player(2, "Ajeje", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
+		Player player2 = new Player(2, "Ajeje", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
 		chosenCity.build(player2);
 		List<City> cities = new ArrayList<>();
 		cities.add(chosenCity);
 		cities.add(kingCity);
-		cities.add(City.createCity("Firenze", CityColor.createCityColor("blu"), new RewardTile(new ArrayList<Bonus>())));
-		cities.add(City.createCity("Torino", CityColor.createCityColor("nero"), new RewardTile(new ArrayList<Bonus>())));
-		return Region.createRegion("hills", cities, bPTDeck, balcony, new RewardTile(new ArrayList<Bonus>()));
+		cities.add(City.createCity("Firenze", CityColor.createCityColor("blu"), new EmptyBonus()));
+		cities.add(City.createCity("Torino", CityColor.createCityColor("nero"), new EmptyBonus()));
+		return Region.createRegion("hills", cities, bPTDeck, balcony, new EmptyBonus());
 	}
 	
 	private List<PoliticCard> createPlayersCards(){
@@ -108,11 +109,11 @@ public class BuildKingTest {
 		List<Region> regions = new ArrayList<>();
 		region = createRegion();
 		regions.add(region);
-		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())));
+		NobilityTrack track = NobilityTrack.createNobilityTrack(NobilityCell.createNobilityCell(1, null, new EmptyBonus()));
 		King king = King.createKing(kingCity);
 		Market market = new Market();
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
-		Map<CityColor, RewardTile> map = new HashMap<>();
+		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		
 		
@@ -122,7 +123,7 @@ public class BuildKingTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());*/
 		cards = createPlayersCards();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new RewardTile(new ArrayList<Bonus>())), 0, cards, new LinkedList<Assistant>());
+		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
 		gameBoard.registerPlayer(player1);
 	}
 	

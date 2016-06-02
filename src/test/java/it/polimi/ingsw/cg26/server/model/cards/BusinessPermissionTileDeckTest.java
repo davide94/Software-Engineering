@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,20 +23,16 @@ public class BusinessPermissionTileDeckTest {
     @Before
     public void setUp() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("city1name", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city = City.createCity("city1name", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        LinkedList<Bonus> bonuses = new LinkedList<>();
-        Bonus bonus = new AssistantBonus(4);
-        bonuses.add(bonus);
-        BusinessPermissionTile tile1 = new BusinessPermissionTile(cities, new RewardTile(bonuses));
+        Bonus bonuses = new AssistantBonus(new EmptyBonus(), 4);
+        BusinessPermissionTile tile1 = new BusinessPermissionTile(cities, bonuses);
 
         cities = new LinkedList<>();
-        city = City.createCity("city2name", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        city = City.createCity("city2name", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        bonuses = new LinkedList<>();
-        bonus = new AssistantBonus(4);
-        bonuses.add(bonus);
-        BusinessPermissionTile tile2 = new BusinessPermissionTile(cities, new RewardTile(bonuses));
+        bonuses = new AssistantBonus(new EmptyBonus(), 4);
+        BusinessPermissionTile tile2 = new BusinessPermissionTile(cities, bonuses);
 
         LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
         tiles.add(tile1);
@@ -61,12 +59,10 @@ public class BusinessPermissionTileDeckTest {
     @Test
     public void testDraw() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("city1name", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city = City.createCity("city1name", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        LinkedList<Bonus> bonuses = new LinkedList<>();
-        Bonus bonus = new AssistantBonus(4);
-        bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(bonuses));
+        Bonus bonuses = new AssistantBonus(new EmptyBonus(), 4);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
 
         assertEquals(deck.draw(), tile);
     }
@@ -74,12 +70,10 @@ public class BusinessPermissionTileDeckTest {
     @Test
     public void testDraw2() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("city2name", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city = City.createCity("city2name", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        LinkedList<Bonus> bonuses = new LinkedList<>();
-        Bonus bonus = new AssistantBonus(4);
-        bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(bonuses));
+        Bonus bonuses = new AssistantBonus(new EmptyBonus(), 4);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
 
         assertEquals(deck.draw(1), tile);
     }
@@ -87,12 +81,10 @@ public class BusinessPermissionTileDeckTest {
     @Test
     public void testChange() throws Exception {
         LinkedList<City> cities = new LinkedList<>();
-        City city = City.createCity("city1name", CityColor.createCityColor("colorname"), new RewardTile(new LinkedList<Bonus>()));
+        City city = City.createCity("city1name", CityColor.createCityColor("colorname"), new EmptyBonus());
         cities.add(city);
-        LinkedList<Bonus> bonuses = new LinkedList<>();
-        Bonus bonus = new AssistantBonus(4);
-        bonuses.add(bonus);
-        BusinessPermissionTile tile = new BusinessPermissionTile(cities, new RewardTile(bonuses));
+        Bonus bonuses = new AssistantBonus(new EmptyBonus(), 4);
+        BusinessPermissionTile tile = new BusinessPermissionTile(cities, bonuses);
 
         deck.add(tile);
         deck.change();
