@@ -53,6 +53,8 @@ public class Balcony {
     }
 
 	public boolean checkPoliticCards(Collection<PoliticCardDTO> requiredCards) {
+		if (requiredCards.size() <1){
+    		throw new IllegalArgumentException();}
 		LinkedList<Councillor> councillors = new LinkedList<>(this.councillors);
 		for (PoliticCardDTO card: requiredCards) {
 			Councillor c = null;

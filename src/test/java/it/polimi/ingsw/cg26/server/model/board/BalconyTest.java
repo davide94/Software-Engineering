@@ -10,7 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class BalconyTest {
 	private int capacity;
@@ -27,6 +30,7 @@ public class BalconyTest {
 	private Balcony balcony1;
 	private Balcony balcony2;
 	private Balcony balcony3;
+	private Player Luca;
 	
 	
 	
@@ -35,9 +39,9 @@ public class BalconyTest {
 		capacity=4;
 		councillors1=new LinkedList<>();
 		councillors2=new LinkedList<>();
-		color1= new PoliticColor("Nero");
-		color2= new PoliticColor("Blu");
-		color3= new PoliticColor("Bianco");
+		color1= new PoliticColor("nero");
+		color2= new PoliticColor("blu");
+		color3= new PoliticColor("bianco");
 		c1= Councillor.createCouncillor(color1);
 		c2= Councillor.createCouncillor(color2);
 		c3= Councillor.createCouncillor(color1);
@@ -57,6 +61,8 @@ public class BalconyTest {
 		councillors2.add(c5);
 		(balcony1.getCouncillors()).add(c1);
 		
+		Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new EmptyBonus()), 11, new LinkedList<>(), new LinkedList<>());
+		
 		
 				
 		
@@ -64,15 +70,156 @@ public class BalconyTest {
 	
 	
 	@Test
-	public void testCheckPoliticCards() {
+	public void testCheckPoliticCards1() {
 		
-		Collection<PoliticCardDTO> politicCards;
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
 		
-		//DA IMPLEMENTARE
+		PoliticCardDTO bluCard= new PoliticCardDTO(new PoliticColorDTO("blu"), 0 , "Luca");
+		PoliticCardDTO blackCard= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO blackCard2= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO whiteCard= new PoliticCardDTO(new PoliticColorDTO("bianco"), 0 , "Luca");
+		
+		politicCards.add(blackCard);
+		politicCards.add(blackCard2);
+		politicCards.add(whiteCard);
+		politicCards.add(bluCard);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c2);
+		b.elect(c3);
+		b.elect(c4);
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+		
 		
 		
 		
 	}
+	
+	
+	
+	@Test
+	public void testCheckPoliticCards2() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		PoliticCardDTO bluCard= new PoliticCardDTO(new PoliticColorDTO("blu"), 0 , "Luca");
+		PoliticCardDTO blackCard= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO whiteCard= new PoliticCardDTO(new PoliticColorDTO("bianco"), 0 , "Luca");
+		
+		politicCards.add(blackCard);
+		politicCards.add(whiteCard);
+		politicCards.add(bluCard);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c2);
+		b.elect(c3);
+		b.elect(c4);
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	@Test
+	public void testCheckPoliticCards3() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		
+		PoliticCardDTO blackCard= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO blackCard2= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO blackCard3= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		
+		
+		politicCards.add(blackCard);
+		politicCards.add(blackCard2);
+		politicCards.add(blackCard3);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c1);
+		b.elect(c3);
+		b.elect(c4);
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	@Test
+	public void testCheckPoliticCards4() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		
+		PoliticCardDTO blackCard= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO greenCard= new PoliticCardDTO(new PoliticColorDTO("verde"), 0 , "Luca");
+		
+		
+		
+		politicCards.add(blackCard);
+		politicCards.add(greenCard);
+		politicCards.add(blackCard);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c2);
+		b.elect(c3);
+		b.elect(c4);
+		
+		assertFalse(b.checkPoliticCards(politicCards));
+		
+		
+		
+		
+		
+	}
+	
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testCheckPoliticCards5() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+				
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c2);
+		b.elect(c3);
+		b.elect(c4);
+		
+		
+		
+		b.checkPoliticCards(politicCards);
+	
+		
+	}
+	
+	
+	
 	
 	
 	
@@ -85,6 +232,9 @@ public class BalconyTest {
 		assertEquals(b.getCouncillors(),balcony1.getCouncillors());
 		
 	}
+	
+	
+	
 	
 	@Test
 	public void testIfTwoBalconiesAreEquals() {
@@ -164,7 +314,7 @@ public class BalconyTest {
 	public void testToString() {
 		
 		assertEquals(balcony1.toString(),"Balcony{" +
-				"councillors=" + "[Councillor{color=PoliticColor{color='Nero'}}]" +
+				"councillors=" + "[Councillor{color=PoliticColor{color='nero'}}]" +
 				'}');
 				
 	}

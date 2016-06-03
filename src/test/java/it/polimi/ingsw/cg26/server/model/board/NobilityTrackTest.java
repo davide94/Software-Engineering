@@ -38,6 +38,7 @@ public class NobilityTrackTest {
 	    
 	    assertNotNull(track.getState());
 	    
+	    
 	    //DA RIVEDERE
 	    /*
 	    List<NobilityCellDTO> cells= new LinkedList<>();
@@ -56,6 +57,35 @@ public class NobilityTrackTest {
 	    
 	    
 	    assertEquals(track.getFirstCell(), cell1);
+		
+	}
+	
+	@Test 
+	public void testToString() {
+		
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new EmptyBonus());
+	    NobilityTrack track= NobilityTrack.createNobilityTrack(cell1);
+	    
+	    assertEquals(track.toString(), "NobilityTrack{" +
+				"firstCell=" + cell1 +
+				'}');
+	    
+	    
+		
+	}
+	
+	
+	@Test 
+	public void testHashCode() {
+		
+	    NobilityCell cell1=NobilityCell.createNobilityCell(1, null, new EmptyBonus());
+	    NobilityCell cell2=NobilityCell.createNobilityCell(2, null, new EmptyBonus());
+	    NobilityTrack track= NobilityTrack.createNobilityTrack(cell1);
+	    NobilityTrack track2= NobilityTrack.createNobilityTrack(cell2);
+	    
+	    assertEquals(track.hashCode(), track.hashCode());
+	    assertNotEquals(track.hashCode(), track2.hashCode());
+	    
 		
 	}
 
