@@ -18,6 +18,8 @@ public class BuyPoliticCard extends Buy {
 	 */
 	public BuyPoliticCard(PoliticCardDTO politicCardDTO, long token) {
 		super(token);
+		if(politicCardDTO == null)
+			throw new NullPointerException();
 		this.politicCardDTO = politicCardDTO;
 	}
 

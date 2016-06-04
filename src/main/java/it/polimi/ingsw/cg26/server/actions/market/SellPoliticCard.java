@@ -19,7 +19,7 @@ public class SellPoliticCard extends Sell {
 	 * @throws NullPointerException if one or more arguments are null
 	 * @throws IllegalArgumentException if the price is less than 1
 	 */
-	public SellPoliticCard(PoliticCardDTO politicCard, int price, long token) {
+	public SellPoliticCard(int price, PoliticCardDTO politicCard, long token) {
 		super(price, token);
 		if(politicCard == null)
 				throw new NullPointerException();

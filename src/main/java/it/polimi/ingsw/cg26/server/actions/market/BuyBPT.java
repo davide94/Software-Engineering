@@ -18,6 +18,8 @@ public class BuyBPT extends Buy {
 	 */
 	public BuyBPT(BusinessPermissionTileDTO bpTile, long token) {
 		super(token);
+		if(bpTile == null)
+			throw new NullPointerException();
 		this.bpTileState = bpTile;
 	}
 

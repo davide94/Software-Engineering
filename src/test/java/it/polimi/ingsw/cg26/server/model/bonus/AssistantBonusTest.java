@@ -33,6 +33,11 @@ public class AssistantBonusTest {
 		new AssistantBonus(bonus, 0);
 	}
 	
+	@Test (expected = NullPointerException.class)
+	public void testCreationShouldThrowAnExceptionWithDecoratedBonusNull(){
+		new AssistantBonus(null, 3);
+	}
+	
 	@Test
 	public void testApply3AssistantsToAPlayerWith0AssistantsShouldHave3Assistants(){
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
@@ -77,8 +82,16 @@ public class AssistantBonusTest {
 	@Test
 	public void testToStringWithMultiplicity3(){
 		Bonus assBonus = new CoinBonus(new AssistantBonus(bonus, 3), 5);
-		System.out.println(assBonus.toString());
 		assertEquals("\nAssistantBonus{multiplicity=3}\nCoinBonus{multiplicity=5}", assBonus.toString());
 	}
 	
+	@Test
+	public void testHashCodeEquals(){
+		Bonus assBonus1 = new AssistantBonus(bonus, 3);
+		Bonus assBonus2 = new AssistantBonus(bonus, 3);
+		
+		assertTrue(assBonus1.equals(assBonus2));
+		assertFalse(assBonus1.equals(null));
+		assertEquals(assBonus1.hashCode(), assBonus2.hashCode());
+	}
 }

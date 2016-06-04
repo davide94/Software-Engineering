@@ -83,5 +83,14 @@ public class NobilityBonusTest {
 		
 		assertEquals("\nNobilityBonus{multiplicity=6}", nobilityBonus.toString());
 	}
+	
+	@Test
+	public void testHashCodeEquals(){
+		NobilityBonus nobilityBonus1 =  new NobilityBonus(bonus, 6);
+		NobilityBonus nobilityBonus2 =  new NobilityBonus(bonus, 6);
+		
+		assertTrue(nobilityBonus1.equals(nobilityBonus2));
+		assertEquals(nobilityBonus1.hashCode(), nobilityBonus2.hashCode());
+	}
 
 }

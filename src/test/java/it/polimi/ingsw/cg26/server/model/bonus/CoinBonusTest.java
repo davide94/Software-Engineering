@@ -65,4 +65,13 @@ public class CoinBonusTest {
 		
 		assertEquals("\nCoinBonus{multiplicity=5}", coinBonus.toString());
 	}
+	
+	@Test
+	public void testHashCodeEquals(){
+		CoinBonus coinBonus1 = new CoinBonus(bonus, 5);
+		CoinBonus coinBonus2 = new CoinBonus(bonus, 5);
+		
+		assertTrue(coinBonus1.equals(coinBonus2));
+		assertEquals(coinBonus1.hashCode(), coinBonus2.hashCode());
+	}
 }

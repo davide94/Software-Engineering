@@ -72,10 +72,12 @@ public class VictoryBonusTest {
 	}
 	
 	@Test
-	public void testEquals(){
+	public void testHashCodeEquals(){
 		Bonus b1 = new VictoryBonus(new EmptyBonus(), 3);
+		Bonus b2 = new VictoryBonus(new EmptyBonus(), 3);
 		
 		assertFalse(b1.equals(new VictoryBonus(new EmptyBonus(), 5)));
 		assertTrue(b1.equals(new VictoryBonus(new EmptyBonus(), 3)));
+		assertEquals(b1.hashCode(), b2.hashCode());
 	}
 }

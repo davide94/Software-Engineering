@@ -66,4 +66,13 @@ public class MainActionBonusTest {
 		
 		assertEquals("\nMainActionBonus{multiplicity=2}", mainBonus.toString());
 	}
+	
+	@Test
+	public void testHashCodeEquals(){
+		MainActionBonus mainBonus1 = new MainActionBonus(bonus, 2);
+		MainActionBonus mainBonus2 = new MainActionBonus(bonus, 2);
+		
+		assertTrue(mainBonus1.equals(mainBonus2));
+		assertEquals(mainBonus1.hashCode(), mainBonus2.hashCode());
+	}
 }

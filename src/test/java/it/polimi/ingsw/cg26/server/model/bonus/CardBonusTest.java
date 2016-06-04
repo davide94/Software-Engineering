@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.model.bonus;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class CardBonusTest {
 
-	PoliticDeck politicDeck;
+	private PoliticDeck politicDeck;
 	
 	private Bonus bonus;
 	
@@ -81,5 +82,24 @@ public class CardBonusTest {
 		
 		assertEquals("\nCardBonus{multiplicity=2}", cardBonus.toString());
 	}
+	
+	@Test
+	public void testEquals(){
+		CardBonus cardBonus = new CardBonus(bonus, 2, politicDeck);
+		
+		assertTrue(cardBonus.equals(new CardBonus(bonus, 2, politicDeck)));
+		assertFalse(cardBonus.equals(new CardBonus(bonus, 2, new PoliticDeck(new ArrayList<PoliticCard>()))));
+		assertFalse(cardBonus.equals(new CardBonus(bonus, 5, politicDeck)));
+		assertFalse(cardBonus.equals(null));
+		assertFalse(cardBonus.equals(new CoinBonus(bonus, 4)));
+		assertTrue(cardBonus.equals(cardBonus));
+	}
 
+	@Test
+	public void testHashCode(){
+		CardBonus cardBonus1 = new CardBonus(bonus, 2, politicDeck);
+		CardBonus cardBonus2 = new CardBonus(bonus, 2, politicDeck);
+		
+		assertEquals(cardBonus1.hashCode(), cardBonus2.hashCode());
+	}
 }
