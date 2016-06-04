@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.common.change;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 
 public class CityChange extends ChangeDecorator {
 
@@ -10,8 +11,16 @@ public class CityChange extends ChangeDecorator {
 
 	private CityDTO cityDTO;
 	
+	/**
+	 * Constructs a change for a city
+	 * @param decoratedChange the change to decorate
+	 * @param cityDTO the city to change
+	 * @throws NullPointerException if one or more arguments are null
+	 */
 	public CityChange(Change decoratedChange, CityDTO cityDTO) {
 		super(decoratedChange);
+		if(cityDTO == null)
+			throw new NullPointerException();
 		this.cityDTO = cityDTO;
 	}
 	
@@ -30,7 +39,7 @@ public class CityChange extends ChangeDecorator {
 				break;
 		}
 		if(city == null)
-			throw new NullPointerException();
+			throw new InvalidCityException();
 		city.setEmporiums(this.cityDTO.getEmporiums());
 	}
 

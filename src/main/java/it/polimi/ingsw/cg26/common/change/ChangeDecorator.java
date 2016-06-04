@@ -9,6 +9,8 @@ public abstract class ChangeDecorator implements Change {
 	private Change decoratedChange;
 	
 	public ChangeDecorator(Change decoratedChange) {
+		if(decoratedChange == null)
+			throw new NullPointerException();
 		this.decoratedChange = decoratedChange;
 	}
 	

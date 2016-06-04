@@ -11,8 +11,16 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 
 	private  List<CouncillorDTO> councillorsPoolState;
 	
+	/**
+	 * Constructs a change for the councillor's pool
+	 * @param decoratedChange the change to decorate
+	 * @param councillorsPoolState the pool to change
+	 * @throws NullPointerException if one or more arguments are null
+	 */
 	public CouncillorsPoolChange(Change decoratedChange, List<CouncillorDTO> councillorsPoolState) {
 		super(decoratedChange);
+		if(councillorsPoolState == null)
+			throw new NullPointerException();
 		this.councillorsPoolState = councillorsPoolState;
 	}
 	

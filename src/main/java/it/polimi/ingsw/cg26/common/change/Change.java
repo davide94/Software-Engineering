@@ -14,5 +14,9 @@ public interface Change extends Serializable {
 		return true;
 	}
 
+	/**
+	 * Applies the change to the GameBoard DTO
+	 * @param gameGameBoardDTO the GameBoard in which the state will be changed
+	 */
 	void apply(GameBoardDTO gameGameBoardDTO);
 }
