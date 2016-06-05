@@ -12,8 +12,16 @@ public class LocalPlayerChange extends ChangeDecorator {
 
     private final PlayerDTO localPlayer;
 
+    /**
+     * Construct a change of the local player
+     * @param decoratedChange the change to decorate
+     * @param localPlayer the local player to set
+     * @throws NullPointerException if one or more arguments are null
+     */
     public LocalPlayerChange(Change decoratedChange, PlayerDTO localPlayer) {
         super(decoratedChange);
+        if(localPlayer == null)
+        	throw new NullPointerException();
         this.localPlayer = localPlayer;
     }
 

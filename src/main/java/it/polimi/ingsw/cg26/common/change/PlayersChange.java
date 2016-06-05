@@ -12,8 +12,16 @@ public class PlayersChange extends ChangeDecorator {
 
 	private PlayerDTO playerDTO;
 	
+	/**
+	 * Construct a change for a player of the game
+	 * @param decoratedChange the change to decorate
+	 * @param playerDTO the player to set
+	 * @throws NullPointerException if one or more arguments are null
+	 */
 	public PlayersChange(Change decoratedChange, PlayerDTO playerDTO) {
 		super(decoratedChange);
+		if(playerDTO == null)
+			throw new NullPointerException();
 		this.playerDTO = playerDTO;
 	}
 
