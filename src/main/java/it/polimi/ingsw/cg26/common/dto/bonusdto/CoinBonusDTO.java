@@ -21,9 +21,6 @@ public class CoinBonusDTO extends BonusDTODecorator {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\nCoinBonus{" + 
-				"multiplicity=" + getMultiplicity() + 
-				"}";
+		return (super.toString().isEmpty() ? "" : super.toString() + ", ") + getMultiplicity() + " Coins";
 	}
-
 }

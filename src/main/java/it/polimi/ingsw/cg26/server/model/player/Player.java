@@ -301,9 +301,20 @@ public class Player {
 		this.victoryPoints.addPoints(increment);
 	}
 
+	/**
+	 *
+	 * @return
+     */
 	public int getVictoryPoints() {
 		return this.victoryPoints.getValue();
 	}
+
+    /**
+     *
+     */
+    public int getBPTNumber() {
+        return tiles.size() + discardedTiles.size();
+    }
 
 	/**
 	 * Adds a politic card to the cards owned by the player
@@ -317,9 +328,16 @@ public class Player {
 		this.cards.add(card);
 	}
 
-	/**
+    /**
+     *
+     */
+    public int getPoliticCardsNumber() {
+        return cards.size();
+    }
+
+    /**
 	 * Returns a BusinessPermitTile that can be used to build an emporium in a required city
-	 * @param city is the city where the tile must be able to build in
+	 * @param bPTState is the city where the tile must be able to build in
 	 * @return the tile
 	 * @throws InvalidCardsException if the player does not own the card
      */

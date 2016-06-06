@@ -21,8 +21,6 @@ public class NobilityBonusDTO extends BonusDTODecorator {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\nNobilityBonus{" + 
-				"multiplicity=" + getMultiplicity() + 
-				"}";
+		return (super.toString().isEmpty() ? "" : super.toString() + ", ") + getMultiplicity() + " Nobility";
 	}
 }

@@ -21,8 +21,6 @@ public class VictoryBonusDTO extends BonusDTODecorator {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\nVictoryBonus{" + 
-				"multiplicity=" + getMultiplicity() + 
-				"}";
+		return (super.toString().isEmpty() ? "" : super.toString() + ", ") + getMultiplicity() + " Victory Points";
 	}
 }

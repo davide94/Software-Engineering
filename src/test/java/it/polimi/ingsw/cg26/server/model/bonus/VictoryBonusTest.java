@@ -61,7 +61,7 @@ public class VictoryBonusTest {
 		VictoryBonus victoryBonus = new VictoryBonus(bonus, 7);
 		BonusDTO bonusDTO = victoryBonus.getState();
 		
-		assertEquals("\nVictoryBonus{multiplicity=7}", bonusDTO.toString());
+		assertEquals("7 Victory Points", bonusDTO.toString());
 	}
 	
 	@Test

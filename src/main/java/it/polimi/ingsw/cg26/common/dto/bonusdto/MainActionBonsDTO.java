@@ -21,9 +21,6 @@ public class MainActionBonsDTO extends BonusDTODecorator {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\nMainActionBonus{" + 
-				"multiplicity=" + getMultiplicity() + 
-				"}";
+		return (super.toString().isEmpty() ? "" : super.toString() + ", ") + getMultiplicity() + " Main Actions more";
 	}
-
 }

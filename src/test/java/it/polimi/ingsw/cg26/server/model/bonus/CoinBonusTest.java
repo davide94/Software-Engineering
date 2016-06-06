@@ -56,7 +56,7 @@ public class CoinBonusTest {
 		CoinBonus coinBonus = new CoinBonus(bonus, 3);
 		BonusDTO bonusDTO = coinBonus.getState();
 		
-		assertEquals("\nCoinBonus{multiplicity=3}", bonusDTO.toString());
+		assertEquals("3 Coins", bonusDTO.toString());
 	}
 	
 	@Test

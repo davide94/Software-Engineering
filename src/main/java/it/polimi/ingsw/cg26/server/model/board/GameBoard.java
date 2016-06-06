@@ -87,7 +87,11 @@ public class GameBoard extends Observable<Change> {
 		return scheduler.getCurrentPlayer();
 	}
 
-	public Region getRegion(RegionDTO requiredRegion) {
+    public Collection<Region> getRegions() {
+        return new LinkedList<>(regions);
+    }
+
+    public Region getRegion(RegionDTO requiredRegion) {
 		for (Region region: this.regions)
 			if (region.getName().equals(requiredRegion.getName()))
 				return region;
@@ -145,8 +149,8 @@ public class GameBoard extends Observable<Change> {
 		return market;
 	}
 
-		
-	
+
+
 	 public void checkBonuses(Player player, CityColor color){
 		 if (checkColorBonuses(player, color)) {
 			 Bonus bonus = colorBonuses.get(color);
@@ -156,7 +160,7 @@ public class GameBoard extends Observable<Change> {
 		        if (kingDeck.hasNext())
 		        	this.kingDeck.draw().apply(player);
 		 }
-		 
+
 		 for (Region r: regions) {
 			 if (r.checkRegionBonuses(player)) {
 				 Bonus regionBonus = r.getRegionBonus();
@@ -165,31 +169,31 @@ public class GameBoard extends Observable<Change> {
 				 }
 			 }
 		 }
-			 
-		 
+
+
 	 }
-	 
+
 	 public boolean checkColorBonuses(Player player, CityColor color){
-	    	
+
 	        for(Region iterRegion:regions){
 	        	for(City iterCity: iterRegion.getCities()){
 	        		if(iterCity.getColor().equals(color) && !iterCity.hasEmporium(player)){
 	        			return false;
-	        			
+
 	        			//cosa succede per la città viola?
 	        			//SOL: contatore che se è uguale a 1 ritorna false
 	        		}
 	        	}
-	        	
+
 	        }
-	        return true;       
-        	
+	        return true;
+
 	    }
-	 
-	 
+
+
 	 public Bonus getColorBonus(CityColor color) {
 			return colorBonuses.get(color);
 		}
 
-	
+
 }

@@ -76,7 +76,7 @@ public class AssistantBonusTest {
 		Bonus assBonus = new CoinBonus(new AssistantBonus(bonus, 3), 8);
 		BonusDTO bonusDTO = assBonus.getState();
 		
-		assertEquals("\nAssistantBonus{multiplicity=3}\nCoinBonus{multiplicity=8}", bonusDTO.toString());
+		assertEquals("3 Assistants, 8 Coins", bonusDTO.toString());
 	}
 	
 	@Test

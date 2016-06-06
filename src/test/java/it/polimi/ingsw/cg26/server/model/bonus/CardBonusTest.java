@@ -73,7 +73,7 @@ public class CardBonusTest {
 		CardBonus cardBonus = new CardBonus(bonus, 3, politicDeck);
 		BonusDTO bonusDTO = cardBonus.getState();
 		
-		assertEquals("\nCardBonus{multiplicity=3}", bonusDTO.toString());
+		assertEquals("3 Cards", bonusDTO.toString());
 	}
 	
 	@Test

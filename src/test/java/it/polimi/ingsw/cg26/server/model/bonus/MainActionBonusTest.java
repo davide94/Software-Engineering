@@ -57,7 +57,7 @@ public class MainActionBonusTest {
 		MainActionBonus mainBonus = new MainActionBonus(bonus, 3);
 		BonusDTO bonusDTO = mainBonus.getState();
 		
-		assertEquals("\nMainActionBonus{multiplicity=3}", bonusDTO.toString());
+		assertEquals("3 Main Actions more", bonusDTO.toString());
 	}
 	
 	@Test

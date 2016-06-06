@@ -21,9 +21,6 @@ public class AssistantBonusDTO extends BonusDTODecorator {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "\nAssistantBonus{" + 
-				"multiplicity=" + getMultiplicity() + 
-				"}";
+		return (super.toString().isEmpty() ? "" : super.toString() + ", ") + getMultiplicity() + " Assistants";
 	}
-
 }

@@ -15,9 +15,9 @@ import java.util.function.Consumer;
  */
 public class CLI implements Observer<GameBoardDTO>, Runnable {
 
-    private ClientOutHandler outView;
+    private final ClientOutHandler outView;
 
-    private Scanner scanner;
+    private final Scanner scanner;
 
     private PrintWriter writer;
 
@@ -35,8 +35,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         e.getCities().forEach(c -> writer.print(c.toUpperCase().charAt(0) + "/"));
         writer.print("\t\t");
         bonusPrinter.accept(e.getBonuses());
-        writer.print(", ");
-    }; // TODO fix
+    }; // TODO: fix
 
     private Consumer<PlayerDTO> playerPrinter = p -> {
         writer.print("\t" + p.getName() +
@@ -129,10 +128,10 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                     "\n(7) Send an Assistant to elect a Councillor" +
                     "\n(8) Perform an additional Main Action" +
                     "\n(9) Fold Quick Action" +
-                    "\n\nWhat do you want to do? ");
+                    "\n\nWhat do you want to do?");
             writer.flush();
 
-            String command = this.scanner.nextLine();
+            String command = scanner.nextLine();
             switch (command) {
                 case "Q":
                     quit();
@@ -177,7 +176,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
                     "\n(p) Print state");
             writer.flush();
 
-            String command = this.scanner.nextLine();
+            String command = scanner.nextLine();
             switch (command) {
                 case "Q":
                     quit();
@@ -219,7 +218,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         playerPrinter.accept(gameBoard.getLocalPlayer());
         writer.println("Other players:");
         gameBoard.getPlayers().stream()
-                .filter(playerDTO -> playerDTO.getName() != gameBoard.getLocalPlayer().getName())
+                .filter(playerDTO -> !playerDTO.getName().equals(gameBoard.getLocalPlayer().getName()))
                 .forEach(playerPrinter::accept);
 
         writer.flush();
@@ -312,7 +311,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             T t = askForElement(all, title, printer);
             all.remove(t);
             ret.add(t);
-            if (ret.size() == max)
+            if (ret.size() == max || all.isEmpty())
                 break;
             n++;
         }
@@ -323,7 +322,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         int ret;
         while (true) {
             try {
-                ret = Integer.parseInt(this.scanner.nextLine());
+                ret = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
                 writer.println("The number is invalid, try again: ");

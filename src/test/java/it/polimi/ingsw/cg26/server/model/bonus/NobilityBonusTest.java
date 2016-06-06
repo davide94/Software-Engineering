@@ -74,7 +74,7 @@ public class NobilityBonusTest {
 		NobilityBonus nobilityBonus = new NobilityBonus(bonus, 4);
 		BonusDTO bonusDTO = nobilityBonus.getState();
 		
-		assertEquals("\nNobilityBonus{multiplicity=4}", bonusDTO.toString());
+		assertEquals("4 Nobility", bonusDTO.toString());
 	}
 	
 	@Test
