@@ -33,4 +33,10 @@ public class EngageAssistant extends Action {
     	currentPlayer.performQuickAction();
     }
 
+	@Override
+	public void notifyChange(GameBoard gameBoard) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

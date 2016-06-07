@@ -26,5 +26,7 @@ public abstract class Action {
      * @throws NullPointerException if the parameter is null
      */
     public abstract void apply(GameBoard gameBoard);
+    
+    public abstract void notifyChange(GameBoard gameBoard);
 
 }

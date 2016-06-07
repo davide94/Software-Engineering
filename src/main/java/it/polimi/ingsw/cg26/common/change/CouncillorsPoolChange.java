@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import java.util.List;
+import java.util.Collection;
 
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
@@ -9,7 +9,7 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = 2109057430783266087L;
 
-	private  List<CouncillorDTO> councillorsPoolState;
+	private  Collection<CouncillorDTO> councillorsPoolState;
 	
 	/**
 	 * Constructs a change for the councillor's pool
@@ -17,7 +17,7 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 	 * @param councillorsPoolState the pool to change
 	 * @throws NullPointerException if one or more arguments are null
 	 */
-	public CouncillorsPoolChange(Change decoratedChange, List<CouncillorDTO> councillorsPoolState) {
+	public CouncillorsPoolChange(Change decoratedChange, Collection<CouncillorDTO> councillorsPoolState) {
 		super(decoratedChange);
 		if(councillorsPoolState == null)
 			throw new NullPointerException();

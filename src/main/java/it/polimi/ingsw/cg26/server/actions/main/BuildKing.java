@@ -1,5 +1,11 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
+import it.polimi.ingsw.cg26.common.change.BasicChange;
+import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.change.CityChange;
+import it.polimi.ingsw.cg26.common.change.KingChange;
+import it.polimi.ingsw.cg26.common.change.PlayersChange;
+import it.polimi.ingsw.cg26.common.change.PrivateChange;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
@@ -62,6 +68,14 @@ public class BuildKing extends Corrupt {
         currentPlayer.takeCards(politicCards);
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.performMainAction();
+    }
+    
+    @Override
+    public void notifyChange(GameBoard gameBoard){
+    	Change change = new KingChange(new CityChange(new BasicChange(), gameBoard.getCity(city).getState()), gameBoard.getKing().getState());
+    	gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
+    	Change privatePlayerChange = new PlayersChange(new BasicChange(), gameBoard.getCurrentPlayer().getFullState());
+    	gameBoard.notifyObservers(new PrivateChange(privatePlayerChange, gameBoard.getCurrentPlayer().getToken()));
     }
 
 }

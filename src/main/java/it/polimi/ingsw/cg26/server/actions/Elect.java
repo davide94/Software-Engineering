@@ -14,7 +14,7 @@ public abstract class Elect extends Action {
 	/**
 	 * The Region where the player wants to elect the councillor
 	 */
-	private final RegionDTO region;
+	protected final RegionDTO region;
 
 	/**
 	 * The Councillor that the player wants to elect

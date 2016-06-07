@@ -42,4 +42,10 @@ public class ElectAsQuickAction extends Elect {
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
     }
+
+	@Override
+	public void notifyChange(GameBoard gameBoard) {
+		// TODO Auto-generated method stub
+		
+	}
 }

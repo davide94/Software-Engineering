@@ -24,9 +24,6 @@ public abstract class Sell extends Action {
 		this.price = price;
 	}
 	
-	@Override
-	public abstract void apply(GameBoard gameBoard);
-	
 	/**
 	 * Take the given sellable from the player and puts it in the market, also sets the price 
 	 * @param gameBoard the game board in which the action is applied
@@ -35,6 +32,14 @@ public abstract class Sell extends Action {
 	public void sell(GameBoard gameBoard, Sellable sellable){
 		sellable.setPrice(this.price);
 		gameBoard.getMarket().addToMarket(sellable);
+	}
+	
+	@Override
+	public abstract void apply(GameBoard gameBoard);
+	
+	@Override
+	public void notifyChange(GameBoard gameBoard){
+		// TODO Auto-generated method stub
 	}
 
 }

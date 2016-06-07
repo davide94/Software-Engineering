@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
+import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidSellableException;
@@ -7,17 +8,19 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-public abstract class Buy extends Action {
+public class Buy extends Action {
 
+	SellableDTO sellable;
+	
 	/**
 	 * Construct a simple action buy
 	 */
-	public Buy(long token) {
+	public Buy(long token, SellableDTO sellable) {
 		super(token);
+		if(sellable == null)
+			throw new NullPointerException();
+		this.sellable = sellable;
 	}
-
-	@Override
-	public abstract void apply(GameBoard gameBoard);
 	
 	/**
 	 * Take the given sellable from the market and gives it to its new owner, also manage the payment
@@ -36,6 +39,21 @@ public abstract class Buy extends Action {
 		sellable.getOwner().addCoins(sellable.getPrice());
 		currentPlayer.removeCoins(sellable.getPrice());
 		return gameBoard.getMarket().removeFromMarket(sellable);	
+	}
+
+	@Override
+	public void apply(GameBoard gameBoard){
+		Player currentPlayer = gameBoard.getCurrentPlayer();
+		Sellable realSellable = gameBoard.getMarket().getRealSellable(sellable);
+		Sellable boughtSellable = this.buy(gameBoard, currentPlayer, realSellable);
+		boughtSellable.setPrice(0);
+		boughtSellable.giveToNewOwner(currentPlayer);
+	}
+
+	@Override
+	public void notifyChange(GameBoard gameBoard) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
