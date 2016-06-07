@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidSellableException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -137,13 +136,6 @@ private GameBoard gameBoard;
 	@Test (expected = NullPointerException.class)
 	public void testBuildActionWithAssistantDTONullShouldThrowAnException(){
 		new Buy(67, null);
-	}
-	
-	@Test (expected = InvalidSellableException.class)
-	public void testApplyBuyWithASellableNullShouldThrowException(){
-		Buy action = new Buy(1, this.bPTToBuy.getState());
-		
-		action.buy(gameBoard, gameBoard.getCurrentPlayer(), null);
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)

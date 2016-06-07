@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg26.server.actions.quick;
 
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
-import it.polimi.ingsw.cg26.server.actions.Elect;
+import it.polimi.ingsw.cg26.server.actions.ElectRegion;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -11,7 +11,7 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 /**
  *
  */
-public class ElectAsQuickAction extends Elect {
+public class ElectAsQuickAction extends ElectRegion {
 
 	/**
 	 * Construct an action to elect a councillor as quick action
@@ -42,10 +42,4 @@ public class ElectAsQuickAction extends Elect {
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
     }
-
-	@Override
-	public void notifyChange(GameBoard gameBoard) {
-		// TODO Auto-generated method stub
-		
-	}
 }
