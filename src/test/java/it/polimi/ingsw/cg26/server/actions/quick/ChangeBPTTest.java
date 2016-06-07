@@ -24,8 +24,6 @@ import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.server.model.player.Assistant;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class ChangeBPTTest {
 
@@ -60,8 +58,13 @@ public class ChangeBPTTest {
 	@Before
 	public void setUp(){
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
-		politicCards.add(new PoliticCard(new PoliticColor("c2")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<Councillor>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -76,13 +79,7 @@ public class ChangeBPTTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());
-		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), assistants);
-		//Player player2 = new Player(2, "Gianni", NobilityCell.createNobilityCell(2, null, new EmptyBonus()), 8, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
 		gameBoard.registerPlayer("Marco");
-		gameBoard.registerPlayer("Gianni");
 	}
 	
 	@Test
@@ -123,7 +120,7 @@ public class ChangeBPTTest {
 		BusinessPermissionTile tile = new BusinessPermissionTile(cities3, new EmptyBonus());
 		
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
-		assertEquals(2, gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertEquals(0, gameBoard.getCurrentPlayer().getAssistantsNumber());
 		assertEquals(tile, gameBoard.getRegion(createRegion().getState()).getBPTDeck().draw());
 	}
 	

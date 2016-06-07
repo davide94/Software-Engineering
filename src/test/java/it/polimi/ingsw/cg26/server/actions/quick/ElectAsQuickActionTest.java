@@ -32,8 +32,6 @@ import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
 import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.server.model.player.Assistant;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class ElectAsQuickActionTest {
 	
@@ -72,7 +70,13 @@ public class ElectAsQuickActionTest {
 	@Before
 	public void setUp(){
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = createCouncillorsPool();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -88,10 +92,6 @@ public class ElectAsQuickActionTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());
-		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), assistants);
 		gameBoard.registerPlayer("Marco");
 	}
 	
@@ -153,7 +153,7 @@ public class ElectAsQuickActionTest {
 		
 		action.apply(gameBoard);
 
-		assertEquals(2 ,gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertEquals(0 ,gameBoard.getCurrentPlayer().getAssistantsNumber());
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
 	}
 }

@@ -69,7 +69,6 @@ public class SellBPTTest {
 		bptToSellCities.add(City.createCity("Milano", CityColor.createCityColor("grigio"), new EmptyBonus()));
 		bptToSellCities.add(City.createCity("Roma", CityColor.createCityColor("rosso"), new EmptyBonus()));
 		this.tileToSell = new BusinessPermissionTile(bptToSellCities, new EmptyBonus());
-		this.tileToSell.setOwner(player1);
 		
 		Assistant assistant1 = new Assistant();
 		Assistant assistant2 = new Assistant();
@@ -90,12 +89,18 @@ public class SellBPTTest {
 	
 	@Before
 	public void setUp(){
-		this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -108,13 +113,8 @@ public class SellBPTTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		/*List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());*/
-		player1.addPermissionTile(tileToSell);
 		gameBoard.registerPlayer("Marco");
-		gameBoard.registerPlayer("Davied");
-		gameBoard.registerPlayer("Luca");
+		gameBoard.getCurrentPlayer().addPermissionTile(tileToSell);
 	}
 	
 	@Test
@@ -136,7 +136,7 @@ public class SellBPTTest {
 	
 	@Test (expected = InvalidTileException.class)
 	public void testTryToSellBPTWithoutHavingItShouldThrowException(){
-		player1.removeRealBPT(tileToSell.getState());
+		gameBoard.getCurrentPlayer().removeRealBPT(tileToSell.getState());
 		Action action = new SellBPT(5, tileToSell.getState(), 1);
 		
 		action.apply(gameBoard);

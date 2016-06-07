@@ -98,12 +98,18 @@ private GameBoard gameBoard;
 	
 	@Before
 	public void setUp(){
-		this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -117,8 +123,8 @@ private GameBoard gameBoard;
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
 		gameBoard.registerPlayer("Marco");
-		gameBoard.registerPlayer("Davide");
-		gameBoard.registerPlayer("Luca");
+		//gameBoard.registerPlayer("Davide");
+		//gameBoard.registerPlayer("Luca");
 	}
 	
 	@Test
@@ -143,6 +149,7 @@ private GameBoard gameBoard;
 	@Test (expected = NotEnoughMoneyException.class)
 	public void testApplyActionWithAPlayerThatTriesToBuyWithoutEnoughMoneyShouldThrowException(){
 		Action action = new Buy(1, this.cardToBuy.getState());
+		gameBoard.getCurrentPlayer().removeCoins(10);
 		
 		action.apply(gameBoard);
 	}
@@ -150,11 +157,10 @@ private GameBoard gameBoard;
 	@Test
 	public void testApplyActionBuyAssistantCheckChanges(){
 		Action action = new Buy(1, this.assistantToBuy.getState());
-		gameBoard.getCurrentPlayer().addCoins(10);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), assistantToBuy.getOwner());
-		assertEquals(1, gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertEquals(2, gameBoard.getCurrentPlayer().getAssistantsNumber());
 		assertEquals(8, gameBoard.getCurrentPlayer().getCoinsNumber());
 		assertEquals(2, player2.getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(assistantToBuy));
@@ -163,7 +169,6 @@ private GameBoard gameBoard;
 	@Test
 	public void testApplyActionBuyBPTCheckChanges(){
 		Action action = new Buy(1, this.bPTToBuy.getState());
-		gameBoard.getCurrentPlayer().addCoins(10);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), bPTToBuy.getOwner());
@@ -176,7 +181,6 @@ private GameBoard gameBoard;
 	@Test
 	public void testApplyActionBuyPoliticCardCheckChanges(){
 		Action action = new Buy(1, this.cardToBuy.getState());
-		gameBoard.getCurrentPlayer().addCoins(10);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), cardToBuy.getOwner());

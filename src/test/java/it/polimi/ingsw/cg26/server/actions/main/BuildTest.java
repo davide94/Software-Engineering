@@ -50,6 +50,8 @@ public class BuildTest {
 	
 	private BusinessPermissionTile tileToUse; 
 	
+	private long token;
+	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
@@ -83,7 +85,13 @@ public class BuildTest {
 	@Before
 	public void setUp(){
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -103,21 +111,22 @@ public class BuildTest {
 		/*List<Assistant> assistants = new ArrayList<>();
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());*/
-		List<PoliticCard> cards = new ArrayList<PoliticCard>();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
+		//List<PoliticCard> cards = new ArrayList<PoliticCard>();
+		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
 		List<City> tileCities = new ArrayList<>();
 		tileCities.add(chosenCity);
 		tileCities.add(otherCity);
 		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
-		player1.addPermissionTile(tileToUse);
-		gameBoard.registerPlayer("Marco");
+		//player1.addPermissionTile(tileToUse);
+		token = gameBoard.registerPlayer("Marco");
+		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);
 	}
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 279);
+		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
 		
-		assertEquals(279, action.getToken());
+		assertEquals(token, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -141,6 +150,7 @@ public class BuildTest {
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException(){
 		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
+		gameBoard.getCurrentPlayer().takeAssistants(1);
 		
 		action.apply(gameBoard);
 	}
@@ -148,12 +158,11 @@ public class BuildTest {
 	@Test
 	public void testApplyCheckChanges(){
 		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
-		gameBoard.getCurrentPlayer().addAssistant(new Assistant());
 		
 		action.apply(gameBoard);
 		
 		assertTrue(chosenCity.hasEmporium(gameBoard.getCurrentPlayer()));
-		assertEquals(3, gameBoard.getCurrentPlayer().getCoinsNumber());
+		assertEquals(13, gameBoard.getCurrentPlayer().getCoinsNumber());
 		assertEquals(2, gameBoard.getCurrentPlayer().getAssistantsNumber());
 		assertFalse(gameBoard.getCurrentPlayer().canPerformMainAction());
 		

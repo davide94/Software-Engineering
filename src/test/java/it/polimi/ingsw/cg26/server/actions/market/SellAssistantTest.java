@@ -68,7 +68,6 @@ public class SellAssistantTest {
 		assistantToSell = new Assistant();
 		Assistant assistant1 = new Assistant();
 		Assistant assistant2 = new Assistant();
-		assistantToSell.setOwner(player1);
 		assistant1.setOwner(player3);
 		assistant1.setPrice(2);
 		assistant2.setOwner(player3);
@@ -86,12 +85,18 @@ public class SellAssistantTest {
 	
 	@Before
 	public void setUp(){
-		this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -104,13 +109,11 @@ public class SellAssistantTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		/*List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());*/
-		player1.addAssistant(assistantToSell);
+		//player1.addAssistant(assistantToSell);
 		gameBoard.registerPlayer("Marco");
-		gameBoard.registerPlayer("Davide");
-		gameBoard.registerPlayer("Luca");
+		gameBoard.getCurrentPlayer().addAssistant(assistantToSell);
+		//gameBoard.registerPlayer("Davide");
+		//gameBoard.registerPlayer("Luca");
 	}
 	
 	@Test
@@ -127,7 +130,7 @@ public class SellAssistantTest {
 	
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testTryToSellAssistantWithoutHavingItShouldThrowException(){
-		player1.takeAssistants(1);
+		gameBoard.getCurrentPlayer().takeAssistants(2);
 		Action action = new SellAssistant(5, 1);
 		
 		action.apply(gameBoard);
@@ -140,7 +143,7 @@ public class SellAssistantTest {
 		
 		assistantToSell.setPrice(4);
 		assertTrue(gameBoard.getMarket().getOnSale().contains(assistantToSell));
-		assertEquals(0, gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertEquals(1, gameBoard.getCurrentPlayer().getAssistantsNumber());
 	}
 
 }

@@ -58,7 +58,6 @@ public class SellPoliticCardTest {
 		card2.setPrice(5);
 		card3.setOwner(player2);
 		card3.setPrice(3);
-		cardToSell.setOwner(player1);
 		
 		List<City> tileCities = new ArrayList<>();
 		tileCities.add(City.createCity("Milano", CityColor.createCityColor("grigio"), new EmptyBonus()));
@@ -91,7 +90,13 @@ public class SellPoliticCardTest {
 		//this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -104,13 +109,8 @@ public class SellPoliticCardTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		/*List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());*/
-		player1.addPoliticCard(cardToSell);
 		gameBoard.registerPlayer("Marco");
-		gameBoard.registerPlayer("Davide");
-		gameBoard.registerPlayer("Luca");
+		gameBoard.getCurrentPlayer().addPoliticCard(cardToSell);
 	}
 	
 	@Test
@@ -132,7 +132,7 @@ public class SellPoliticCardTest {
 	
 	@Test (expected = InvalidCardsException.class)
 	public void testTryToSellPoliticCardWithoutHavingItShouldThrowException(){
-		player1.takeCard(cardToSell.getState());
+		gameBoard.getCurrentPlayer().takeCard(cardToSell.getState());
 		Action action = new SellPoliticCard(5, cardToSell.getState(), 1);
 		
 		action.apply(gameBoard);

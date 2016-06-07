@@ -46,11 +46,11 @@ public class BuildKingTest {
 	
 	private Region region;
 	
-	private List<PoliticCard> cards;
-	
 	private City chosenCity;
 	
 	private City kingCity;
+	
+	private long token;
 	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
@@ -78,18 +78,6 @@ public class BuildKingTest {
 		return Region.createRegion("hills", cities, bPTDeck, balcony, new EmptyBonus());
 	}
 	
-	private List<PoliticCard> createPlayersCards(){
-		List<PoliticCard> cards = new ArrayList<>();
-		cards.add(new PoliticCard(new PoliticColor("verde")));
-		cards.add(new PoliticCard(new PoliticColor("giallo")));
-		cards.add(new PoliticCard(new PoliticColor("bianco")));
-		cards.add(new PoliticCard(new PoliticColor("multicolor")));
-		cards.add(new PoliticCard(new PoliticColor("verde")));
-		cards.add(new PoliticCard(new PoliticColor("nero")));
-		cards.add(new PoliticCard(new PoliticColor("viola")));
-		return cards;
-	}
-	
 	private Balcony createKingBalcony(){
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		kingBalcony.elect(Councillor.createCouncillor(new PoliticColor("giallo")));
@@ -102,7 +90,13 @@ public class BuildKingTest {
 	@Before
 	public void setUp(){
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("c1")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = createKingBalcony();
@@ -115,23 +109,16 @@ public class BuildKingTest {
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
 		Map<CityColor, Bonus> map = new HashMap<>();
 		
-		
-		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
-		
-		/*List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());*/
-		cards = createPlayersCards();
 		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco");
 	}
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), 12);
+		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), token);
 		
-		assertEquals(12, action.getToken());
+		assertEquals(token, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -185,7 +172,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
-		gameBoard.getCurrentPlayer().addCoins(2);
+		gameBoard.getCurrentPlayer().removeCoins(8);
 		
 		action.apply(gameBoard);
 	}
@@ -197,7 +184,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
-		gameBoard.getCurrentPlayer().addCoins(4);
+		gameBoard.getCurrentPlayer().removeCoins(6);
 		
 		action.apply(gameBoard);
 	}
@@ -208,7 +195,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
-		gameBoard.getCurrentPlayer().addCoins(6);
+		gameBoard.getCurrentPlayer().removeCoins(4);
 		
 		action.apply(gameBoard);
 	}
@@ -218,7 +205,7 @@ public class BuildKingTest {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
-		gameBoard.getCurrentPlayer().addCoins(9);
+		gameBoard.getCurrentPlayer().removeCoins(1);
 		
 		action.apply(gameBoard);
 	}
@@ -244,7 +231,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
-		gameBoard.getCurrentPlayer().addCoins(10);
+		gameBoard.getCurrentPlayer().takeAssistants(1);
 		
 		action.apply(gameBoard);
 	}
@@ -257,8 +244,6 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
-		gameBoard.getCurrentPlayer().addCoins(10);
-		gameBoard.getCurrentPlayer().addAssistant(new Assistant());
 		
 		action.apply(gameBoard);
 		
@@ -266,7 +251,7 @@ public class BuildKingTest {
 		assertEquals(0, gameBoard.getCurrentPlayer().getAssistantsNumber());
 		assertEquals(2, chosenCity.getEmporiumsNumber());
 		assertEquals(chosenCity, gameBoard.getKing().getCurrentCity());
-		assertEquals(4, gameBoard.getCurrentPlayer().getFullState().getCards().size()); //player has 7 cards and draws 1 card, then uses 4 cards
+		assertEquals(3, gameBoard.getCurrentPlayer().getFullState().getCards().size()); //player has 6 cards and draws 1 card, then uses 4 cards
 		assertFalse(gameBoard.getCurrentPlayer().canPerformMainAction());
 	}
 	
