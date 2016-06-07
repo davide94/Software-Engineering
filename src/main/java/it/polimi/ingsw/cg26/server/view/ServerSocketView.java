@@ -26,14 +26,14 @@ public class ServerSocketView extends View {
         this.socket = socket;
         this.socketIn = socketIn;
         this.socketOut = socketOut;
-        this.actionVisitor = new ActionVisitor(this, token);
+        this.actionVisitor = new ActionVisitor(this);
         this.token = token;
     }
 
     @Override
     public void update(Change o) {
         //System.out.println("Sending to the client " + o);
-        if (!(o instanceof Change) || !((Change)o).isFor(token))
+        if (!o.isFor(token))
             return;
 
         try {
@@ -56,7 +56,7 @@ public class ServerSocketView extends View {
                 }
 
                 Visitable visitable = (Visitable) object;
-                visitable.accept(this.actionVisitor);
+                visitable.accept(this.actionVisitor, token);
 
             } catch (EOFException e) {
                 System.out.println("Client disconnected");

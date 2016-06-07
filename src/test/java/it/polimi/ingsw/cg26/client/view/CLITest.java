@@ -1,8 +1,7 @@
 package it.polimi.ingsw.cg26.client.view;
 
-import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
-import it.polimi.ingsw.cg26.common.commands.Staccah;
+import it.polimi.ingsw.cg26.client.view.ui.CLI;
 import it.polimi.ingsw.cg26.common.dto.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +11,9 @@ import org.mockito.MockitoAnnotations;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  *

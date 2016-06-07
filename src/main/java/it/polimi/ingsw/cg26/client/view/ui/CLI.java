@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.client.view;
+package it.polimi.ingsw.cg26.client.view.ui;
 
 import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
 import it.polimi.ingsw.cg26.common.commands.*;

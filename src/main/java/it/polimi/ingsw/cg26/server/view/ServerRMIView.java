@@ -14,11 +14,12 @@ import java.util.Map;
  */
 public class ServerRMIView extends View implements ServerRMIViewInterface {
 
-    private Map<ClientRMIViewInterface, ActionVisitor> clients;
+    private Map<ClientRMIViewInterface, Long> clients;
+    private ActionVisitor actionVisitor;
 
     public ServerRMIView() {
         clients = new HashMap<>();
-
+        actionVisitor = new ActionVisitor(this);
     }
 
     @Override
@@ -27,13 +28,14 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
     }
 
     @Override
-    public void registerClient(ClientRMIViewInterface clientStub) throws RemoteException {
-
+    public long registerClient(ClientRMIViewInterface clientStub) throws RemoteException {
+        // TODO: registerNewPlayerAction
+        return 0L;
     }
 
     @Override
-    public void eseguiAzione(Command command) throws RemoteException {
-
+    public void performAction(Command command, long token) throws RemoteException {
+        command.accept(actionVisitor, token);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ElectAsMainActionCommand extends Command {
     }
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public void accept(Visitor visitor, long token) {
+		visitor.visit(this, token);
 	}
 }
