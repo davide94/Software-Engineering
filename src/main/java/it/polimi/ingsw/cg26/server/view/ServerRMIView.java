@@ -6,36 +6,33 @@ import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
  */
 public class ServerRMIView extends View implements ServerRMIViewInterface {
 
-    private Map<ClientRMIViewInterface, Long> clients;
+    private ClientRMIViewInterface client;
+
     private ActionVisitor actionVisitor;
 
-    public ServerRMIView() {
-        clients = new HashMap<>();
-        actionVisitor = new ActionVisitor(this);
+    public ServerRMIView(ClientRMIViewInterface client, long token) {
+        this.client = client;
+        actionVisitor = new ActionVisitor(this, token);
     }
 
     @Override
     public void update(Change o) {
-
+        try {
+            client.updateClient(o);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public long registerClient(ClientRMIViewInterface clientStub) throws RemoteException {
-        // TODO: registerNewPlayerAction
-        return 0L;
-    }
-
-    @Override
-    public void performAction(Command command, long token) throws RemoteException {
-        command.accept(actionVisitor, token);
+    public void performAction(Command c) throws RemoteException {
+        c.accept(actionVisitor);
     }
 
     @Override

@@ -10,8 +10,6 @@ import java.rmi.RemoteException;
  */
 public interface ServerRMIViewInterface extends Remote {
 
-    long registerClient(ClientRMIViewInterface clientStub) throws RemoteException;
-
-    void performAction(Command command, long token) throws RemoteException;
+    void performAction(Command c) throws RemoteException;
 
 }

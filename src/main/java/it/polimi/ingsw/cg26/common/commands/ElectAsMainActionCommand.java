@@ -28,8 +28,8 @@ public class ElectAsMainActionCommand extends Command {
         return councillor;
     }
 
-	@Override
-	public void accept(Visitor visitor, long token) {
-		visitor.visit(this, token);
-	}
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

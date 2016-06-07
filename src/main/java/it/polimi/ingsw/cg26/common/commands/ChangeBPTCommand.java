@@ -20,8 +20,8 @@ public class ChangeBPTCommand extends Command {
         return region;
     }
 
-	@Override
-	public void accept(Visitor visitor, long token) {
-		visitor.visit(this, token);
-	}
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

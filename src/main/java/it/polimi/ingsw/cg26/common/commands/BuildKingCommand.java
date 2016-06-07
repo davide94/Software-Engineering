@@ -30,8 +30,8 @@ public class BuildKingCommand extends Command {
         return cards;
     }
 
-	@Override
-	public void accept(Visitor visitor, long token) {
-		visitor.visit(this, token);
-	}
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

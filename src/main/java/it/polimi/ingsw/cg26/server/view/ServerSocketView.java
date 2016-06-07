@@ -26,7 +26,7 @@ public class ServerSocketView extends View {
         this.socket = socket;
         this.socketIn = socketIn;
         this.socketOut = socketOut;
-        this.actionVisitor = new ActionVisitor(this);
+        this.actionVisitor = new ActionVisitor(this, token);
         this.token = token;
     }
 
@@ -56,7 +56,7 @@ public class ServerSocketView extends View {
                 }
 
                 Visitable visitable = (Visitable) object;
-                visitable.accept(this.actionVisitor, token);
+                visitable.accept(this.actionVisitor);
 
             } catch (EOFException e) {
                 System.out.println("Client disconnected");

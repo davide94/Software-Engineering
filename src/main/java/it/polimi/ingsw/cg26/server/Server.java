@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg26.server;
 
+import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
+import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.server.model.player.Assistant;
-import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
 import it.polimi.ingsw.cg26.server.view.ServerSocketView;
 import it.polimi.ingsw.cg26.server.view.View;
@@ -14,7 +14,6 @@ import it.polimi.ingsw.cg26.server.view.View;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.AlreadyBoundException;
@@ -22,8 +21,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.security.SecureRandom;
-import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -81,7 +78,17 @@ public class Server {
         }
     }
 
-    public void registerSocketPlayer(Socket socket) throws IOException, ClassNotFoundException {
+    private void startRMI() throws RemoteException, AlreadyBoundException {
+        Registry registry = LocateRegistry.createRegistry(RMI_PORT);
+
+        ServerRMIWelcomeView rmiWelcomeView = new ServerRMIWelcomeView(this);
+
+        ServerRMIWelcomeViewInterface viewRemote = (ServerRMIWelcomeViewInterface) UnicastRemoteObject.exportObject(rmiWelcomeView, 0); // Why 0?
+
+        registry.bind("WELCOME_VIEW", viewRemote);
+    }
+
+    private void registerSocketPlayer(Socket socket) throws IOException, ClassNotFoundException {
         ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         Object o = socketIn.readObject();
@@ -90,14 +97,26 @@ public class Server {
 
         String name = (String)o;
 
-        playersNumber++;
-
-        long token = model.registerPlayer(name);
+        long token = registerPlayer(name);
         View view = new ServerSocketView(socket, socketIn, socketOut, token);
         view.registerObserver(this.controller);
         model.registerObserver(view);
         executor.submit(view);
+    }
 
+    public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
+
+        long token = registerPlayer(name);
+        ServerRMIView view = new ServerRMIView(client, token);
+        view.registerObserver(this.controller);
+        model.registerObserver(view);
+        executor.submit(view);
+
+        return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
+    }
+
+    private long registerPlayer(String name) {
+        playersNumber++;
         if (playersNumber == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
@@ -106,19 +125,7 @@ public class Server {
                 }
             }, START_DELAY);
         }
-    }
-
-    private void startRMI() throws RemoteException, AlreadyBoundException {
-        Registry registry = LocateRegistry.createRegistry(RMI_PORT);
-        System.out.println("Constructing RMI registry");
-
-        ServerRMIView rmiView = new ServerRMIView();
-        rmiView.registerObserver(this.controller);
-        model.registerObserver(rmiView);
-
-        ServerRMIViewInterface viewRemote = (ServerRMIViewInterface) UnicastRemoteObject.exportObject(rmiView, 0);
-
-        registry.bind("NOME_DA_DECIDERE", rmiView);
+        return model.registerPlayer(name);
     }
 
     public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.client.view;
 
-import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
+import it.polimi.ingsw.cg26.client.view.socket.SocketOutHandler;
 import it.polimi.ingsw.cg26.client.view.ui.CLI;
 import it.polimi.ingsw.cg26.common.dto.*;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class CLITest {
 
     //@Mock private Scanner mockedScanner;
     @Mock private PrintWriter mockedWriter;
-    @Mock private ClientOutHandler mockedOutHandler;
+    @Mock private SocketOutHandler mockedOutHandler;
 
     @Before
     public void setUp() {

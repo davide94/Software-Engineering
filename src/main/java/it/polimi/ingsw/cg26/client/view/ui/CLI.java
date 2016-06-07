@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.client.view.ui;
 
-import it.polimi.ingsw.cg26.client.view.socket.ClientOutHandler;
+import it.polimi.ingsw.cg26.client.view.OutView;
+import it.polimi.ingsw.cg26.client.view.socket.SocketOutHandler;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  */
 public class CLI implements Observer<GameBoardDTO>, Runnable {
 
-    private final ClientOutHandler outView;
+    private final OutView outView;
 
     private final Scanner scanner;
 
@@ -96,7 +97,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         writer.flush();
     };
 
-    public CLI(Scanner scanner, PrintWriter writer, ClientOutHandler outView) {
+    public CLI(Scanner scanner, PrintWriter writer, OutView outView) {
         this.outView = outView;
         this.scanner = scanner;
         this.writer = writer;
