@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.client.view.socket;
 
 import it.polimi.ingsw.cg26.client.view.OutView;
+import it.polimi.ingsw.cg26.common.commands.Command;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,17 +9,18 @@ import java.io.ObjectOutputStream;
 /**
  *
  */
-public class SocketOutHandler implements OutView {
+public class ClientSocketOutView implements OutView {
 
     private final ObjectOutputStream outputStream;
 
-    public SocketOutHandler(ObjectOutputStream outputStream) {
+    public ClientSocketOutView(ObjectOutputStream outputStream) {
         this.outputStream = outputStream;
     }
 
-    public void writeObject(Object o) {
+    @Override
+    public void writeObject(Command c) {
         try {
-            outputStream.writeObject(o);
+            outputStream.writeObject(c);
         } catch (IOException e) {
             e.printStackTrace();
         }

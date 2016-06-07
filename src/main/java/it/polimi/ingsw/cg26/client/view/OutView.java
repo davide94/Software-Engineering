@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.client.view;
 
-import java.io.IOException;
+import it.polimi.ingsw.cg26.common.commands.Command;
 
 /**
  *
  */
 public interface OutView {
 
-    void writeObject(Object o);
+    void writeObject(Command c);
 }

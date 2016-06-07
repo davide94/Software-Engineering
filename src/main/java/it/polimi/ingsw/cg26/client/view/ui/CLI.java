@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.client.view.ui;
 
 import it.polimi.ingsw.cg26.client.view.OutView;
-import it.polimi.ingsw.cg26.client.view.socket.SocketOutHandler;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;

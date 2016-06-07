@@ -2,13 +2,12 @@ package it.polimi.ingsw.cg26.client;
 
 import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIView;
-import it.polimi.ingsw.cg26.client.view.socket.SocketInHandler;
-import it.polimi.ingsw.cg26.client.view.socket.SocketOutHandler;
+import it.polimi.ingsw.cg26.client.view.OutView;
+import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
+import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
+import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
+import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.client.view.ui.CLI;
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.FullStateChange;
-import it.polimi.ingsw.cg26.common.change.PrivateChange;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 
@@ -40,9 +39,14 @@ public class Client {
 
     private ExecutorService executor;
 
+    private Model model;
+
+    private Controller controller;
+
     public Client() {
         executor = Executors.newCachedThreadPool();
-        startClient();
+        model = new Model();
+        controller = new Controller(model);
     }
 
     private void startClient() {
@@ -54,6 +58,8 @@ public class Client {
         if (scanner.nextLine().equalsIgnoreCase("r"))
             useSocket = false;
 
+        OutView outView;
+
         while (true) {
             System.out.println("Insert server ip/host-name: (Default: " + DEFAULT_IP + ")");
             String ip = scanner.nextLine();
@@ -62,18 +68,23 @@ public class Client {
 
             try {
                 if (useSocket)
-                    startSocketClient(new Socket(ip, DEFAULT_SOCKET_PORT), name);
+                    outView = startSocketClient(ip, DEFAULT_SOCKET_PORT, name);
                 else
-                    startRMIClient(ip, DEFAULT_RMI_PORT);
+                    outView = startRMIClient(ip, DEFAULT_RMI_PORT, name);
                 break;
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("ip/host-name may be wrong, try again...");
             }
         }
 
+        CLI cli = new CLI(new Scanner(System.in), new PrintWriter(System.out), outView);
+        model.registerObserver(cli);
+        executor.submit(cli);
     }
 
-    private void startSocketClient(Socket socket, String name) throws IOException, ClassNotFoundException {
+    private OutView startSocketClient(String ip, int port, String name) throws IOException, ClassNotFoundException {
+        Socket socket = new Socket(ip, port);
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 
@@ -81,45 +92,28 @@ public class Client {
 
         outputStream.writeObject(name);
 
-        Object object = inputStream.readObject();
-        if (!(object instanceof FullStateChange)) {
-            System.out.println("Connection failed.");
-            return;
-        }
-
-        Model model = new Model(((FullStateChange)object).getState());
-
-        Controller controller = new Controller(model);
-
-        SocketInHandler inView = new SocketInHandler(inputStream);
+        ClientSocketInView inView = new ClientSocketInView(inputStream);
         inView.registerObserver(controller);
-
-        SocketOutHandler outView = new SocketOutHandler(outputStream);
-
-        CLI cli = new CLI(new Scanner(System.in), new PrintWriter(System.out), outView);
-        model.registerObserver(cli);
-
-        object = inputStream.readObject();
-        if (!(object instanceof PrivateChange)) {
-            System.out.println("Connection failed.");
-            return;
-        }
-
-        inView.notifyObservers((Change)object);
-
-        executor.submit(cli);
         executor.submit(inView);
+        return new ClientSocketOutView(outputStream);
     }
 
-    private void startRMIClient(String ip, int port) throws RemoteException, NotBoundException {
+    private OutView startRMIClient(String ip, int port, String name) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ip, port);
         ServerRMIWelcomeViewInterface welcomeView = (ServerRMIWelcomeViewInterface) registry.lookup(INTERFACE_NAME);
 
-        //ServerRMIViewInterface i = welcomeView.registerClient()
+        ClientRMIInView inView = new ClientRMIInView();
+        inView.registerObserver(controller);
+        executor.submit(inView);
 
+        ServerRMIViewInterface server = welcomeView.registerClient(inView, name);
+        System.out.println("Connection created, waiting to start...");
+
+        return new ClientRMIOutView(server);
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
-
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.startClient();
     }
 }

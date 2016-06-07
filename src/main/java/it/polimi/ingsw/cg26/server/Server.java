@@ -86,6 +86,8 @@ public class Server {
         ServerRMIWelcomeViewInterface viewRemote = (ServerRMIWelcomeViewInterface) UnicastRemoteObject.exportObject(rmiWelcomeView, 0); // Why 0?
 
         registry.bind("WELCOME_VIEW", viewRemote);
+
+        System.out.println("SERVER RMI READY ON PORT " + RMI_PORT);
     }
 
     private void registerSocketPlayer(Socket socket) throws IOException, ClassNotFoundException {
@@ -105,7 +107,6 @@ public class Server {
     }
 
     public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
-
         long token = registerPlayer(name);
         ServerRMIView view = new ServerRMIView(client, token);
         view.registerObserver(this.controller);
@@ -131,8 +132,8 @@ public class Server {
     public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException {
         Server server = new Server();
         server.newGame();
-        server.startSocket();
         server.startRMI();
+        server.startSocket();
     }
 
 }

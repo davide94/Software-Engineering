@@ -10,11 +10,11 @@ import java.io.ObjectInputStream;
 /**
  *
  */
-public class SocketInHandler extends Observable<Change> implements Runnable {
+public class ClientSocketInView extends Observable<Change> implements Runnable {
 
     private ObjectInputStream socketIn;
 
-    public SocketInHandler(ObjectInputStream socketIn) {
+    public ClientSocketInView(ObjectInputStream socketIn) {
         this.socketIn = socketIn;
     }
 
@@ -24,7 +24,7 @@ public class SocketInHandler extends Observable<Change> implements Runnable {
             try {
 
                 Object object = this.socketIn.readObject();
-                //System.out.println("SocketInHandler: " + object);
+                //System.out.println("ClientSocketInView: " + object);
 
                 if (object instanceof Change) {
                     notifyObservers((Change) object);
