@@ -1,9 +1,10 @@
 package it.polimi.ingsw.cg26.server.actions;
 
+import java.util.Collection;
+
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 public abstract class Elect extends Action {
 
@@ -25,8 +26,13 @@ public abstract class Elect extends Action {
 		this.councillor = councillor;
 	}
 	
-	public Councillor getRealCouncillorFromPool(GameBoard gameBoard){
-		for (Councillor c: gameBoard.getCouncillorsPool()) {
+	/**
+	 * 
+	 * @param gameBoard
+	 * @return
+	 */
+	public Councillor getRealCouncillorFromPool(Collection<Councillor> councillorsPool){
+		for (Councillor c: councillorsPool) {
 			if (c.getState().equals(councillor)) {
 				return c;
 			}

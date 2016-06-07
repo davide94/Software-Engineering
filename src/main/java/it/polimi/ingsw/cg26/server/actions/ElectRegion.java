@@ -39,7 +39,7 @@ public abstract class ElectRegion extends Elect {
      */
     @Override
     public void apply(GameBoard gameBoard) {
-		Councillor realCouncillor = super.getRealCouncillorFromPool(gameBoard);
+		Councillor realCouncillor = super.getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
     	Councillor droppedCouncillor = gameBoard.getRegion(region).getBalcony().elect(realCouncillor);
 		gameBoard.getCouncillorsPool().remove(realCouncillor);
 		gameBoard.getCouncillorsPool().add(droppedCouncillor);

@@ -10,13 +10,18 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 public abstract class ElectKing extends Elect {
 	
+	/**
+	 * Construct an elect action in the king's balcony
+	 * @param councillor is the councillor that the player wants to elect
+	 * @param token
+	 */
 	public ElectKing(CouncillorDTO councillor, long token) {
 		super(councillor, token);
 	}
 
 	@Override
 	public void apply(GameBoard gameBoard) {
-		Councillor realCouncillor = super.getRealCouncillorFromPool(gameBoard);
+		Councillor realCouncillor = super.getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
 		Councillor droppedCouncillor = gameBoard.getKingBalcony().elect(realCouncillor);
 		gameBoard.getCouncillorsPool().remove(realCouncillor);
 		gameBoard.getCouncillorsPool().add(droppedCouncillor);

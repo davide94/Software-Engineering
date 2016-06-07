@@ -36,9 +36,7 @@ public class ElectAsQuickAction extends ElectRegion {
     	if(currentPlayer.getAssistantsNumber()<1){
     		throw new NoRemainingAssistantsException();
     	}
-    	
     	super.apply(gameBoard);
-    	
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
     }
