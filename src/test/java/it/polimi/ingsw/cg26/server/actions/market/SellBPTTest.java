@@ -112,9 +112,9 @@ public class SellBPTTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());*/
 		player1.addPermissionTile(tileToSell);
-		gameBoard.registerPlayer(player1);
-		gameBoard.registerPlayer(player2);
-		gameBoard.registerPlayer(player3);
+		gameBoard.registerPlayer("Marco");
+		gameBoard.registerPlayer("Davied");
+		gameBoard.registerPlayer("Luca");
 	}
 	
 	@Test

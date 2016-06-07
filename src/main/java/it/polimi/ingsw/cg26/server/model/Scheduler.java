@@ -2,9 +2,13 @@ package it.polimi.ingsw.cg26.server.model;
 
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
+import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Coins;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -12,6 +16,8 @@ import java.util.function.Predicate;
  *
  */
 public class Scheduler {
+
+    private static final int INITIAL_CARDS_NUMBER = 6;
 
     /**
      * List of players
@@ -86,18 +92,31 @@ public class Scheduler {
 
     /**
      * Adds a Player to the list of players
-     * @param player is the player that has to be added to the list of players
-     * @throws NullPointerException if player is null
+     *
+     *
      */
-    public void registerPlayer(Player player) {
-        if (player == null)
-            throw new NullPointerException();
+    public long registerPlayer(String name) {
+        Player player = newPlayer(name);
         if (players.isEmpty()) {
             player.setRemainingMainActions(1);
             player.setRemainingQuickActions(1);
             player.addPoliticCard(gameBoard.getPoliticDeck().draw());
         }
         players.add(player);
+        return player.getToken();
+    }
+
+    private Player newPlayer(String name) {
+        if (name.equals(""))
+            name = "Player_" + players.size();
+        LinkedList<Assistant> assistants = new LinkedList<>();
+        for (int i = 0; i <= players.size(); i++)
+            assistants.add(new Assistant());
+        LinkedList<PoliticCard> cards = new LinkedList<>();
+        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
+            cards.add(gameBoard.getPoliticDeck().draw());
+        long token = new BigInteger(64, new SecureRandom()).longValue();
+        return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), players.size() + 10, cards, assistants);
     }
 
     /**

@@ -1,11 +1,13 @@
 package it.polimi.ingsw.cg26.server;
 
+import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.view.ServerRMIView;
 import it.polimi.ingsw.cg26.server.view.ServerSocketView;
 import it.polimi.ingsw.cg26.server.view.View;
 
@@ -15,6 +17,11 @@ import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
@@ -27,9 +34,9 @@ public class Server {
 
     private final static int START_DELAY = 1000;
 
-    private final static int PORT = 29999;
+    private final static int SOCKET_PORT = 29999;
 
-    private static final int INITIAL_CARDS_NUMBER = 6;
+    private final static int RMI_PORT = 52365;
 
     private Controller controller;
 
@@ -56,15 +63,15 @@ public class Server {
     }
 
     private void startSocket() throws IOException, ClassNotFoundException {
-        ServerSocket serverSocket = new ServerSocket(PORT);
+        ServerSocket serverSocket = new ServerSocket(SOCKET_PORT);
 
-        System.out.println("SERVER SOCKET READY ON PORT " + PORT);
+        System.out.println("SERVER SOCKET READY ON PORT " + SOCKET_PORT);
 
         while (true) {
             Socket socket = serverSocket.accept();
             new Thread(() -> {
                 try {
-                    registerPlayer(socket);
+                    registerSocketPlayer(socket);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -74,7 +81,7 @@ public class Server {
         }
     }
 
-    public void registerPlayer(Socket socket) throws IOException, ClassNotFoundException {
+    public void registerSocketPlayer(Socket socket) throws IOException, ClassNotFoundException {
         ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         Object o = socketIn.readObject();
@@ -83,11 +90,10 @@ public class Server {
 
         String name = (String)o;
 
-        Player player = newPlayer(playersNumber, name);
         playersNumber++;
 
-        model.registerPlayer(player);
-        View view = new ServerSocketView(socket, socketIn, socketOut, player.getToken());
+        long token = model.registerPlayer(name);
+        View view = new ServerSocketView(socket, socketIn, socketOut, token);
         view.registerObserver(this.controller);
         model.registerObserver(view);
         executor.submit(view);
@@ -102,23 +108,24 @@ public class Server {
         }
     }
 
-    private Player newPlayer(int playerNumber, String name) {
-        if (name.equals(""))
-            name = "Player_" + playerNumber;
-        LinkedList<Assistant> assistants = new LinkedList<>();
-        for (int i = 0; i <= playerNumber; i++)
-            assistants.add(new Assistant());
-        LinkedList<PoliticCard> cards = new LinkedList<>();
-        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
-            cards.add(model.getPoliticDeck().draw());
-        long token = new BigInteger(64, new SecureRandom()).longValue();
-        return new Player(token, name, model.getNobilityTrack().getFirstCell(), playerNumber + 10, cards, assistants);
+    private void startRMI() throws RemoteException, AlreadyBoundException {
+        Registry registry = LocateRegistry.createRegistry(RMI_PORT);
+        System.out.println("Constructing RMI registry");
+
+        ServerRMIView rmiView = new ServerRMIView();
+        rmiView.registerObserver(this.controller);
+        model.registerObserver(rmiView);
+
+        ServerRMIViewInterface viewRemote = (ServerRMIViewInterface) UnicastRemoteObject.exportObject(rmiView, 0);
+
+        registry.bind("NOME_DA_DECIDERE", rmiView);
     }
 
-    public static void main( String[] args ) throws IOException, ClassNotFoundException {
+    public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException {
         Server server = new Server();
         server.newGame();
         server.startSocket();
+        server.startRMI();
     }
 
 }

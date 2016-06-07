@@ -116,9 +116,9 @@ private GameBoard gameBoard;
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		gameBoard.registerPlayer(player1);
-		gameBoard.registerPlayer(player2);
-		gameBoard.registerPlayer(player3);
+		gameBoard.registerPlayer("Marco");
+		gameBoard.registerPlayer("Davide");
+		gameBoard.registerPlayer("Luca");
 	}
 	
 	@Test

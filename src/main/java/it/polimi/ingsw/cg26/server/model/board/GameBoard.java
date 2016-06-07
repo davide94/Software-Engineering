@@ -75,8 +75,8 @@ public class GameBoard extends Observable<Change> {
 		return scheduler.getPlayersFullState();
 	}
 
-	public void registerPlayer(Player player) {
-		scheduler.registerPlayer(player);
+	public long registerPlayer(String name) {
+		return scheduler.registerPlayer(name);
 	}
 
 	public void actionPerformed() {

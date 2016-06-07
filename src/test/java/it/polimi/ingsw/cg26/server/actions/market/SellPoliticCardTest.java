@@ -86,9 +86,9 @@ public class SellPoliticCardTest {
 	
 	@Before
 	public void setUp(){
-		this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
-		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player2 = new Player(2, "Davide", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
+		//this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
 		politicCards.add(new PoliticCard(new PoliticColor("c1")));
@@ -108,9 +108,9 @@ public class SellPoliticCardTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());*/
 		player1.addPoliticCard(cardToSell);
-		gameBoard.registerPlayer(player1);
-		gameBoard.registerPlayer(player2);
-		gameBoard.registerPlayer(player3);
+		gameBoard.registerPlayer("Marco");
+		gameBoard.registerPlayer("Davide");
+		gameBoard.registerPlayer("Luca");
 	}
 	
 	@Test

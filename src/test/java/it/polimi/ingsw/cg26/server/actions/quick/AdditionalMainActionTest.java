@@ -69,10 +69,10 @@ public class AdditionalMainActionTest {
 		List<Assistant> assistants = new ArrayList<>();
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), assistants);
-		Player player2 = new Player(2, "Gianni", NobilityCell.createNobilityCell(2, null, new EmptyBonus()), 8, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
-		gameBoard.registerPlayer(player1);
-		gameBoard.registerPlayer(player2);
+		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), assistants);
+		//Player player2 = new Player(2, "Gianni", NobilityCell.createNobilityCell(2, null, new EmptyBonus()), 8, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
+		gameBoard.registerPlayer("Marco");
+		gameBoard.registerPlayer("Gianni");
 	}
 	
 	@Test

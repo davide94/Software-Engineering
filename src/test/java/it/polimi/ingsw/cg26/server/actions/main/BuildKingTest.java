@@ -123,8 +123,8 @@ public class BuildKingTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());*/
 		cards = createPlayersCards();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
-		gameBoard.registerPlayer(player1);
+		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
+		gameBoard.registerPlayer("Marco");
 	}
 	
 	@Test

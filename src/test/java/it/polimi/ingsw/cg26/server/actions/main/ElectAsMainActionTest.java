@@ -95,8 +95,8 @@ private GameBoard gameBoard;
 		List<Assistant> assistants = new ArrayList<>();
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), assistants);
-		gameBoard.registerPlayer(player1);
+		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), assistants);
+		gameBoard.registerPlayer("Marco");
 	}
 	
 	@Test

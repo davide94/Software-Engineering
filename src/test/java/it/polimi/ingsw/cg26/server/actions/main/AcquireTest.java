@@ -44,6 +44,8 @@ public class AcquireTest {
 	private Region region;
 	
 	private GameBoard gameBoard;
+
+	private long token;
 	
 	private List<PoliticCard> cards;
 	
@@ -96,15 +98,15 @@ public class AcquireTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
 		cards = createPlayersCards();
-		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, assistants);
-		gameBoard.registerPlayer(player1);
+		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, assistants);
+		token = gameBoard.registerPlayer("Marco");
 	}
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
 		Action action = new Acquire(region.getState(), new ArrayList<PoliticCardDTO>(), 1, 38);
 		
-		assertEquals(38, action.getToken());
+		assertEquals(token, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)

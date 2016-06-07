@@ -110,7 +110,7 @@ public class BuildTest {
 		tileCities.add(otherCity);
 		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		player1.addPermissionTile(tileToUse);
-		gameBoard.registerPlayer(player1);
+		gameBoard.registerPlayer("Marco");
 	}
 	
 	@Test

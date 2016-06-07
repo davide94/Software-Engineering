@@ -11,10 +11,10 @@ import it.polimi.ingsw.cg26.server.actions.quick.*;
 
 public class ActionVisitor implements Visitor {
 
-	private final ServerSocketView view;
+	private final View view;
 	private final long token;
 
-	public ActionVisitor(ServerSocketView view, long token) {
+	public ActionVisitor(View view, long token) {
 		this.view = view;
 		this.token = token;
 	}
