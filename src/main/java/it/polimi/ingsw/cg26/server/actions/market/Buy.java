@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
-import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.LocalPlayerChange;
-import it.polimi.ingsw.cg26.common.change.MarketChange;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
-import it.polimi.ingsw.cg26.common.change.PrivateChange;
+import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
+import it.polimi.ingsw.cg26.common.update.change.MarketChange;
+import it.polimi.ingsw.cg26.common.update.change.PlayersChange;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
@@ -52,7 +52,7 @@ public class Buy extends Action {
 		Change change = new PlayersChange(new MarketChange(new BasicChange(), gameBoard.getMarket().getState()), oldOwner.getState());
 		notifyDecoratingPlayersChange(gameBoard, change);
 		Change privateOldOwnerChange = new LocalPlayerChange(new BasicChange(), oldOwner.getFullState());
-		gameBoard.notifyObservers(new PrivateChange(privateOldOwnerChange, oldOwner.getToken()));
+		gameBoard.notifyObservers(new PrivateUpdate(privateOldOwnerChange, oldOwner.getToken()));
 	}
 
 }

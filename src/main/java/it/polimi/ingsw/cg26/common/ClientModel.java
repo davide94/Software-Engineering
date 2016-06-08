@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface ClientModel {
 
+    ClientState getState();
+
     List<RegionDTO> getRegions();
 
     List<PlayerDTO> getPlayers();

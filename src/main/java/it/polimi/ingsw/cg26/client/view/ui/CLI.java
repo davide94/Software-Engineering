@@ -2,18 +2,14 @@ package it.polimi.ingsw.cg26.client.view.ui;
 
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.OutView;
-import it.polimi.ingsw.cg26.client.view.state.MatchNotStarted;
-import it.polimi.ingsw.cg26.client.view.state.State;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 /**
  *

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cg26.server.controller;
 
-import it.polimi.ingsw.cg26.common.change.*;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.common.observer.Observer;
@@ -44,7 +47,7 @@ public class Controller implements Observer<Action>, Runnable {
 
         gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
         for (PlayerDTO player : gameBoard.getFullPlayers())
-            gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
+            gameBoard.notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
 
     }
 }

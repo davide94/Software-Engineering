@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.ClientModel;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import org.junit.Before;
 import org.junit.Test;
 

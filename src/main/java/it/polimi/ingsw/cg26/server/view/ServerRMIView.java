@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.commands.Command;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
@@ -25,8 +25,12 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
     }
 
     @Override
-    public void update(Change c) {
-        c.sendRMI(client, token);
+    public void update(Update u) {
+        try {
+            u.sendRMI(client, token);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

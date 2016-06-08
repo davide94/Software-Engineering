@@ -7,8 +7,7 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.client.view.ui.CLI;
-import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
+import it.polimi.ingsw.cg26.client.view.ui.CLI;import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 
 import java.io.IOException;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
-import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.MarketChange;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.MarketChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;

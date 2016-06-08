@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.actions;
 
-import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
-import it.polimi.ingsw.cg26.common.change.PrivateChange;
+import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.PlayersChange;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 /**
@@ -36,7 +36,7 @@ public abstract class Action {
     protected void notifyDecoratingPlayersChange(GameBoard gameBoard, Change change){
     	gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
     	Change privatePlayerChange = new PlayersChange(new BasicChange(), gameBoard.getCurrentPlayer().getFullState());
-    	gameBoard.notifyObservers(new PrivateChange(privatePlayerChange, gameBoard.getCurrentPlayer().getToken()));	
+    	gameBoard.notifyObservers(new PrivateUpdate(privatePlayerChange, gameBoard.getCurrentPlayer().getToken()));
     }
 
 }

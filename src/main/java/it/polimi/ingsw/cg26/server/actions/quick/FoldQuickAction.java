@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
-import it.polimi.ingsw.cg26.common.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
