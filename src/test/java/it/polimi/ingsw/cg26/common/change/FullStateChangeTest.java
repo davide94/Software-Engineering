@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.ClientModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +31,7 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 
 public class FullStateChangeTest {
 
-private GameBoardDTO gameBoardDTO;
+	private Model model;
 	
 	private Change change;
 	
@@ -66,9 +68,19 @@ private GameBoardDTO gameBoardDTO;
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		
-		gameBoardDTO = new GameBoardDTO(players, currentPlayer, new PoliticDeckDTO(), pool, kingB, regions, track, king, market, kDeck);
-		
+
+		model = new Model();
+		model.setPlayers(players);
+		model.setLocalPlayer(currentPlayer);
+		model.setPoliticDeck(new PoliticDeckDTO());
+		model.setCouncillorsPool(pool);
+		model.setKingBalcony(kingB);
+		model.setRegions(regions);
+		model.setNobilityTrack(track);
+		model.setKing(king);
+		model.setMarket(market);
+		model.setKingDeck(kDeck);
+
 		changePool = new ArrayList<>();
 		changePool.add(new CouncillorDTO(new PoliticColorDTO("arancione")));
 		changePool.add(new CouncillorDTO(new PoliticColorDTO("verde")));
@@ -119,18 +131,18 @@ private GameBoardDTO gameBoardDTO;
 	public void testApplyChange(){
 		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck);
 		Change change =  new FullStateChange(this.change, changeGameBoard);
-		change.apply(gameBoardDTO);
+		change.apply(model);
 		
-		assertEquals(changePlayers, gameBoardDTO.getPlayers());
-		assertEquals(changeCurrentPlayer, gameBoardDTO.getCurrentPlayer());
-		assertEquals(changeDeck, gameBoardDTO.getPoliticDeck());
-		assertEquals(changePool, gameBoardDTO.getCouncillorsPool());
-		assertEquals(changeKingBalcony, gameBoardDTO.getKingBalcony());
-		assertEquals(changeRegions, gameBoardDTO.getRegions());
-		assertEquals(changeTrack, gameBoardDTO.getNobilityTrack());
-		assertEquals(changeKing, gameBoardDTO.getKing());
-		assertEquals(changeMarket, gameBoardDTO.getMarket());
-		assertEquals(changeKingDeck, gameBoardDTO.getKingDeck());
+		assertEquals(changePlayers, model.getPlayers());
+		assertEquals(changeCurrentPlayer, model.getCurrentPlayer());
+		assertEquals(changeDeck, model.getPoliticDeck());
+		assertEquals(changePool, model.getCouncillorsPool());
+		assertEquals(changeKingBalcony, model.getKingBalcony());
+		assertEquals(changeRegions, model.getRegions());
+		assertEquals(changeTrack, model.getNobilityTrack());
+		assertEquals(changeKing, model.getKing());
+		assertEquals(changeMarket, model.getMarket());
+		assertEquals(changeKingDeck, model.getKingDeck());
 	}
 	
 	@Test

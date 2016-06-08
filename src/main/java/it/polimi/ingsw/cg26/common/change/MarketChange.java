@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 
@@ -19,9 +20,9 @@ public class MarketChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(GameBoardDTO gameBoard){
-		super.apply(gameBoard);
-		gameBoard.setMarket(marketDTO);
+	public void apply(ClientModel model){
+		super.apply(model);
+		model.setMarket(marketDTO);
 	}
 
 }

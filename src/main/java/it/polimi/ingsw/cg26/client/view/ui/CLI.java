@@ -1,19 +1,24 @@
 package it.polimi.ingsw.cg26.client.view.ui;
 
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.OutView;
+import it.polimi.ingsw.cg26.client.view.state.MatchNotStarted;
+import it.polimi.ingsw.cg26.client.view.state.State;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 /**
  *
  */
-public class CLI implements Observer<GameBoardDTO>, Runnable {
+public class CLI implements Observer<Model>, Runnable {
 
     private final OutView outView;
 
@@ -21,9 +26,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private PrintWriter writer;
 
-    private GameBoardDTO gameBoard;
-
-    private boolean isMyTurn;
+    private Model model;
 
     private Consumer<BonusDTO> bonusPrinter = e -> writer.print(e.toString());
 
@@ -51,7 +54,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             politicCardPrinter.accept(c);
             writer.print(" ");
         });
-        if (!gameBoard.getLocalPlayer().getTiles().isEmpty())
+        if (!model.getLocalPlayer().getTiles().isEmpty())
             writer.print("\n\n\t\tBusiness Permit Tiles:         ");
         p.getTiles().forEach(bptPrinter::accept);
         writer.println("\n");
@@ -59,7 +62,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private Consumer<CityDTO> cityPrinter = c -> {
         writer.print(c.getName());
-        if (gameBoard.getKing().getCurrentCity().equalsIgnoreCase(c.getName()))
+        if (model.getKing().getCurrentCity().equalsIgnoreCase(c.getName()))
             writer.print(" (KING) ");
         if (!c.getEmporiums().isEmpty())
             writer.print("[ ");
@@ -108,117 +111,56 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     private void askForCommand() {
-        if (isMyTurn) {
-            writer.println("Is Your turn!" +
-                    "\nYou have " + gameBoard.getCurrentPlayer().getRemainingMainActions() +
-                    " Main and " + gameBoard.getCurrentPlayer().getRemainingQuickActions() + " Quick actions to perform." +
-                    "\n\nCommands:" +
-                    "\n(Q) STACCAH" +
-                    "\n(p) Print state" +
+        Map<String, String> commands = model.getState().whatCanIDo();
+        Map<Integer, String> actions = new HashMap<>();
 
-                    "\n\nMain commands:" +
-                    "\n(1) Elect a Councillor" +
-                    "\n(2) Acquire a Business Permit Tile" +
-                    "\n(3) Build an emporium using a Permit Tile" +
-                    "\n(4) Build an emporium with the help of the King" +
-
-                    "\n\nQuick commands:" +
-                    "\n(5) Engage an Assistant" +
-                    "\n(6) Change Building Permit Tiles" +
-                    "\n(7) Send an Assistant to elect a Councillor" +
-                    "\n(8) Perform an additional Main Action" +
-                    "\n(9) Fold Quick Action" +
-                    "\n\nWhat do you want to do?");
-            writer.flush();
-
-            String command = scanner.nextLine();
-            switch (command) {
-                case "Q":
-                    quit();
-                    break;
-                case "p":
-                    printFullState();
-                    break;
-                case "1":
-                    electAsMainAction();
-                    break;
-                case "2":
-                    acquire();
-                    break;
-                case "3":
-                    build();
-                    break;
-                case "4":
-                    buildKing();
-                    break;
-                case "5":
-                    engageAssistant();
-                    break;
-                case "6":
-                    changeBPT();
-                    break;
-                case "7":
-                    electAsQuickAction();
-                    break;
-                case "8":
-                    additionalMainAction();
-                    break;
-                case "9":
-                    foldQuickAction();
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            writer.println("Is not Your turn." +
-                    "\n\nCommands:" +
-                    "\n(Q) STACCAH" +
-                    "\n(p) Print state");
-            writer.flush();
-
-            String command = scanner.nextLine();
-            switch (command) {
-                case "Q":
-                    quit();
-                    break;
-                case "p":
-                    printFullState();
-                    break;
-                default:
-                    break;
-            }
+        int i = 1;
+        for(Map.Entry<String, String> entry : commands.entrySet()) {
+            writer.println("(" + i + ") " + entry.getKey());
+            actions.put(i, entry.getValue());
+            i++;
         }
-        askForCommand();
+        writer.flush();
+        int command = readInt(0, commands.size());
+
+        try {
+            CLI.class.getDeclaredMethod(actions.get(command)).invoke(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (!actions.get(command).equals("quit"))
+            askForCommand();
     }
 
     private void printFullState() {
 
         // print councillors pool
         writer.print("Councillors pool: [ ");
-        gameBoard.getCouncillorsPool().forEach(c -> {
+        model.getCouncillorsPool().forEach(c -> {
             councillorPrinter.accept(c);
             writer.print(" ");
         });
         writer.println("]");
 
         //print king an king's balcony
-        writer.print("The King is in " + gameBoard.getKing().getCurrentCity() + " and his balcony has: [ ");
-        gameBoard.getKingBalcony().getCouncillors().forEach(c -> {
+        writer.print("The King is in " + model.getKing().getCurrentCity() + " and his balcony has: [ ");
+        model.getKingBalcony().getCouncillors().forEach(c -> {
             councillorPrinter.accept(c);
             writer.print(" ");
         });
         writer.println("]<- councillors\n");
 
         // print regions
-        writer.println("The board has " + gameBoard.getRegions().size() + " regions:");
-        gameBoard.getRegions().forEach(extendedRegionPrinter::accept);
+        writer.println("The board has " + model.getRegions().size() + " regions:");
+        model.getRegions().forEach(extendedRegionPrinter::accept);
 
         //print players
         writer.println("You:");
-        playerPrinter.accept(gameBoard.getLocalPlayer());
+        playerPrinter.accept(model.getLocalPlayer());
         writer.println("Other players:");
-        gameBoard.getPlayers().stream()
-                .filter(playerDTO -> !playerDTO.getName().equals(gameBoard.getLocalPlayer().getName()))
+        model.getPlayers().stream()
+                .filter(playerDTO -> !playerDTO.getName().equals(model.getLocalPlayer().getName()))
                 .forEach(playerPrinter::accept);
 
         writer.flush();
@@ -226,6 +168,8 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     private void quit() {
+        writer.println("Bye.");
+        writer.flush();
         outView.writeObject(new Staccah());
     }
 
@@ -234,8 +178,8 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     private void elect(boolean asMainAction) {
-        RegionDTO region = askForElement(gameBoard.getRegions(), "In which region?", regionPrinter);
-        CouncillorDTO councillor = askForElement(new LinkedList<>(gameBoard.getCouncillorsPool()), "Which Councillor?", councillorPrinter);
+        RegionDTO region = askForElement(model.getRegions(), "In which region?", regionPrinter);
+        CouncillorDTO councillor = askForElement(new LinkedList<>(model.getCouncillorsPool()), "Which Councillor?", councillorPrinter);
         if (asMainAction)
             outView.writeObject(new ElectAsMainActionCommand(region, councillor));
         else
@@ -243,8 +187,8 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     private void acquire() {
-        RegionDTO region = askForElement(gameBoard.getRegions(), "In which region?", regionPrinter);
-        List<PoliticCardDTO> cards = askForList(new LinkedList<>(gameBoard.getLocalPlayer().getCards()), 4, "Which card do you want to use?", politicCardPrinter);
+        RegionDTO region = askForElement(model.getRegions(), "In which region?", regionPrinter);
+        List<PoliticCardDTO> cards = askForList(new LinkedList<>(model.getLocalPlayer().getCards()), 4, "Which card do you want to use?", politicCardPrinter);
         writer.println("Do you want the left(l) or the right(R) one? ");
         String response = this.scanner.nextLine();
         int position = 0;
@@ -255,17 +199,17 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
 
     private void build() {
         List<CityDTO> cities = new LinkedList<>();
-        gameBoard.getRegions().forEach(r -> cities.addAll(r.getCities()));
+        model.getRegions().forEach(r -> cities.addAll(r.getCities()));
         CityDTO city = askForElement(cities, "In which city?", cityPrinter);
-        BusinessPermissionTileDTO tile = askForElement(new LinkedList<>(gameBoard.getLocalPlayer().getTiles()), "Which Permit Tile do you want to use?", bptPrinter);
+        BusinessPermissionTileDTO tile = askForElement(new LinkedList<>(model.getLocalPlayer().getTiles()), "Which Permit Tile do you want to use?", bptPrinter);
         outView.writeObject(new BuildCommand(city, tile));
     }
 
     private void buildKing() {
         List<CityDTO> cities = new LinkedList<>();
-        gameBoard.getRegions().forEach(r -> cities.addAll(r.getCities()));
+        model.getRegions().forEach(r -> cities.addAll(r.getCities()));
         CityDTO city = askForElement(cities, "In which city?", cityPrinter);
-        List<PoliticCardDTO> cards = askForList(new LinkedList<>(gameBoard.getLocalPlayer().getCards()), 4, "Which card do you want to use?", politicCardPrinter);
+        List<PoliticCardDTO> cards = askForList(new LinkedList<>(model.getLocalPlayer().getCards()), 4, "Which card do you want to use?", politicCardPrinter);
         outView.writeObject(new BuildKingCommand(city, cards));
     }
 
@@ -274,7 +218,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     private void changeBPT() {
-        RegionDTO region = askForElement(gameBoard.getRegions(), "In which region?", regionPrinter);
+        RegionDTO region = askForElement(model.getRegions(), "In which region?", regionPrinter);
         outView.writeObject(new ChangeBPTCommand(region));
     }
 
@@ -298,7 +242,7 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
             writer.println();
         });
         writer.flush();
-        return list.get(readInt() - 1);
+        return list.get(readInt(1, list.size()) - 1);
     }
 
     private <T> List<T> askForList(List<T> list, int max, String title, Consumer<T> printer) {
@@ -318,11 +262,13 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
         return ret;
     }
 
-    private int readInt() {
+    private int readInt(int min, int max) {
         int ret;
         while (true) {
             try {
                 ret = Integer.parseInt(scanner.nextLine());
+                if (ret > max || ret < min)
+                    throw new NumberFormatException();
                 break;
             } catch (NumberFormatException e) {
                 writer.println("The number is invalid, try again: ");
@@ -333,9 +279,9 @@ public class CLI implements Observer<GameBoardDTO>, Runnable {
     }
 
     @Override
-    public void update(GameBoardDTO o) {
+    public void update(Model o) {
         //writer.println(o);
-        this.gameBoard = o;
-        isMyTurn = gameBoard.getCurrentPlayer().getName().equals(gameBoard.getLocalPlayer().getName());
+        //model = o;
+        //isMyTurn = gameBoard.getCurrentPlayer().getName().equals(gameBoard.getLocalPlayer().getName());
     }
 }

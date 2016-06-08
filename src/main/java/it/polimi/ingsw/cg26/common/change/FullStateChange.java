@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 /**
@@ -40,17 +41,17 @@ public class FullStateChange extends ChangeDecorator {
     }
 
 	@Override
-	public void apply(GameBoardDTO gameGameBoardDTO){
-        super.apply(gameGameBoardDTO);
-        gameGameBoardDTO.setPlayers(state.getPlayers());
-        gameGameBoardDTO.setCurrentPlayer(state.getCurrentPlayer());
-        gameGameBoardDTO.setPoliticDeck(state.getPoliticDeck());
-        gameGameBoardDTO.setCouncillorsPool(state.getCouncillorsPool());
-        gameGameBoardDTO.setKingBalcony(state.getKingBalcony());
-        gameGameBoardDTO.setRegions(state.getRegions());
-        gameGameBoardDTO.setNobilityTrack(state.getNobilityTrack());
-        gameGameBoardDTO.setKing(state.getKing());
-        gameGameBoardDTO.setMarket(state.getMarket());
-        gameGameBoardDTO.setKingDeck(state.getKingDeck());
+	public void apply(ClientModel model){
+        super.apply(model);
+        model.setPlayers(state.getPlayers());
+        model.setCurrentPlayer(state.getCurrentPlayer());
+        model.setPoliticDeck(state.getPoliticDeck());
+        model.setCouncillorsPool(state.getCouncillorsPool());
+        model.setKingBalcony(state.getKingBalcony());
+        model.setRegions(state.getRegions());
+        model.setNobilityTrack(state.getNobilityTrack());
+        model.setKing(state.getKing());
+        model.setMarket(state.getMarket());
+        model.setKingDeck(state.getKingDeck());
     }
 }

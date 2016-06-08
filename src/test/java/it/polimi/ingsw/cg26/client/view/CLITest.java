@@ -53,9 +53,6 @@ public class CLITest {
         market = new MarketDTO(new LinkedList<>());
         kingDeck = new KingDeckDTO(new LinkedList<>());
 
-        board = new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
-        board.setLocalPlayer(currentPlayer);
-
     }
 
     @Test

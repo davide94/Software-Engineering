@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.ClientModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +32,7 @@ import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
 
 public class BalconyChangeTest {
 
-	private GameBoardDTO gameBoardDTO;
+	private ClientModel model;
 	
 	private RegionDTO chosenRegion;
 	
@@ -71,9 +73,19 @@ public class BalconyChangeTest {
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		
-		gameBoardDTO = new GameBoardDTO(players, currentPlayer, new PoliticDeckDTO(), pool, kingB, regions, track, king, market, kDeck);
-		
+
+		model = new Model();
+		model.setPlayers(players);
+		model.setLocalPlayer(currentPlayer);
+		model.setPoliticDeck(new PoliticDeckDTO());
+		model.setCouncillorsPool(pool);
+		model.setKingBalcony(kingB);
+		model.setRegions(regions);
+		model.setNobilityTrack(track);
+		model.setKing(king);
+		model.setMarket(market);
+		model.setKingDeck(kDeck);
+
 		List<CouncillorDTO> councillors3 = new ArrayList<>();
 		councillors3.add(new CouncillorDTO(new PoliticColorDTO("verde")));
 		councillors3.add(new CouncillorDTO(new PoliticColorDTO("blu")));
@@ -102,7 +114,7 @@ public class BalconyChangeTest {
 		RegionDTO region = new RegionDTO("Molise", new ArrayList<>(), new BusinessPermissionTileDeckDTO(new ArrayList<BusinessPermissionTileDTO>()), new BalconyDTO(new ArrayList<>()), new EmptyBonusDTO());
 		Change change = new BalconyChange(this.change, chosenBalcony, region);
 	
-		change.apply(gameBoardDTO);
+		change.apply(model);
 	}
 	
 	@Test
@@ -112,7 +124,7 @@ public class BalconyChangeTest {
 		assertTrue(chosenRegion.getBalcony().getCouncillors().contains(new CouncillorDTO(new PoliticColorDTO("rosso"))));
 		assertFalse(chosenRegion.getBalcony().getCouncillors().contains(new CouncillorDTO(new PoliticColorDTO("verde"))));
 		
-		change.apply(gameBoardDTO);
+		change.apply(model);
 		
 		assertEquals(chosenBalcony, chosenRegion.getBalcony());
 	}

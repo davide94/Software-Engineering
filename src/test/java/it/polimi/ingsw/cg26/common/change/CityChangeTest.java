@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.ClientModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +33,7 @@ import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 
 public class CityChangeTest {
 
-	private GameBoardDTO gameBoardDTO;
+	private Model model;
 	
 	private RegionDTO chosenRegion;
 	
@@ -68,9 +70,19 @@ public class CityChangeTest {
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		
-		gameBoardDTO = new GameBoardDTO(players, currentPlayer, new PoliticDeckDTO(), pool, kingB, regions, track, king, market, kDeck);
-		
+
+		model = new Model();
+		model.setPlayers(players);
+		model.setLocalPlayer(currentPlayer);
+		model.setPoliticDeck(new PoliticDeckDTO());
+		model.setCouncillorsPool(pool);
+		model.setKingBalcony(kingB);
+		model.setRegions(regions);
+		model.setNobilityTrack(track);
+		model.setKing(king);
+		model.setMarket(market);
+		model.setKingDeck(kDeck);
+
 		List<EmporiumDTO> emporiums = new ArrayList<>();
 		emporiums.add(new EmporiumDTO("Marco"));
 		emporiums.add(new EmporiumDTO("Davide"));
@@ -92,13 +104,13 @@ public class CityChangeTest {
 		CityDTO neCity = new CityDTO("Gotham", new CityColorDTO("nero"), new EmptyBonusDTO(), new ArrayList<>(), new ArrayList<>());
 		Change change =  new CityChange(this.change, neCity);
 		
-		change.apply(gameBoardDTO);
+		change.apply(model);
 	}
 	
 	@Test
 	public void testApplyChange(){
 		Change change =  new CityChange(this.change, chosenCity);
-		change.apply(gameBoardDTO);
+		change.apply(model);
 		
 		assertEquals(2, changedCity.getEmporiums().size());
 	}

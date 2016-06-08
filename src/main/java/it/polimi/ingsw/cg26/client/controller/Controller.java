@@ -17,8 +17,8 @@ public class Controller implements Observer<Change>, Runnable {
 
     @Override
     public void update(Change change) {
-        change.apply(model.getGameBoard());
-        model.notifyObservers(model.getGameBoard());
+        change.apply(model);
+        model.notifyObservers(model);
     }
 
     @Override

@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.ClientModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +32,7 @@ import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
 
 public class BPTDeckChangeTest {
 
-	private GameBoardDTO gameBoardDTO;
+	private Model model;
 	
 	private RegionDTO chosenRegion;
 	
@@ -71,9 +73,19 @@ public class BPTDeckChangeTest {
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		
-		gameBoardDTO = new GameBoardDTO(players, currentPlayer, new PoliticDeckDTO(), pool, kingB, regions, track, king, market, kDeck);
-		
+
+		model = new Model();
+		model.setPlayers(players);
+		model.setLocalPlayer(currentPlayer);
+		model.setPoliticDeck(new PoliticDeckDTO());
+		model.setCouncillorsPool(pool);
+		model.setKingBalcony(kingB);
+		model.setRegions(regions);
+		model.setNobilityTrack(track);
+		model.setKing(king);
+		model.setMarket(market);
+		model.setKingDeck(kDeck);
+
 		List<String> cities3 = new ArrayList<>();
 		cities3.add("Como");
 		cities3.add("Varese");
@@ -104,14 +116,14 @@ public class BPTDeckChangeTest {
 		RegionDTO region = new RegionDTO("Molise", new ArrayList<>(), new BusinessPermissionTileDeckDTO(new ArrayList<BusinessPermissionTileDTO>()), new BalconyDTO(new ArrayList<>()), new EmptyBonusDTO());
 		Change change = new BPTDeckChange(this.change, chosenDeck, region);
 	
-		change.apply(gameBoardDTO);
+		change.apply(model);
 	}
 	
 	@Test
 	public void testApplyChange(){
 		Change change = new BPTDeckChange(this.change, chosenDeck, chosenRegion);
 		
-		change.apply(gameBoardDTO);
+		change.apply(model);
 		
 		assertEquals(chosenDeck, chosenRegion.getDeck());
 	}

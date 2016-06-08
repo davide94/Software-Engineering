@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.common.change;
 
 import java.util.List;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotValidPlayerException;
@@ -26,9 +27,9 @@ public class PlayersChange extends ChangeDecorator {
 	}
 
 	@Override
-	public void apply(GameBoardDTO gameGameBoardDTO){
-		super.apply(gameGameBoardDTO);
-		List<PlayerDTO> players = gameGameBoardDTO.getPlayers();
+	public void apply(ClientModel model){
+		super.apply(model);
+		List<PlayerDTO> players = model.getPlayers();
 		int i=-1;
 		for(PlayerDTO p : players){
 			if(p.getName().equals(playerDTO.getName())){

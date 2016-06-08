@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.ClientModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +27,7 @@ import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 
 public class CouncillorsPoolChangeTest {
 
-	private GameBoardDTO gameBoardDTO;
+	private Model model;
 	
 	private Change change;
 	
@@ -49,9 +51,19 @@ public class CouncillorsPoolChangeTest {
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		
-		gameBoardDTO = new GameBoardDTO(players, currentPlayer, new PoliticDeckDTO(), pool, kingB, regions, track, king, market, kDeck);
-		
+
+		model = new Model();
+		model.setPlayers(players);
+		model.setLocalPlayer(currentPlayer);
+		model.setPoliticDeck(new PoliticDeckDTO());
+		model.setCouncillorsPool(pool);
+		model.setKingBalcony(kingB);
+		model.setRegions(regions);
+		model.setNobilityTrack(track);
+		model.setKing(king);
+		model.setMarket(market);
+		model.setKingDeck(kDeck);
+
 		newPool = new ArrayList<>();
 		newPool.add(new CouncillorDTO(new PoliticColorDTO("arancione")));
 		newPool.add(new CouncillorDTO(new PoliticColorDTO("verde")));
@@ -72,9 +84,9 @@ public class CouncillorsPoolChangeTest {
 	@Test
 	public void testApplyChange(){
 		Change change =  new CouncillorsPoolChange(this.change, newPool);
-		change.apply(gameBoardDTO);
+		change.apply(model);
 		
-		assertEquals(newPool, gameBoardDTO.getCouncillorsPool());
+		assertEquals(newPool, model.getCouncillorsPool());
 	}
 
 }

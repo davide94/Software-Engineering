@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 
@@ -20,11 +21,11 @@ public interface Change extends Serializable {
 
 	/**
 	 * Applies the change to the GameBoard DTO
-	 * @param gameGameBoardDTO the GameBoard in which the state will be changed
+	 * @param model the model of the client
 	 */
-	void apply(GameBoardDTO gameGameBoardDTO);
+	void apply(ClientModel model);
 	
-	public default void sendSocket(ObjectOutputStream socketOut, long token){
+	default void sendSocket(ObjectOutputStream socketOut, long token){
 		try {
 			socketOut.writeObject(this);
 		} catch (IOException e) {
@@ -32,7 +33,7 @@ public interface Change extends Serializable {
 		}
 	}
 	
-	public default void sendRMI(ClientRMIViewInterface client, long token){
+	default void sendRMI(ClientRMIViewInterface client, long token){
 		try {
 			client.updateClient(this);
 		} catch (RemoteException e) {

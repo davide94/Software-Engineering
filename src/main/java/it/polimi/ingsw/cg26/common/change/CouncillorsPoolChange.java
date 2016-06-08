@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.common.change;
 
 import java.util.Collection;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 
@@ -25,9 +26,9 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(GameBoardDTO gameGameBoardDTO) {
-		super.apply(gameGameBoardDTO);
-		gameGameBoardDTO.setCouncillorsPool(councillorsPoolState);
+	public void apply(ClientModel model) {
+		super.apply(model);
+		model.setCouncillorsPool(councillorsPoolState);
 	}
 
 }

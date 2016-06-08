@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 
@@ -26,8 +27,8 @@ public class LocalPlayerChange extends ChangeDecorator {
     }
 
     @Override
-    public void apply(GameBoardDTO gameGameBoardDTO) {
-        super.apply(gameGameBoardDTO);
-        gameGameBoardDTO.setLocalPlayer(localPlayer);
+    public void apply(ClientModel model) {
+        super.apply(model);
+        model.setLocalPlayer(localPlayer);
     }
 }

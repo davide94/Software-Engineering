@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
 public abstract class ChangeDecorator implements Change {
@@ -15,8 +16,8 @@ public abstract class ChangeDecorator implements Change {
 	}
 	
 	@Override
-	public void apply(GameBoardDTO gameGameBoardDTO) {
-		decoratedChange.apply(gameGameBoardDTO);
+	public void apply(ClientModel model) {
+		decoratedChange.apply(model);
 	}
 
 }

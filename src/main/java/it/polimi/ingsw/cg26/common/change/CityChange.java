@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
@@ -25,10 +26,10 @@ public class CityChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(GameBoardDTO gameGameBoardDTO) {
-		super.apply(gameGameBoardDTO);
+	public void apply(ClientModel model) {
+		super.apply(model);
 		CityDTO city = null;
-		for(RegionDTO iterRegionDTO : gameGameBoardDTO.getRegions()){
+		for(RegionDTO iterRegionDTO : model.getRegions()){
 			for(CityDTO iterCityDTO : iterRegionDTO.getCities()){
 				if(iterCityDTO.getName().equals(cityDTO.getName())){
 					city = iterCityDTO;

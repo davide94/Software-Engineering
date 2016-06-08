@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.ClientModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +26,7 @@ import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 
 public class LocalPlayerChangeTest {
 
-	private GameBoardDTO gameBoardDTO;
+	private Model model;
 	
 	private Change change;
 	
@@ -43,9 +45,19 @@ public class LocalPlayerChangeTest {
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-		
-		gameBoardDTO = new GameBoardDTO(players, currentPlayer, new PoliticDeckDTO(), pool, kingB, regions, track, king, market, kDeck);
-	
+
+		model = new Model();
+		model.setPlayers(players);
+		model.setLocalPlayer(currentPlayer);
+		model.setPoliticDeck(new PoliticDeckDTO());
+		model.setCouncillorsPool(pool);
+		model.setKingBalcony(kingB);
+		model.setRegions(regions);
+		model.setNobilityTrack(track);
+		model.setKing(king);
+		model.setMarket(market);
+		model.setKingDeck(kDeck);
+
 		changePlayer = new PlayerDTO("Luca", 2, 12, 5, 0, 0, 8, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 	}
 	
@@ -62,9 +74,9 @@ public class LocalPlayerChangeTest {
 	@Test
 	public void applyChange(){
 		Change change = new LocalPlayerChange(this.change, changePlayer);
-		change.apply(gameBoardDTO);
+		change.apply(model);
 		
-		assertEquals(changePlayer, gameBoardDTO.getLocalPlayer());
+		assertEquals(changePlayer, model.getLocalPlayer());
 	}
 
 }

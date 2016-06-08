@@ -11,8 +11,6 @@ public class GameBoardDTO implements Serializable {
 
     private static final long serialVersionUID = 3006533728187141277L;
 
-    private PlayerDTO localPlayer;
-
     private PlayerDTO currentPlayer;
 
     private List<PlayerDTO> players;
@@ -59,22 +57,6 @@ public class GameBoardDTO implements Serializable {
         this.king = king;
         this.market = market;
         this.kingDeck = kingDeck;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public PlayerDTO getLocalPlayer() {
-        return localPlayer;
-    }
-
-    /**
-     *
-     * @param localPlayer
-     */
-    public void setLocalPlayer(PlayerDTO localPlayer) {
-        this.localPlayer = localPlayer;
     }
 
     /**

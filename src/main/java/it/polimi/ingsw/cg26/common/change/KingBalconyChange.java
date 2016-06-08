@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.common.change;
 
+import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 
@@ -22,9 +23,9 @@ public class KingBalconyChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(GameBoardDTO gameBoardDTO){
-		super.apply(gameBoardDTO);
-		gameBoardDTO.setKingBalcony(kingBalcony);
+	public void apply(ClientModel model){
+		super.apply(model);
+		model.setKingBalcony(kingBalcony);
 	}
 
 }
