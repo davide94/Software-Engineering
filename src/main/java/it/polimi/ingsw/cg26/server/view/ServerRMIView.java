@@ -26,15 +26,7 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
 
     @Override
     public void update(Change c) {
-        //System.out.println("Sending to the client " + o);
-        if (!c.isFor(token))
-            return;
-
-        try {
-            client.updateClient(c);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        c.sendRMI(client, token);
     }
 
     @Override

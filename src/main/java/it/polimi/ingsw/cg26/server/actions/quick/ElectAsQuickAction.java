@@ -39,5 +39,6 @@ public class ElectAsQuickAction extends ElectRegion {
     	super.apply(gameBoard);
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
+    	notifyChange(gameBoard);
     }
 }

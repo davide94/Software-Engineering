@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
 import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -32,11 +31,12 @@ public class AdditionalMainAction extends Action {
     	currentPlayer.takeAssistants(3);
     	currentPlayer.addRemainingMainActions(1);
     	currentPlayer.performQuickAction();
+    	notifyChange(gameBoard);
     }
 
 	@Override
 	public void notifyChange(GameBoard gameBoard) {
-		gameBoard.notifyObservers(new PlayersChange(new BasicChange(), gameBoard.getCurrentPlayer().getState()));
+		notifyDecoratingPlayersChange(gameBoard, new BasicChange());
 	}
 
 }

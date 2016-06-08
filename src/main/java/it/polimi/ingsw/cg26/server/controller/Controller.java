@@ -27,9 +27,9 @@ public class Controller implements Observer<Action>, Runnable {
                 action.apply(gameBoard);
                 gameBoard.actionPerformed();
 
-                gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
+                /*gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
                 for (PlayerDTO player : gameBoard.getFullPlayers())
-                    gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
+                    gameBoard.notifyObservers(new PrivateChange(new LocalPlayerChange(new BasicChange(), player), player.getToken()));*/
 
             }
         } catch (RuntimeException e) {

@@ -3,8 +3,6 @@ package it.polimi.ingsw.cg26.server.actions.main;
 import it.polimi.ingsw.cg26.common.change.BPTDeckChange;
 import it.polimi.ingsw.cg26.common.change.BasicChange;
 import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
-import it.polimi.ingsw.cg26.common.change.PrivateChange;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
@@ -74,15 +72,14 @@ public class Acquire extends Corrupt {
 		gameBoard.getPoliticDeck().discardAll(discarded);
 		currentPlayer.removeCoins(usedCoins);
     	currentPlayer.performMainAction();
+    	notifyChange(gameBoard);
     }
     
     @Override
     public void notifyChange(GameBoard gameBoard){
     	Region realRegion = gameBoard.getRegion(this.region);
     	Change bPTChange = new BPTDeckChange(new BasicChange(), realRegion.getBPTDeck().getState(), realRegion.getState());
-    	gameBoard.notifyObservers(new PlayersChange(bPTChange, gameBoard.getCurrentPlayer().getState()));
-    	Change privatePlayerChange = new PlayersChange(new BasicChange(), gameBoard.getCurrentPlayer().getFullState());
-    	gameBoard.notifyObservers(new PrivateChange(privatePlayerChange, gameBoard.getCurrentPlayer().getToken()));	
+    	notifyDecoratingPlayersChange(gameBoard, bPTChange);
     }
 
 }

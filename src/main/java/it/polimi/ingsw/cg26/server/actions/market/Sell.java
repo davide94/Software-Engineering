@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg26.server.actions.market;
 import it.polimi.ingsw.cg26.common.change.BasicChange;
 import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.change.MarketChange;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
@@ -44,7 +43,7 @@ public abstract class Sell extends Action {
 	@Override
 	public void notifyChange(GameBoard gameBoard){
 		Change change = new MarketChange(new BasicChange(), gameBoard.getMarket().getState());
-		gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
+		notifyDecoratingPlayersChange(gameBoard, change);
 	}
 
 }

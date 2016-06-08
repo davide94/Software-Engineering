@@ -30,6 +30,7 @@ public class SellPoliticCard extends Sell {
 	public void apply(GameBoard gameBoard) {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		PoliticCard cardToSell = currentPlayer.takeCard(this.politicCard);
-		super.sell(gameBoard, cardToSell);
+		sell(gameBoard, cardToSell);
+		notifyChange(gameBoard);
 	}
 }

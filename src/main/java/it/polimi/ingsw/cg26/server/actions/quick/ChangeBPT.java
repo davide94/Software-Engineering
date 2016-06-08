@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg26.server.actions.quick;
 import it.polimi.ingsw.cg26.common.change.BPTDeckChange;
 import it.polimi.ingsw.cg26.common.change.BasicChange;
 import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -51,13 +50,13 @@ public class ChangeBPT extends Action {
     	
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
+    	notifyChange(gameBoard);
     }
 
 	@Override
 	public void notifyChange(GameBoard gameBoard) {
 		Region realRegion = gameBoard.getRegion(this.region);
 		Change change = new BPTDeckChange(new BasicChange(), realRegion.getBPTDeck().getState(), realRegion.getState());
-		
-		gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
+		notifyDecoratingPlayersChange(gameBoard, change);
 	}
 }

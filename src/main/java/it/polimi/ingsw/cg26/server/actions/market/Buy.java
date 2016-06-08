@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.common.change.BasicChange;
 import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.common.change.MarketChange;
 import it.polimi.ingsw.cg26.common.change.PlayersChange;
+import it.polimi.ingsw.cg26.common.change.PrivateChange;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
@@ -42,12 +44,15 @@ public class Buy extends Action {
 		gameBoard.getMarket().removeFromMarket(realSellable);
 		realSellable.setPrice(0);
 		realSellable.giveToNewOwner(currentPlayer);
+		notifyChange(gameBoard);
 	}
 
 	@Override
 	public void notifyChange(GameBoard gameBoard) {
 		Change change = new PlayersChange(new MarketChange(new BasicChange(), gameBoard.getMarket().getState()), oldOwner.getState());
-		gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
+		notifyDecoratingPlayersChange(gameBoard, change);
+		Change privateOldOwnerChange = new LocalPlayerChange(new BasicChange(), oldOwner.getFullState());
+		gameBoard.notifyObservers(new PrivateChange(privateOldOwnerChange, oldOwner.getToken()));
 	}
 
 }

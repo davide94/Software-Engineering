@@ -30,7 +30,8 @@ public class SellBPT extends Sell {
 	public void apply(GameBoard gameBoard) {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileState);
-		super.sell(gameBoard, bpTile);
+		sell(gameBoard, bpTile);
+		notifyChange(gameBoard);
 	}
 
 }

@@ -33,5 +33,6 @@ public class ElectKingAsQuickAction extends ElectKing {
     	super.apply(gameBoard);
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
+    	notifyChange(gameBoard);
     }
 }

@@ -28,5 +28,6 @@ public class ElectKingAsMainAction extends ElectKing {
     	super.apply(gameBoard);
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();
+    	notifyChange(gameBoard);
 	}
 }

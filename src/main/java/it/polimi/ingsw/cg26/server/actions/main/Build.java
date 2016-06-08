@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg26.server.actions.main;
 import it.polimi.ingsw.cg26.common.change.BasicChange;
 import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.change.CityChange;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
@@ -65,14 +64,12 @@ public class Build extends Action {
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.useBPT(tile);
         currentPlayer.performMainAction();
+        notifyChange(gameBoard);
     }
     
     @Override
     public void notifyChange(GameBoard gameBoard){
     	Change change = new CityChange(new BasicChange(), gameBoard.getCity(city).getState());
-    	gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
-    	//Change privatePlayerChange = new PlayersChange(new BasicChange(), gameBoard.getCurrentPlayer().getFullState());
-    	//gameBoard.notifyObservers(new PrivateChange(privatePlayerChange, gameBoard.getCurrentPlayer().getToken()));	
+    	notifyDecoratingPlayersChange(gameBoard, change);
     }
-
 }

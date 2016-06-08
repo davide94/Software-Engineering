@@ -29,5 +29,6 @@ public class ElectAsMainAction extends ElectRegion {
     	super.apply(gameBoard);
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();
+    	notifyChange(gameBoard);
 	}
 }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg26.common.change.BalconyChange;
 import it.polimi.ingsw.cg26.common.change.BasicChange;
 import it.polimi.ingsw.cg26.common.change.Change;
 import it.polimi.ingsw.cg26.common.change.CouncillorsPoolChange;
-import it.polimi.ingsw.cg26.common.change.PlayersChange;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
@@ -39,7 +38,7 @@ public abstract class ElectRegion extends Elect {
      */
     @Override
     public void apply(GameBoard gameBoard) {
-		Councillor realCouncillor = super.getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
+		Councillor realCouncillor = getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
     	Councillor droppedCouncillor = gameBoard.getRegion(region).getBalcony().elect(realCouncillor);
 		gameBoard.getCouncillorsPool().remove(realCouncillor);
 		gameBoard.getCouncillorsPool().add(droppedCouncillor);
@@ -49,6 +48,6 @@ public abstract class ElectRegion extends Elect {
 	public void notifyChange(GameBoard gameBoard){
 		RegionDTO realRegionState = gameBoard.getRegion(this.region).getState();
 		Change change = new CouncillorsPoolChange(new BalconyChange(new BasicChange(), realRegionState.getBalcony(), realRegionState), gameBoard.getState().getCouncillorsPool());
-		gameBoard.notifyObservers(new PlayersChange(change, gameBoard.getCurrentPlayer().getState()));
+		notifyDecoratingPlayersChange(gameBoard, change);
 	}
 }

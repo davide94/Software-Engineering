@@ -32,15 +32,7 @@ public class ServerSocketView extends View {
 
     @Override
     public void update(Change c) {
-        //System.out.println("Sending to the client " + o);
-        if (!c.isFor(token))
-            return;
-
-        try {
-            socketOut.writeObject(c);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        c.sendSocket(socketOut, token);
     }
 
     @Override
