@@ -16,15 +16,22 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
 
     private ActionVisitor actionVisitor;
 
+    private long token;
+
     public ServerRMIView(ClientRMIViewInterface client, long token) {
         this.client = client;
         actionVisitor = new ActionVisitor(this, token);
+        this.token = token;
     }
 
     @Override
-    public void update(Change o) {
+    public void update(Change c) {
+        //System.out.println("Sending to the client " + o);
+        if (!c.isFor(token))
+            return;
+
         try {
-            client.updateClient(o);
+            client.updateClient(c);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

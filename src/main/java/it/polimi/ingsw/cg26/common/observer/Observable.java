@@ -24,5 +24,4 @@ public abstract class Observable<C> {
         for (Observer<C> o: this.observers)
             o.update(c);
     }
-
 }

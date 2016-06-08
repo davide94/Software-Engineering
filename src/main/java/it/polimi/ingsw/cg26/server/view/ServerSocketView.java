@@ -31,13 +31,13 @@ public class ServerSocketView extends View {
     }
 
     @Override
-    public void update(Change o) {
+    public void update(Change c) {
         //System.out.println("Sending to the client " + o);
-        if (!o.isFor(token))
+        if (!c.isFor(token))
             return;
 
         try {
-            socketOut.writeObject(o);
+            socketOut.writeObject(c);
         } catch (IOException e) {
             e.printStackTrace();
         }

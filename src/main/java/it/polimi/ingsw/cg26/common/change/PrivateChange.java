@@ -9,20 +9,19 @@ public class PrivateChange extends ChangeDecorator {
 
     private static final long serialVersionUID = 8585646987699696361L;
 
-    private final long to;
+    private final long token;
 
-    public PrivateChange(Change decoratedChange, long to) {
+    public PrivateChange(Change decoratedChange, long token) {
         super(decoratedChange);
-        this.to = to;
+        this.token = token;
     }
 
     @Override
     public boolean isFor(long token) {
-        return this.to == token;
+        return this.token == token;
     }
 
     @Override
     public void apply(GameBoardDTO gameGameBoardDTO) {
-        super.apply(gameGameBoardDTO);
     }
 }

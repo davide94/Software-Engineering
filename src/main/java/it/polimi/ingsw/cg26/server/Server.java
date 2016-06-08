@@ -116,7 +116,7 @@ public class Server {
         return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
     }
 
-    private long registerPlayer(String name) {
+    private synchronized long registerPlayer(String name) {
         playersNumber++;
         if (playersNumber == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
