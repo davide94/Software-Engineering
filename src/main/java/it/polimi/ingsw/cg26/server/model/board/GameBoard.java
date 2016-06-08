@@ -181,7 +181,7 @@ public class GameBoard extends Observable<Change> {
 	        			return false;
 
 	        			//cosa succede per la città viola?
-	        			//SOL: contatore che se è uguale a 1 ritorna false
+	        			
 	        		}
 	        	}
 

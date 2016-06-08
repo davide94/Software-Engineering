@@ -11,6 +11,11 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.server.exceptions.NotExistingRegionException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -45,11 +50,11 @@ public class GameBoardTest {
 
 	private Scheduler scheduler;
 	
-	
+	/*
 	private Player Davide;
 	private Player Luca;
 	private Player Marco;
-	
+	*/
 	
 	@Before
 	public void setUp() throws Exception {
@@ -70,7 +75,8 @@ public class GameBoardTest {
 		NobilityCell cell3= NobilityCell.createNobilityCell(3, cell4, new EmptyBonus());
 		NobilityCell cell2= NobilityCell.createNobilityCell(2, cell3, new EmptyBonus());
 		NobilityCell cell1= NobilityCell.createNobilityCell(1, cell2, new EmptyBonus());
-		nobilityTrack= NobilityTrack.createNobilityTrack(cell1);
+		NobilityCell cell0= NobilityCell.createNobilityCell(0, cell1, new EmptyBonus());
+		nobilityTrack= NobilityTrack.createNobilityTrack(cell0);
 		
 		PoliticCard blueCard= new PoliticCard(new PoliticColor("blue"));
 		PoliticCard purpleCard= new PoliticCard(new PoliticColor("purple"));
@@ -226,11 +232,11 @@ public class GameBoardTest {
 		
 		king= King.createKing(roma);
 		
-		
+		/*
 		Davide=new Player(1234, "Davide", cell1, 5, new LinkedList<>(), new LinkedList<>());
 	    Luca=new Player(1235, "Luca", cell2, 6, new LinkedList<>(), new LinkedList<>());
 	    Marco=new Player(1236, "Marco", cell3, 7, new LinkedList<>(), new LinkedList<>());
-	
+	     */
 	
 	}
 	
@@ -359,6 +365,8 @@ public class GameBoardTest {
 		assertEquals(board.getKingBalcony(), kBalc);
 		assertFalse((board.getKingBalcony()).equals(kBalc2));
 		
+		assertEquals(board.getKingBalcony(), kingBalcony);
+		
 		
 	}
 
@@ -388,6 +396,8 @@ public class GameBoardTest {
 		assertNotEquals(board.getKingDeck(), kDeck);
 		assertEquals(board.getKingDeck(), kDeck2);
 		
+		assertEquals(board.getKingDeck(), kingDeck);
+		
 		
 	}
 	
@@ -400,6 +410,7 @@ public class GameBoardTest {
 		King re= King.createKing(City.createCity("Roma", CityColor.createCityColor("violet"), new VictoryBonus(new EmptyBonus(), 1)));
 		
 		assertEquals(board.getKing(), re);
+		assertEquals(board.getKing(), king);
 				
 				
 	}
@@ -408,34 +419,143 @@ public class GameBoardTest {
 	@Test
 	public void testGetCouncillorsPool() {
 		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		
+		Councillor consBlack= Councillor.createCouncillor(new PoliticColor("black"));
+		Councillor consWhite= Councillor.createCouncillor(new PoliticColor("white"));
+		Councillor consPink= Councillor.createCouncillor(new PoliticColor("pink"));
+		Councillor consOrange= Councillor.createCouncillor(new PoliticColor("orange"));
+		Councillor consPurple= Councillor.createCouncillor(new PoliticColor("purple"));
+		
+		Collection<Councillor> councPool= new LinkedList<>();
+		councPool.add(consPurple);
+		councPool.add(consPurple);
+		councPool.add(consWhite);
+		councPool.add(consWhite);
+		councPool.add(consBlack);
+		councPool.add(consPink);
+		councPool.add(consPink);
+		councPool.add(consOrange);
+		
+		assertEquals(board.getCouncillorsPool(), councPool);
+		assertEquals(board.getCouncillorsPool(), councillorsPool);
+		
+		
 	}
 
 	
 
-	@Test
-	public void testGetCity() {
+	@Test (expected=NotExistingRegionException.class)
+	public void testShouldNotGetACityThatIsNotInRegions() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		CityDTO udine= new CityDTO("Udine", new CityColorDTO("iron"),new EmptyBonusDTO(), emporiums, nearCities );
+		board.getCity(udine);
 		
 	}
+	
+	
+	
+	@Test
+	public void testShouldGetACityThatIsInRegions() {
+		
+        GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		CityDTO milano= new CityDTO("Milano", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		
+		City milanoReal = City.createCity("Milano", CityColor.createCityColor("gold"), new VictoryBonus(new EmptyBonus(), 3));
+		assertEquals(board.getCity(milano), milanoReal );
+		
+	}
+	
+	
 
 	@Test
 	public void testGetPoliticDeck() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		PoliticCard blue= new PoliticCard(new PoliticColor("blue"));
+		PoliticCard purple= new PoliticCard(new PoliticColor("purple"));
+		PoliticCard black= new PoliticCard(new PoliticColor("black"));
+		PoliticCard white= new PoliticCard(new PoliticColor("white"));
+		PoliticCard orange= new PoliticCard(new PoliticColor("orange"));
+		PoliticCard pink= new PoliticCard(new PoliticColor("pink"));
+		
+		Collection<PoliticCard> cards= new ArrayList<>();
+		cards.add(blue);
+		cards.add(pink);
+		cards.add(black);
+		cards.add(white);
+		cards.add(orange);
+		cards.add(purple);
+		
+		PoliticDeck deck=new PoliticDeck(cards);
+		
+		assertEquals(board.getPoliticDeck(), deck);
+		assertEquals(board.getPoliticDeck(), politicDeck);
 		
 	}
 
 	@Test
 	public void testGetNobilityTrack() {
 		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		assertEquals(board.getNobilityTrack(), nobilityTrack);
+		
+		NobilityCell cell7= NobilityCell.createNobilityCell(7, null, new EmptyBonus());
+		NobilityCell cell6= NobilityCell.createNobilityCell(6, cell7, new EmptyBonus());
+		NobilityCell cell5= NobilityCell.createNobilityCell(5, cell6, new EmptyBonus());
+		NobilityCell cell4= NobilityCell.createNobilityCell(4, cell5, new EmptyBonus());
+		NobilityCell cell3= NobilityCell.createNobilityCell(3, cell4, new EmptyBonus());
+		NobilityCell cell2= NobilityCell.createNobilityCell(2, cell3, new EmptyBonus());
+		NobilityCell cell1= NobilityCell.createNobilityCell(1, cell2, new EmptyBonus());
+		NobilityCell cell0= NobilityCell.createNobilityCell(0, cell1, new EmptyBonus());
+		NobilityTrack track= NobilityTrack.createNobilityTrack(cell0);
+		
+		assertEquals(board.getNobilityTrack(), track);
 	}
+	
+	
+	@Test
+	public void testGetMarket() {
+		
+        GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		assertEquals(board.getMarket(), market);
+		
+		
+		
+	}
+	
+	
 
 	@Test
 	public void testToString() {
 		
-	}
-
-	@Test
-	public void testGetMarket() {
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		assertEquals(board.toString(), "GameBoard{" +
+				"councillorsPool=" + board.getCouncillorsPool() +
+				", kingBalcony=" + board.getKingBalcony() +
+				", regions=" + board.getRegions() +
+				", nobilityTrack=" + board.getNobilityTrack() +
+				", king=" + board.getKing() +
+				'}');
 		
 	}
+
+	
 
 	@Test
 	public void testCheckBonuses() {
@@ -479,7 +599,10 @@ public class GameBoardTest {
 
 	@Test
 	public void testGetRegion() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		scheduler= new Scheduler(board);
+		*/
 	}
 
 }
