@@ -19,8 +19,8 @@ public class PrivateUpdate implements Update {
 
     private Update carried;
 
-    public PrivateUpdate(Change decoratedChange, long token) {
-        this.carried = decoratedChange;
+    public PrivateUpdate(Update carried, long token) {
+        this.carried = carried;
         this.token = token;
     }
 

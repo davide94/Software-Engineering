@@ -157,51 +157,40 @@ public class GameBoard extends Observable<Update> {
 		return market;
 	}
 
+	public void checkBonuses(Player player, CityColor color) {
+        if (checkColorBonuses(player, color)) {
+            Bonus bonus = colorBonuses.get(color);
+            if (bonus == null)
+                return;
+            bonus.apply(player);
+            if (kingDeck.hasNext())
+                this.kingDeck.draw().apply(player);
+        }
 
+        for (Region r: regions) {
+            if (r.checkRegionBonuses(player)) {
+                Bonus regionBonus = r.getRegionBonus();
+                if (regionBonus != null) {
+                    regionBonus.apply(player);
+                    if (kingDeck.hasNext())
+                        this.kingDeck.draw().apply(player);
+                }
+            }
+        }
+    }
 
-	 public void checkBonuses(Player player, CityColor color){
-		 if (checkColorBonuses(player, color)) {
-			 Bonus bonus = colorBonuses.get(color);
-		        if (bonus == null)
-		        	return;
-		        bonus.apply(player);
-		        if (kingDeck.hasNext())
-		        	this.kingDeck.draw().apply(player);
-		 }
+    public boolean checkColorBonuses(Player player, CityColor color){
+        for(Region iterRegion:regions){
+            for(City iterCity: iterRegion.getCities()){
+                if(iterCity.getColor().equals(color) && !iterCity.hasEmporium(player)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-		 for (Region r: regions) {
-			 if (r.checkRegionBonuses(player)) {
-				 Bonus regionBonus = r.getRegionBonus();
-				 if (regionBonus != null) {
-					 regionBonus.apply(player);
-				 }
-			 }
-		 }
-
-
-	 }
-
-	 public boolean checkColorBonuses(Player player, CityColor color){
-
-	        for(Region iterRegion:regions){
-	        	for(City iterCity: iterRegion.getCities()){
-	        		if(iterCity.getColor().equals(color) && !iterCity.hasEmporium(player)){
-	        			return false;
-
-	        			//cosa succede per la città viola?
-	        			
-	        		}
-	        	}
-
-	        }
-	        return true;
-
-	    }
-
-
-	 public Bonus getColorBonus(CityColor color) {
-			return colorBonuses.get(color);
-		}
-
-
+    public Bonus getColorBonus(CityColor color) {
+        return colorBonuses.get(color);
+    }
 }
