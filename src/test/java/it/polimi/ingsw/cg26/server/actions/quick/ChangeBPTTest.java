@@ -56,7 +56,7 @@ public class ChangeBPTTest {
 	}
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("giallo")));

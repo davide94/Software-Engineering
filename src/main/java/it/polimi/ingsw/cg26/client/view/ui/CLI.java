@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 import it.polimi.ingsw.cg26.common.update.Update;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -16,6 +18,8 @@ import java.util.function.Consumer;
  *
  */
 public class CLI implements Observer<Update>, Runnable {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final OutView outView;
 
@@ -141,7 +145,7 @@ public class CLI implements Observer<Update>, Runnable {
         try {
             CLI.class.getDeclaredMethod(commands.get(i)).invoke(this);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error calling method.", e);
         }
     }
 

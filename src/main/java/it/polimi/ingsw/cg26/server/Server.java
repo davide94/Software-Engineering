@@ -6,12 +6,14 @@ import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerSocketView;
 import it.polimi.ingsw.cg26.server.view.View;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -32,7 +34,7 @@ import java.util.concurrent.Executors;
  */
 public class Server {
 
-    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final static int START_DELAY = 1000;
 
@@ -64,9 +66,9 @@ public class Server {
         try {
             newGame();
         } catch (BadInputFileException e) {
-            e.printStackTrace();
+            log.error("Error creating game, bad input file.", e);
         } catch (ParserErrorException e) {
-            e.printStackTrace();
+            log.error("Error creating game, parser error.", e);
         }
     }
 
@@ -80,10 +82,8 @@ public class Server {
             new Thread(() -> {
                 try {
                     registerSocketPlayer(socket);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    log.error("Error registering player connected on socket.", e);
                 }
             }).start();
         }
@@ -110,7 +110,13 @@ public class Server {
 
         String name = (String)o;
 
-        long token = registerPlayer(name);
+        long token = 0;
+        try {
+            token = registerPlayer(name);
+        } catch (NoRemainingCardsException e) {
+            log.error("Cannot create player because there are no politic cards remaining.", e);
+            // TODO: notify client that player cannot be created
+        }
         View view = new ServerSocketView(socket, socketIn, socketOut, token);
         view.registerObserver(this.controller);
         model.registerObserver(view);
@@ -119,7 +125,13 @@ public class Server {
     }
 
     public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
-        long token = registerPlayer(name);
+        long token = 0;
+        try {
+            token = registerPlayer(name);
+        } catch (NoRemainingCardsException e) {
+            log.error("Cannot create player because there are no politic cards remaining.", e);
+            // TODO: notify client that player cannot be created
+        }
         ServerRMIView view = new ServerRMIView(client, token);
         view.registerObserver(this.controller);
         model.registerObserver(view);
@@ -129,7 +141,8 @@ public class Server {
         return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
     }
 
-    private synchronized long registerPlayer(String name) {
+    private synchronized long registerPlayer(String name) throws NoRemainingCardsException {
+        long token = model.registerPlayer(name);
         playersNumber++;
         if (playersNumber == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
@@ -139,7 +152,7 @@ public class Server {
                 }
             }, START_DELAY);
         }
-        return model.registerPlayer(name);
+        return token;
     }
 
     public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException, BadInputFileException, ParserErrorException {

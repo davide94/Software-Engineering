@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg26.client.view.socket;
 
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.common.commands.Command;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -10,6 +12,8 @@ import java.io.ObjectOutputStream;
  *
  */
 public class ClientSocketOutView implements OutView {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final ObjectOutputStream outputStream;
 
@@ -22,7 +26,7 @@ public class ClientSocketOutView implements OutView {
         try {
             outputStream.writeObject(c);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error writing to socket.", e);
         }
     }
 }

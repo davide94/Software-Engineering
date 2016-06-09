@@ -12,13 +12,17 @@ import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class Build extends Action {
 
-	/**
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    /**
 	 * The City where the player wants to build the emporium
 	 */
     private final CityDTO city;
@@ -72,7 +76,7 @@ public class Build extends Action {
         try {
             change = new CityChange(new BasicChange(), gameBoard.getCity(city).getState());
         } catch (CityNotFoundException e) {
-            e.printStackTrace();
+            log.error("Error creating CityChange", e);
         }
         notifyDecoratingPlayersChange(gameBoard, change);
     }

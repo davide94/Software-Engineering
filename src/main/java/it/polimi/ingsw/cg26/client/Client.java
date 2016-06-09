@@ -10,6 +10,8 @@ import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.client.view.ui.CLI;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,6 +30,8 @@ import java.util.concurrent.Executors;
  *
  */
 public class Client {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final static String DEFAULT_IP = "localhost";
 
@@ -73,7 +77,7 @@ public class Client {
                     outView = startRMIClient(ip, DEFAULT_RMI_PORT, name);
                 break;
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Connection failed.",e);
                 System.out.println("ip/host-name may be wrong, try again...");
             }
         }

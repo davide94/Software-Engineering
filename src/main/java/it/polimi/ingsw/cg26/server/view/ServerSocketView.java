@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.view;
 import it.polimi.ingsw.cg26.common.commands.Staccah;
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.visitor.Visitable;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.EOFException;
@@ -16,7 +17,7 @@ import java.net.Socket;
  */
 public class ServerSocketView extends View {
 
-    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Socket socket;
     private ObjectInputStream socketIn;
@@ -37,7 +38,7 @@ public class ServerSocketView extends View {
         try {
             u.sendSocket(socketOut, token);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error sending update with socket.", e);
         }
     }
 

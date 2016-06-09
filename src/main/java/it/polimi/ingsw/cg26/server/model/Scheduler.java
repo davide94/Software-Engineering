@@ -9,6 +9,8 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
  *
  */
 public class Scheduler {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final int INITIAL_CARDS_NUMBER = 6;
 
@@ -129,20 +133,16 @@ public class Scheduler {
      * Adds a Player to the list of players
      * @throws NoRemainingCardsException
      */
-    public long registerPlayer(String name) {
+    public long registerPlayer(String name) throws NoRemainingCardsException {
         Player player = null;
-        try {
-            player = newPlayer(name);
-        } catch (NoRemainingCardsException e) {
-            e.printStackTrace();
-        }
+        player = newPlayer(name);
         if (players.isEmpty()) {
             player.setRemainingMainActions(1);
             player.setRemainingQuickActions(1);
             try {
                 player.addPoliticCard(gameBoard.getPoliticDeck().draw());
             } catch (NoRemainingCardsException e) {
-                e.printStackTrace();
+                log.error("Player can't draw from politic deck", e);
             }
         }
         players.add(player);
@@ -215,7 +215,7 @@ public class Scheduler {
         try {
             getCurrentPlayer().addPoliticCard(gameBoard.getPoliticDeck().draw());
         } catch (NoRemainingCardsException e) {
-            e.printStackTrace();
+            log.error("Player can't draw from politic deck", e);
         }
 
         event = new TurnStarted();

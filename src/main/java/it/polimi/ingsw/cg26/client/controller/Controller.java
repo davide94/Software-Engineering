@@ -6,11 +6,15 @@ import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
 import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class Controller implements Observer<Update>, Runnable {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final Model model;
 
@@ -22,12 +26,8 @@ public class Controller implements Observer<Update>, Runnable {
     public void update(Update u) {
         try {
             u.apply(model);
-        } catch (InvalidRegionException e) {
-            e.printStackTrace();
-        } catch (InvalidCityException e) {
-            e.printStackTrace();
-        } catch (PlayerNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Error applying update.", e);
         }
         model.notifyObservers(u);
     }

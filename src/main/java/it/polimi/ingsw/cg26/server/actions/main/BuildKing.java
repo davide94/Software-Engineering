@@ -12,6 +12,8 @@ import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.King;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
@@ -20,7 +22,9 @@ import java.util.Collection;
  */
 public class BuildKing extends Corrupt {
 
-	/**
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    /**
 	 * The city where the player wants to move the king and to build the emporium
 	 */
     private final CityDTO city;
@@ -73,7 +77,7 @@ public class BuildKing extends Corrupt {
         try {
             change = new KingChange(new CityChange(new BasicChange(), gameBoard.getCity(city).getState()), gameBoard.getKing().getState());
         } catch (CityNotFoundException e) {
-            e.printStackTrace();
+            log.error("Error creating CityChange", e);
         }
         notifyDecoratingPlayersChange(gameBoard, change);
     }

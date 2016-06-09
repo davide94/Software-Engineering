@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg26.common.commands.Command;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.rmi.RemoteException;
 
@@ -11,6 +13,8 @@ import java.rmi.RemoteException;
  *
  */
 public class ServerRMIView extends View implements ServerRMIViewInterface {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private ClientRMIViewInterface client;
 
@@ -29,7 +33,7 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
         try {
             u.sendRMI(client, token);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            log.error("Error sending update with RMI.", e);
         }
     }
 

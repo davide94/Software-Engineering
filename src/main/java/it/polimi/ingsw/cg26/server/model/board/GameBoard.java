@@ -86,7 +86,7 @@ public class GameBoard extends Observable<Update> {
 		return scheduler.getPlayersFullState();
 	}
 
-	public long registerPlayer(String name) {
+	public long registerPlayer(String name) throws NoRemainingCardsException {
 		return scheduler.registerPlayer(name);
 	}
 
