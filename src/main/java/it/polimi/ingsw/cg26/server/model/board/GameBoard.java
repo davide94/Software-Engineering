@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingRegionException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * 
  */
-public class GameBoard extends Observable<Change> {
+public class GameBoard extends Observable<Update> {
 
 	private final PoliticDeck politicDeck;
 
@@ -85,6 +85,14 @@ public class GameBoard extends Observable<Change> {
 
 	public Player getCurrentPlayer() {
 		return scheduler.getCurrentPlayer();
+	}
+	
+	public void foldSell(){
+		scheduler.foldSell();
+	}
+	
+	public void foldBuy(){
+		scheduler.foldBuy();
 	}
 
     public Collection<Region> getRegions() {

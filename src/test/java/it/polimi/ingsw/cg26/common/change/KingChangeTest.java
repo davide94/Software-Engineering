@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.ClientModel;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.KingChange;
 import org.junit.Before;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
-import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
 import it.polimi.ingsw.cg26.common.dto.KingDTO;
 import it.polimi.ingsw.cg26.common.dto.KingDeckDTO;
 import it.polimi.ingsw.cg26.common.dto.MarketDTO;

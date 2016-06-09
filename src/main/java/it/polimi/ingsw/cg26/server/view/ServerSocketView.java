@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.common.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.commands.*;
+import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.visitor.Visitable;
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.Change;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -31,8 +31,12 @@ public class ServerSocketView extends View {
     }
 
     @Override
-    public void update(Change c) {
-        c.sendSocket(socketOut, token);
+    public void update(Update u) {
+        try {
+            u.sendSocket(socketOut, token);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

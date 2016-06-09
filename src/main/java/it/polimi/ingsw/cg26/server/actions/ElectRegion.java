@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.actions;
 
-import it.polimi.ingsw.cg26.common.change.BalconyChange;
-import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.change.CouncillorsPoolChange;
+import it.polimi.ingsw.cg26.common.update.change.BalconyChange;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.CouncillorsPoolChange;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;

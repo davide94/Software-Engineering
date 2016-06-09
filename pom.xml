@@ -11,8 +11,9 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		<sonar.language>java</sonar.language>
 		<sonar.host.url> http://localhost:9000/ </sonar.host.url>
 	</properties>
-	<description>Prova Finale Ingegneria del software</description>
-	<dependencies>
+
+    <description>Prova Finale Ingegneria del software</description>
+    <dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
-import it.polimi.ingsw.cg26.common.change.BPTDeckChange;
-import it.polimi.ingsw.cg26.common.change.BasicChange;
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.BPTDeckChange;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;

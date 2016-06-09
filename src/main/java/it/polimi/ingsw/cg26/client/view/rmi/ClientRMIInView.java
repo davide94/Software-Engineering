@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.client.view.rmi;
 
-import it.polimi.ingsw.cg26.common.change.Change;
-import it.polimi.ingsw.cg26.common.observer.Observable;
+import it.polimi.ingsw.cg26.common.update.Update;
+import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 
@@ -18,7 +18,7 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
 
     private static final long serialVersionUID = 1988554106153678366L;
 
-    private List<Observer<Change>> observers;
+    private List<Observer<Update>> observers;
 
     public ClientRMIInView() throws RemoteException {
         super();
@@ -26,8 +26,8 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
     }
 
     @Override
-    public void updateClient(Change c) throws RemoteException {
-        notifyObservers(c);
+    public void updateClient(Update u) throws RemoteException {
+        notifyObservers(u);
     }
 
     @Override
@@ -35,14 +35,14 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
 
     }
 
-    public void registerObserver(Observer<Change> o) {
+    public void registerObserver(Observer<Update> o) {
         if (o == null)
             throw new NullPointerException();
         this.observers.add(o);
     }
 
-    public void notifyObservers(Change c) {
-        for (Observer<Change> o: this.observers)
-            o.update(c);
+    public void notifyObservers(Update u) {
+        for (Observer<Update> o: this.observers)
+            o.update(u);
     }
 }

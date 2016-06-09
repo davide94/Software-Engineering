@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.client.view.socket;
 
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.update.Update;
+import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 
 import java.io.EOFException;
@@ -10,7 +11,7 @@ import java.io.ObjectInputStream;
 /**
  *
  */
-public class ClientSocketInView extends Observable<Change> implements Runnable {
+public class ClientSocketInView extends Observable<Update> implements Runnable {
 
     private ObjectInputStream socketIn;
 
@@ -26,8 +27,8 @@ public class ClientSocketInView extends Observable<Change> implements Runnable {
                 Object object = this.socketIn.readObject();
                 //System.out.println("ClientSocketInView: " + object);
 
-                if (object instanceof Change) {
-                    notifyObservers((Change) object);
+                if (object instanceof Update) {
+                    notifyObservers((Update) object);
                 }
 
             } catch (EOFException e) {

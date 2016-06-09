@@ -1,13 +1,13 @@
 package it.polimi.ingsw.cg26.client.controller;
 
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.change.Change;
+import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 
 /**
  *
  */
-public class Controller implements Observer<Change>, Runnable {
+public class Controller implements Observer<Update>, Runnable {
 
     private final Model model;
 
@@ -16,8 +16,8 @@ public class Controller implements Observer<Change>, Runnable {
     }
 
     @Override
-    public void update(Change change) {
-        change.apply(model);
+    public void update(Update u) {
+        u.apply(model);
         model.notifyObservers(model);
     }
 
