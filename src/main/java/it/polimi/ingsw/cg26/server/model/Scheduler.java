@@ -153,6 +153,14 @@ public class Scheduler {
             getCurrentPlayer().addPoliticCard(gameBoard.getPoliticDeck().draw());
         }
     }
+    
+    public void foldSell(){
+    	
+    }
+    
+    public void foldBuy(){
+    	
+    }
 
     private Comparator<Player> nobilityComparator = (x, y) ->
             x.getNobilityCell().getIndex() < y.getNobilityCell().getIndex() ? -1 :

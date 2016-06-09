@@ -86,6 +86,14 @@ public class GameBoard extends Observable<Update> {
 	public Player getCurrentPlayer() {
 		return scheduler.getCurrentPlayer();
 	}
+	
+	public void foldSell(){
+		scheduler.foldSell();
+	}
+	
+	public void foldBuy(){
+		scheduler.foldBuy();
+	}
 
     public Collection<Region> getRegions() {
         return new LinkedList<>(regions);
