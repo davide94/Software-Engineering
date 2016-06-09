@@ -50,11 +50,11 @@ public class GameBoardTest {
 
 	private Scheduler scheduler;
 	
-	/*
+	
 	private Player Davide;
 	private Player Luca;
 	private Player Marco;
-	*/
+
 	
 	@Before
 	public void setUp() throws Exception {
@@ -232,12 +232,14 @@ public class GameBoardTest {
 		
 		king= King.createKing(roma);
 		
-		/*
-		Davide=new Player(1234, "Davide", cell1, 5, new LinkedList<>(), new LinkedList<>());
-	    Luca=new Player(1235, "Luca", cell2, 6, new LinkedList<>(), new LinkedList<>());
-	    Marco=new Player(1236, "Marco", cell3, 7, new LinkedList<>(), new LinkedList<>());
-	     */
-	
+		
+		
+		Davide=new Player(1234, "Davide", cell1, 0, new LinkedList<>(), new LinkedList<>());
+		Luca=new Player(1235, "Luca", cell2, 0, new LinkedList<>(), new LinkedList<>());
+		Marco=new Player(1236, "Marco", cell3, 0, new LinkedList<>(), new LinkedList<>());
+	    
+	    
+	    
 	}
 	
 	
@@ -558,43 +560,178 @@ public class GameBoardTest {
 	
 
 	@Test
-	public void testCheckBonuses() {
+	public void testCheckGoldBonusAndKingBonusHaveBeenAppliedToPlayer() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		
+		CityDTO milanoDTO= new CityDTO("Milano", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO torinoDTO= new CityDTO("Torino", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO veneziaDTO= new CityDTO("Venezia", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO firenzeDTO= new CityDTO("Firenze", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO napoliDTO= new CityDTO("Napoli", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		
+		board.getCity(milanoDTO).build(Luca);
+		board.getCity(torinoDTO).build(Luca);
+		board.getCity(firenzeDTO).build(Luca);
+		board.getCity(veneziaDTO).build(Luca);
+		board.getCity(napoliDTO).build(Luca);
+		
+		board.checkBonuses(Luca, CityColor.createCityColor("gold"));
+		
+		assertEquals(Luca.getVictoryPoints(), 75);
 		
 	}
-
+	
+	
 	@Test
-	public void testCheckColorBonuses() {
+	public void testCheckNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		
+		CityDTO milanoDTO= new CityDTO("Milano", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO torinoDTO= new CityDTO("Torino", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO veneziaDTO= new CityDTO("Venezia", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO genovaDTO= new CityDTO("Genova", new CityColorDTO("silver"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO triesteDTO= new CityDTO("Trieste", new CityColorDTO("bronze"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		
+		board.getCity(milanoDTO).build(Luca);
+		board.getCity(torinoDTO).build(Luca);
+		board.getCity(genovaDTO).build(Luca);
+		board.getCity(veneziaDTO).build(Luca);
+		board.getCity(triesteDTO).build(Luca);
+		
+		board.checkBonuses(Luca, CityColor.createCityColor("bronze"));
+		
+		assertEquals(Luca.getVictoryPoints(), 8);
+		//MANCANO I VICPOINTS DI KINGTILES PER REGION
+		
+	}
+	
+	
+	@Test
+	public void testCheckGoldBonusAndNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		
+		CityDTO milanoDTO= new CityDTO("Milano", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO torinoDTO= new CityDTO("Torino", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO veneziaDTO= new CityDTO("Venezia", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO firenzeDTO= new CityDTO("Firenze", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO napoliDTO= new CityDTO("Napoli", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO genovaDTO= new CityDTO("Genova", new CityColorDTO("silver"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO triesteDTO= new CityDTO("Trieste", new CityColorDTO("bronze"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		
+		board.getCity(milanoDTO).build(Luca);
+		board.getCity(firenzeDTO).build(Luca);
+		board.getCity(veneziaDTO).build(Luca);
+		board.getCity(genovaDTO).build(Luca);
+		board.getCity(triesteDTO).build(Luca);
+		board.getCity(napoliDTO).build(Luca);
+		board.getCity(torinoDTO).build(Luca);
+		
+		
+		board.checkBonuses(Luca, CityColor.createCityColor("gold"));
+		
+		assertEquals(Luca.getVictoryPoints(), 80);
+		//MANCANO I VICPOINTS DI KINGTILES PER REGION
+		
+	}
+	
+
+	
+	
+	
+	@Test
+	public void testCheckGoldCitiesBonuses() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		
+		CityDTO milanoDTO= new CityDTO("Milano", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO torinoDTO= new CityDTO("Torino", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO veneziaDTO= new CityDTO("Venezia", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO firenzeDTO= new CityDTO("Firenze", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO napoliDTO= new CityDTO("Napoli", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		
+		board.getCity(milanoDTO).build(Luca);
+		board.getCity(torinoDTO).build(Luca);
+		board.getCity(firenzeDTO).build(Luca);
+		board.getCity(veneziaDTO).build(Luca);
+		board.getCity(napoliDTO).build(Luca);
+		
+		
+		board.getCity(milanoDTO).build(Davide);
+		board.getCity(torinoDTO).build(Davide);
+		board.getCity(veneziaDTO).build(Davide);
+		
+		board.getCity(napoliDTO).build(Marco);
+		board.getCity(firenzeDTO).build(Marco);
+		
+		assertTrue(board.checkColorBonuses(Luca, CityColor.createCityColor("gold")));
+		assertFalse(board.checkColorBonuses(Davide, CityColor.createCityColor("gold")));
+		assertFalse(board.checkColorBonuses(Marco, CityColor.createCityColor("gold")));
+		
+		
+		
+		
 		
 	}
 
 	@Test
 	public void testGetColorBonus() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		*/
 	}
 	
 	@Test
 	public void testGetState() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		*/
 	}
 	
 	@Test
 	public void testGetFullPlayers() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		*/
 	}
 
 	@Test
 	public void testRegisterPlayer() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		*/
 	}
 
 	@Test
 	public void testActionPerformed() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		*/
 	}
 
 	@Test
 	public void testGetCurrentPlayer() {
-		
+		/*
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		*/
 	}
 
 	@Test
