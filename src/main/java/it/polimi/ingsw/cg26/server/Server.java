@@ -1,18 +1,18 @@
 package it.polimi.ingsw.cg26.server;
 
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
-import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
+import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
+import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerSocketView;
 import it.polimi.ingsw.cg26.server.view.View;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,6 +31,8 @@ import java.util.concurrent.Executors;
  *
  */
 public class Server {
+
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final static int START_DELAY = 1000;
 
@@ -71,7 +73,7 @@ public class Server {
     private void startSocket() throws IOException, ClassNotFoundException {
         ServerSocket serverSocket = new ServerSocket(SOCKET_PORT);
 
-        System.out.println("SERVER SOCKET READY ON PORT " + SOCKET_PORT);
+        log.info("SERVER SOCKET READY ON PORT " + SOCKET_PORT);
 
         while (true) {
             Socket socket = serverSocket.accept();
@@ -96,7 +98,7 @@ public class Server {
 
         registry.bind("WELCOME_VIEW", viewRemote);
 
-        System.out.println("SERVER RMI READY ON PORT " + RMI_PORT);
+        log.info("SERVER RMI READY ON PORT " + RMI_PORT);
     }
 
     private void registerSocketPlayer(Socket socket) throws IOException, ClassNotFoundException {
@@ -113,6 +115,7 @@ public class Server {
         view.registerObserver(this.controller);
         model.registerObserver(view);
         executor.submit(view);
+        log.info("New player registered on Socket");
     }
 
     public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
@@ -121,6 +124,7 @@ public class Server {
         view.registerObserver(this.controller);
         model.registerObserver(view);
         executor.submit(view);
+        log.info("New player registered on RMI");
 
         return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
     }

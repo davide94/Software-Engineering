@@ -1,33 +1,31 @@
 package it.polimi.ingsw.cg26.common;
 
-import it.polimi.ingsw.cg26.client.model.state.*;
-
 /**
  *
  */
 public interface ClientState {
 
-    State gameStarted();
+    void gameStarted();
 
-    State gameEnded();
+    void gameEnded();
 
-    State turnStarted();
+    void turnStarted();
 
-    State turnEnded();
+    void turnEnded();
 
-    State marketStarted();
+    void marketStarted();
 
-    State marketEnded();
+    void marketEnded();
 
-    State sellTurnStarted();
+    void sellTurnStarted();
 
-    State sellTurnEnded();
+    void sellTurnEnded();
 
-    State buyTurnStarted();
+    void buyTurnStarted();
 
-    State buyTurnEnded();
+    void buyTurnEnded();
 
-    State actionSuccessful();
+    void actionSuccessful();
 
-    State actionFailed();
+    void actionFailed();
 }

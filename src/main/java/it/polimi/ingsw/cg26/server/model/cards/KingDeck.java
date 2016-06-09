@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
+import it.polimi.ingsw.cg26.common.dto.KingDeckDTO;
+import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
-import it.polimi.ingsw.cg26.common.dto.KingDeckDTO;
-import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 
 /**
  *

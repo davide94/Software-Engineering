@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.server.creator;
 
-import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;

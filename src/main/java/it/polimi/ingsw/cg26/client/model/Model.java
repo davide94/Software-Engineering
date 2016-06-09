@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.client.model;
 
-import it.polimi.ingsw.cg26.client.model.state.GameNotStarted;
-import it.polimi.ingsw.cg26.client.model.state.State;
+import it.polimi.ingsw.cg26.client.model.state.StateContext;
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.observer.Observable;
+import it.polimi.ingsw.cg26.common.update.Update;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.List;
 /**
  *
  */
-public class Model extends Observable<Model> implements ClientModel {
+public class Model extends Observable<Update> implements ClientModel {
 
-    private State state;
+    private StateContext state;
 
     private PlayerDTO localPlayer;
 
@@ -39,10 +39,10 @@ public class Model extends Observable<Model> implements ClientModel {
     private MarketDTO market;
 
     public Model() {
-        state = new GameNotStarted();
+        state = new StateContext();
     }
 
-    public State getState() {
+    public StateContext getState() {
         return state;
     }
 

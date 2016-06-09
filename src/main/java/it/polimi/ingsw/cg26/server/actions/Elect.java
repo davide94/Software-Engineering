@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.server.actions;
 
-import java.util.Collection;
-
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
+
+import java.util.Collection;
 
 public abstract class Elect extends Action {
 

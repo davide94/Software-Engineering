@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 
 /**
  * 

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.actions;
 
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.update.change.KingBalconyChange;
-import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.common.dto.PoliticDeckDTO;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 
 import java.util.Collection;
 import java.util.Collections;

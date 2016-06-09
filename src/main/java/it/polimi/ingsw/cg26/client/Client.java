@@ -7,7 +7,8 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.client.view.ui.CLI;import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
+import it.polimi.ingsw.cg26.client.view.ui.CLI;
+import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class Client {
             }
         }
 
-        CLI cli = new CLI(new Scanner(System.in), new PrintWriter(System.out), outView);
+        CLI cli = new CLI(new Scanner(System.in), new PrintWriter(System.out), outView, model);
         model.registerObserver(cli);
         executor.submit(cli);
     }

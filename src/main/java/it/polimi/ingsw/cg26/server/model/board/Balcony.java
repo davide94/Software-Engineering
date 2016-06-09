@@ -1,14 +1,13 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 
 import java.util.Collection;
-import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *

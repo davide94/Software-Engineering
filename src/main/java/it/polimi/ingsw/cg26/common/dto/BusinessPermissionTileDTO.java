@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
-
-import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 /**
  *

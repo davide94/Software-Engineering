@@ -1,9 +1,8 @@
 package it.polimi.ingsw.cg26.client.view.rmi;
 
-import it.polimi.ingsw.cg26.common.update.Update;
-import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
+import it.polimi.ingsw.cg26.common.update.Update;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

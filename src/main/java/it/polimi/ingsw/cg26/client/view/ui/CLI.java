@@ -6,15 +6,16 @@ import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
+import it.polimi.ingsw.cg26.common.update.Update;
 
-import java.io.*;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.function.Consumer;
 
 /**
  *
  */
-public class CLI implements Observer<Model>, Runnable {
+public class CLI implements Observer<Update>, Runnable {
 
     private final OutView outView;
 
@@ -23,6 +24,8 @@ public class CLI implements Observer<Model>, Runnable {
     private PrintWriter writer;
 
     private Model model;
+
+    private List<String> commands;
 
     private Consumer<BonusDTO> bonusPrinter = e -> writer.print(e.toString());
 
@@ -95,42 +98,55 @@ public class CLI implements Observer<Model>, Runnable {
         writer.flush();
     };
 
-    public CLI(Scanner scanner, PrintWriter writer, OutView outView) {
+    public CLI(Scanner scanner, PrintWriter writer, OutView outView, Model model) {
         this.outView = outView;
         this.scanner = scanner;
         this.writer = writer;
+        this.model = model;
+        this.commands = new ArrayList<>(0);
     }
 
     @Override
     public void run() {
-        askForCommand();
+        writer.println("Press RETURN to list all commands.");
+        writer.flush();
+        waitInput();
     }
 
-    private void askForCommand() {
-        Map<String, String> commands = model.getState().whatCanIDo();
-        Map<Integer, String> actions = new HashMap<>();
+    private void waitInput() {
+        while (true) {
+            int input = readInt();
+            if (input == -1)
+                printCommands();
+            else
+                handleInput(input - 1);
+        }
+    }
 
+    private void printCommands() {
+        Map<String, String> permittedCommands = model.getState().commands();
+        commands = new ArrayList<>(permittedCommands.size());
+        writer.println("--------------------");
         int i = 1;
-        for(Map.Entry<String, String> entry : commands.entrySet()) {
+        for(Map.Entry<String, String> entry : permittedCommands.entrySet()) {
             writer.println("(" + i + ") " + entry.getKey());
-            actions.put(i, entry.getValue());
+            commands.add(entry.getValue());
             i++;
         }
+        writer.println("--------------------");
         writer.flush();
-        int command = readInt(0, commands.size());
+    }
 
+    private void handleInput(int i) {
         try {
-            CLI.class.getDeclaredMethod(actions.get(command)).invoke(this);
+            CLI.class.getDeclaredMethod(commands.get(i)).invoke(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (!actions.get(command).equals("quit"))
-            askForCommand();
     }
 
     private void printFullState() {
-
+        writer.println("--------------------");
         // print councillors pool
         writer.print("Councillors pool: [ ");
         model.getCouncillorsPool().forEach(c -> {
@@ -158,9 +174,8 @@ public class CLI implements Observer<Model>, Runnable {
         model.getPlayers().stream()
                 .filter(playerDTO -> !playerDTO.getName().equals(model.getLocalPlayer().getName()))
                 .forEach(playerPrinter::accept);
-
+        writer.println("--------------------");
         writer.flush();
-        askForCommand();
     }
 
     private void quit() {
@@ -238,7 +253,8 @@ public class CLI implements Observer<Model>, Runnable {
             writer.println();
         });
         writer.flush();
-        return list.get(readInt(1, list.size()) - 1);
+        int res = readInt(0, list.size()) - 1;
+        return list.get(res);
     }
 
     private <T> List<T> askForList(List<T> list, int max, String title, Consumer<T> printer) {
@@ -258,11 +274,18 @@ public class CLI implements Observer<Model>, Runnable {
         return ret;
     }
 
-    private int readInt(int min, int max) {
+    private int readInt() {
+        return readInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private int readInt(Integer min, Integer max) {
         int ret;
         while (true) {
             try {
-                ret = Integer.parseInt(scanner.nextLine());
+                String str = scanner.nextLine();
+                if (str.isEmpty())
+                    return -1;
+                ret = Integer.parseInt(str);
                 if (ret > max || ret < min)
                     throw new NumberFormatException();
                 break;
@@ -275,9 +298,7 @@ public class CLI implements Observer<Model>, Runnable {
     }
 
     @Override
-    public void update(Model o) {
-        //writer.println(o);
-        //model = o;
-        //isMyTurn = gameBoard.getCurrentPlayer().getName().equals(gameBoard.getLocalPlayer().getName());
+    public void update(Update u) {
+        //writer.println(u);
     }
 }

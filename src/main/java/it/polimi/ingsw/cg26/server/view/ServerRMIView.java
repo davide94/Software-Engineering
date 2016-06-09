@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.commands.Command;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
+import it.polimi.ingsw.cg26.common.update.Update;
 
 import java.rmi.RemoteException;
 

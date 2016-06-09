@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg26.common.update.change;
 
-import java.util.Collection;
-
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
 import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
+
+import java.util.Collection;
 
 public class CouncillorsPoolChange extends ChangeDecorator {
 

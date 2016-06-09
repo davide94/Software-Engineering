@@ -1,12 +1,11 @@
 package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
+import it.polimi.ingsw.cg26.server.model.board.*;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.server.model.board.*;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-
 import org.w3c.dom.Node;
 
 import java.util.List;

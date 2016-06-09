@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg26.common.update.change;
 
-import java.io.Serializable;
-
 import it.polimi.ingsw.cg26.common.update.Update;
+
+import java.io.Serializable;
 
 /**
  *

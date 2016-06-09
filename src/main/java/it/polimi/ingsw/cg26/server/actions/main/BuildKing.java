@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.update.change.CityChange;
 import it.polimi.ingsw.cg26.common.update.change.KingChange;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.City;

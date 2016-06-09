@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg26.common.update;
 
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
-import it.polimi.ingsw.cg26.common.update.change.Change;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

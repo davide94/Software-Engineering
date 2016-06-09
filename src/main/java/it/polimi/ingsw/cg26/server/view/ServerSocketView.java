@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.common.commands.*;
+import it.polimi.ingsw.cg26.common.commands.Staccah;
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.visitor.Visitable;
-import it.polimi.ingsw.cg26.common.update.change.Change;
+import org.slf4j.LoggerFactory;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -15,6 +15,8 @@ import java.net.Socket;
  *
  */
 public class ServerSocketView extends View {
+
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Socket socket;
     private ObjectInputStream socketIn;
@@ -55,7 +57,7 @@ public class ServerSocketView extends View {
                 visitable.accept(this.actionVisitor);
 
             } catch (EOFException e) {
-                System.out.println("Client disconnected");
+                log.info("Client disconnected");
                 break;
             } catch (ClassNotFoundException e) {
                 System.out.println(e.getMessage());
@@ -65,5 +67,4 @@ public class ServerSocketView extends View {
         }
 
     }
-
 }

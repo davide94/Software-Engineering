@@ -168,12 +168,13 @@ public class Scheduler {
      * Also checks if someone won.
      */
     public void actionPerformed() {
+        /*timer.cancel();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 nextPlayer();
             }
-        }, TURN_TIMEOUT);
+        }, TURN_TIMEOUT);*/
 
         if (market || getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction())
             return;

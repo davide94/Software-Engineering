@@ -8,7 +8,6 @@ import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-
 import org.w3c.dom.Node;
 
 import java.util.LinkedList;

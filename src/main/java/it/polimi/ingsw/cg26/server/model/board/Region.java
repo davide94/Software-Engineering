@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;

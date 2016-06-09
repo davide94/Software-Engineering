@@ -1,7 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.observer.Observable;
+import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
@@ -10,10 +11,11 @@ import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
-import it.polimi.ingsw.cg26.common.observer.Observable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

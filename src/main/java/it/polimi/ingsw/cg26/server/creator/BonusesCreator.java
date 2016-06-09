@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.server.creator;
 
-import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import org.w3c.dom.Node;
 
 import java.util.LinkedList;

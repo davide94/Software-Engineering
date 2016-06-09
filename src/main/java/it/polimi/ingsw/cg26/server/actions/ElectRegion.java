@@ -1,16 +1,16 @@
 package it.polimi.ingsw.cg26.server.actions;
 
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.update.change.BalconyChange;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.update.change.CouncillorsPoolChange;
-import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
+import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 /**
  *
