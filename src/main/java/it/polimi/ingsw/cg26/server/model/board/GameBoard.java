@@ -72,6 +72,14 @@ public class GameBoard extends Observable<Update> {
 		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
 	}
 
+    /* ---------- ONLY FOR TESTING ---------- */
+
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    /* -------------------------------------- */
+
 	public Collection<PlayerDTO> getFullPlayers() {
 		return scheduler.getPlayersFullState();
 	}

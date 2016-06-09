@@ -27,8 +27,6 @@ public class BoardCreatorTest {
     @Before
     public void setUp() throws Exception {
 
-        Instant before = Instant.now();
-
         DOMParserInterface parserInterface = new XMLAdapter();
 
         Document document = parserInterface.parse("src/test/resources/configTest.xml", "src/main/resources/schema.xsd");

@@ -455,5 +455,4 @@ public class Player {
 	public int getCoinsNumber() {
 		return this.coins.getValue();
 	}
-
 }

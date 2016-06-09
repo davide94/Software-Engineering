@@ -13,6 +13,7 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -20,6 +21,8 @@ import java.util.*;
 public class Scheduler {
 
     private static final int INITIAL_CARDS_NUMBER = 6;
+
+    private static final int TURN_TIMEOUT = 600000;
 
     /**
      * List of players
@@ -43,6 +46,8 @@ public class Scheduler {
 
     private int winner;
 
+    private Timer timer;
+
     /**
      * The Game Board
      */
@@ -64,8 +69,21 @@ public class Scheduler {
         this.lastTurn = false;
         this.sell = false;
         this.winner = 0;
+        this.timer = new Timer();
         this.gameBoard = gameBoard;
     }
+
+    public boolean isMarket() {
+        return market;
+    }
+
+    /* ---------- ONLY FOR TESTING ---------- */
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    /* -------------------------------------- */
 
     /**
      * Returns a collection that represents the dto of all the players
@@ -73,12 +91,7 @@ public class Scheduler {
      * @return the dto of all the players
      */
     public List<PlayerDTO> getPlayersState() {
-        List<PlayerDTO> playersState = new ArrayList<>();
-        playersState.add(getCurrentPlayer().getState());
-        for (Player player : this.players) {
-            playersState.add(player.getState());
-        }
-        return playersState;
+        return this.players.stream().map(Player::getState).collect(Collectors.toList());
     }
 
     /**
@@ -101,6 +114,8 @@ public class Scheduler {
      * @return the current Player
      */
     public Player getCurrentPlayer() {
+        if (players.isEmpty())
+            return null;
         if (market) {
             if (sell)
                 return players.get(currentInMarket);
@@ -153,9 +168,19 @@ public class Scheduler {
      * Also checks if someone won.
      */
     public void actionPerformed() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                nextPlayer();
+            }
+        }, TURN_TIMEOUT);
+
         if (market || getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction())
             return;
+        nextPlayer();
+    }
 
+    private void nextPlayer() {
         if (!lastTurn) {
             int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
                     c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
@@ -166,7 +191,13 @@ public class Scheduler {
             }
         }
 
-        current = current++ % players.size();
+        Event event = new TurnEnded();
+        Update u = new PrivateUpdate(event, getCurrentPlayer().getToken());
+        gameBoard.notifyObservers(u);
+
+        current++;
+        if (current == players.size())
+            current = 0;
 
         if (lastTurn && current == winner) {
             endMatch();
@@ -185,6 +216,10 @@ public class Scheduler {
         } catch (NoRemainingCardsException e) {
             e.printStackTrace();
         }
+
+        event = new TurnStarted();
+        u = new PrivateUpdate(event, getCurrentPlayer().getToken());
+        gameBoard.notifyObservers(u);
     }
 
     private void startMarket() {
@@ -196,13 +231,15 @@ public class Scheduler {
         gameBoard.notifyObservers(e);
 
         e = new SellTurnStarted();
-        Update u = new PrivateUpdate(e, players.get(currentInMarket).getToken());
+        Update u = new PrivateUpdate(e, getCurrentPlayer().getToken());
         gameBoard.notifyObservers(u);
     }
 
     public void foldSell() {
+        if (!market || !sell)
+            return;
         Event e = new SellTurnEnded();
-        Update u = new PrivateUpdate(e, players.get(currentInMarket).getToken());
+        Update u = new PrivateUpdate(e, getCurrentPlayer().getToken());
         gameBoard.notifyObservers(u);
 
         currentInMarket++;
@@ -212,18 +249,20 @@ public class Scheduler {
             Collections.shuffle(buyTurn);
 
             e = new BuyTurnStarted();
-            u = new PrivateUpdate(e, buyTurn.get(currentInMarket).getToken());
+            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
             gameBoard.notifyObservers(u);
         } else {
             e = new SellTurnStarted();
-            u = new PrivateUpdate(e, players.get(currentInMarket).getToken());
+            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
             gameBoard.notifyObservers(u);
         }
     }
 
     public void foldBuy() {
+        if (!market || sell)
+            return;
         Event e = new BuyTurnEnded();
-        Update u = new PrivateUpdate(e, buyTurn.get(currentInMarket).getToken());
+        Update u = new PrivateUpdate(e, getCurrentPlayer().getToken());
         gameBoard.notifyObservers(u);
 
         currentInMarket++;
@@ -234,11 +273,11 @@ public class Scheduler {
             gameBoard.notifyObservers(e);
 
             e = new TurnStarted();
-            u = new PrivateUpdate(e, players.get(current).getToken());
+            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
             gameBoard.notifyObservers(u);
         } else {
             e = new BuyTurnStarted();
-            u = new PrivateUpdate(e, buyTurn.get(currentInMarket).getToken());
+            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
             gameBoard.notifyObservers(u);
         }
     }
