@@ -129,7 +129,7 @@ public class SellAssistantTest {
 	}
 	
 	@Test (expected = NoRemainingAssistantsException.class)
-	public void testTryToSellAssistantWithoutHavingItShouldThrowException(){
+	public void testTryToSellAssistantWithoutHavingItShouldThrowException() throws Exception {
 		gameBoard.getCurrentPlayer().takeAssistants(2);
 		Action action = new SellAssistant(5, 1);
 		
@@ -137,7 +137,7 @@ public class SellAssistantTest {
 	}
 	
 	@Test
-	public void testApplyActionCheckChanges(){
+	public void testApplyActionCheckChanges() throws Exception {
 		Action action = new SellAssistant(4, 1);
 		action.apply(gameBoard);
 		

@@ -115,7 +115,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException(){
+	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
 		Action action = new Acquire(region.getState(), new ArrayList<PoliticCardDTO>(), 0, 1);
 		
@@ -123,7 +123,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testApplyActionWithPoliticCardsDTODifferentFromTheRealCardsOfThePlayerShouldThrowAnException(){
+	public void testApplyActionWithPoliticCardsDTODifferentFromTheRealCardsOfThePlayerShouldThrowAnException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("rosso"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("arancione"), 0, "Marco"));
@@ -135,7 +135,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testApplyNecessaryCoinsWithMoreThanFourCardsShouldThrowAnException(){
+	public void testApplyNecessaryCoinsWithMoreThanFourCardsShouldThrowAnException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -148,7 +148,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsWithFourCardsAndOneMulticolorCardAndPlayerWith0CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsWithFourCardsAndOneMulticolorCardAndPlayerWith0CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -161,7 +161,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsNumberWithThreeCardsAndOneMulticolorCardAndPlayerWithLessThan5CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsNumberWithThreeCardsAndOneMulticolorCardAndPlayerWithLessThan5CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -173,7 +173,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsNumberWithTwoCardsAndPlayerWithLessThan7CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsNumberWithTwoCardsAndPlayerWithLessThan7CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -184,7 +184,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsNumberWithOneCardAndPlayerWithLessThan10CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsNumberWithOneCardAndPlayerWithLessThan10CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
@@ -194,7 +194,7 @@ public class AcquireTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testApplyWithCardsThatDoesntMatchTheCouncillorsOnTheBalconyShouldThrowException(){
+	public void testApplyWithCardsThatDoesntMatchTheCouncillorsOnTheBalconyShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -207,7 +207,7 @@ public class AcquireTest {
 	}
 	
 	@Test
-	public void testApplyAction(){
+	public void testApplyAction() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));

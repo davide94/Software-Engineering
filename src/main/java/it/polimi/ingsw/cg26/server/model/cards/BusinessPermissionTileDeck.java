@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -49,8 +50,9 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
 
     /**
      * Puts to the bottom of the deck the open cards
+     * @throws NoRemainingCardsException
      */
-    public void change() {
+    public void change() throws NoRemainingCardsException {
         for (int i = 0; i < OPEN_CARDS_NUMBER; i++)
             add(draw());
     }

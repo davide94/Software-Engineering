@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.update.change.PlayersChange;
+import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 /**
@@ -29,7 +30,7 @@ public abstract class Action {
      * @param gameBoard the gameBoard where the action is applied
      * @throws NullPointerException if the parameter is null
      */
-    public abstract void apply(GameBoard gameBoard);
+    public abstract void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, NoRemainingActionsException, InvalidCardsException, CouncillorNotFoundException, NotEnoughMoneyException, CityNotFoundException, ExistingEmporiumException, SellableNotFoundException, NoRemainingCardsException, InvalidTileException;
     
     public abstract void notifyChange(GameBoard gameBoard);
     

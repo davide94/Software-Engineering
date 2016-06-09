@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.server.exceptions.NoMoreCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.common.dto.PoliticDeckDTO;
 
 import java.util.Collection;
@@ -36,10 +36,10 @@ public class PoliticDeck extends Deck<PoliticCard> {
     }
 
     @Override
-    public PoliticCard draw() {
+    public PoliticCard draw() throws NoRemainingCardsException {
         if (!hasNext()) {
             if (this.discarded.isEmpty())
-                throw new NoMoreCardsException();
+                throw new NoRemainingCardsException();
             this.shuffle();
         }
         return super.draw();

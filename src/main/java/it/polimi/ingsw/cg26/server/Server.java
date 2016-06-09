@@ -5,6 +5,9 @@ import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.creator.Creator;
+import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
@@ -48,7 +51,7 @@ public class Server {
         this.executor = Executors.newCachedThreadPool();
     }
 
-    private void newGame() {
+    private void newGame() throws BadInputFileException, ParserErrorException {
         model = Creator.createGame("src/main/resources/config.xml");
         this.controller = new Controller(model);
     }
@@ -56,7 +59,13 @@ public class Server {
     private void start() {
         this.playersNumber = 0;
         this.executor.submit(this.controller);
-        newGame();
+        try {
+            newGame();
+        } catch (BadInputFileException e) {
+            e.printStackTrace();
+        } catch (ParserErrorException e) {
+            e.printStackTrace();
+        }
     }
 
     private void startSocket() throws IOException, ClassNotFoundException {
@@ -129,7 +138,7 @@ public class Server {
         return model.registerPlayer(name);
     }
 
-    public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException {
+    public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException, BadInputFileException, ParserErrorException {
         Server server = new Server();
         server.newGame();
         server.startRMI();

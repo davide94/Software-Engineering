@@ -6,9 +6,7 @@ import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
+import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -57,7 +55,7 @@ public class Acquire extends Corrupt {
      * @throws InvalidCardsException if the cards given by the user don't match the colors of the councillors in the balcony
      */
     @Override
-    public void apply(GameBoard gameBoard) {
+    public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, NoRemainingAssistantsException, ExistingEmporiumException, CityNotFoundException, NoRemainingCardsException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		super.apply(gameBoard);
 		int usedCoins = super.necessaryCoins(politicCards);

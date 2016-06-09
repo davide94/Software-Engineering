@@ -38,7 +38,7 @@ public class Controller implements Observer<Action>, Runnable {
                 gameBoard.notifyObservers(u);
 
                 gameBoard.actionPerformed();
-            } catch (RuntimeException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
 
                 Event event = new ActionFailed(); // TODO: put Exception inside

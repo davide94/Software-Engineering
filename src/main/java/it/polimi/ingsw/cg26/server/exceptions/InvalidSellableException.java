@@ -1,16 +1,20 @@
 package it.polimi.ingsw.cg26.server.exceptions;
 
-public class InvalidSellableException extends RuntimeException{
-	
-	/**
-     * Default constructor
-     */
+public class InvalidSellableException extends Exception{
+
     public InvalidSellableException() {
-        super();
+
     }
 
     public InvalidSellableException(String message) {
         super(message);
     }
 
+    public InvalidSellableException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public InvalidSellableException(Throwable cause) {
+        super(cause);
+    }
 }

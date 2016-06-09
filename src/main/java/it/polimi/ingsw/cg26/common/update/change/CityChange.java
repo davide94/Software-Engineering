@@ -4,6 +4,8 @@ import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public class CityChange extends ChangeDecorator {
 
@@ -25,7 +27,7 @@ public class CityChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(ClientModel model) {
+	public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
 		super.apply(model);
 		CityDTO city = null;
 		for(RegionDTO iterRegionDTO : model.getRegions()){

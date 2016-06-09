@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -52,7 +53,7 @@ public class City {
     /**
      * @param
      */
-    public void build(Player p) {
+    public void build(Player p) throws ExistingEmporiumException, NoRemainingCardsException {
     	for(Emporium x:emporiums){
     	if(x.getPlayer()==p){
     		throw new ExistingEmporiumException();
@@ -100,7 +101,7 @@ public class City {
 	/**
      * @param
      */
-    private void takeBonus(Player p) {
+    private void takeBonus(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
     }
     
@@ -116,7 +117,7 @@ public class City {
 	 * 
 	 * @param p
 	 */
-    private void takeRecursivelyBonus(Player p) {
+    private void takeRecursivelyBonus(Player p) throws NoRemainingCardsException {
         LinkedList<City> queue = new LinkedList<>();
         LinkedList<City> taken = new LinkedList<>();
         queue.add(this);

@@ -13,7 +13,7 @@ public class BalconyCreator {
 
     private static final int BALCONY_SIZE = 4;
 
-    protected static Balcony createBalcony(List<Councillor> councillors) {
+    protected static Balcony createBalcony(List<Councillor> councillors) throws BadInputFileException {
         if (councillors == null)
             throw new NullPointerException();
         Balcony balcony = Balcony.createBalcony(BALCONY_SIZE);

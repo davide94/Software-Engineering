@@ -34,7 +34,7 @@ public class VictoryBonusTest {
 	}
 	
 	@Test
-	public void testApplyVicoryBonusWithMultiplicity5OnPlayerWith0PointsShouldHave5Points(){
+	public void testApplyVicoryBonusWithMultiplicity5OnPlayerWith0PointsShouldHave5Points() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		VictoryBonus victoryBonus = new VictoryBonus(bonus, 5);
@@ -45,7 +45,7 @@ public class VictoryBonusTest {
 	}
 	
 	@Test
-	public void testApplyVicoryBonusWithMultiplicity16OnPlayerWith5PointsShouldHave21Points(){
+	public void testApplyVicoryBonusWithMultiplicity16OnPlayerWith5PointsShouldHave21Points() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		player.addVictoryPoints(5);

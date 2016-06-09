@@ -142,7 +142,7 @@ public class RegionTest {
 
 	
 	@Test
-	public void testCheckRegionBonusesIsFalseBecauseThereAreNoEnoughEmporiumsInCities() {
+	public void testCheckRegionBonusesIsFalseBecauseThereAreNoEnoughEmporiumsInCities() throws Exception {
 		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		foggia.build(Luca);
 		lecce.build(Luca);
@@ -153,7 +153,7 @@ public class RegionTest {
 
 
 	@Test
-	public void testCheckRegionBonusesIsTrueBecauseThereAreAllTheEmporiums() {
+	public void testCheckRegionBonusesIsTrueBecauseThereAreAllTheEmporiums() throws Exception {
 		
 		Region puglia=Region.createRegion("Puglia", cities, deck, balcony, bonusesRegion);
 		

@@ -15,7 +15,7 @@ import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
-import it.polimi.ingsw.cg26.server.exceptions.NotExistingRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -448,8 +448,8 @@ public class GameBoardTest {
 
 	
 
-	@Test (expected=NotExistingRegionException.class)
-	public void testShouldNotGetACityThatIsNotInRegions() {
+	@Test (expected=CityNotFoundException.class)
+	public void testShouldNotGetACityThatIsNotInRegions() throws Throwable {
 		
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 		
@@ -464,7 +464,7 @@ public class GameBoardTest {
 	
 	
 	@Test
-	public void testShouldGetACityThatIsInRegions() {
+	public void testShouldGetACityThatIsInRegions() throws Throwable {
 		
         GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 		
@@ -560,7 +560,7 @@ public class GameBoardTest {
 	
 
 	@Test
-	public void testCheckGoldBonusAndKingBonusHaveBeenAppliedToPlayer() {
+	public void testCheckGoldBonusAndKingBonusHaveBeenAppliedToPlayer() throws Throwable {
 		
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 		
@@ -654,7 +654,7 @@ public class GameBoardTest {
 	
 	
 	@Test
-	public void testCheckGoldCitiesBonuses() {
+	public void testCheckGoldCitiesBonuses() throws Throwable {
 		
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 		

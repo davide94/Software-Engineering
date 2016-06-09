@@ -4,7 +4,9 @@ import java.util.List;
 
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
-import it.polimi.ingsw.cg26.server.exceptions.NotValidPlayerException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public class PlayersChange extends ChangeDecorator {
 
@@ -26,7 +28,7 @@ public class PlayersChange extends ChangeDecorator {
 	}
 
 	@Override
-	public void apply(ClientModel model){
+	public void apply(ClientModel model) throws InvalidCityException, InvalidRegionException, PlayerNotFoundException {
 		super.apply(model);
 		List<PlayerDTO> players = model.getPlayers();
 		int i=-1;
@@ -37,7 +39,7 @@ public class PlayersChange extends ChangeDecorator {
 			}
 		}
 		if(i<0)
-			throw new NotValidPlayerException();
+			throw new PlayerNotFoundException();
 		players.set(i, this.playerDTO);
 	}
 	

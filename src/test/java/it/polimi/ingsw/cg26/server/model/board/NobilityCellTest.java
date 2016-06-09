@@ -51,7 +51,7 @@ public class NobilityCellTest {
 	
 	
 	@Test
-	public void testApplyBonusToLuca() {
+	public void testApplyBonusToLuca() throws Throwable {
 		cell2.apply(Luca);
 		assertEquals(Luca.getCoinsNumber(), 15);
 		assertEquals(Luca.getVictoryPoints(), 4);
@@ -60,7 +60,7 @@ public class NobilityCellTest {
 	
 	
 	@Test
-	public void testApplyBonusToDavide() {
+	public void testApplyBonusToDavide() throws Throwable {
 		cell3.apply(Davide);
 		
 		assertTrue(Davide.canPerformMainAction());

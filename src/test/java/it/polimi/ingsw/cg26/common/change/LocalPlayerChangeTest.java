@@ -73,7 +73,7 @@ public class LocalPlayerChangeTest {
 	}
 	
 	@Test
-	public void applyChange(){
+	public void applyChange() throws Throwable{
 		Change change = new LocalPlayerChange(this.change, changePlayer);
 		change.apply(model);
 		

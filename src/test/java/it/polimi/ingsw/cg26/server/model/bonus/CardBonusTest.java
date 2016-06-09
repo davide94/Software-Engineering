@@ -55,7 +55,7 @@ public class CardBonusTest {
 	}
 	
 	@Test
-	public void testApplyTheBonusWithMultiplicity1ShouldGiveTheFirstCardOfTheDeckToThePlayer(){
+	public void testApplyTheBonusWithMultiplicity1ShouldGiveTheFirstCardOfTheDeckToThePlayer() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		List<PoliticCard> playerCards = new LinkedList<>();
 		Player player = new Player(1, "Marco", cell, 2, playerCards, new LinkedList<Assistant>());
@@ -82,7 +82,7 @@ public class CardBonusTest {
 		
 		assertEquals("\nCardBonus{multiplicity=2}", cardBonus.toString());
 	}
-	
+
 	@Test
 	public void testEquals(){
 		CardBonus cardBonus = new CardBonus(bonus, 2, politicDeck);

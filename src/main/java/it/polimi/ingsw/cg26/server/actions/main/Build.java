@@ -6,8 +6,7 @@ import it.polimi.ingsw.cg26.common.update.change.CityChange;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -48,7 +47,7 @@ public class Build extends Action {
      * @throws NoRemainingAssistantsException if the player cannot pay the required number of assistant to build
      */
     @Override
-    public void apply(GameBoard gameBoard) {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
@@ -68,8 +67,13 @@ public class Build extends Action {
     }
     
     @Override
-    public void notifyChange(GameBoard gameBoard){
-    	Change change = new CityChange(new BasicChange(), gameBoard.getCity(city).getState());
-    	notifyDecoratingPlayersChange(gameBoard, change);
+    public void notifyChange(GameBoard gameBoard) {
+        Change change = null;
+        try {
+            change = new CityChange(new BasicChange(), gameBoard.getCity(city).getState());
+        } catch (CityNotFoundException e) {
+            e.printStackTrace();
+        }
+        notifyDecoratingPlayersChange(gameBoard, change);
     }
 }

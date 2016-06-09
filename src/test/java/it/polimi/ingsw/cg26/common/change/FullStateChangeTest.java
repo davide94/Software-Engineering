@@ -130,7 +130,7 @@ public class FullStateChangeTest {
 	}
 	
 	@Test
-	public void testApplyChange(){
+	public void testApplyChange() throws Exception {
 		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck);
 		Change change =  new FullStateChange(this.change, changeGameBoard);
 		change.apply(model);

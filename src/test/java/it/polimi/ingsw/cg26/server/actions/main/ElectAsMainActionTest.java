@@ -15,7 +15,7 @@ import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.exceptions.NotExistingCouncillorException;
+import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
@@ -117,22 +117,22 @@ private GameBoard gameBoard;
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException(){
+	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
 		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), 1);
 		
 		action.apply(gameBoard);
 	}
 	
-	@Test (expected = NotExistingCouncillorException.class)
-	public void testApplyActionWithACouncillorThatIsntInThePoolShouldThrowAnException(){
+	@Test (expected = CouncillorNotFoundException.class)
+	public void testApplyActionWithACouncillorThatIsntInThePoolShouldThrowAnException() throws Exception {
 		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), 1);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test
-	public void testApplyCheckChangesOnTheGameBoard(){
+	public void testApplyCheckChangesOnTheGameBoard() throws Exception {
 		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), 1);
 		
 		action.apply(gameBoard);
@@ -144,7 +144,7 @@ private GameBoard gameBoard;
 	}
 
 	@Test
-	public void testApplyCheckChangesOnThePlayer(){
+	public void testApplyCheckChangesOnThePlayer() throws Exception {
 		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), 1);
 		
 		action.apply(gameBoard);

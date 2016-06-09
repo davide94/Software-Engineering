@@ -1,16 +1,20 @@
 package it.polimi.ingsw.cg26.server.exceptions;
 
-public class InvalidCityException extends RuntimeException {
-	
-	/**
-     * Default constructor
-     */
+public class InvalidCityException extends Exception {
+
     public InvalidCityException() {
-        super();
+
     }
 
     public InvalidCityException(String message) {
         super(message);
     }
 
+    public InvalidCityException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public InvalidCityException(Throwable cause) {
+        super(cause);
+    }
 }

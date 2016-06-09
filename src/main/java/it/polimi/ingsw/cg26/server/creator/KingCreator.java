@@ -17,7 +17,7 @@ public class KingCreator {
         // Nothing to do here
     }
 
-    protected static King createKing(Node root, List<List<City>> cities) {
+    protected static King createKing(Node root, List<List<City>> cities) throws BadInputFileException {
         if (root == null || cities == null)
             throw new NullPointerException();
         King king = null;

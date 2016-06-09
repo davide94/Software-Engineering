@@ -4,6 +4,9 @@ import java.util.Collection;
 
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public class CouncillorsPoolChange extends ChangeDecorator {
 
@@ -25,7 +28,7 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(ClientModel model) {
+	public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
 		super.apply(model);
 		model.setCouncillorsPool(councillorsPoolState);
 	}

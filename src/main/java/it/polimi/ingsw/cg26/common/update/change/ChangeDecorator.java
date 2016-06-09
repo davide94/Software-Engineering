@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg26.common.update.change;
 
 import it.polimi.ingsw.cg26.common.ClientModel;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public abstract class ChangeDecorator implements Change {
 
@@ -15,7 +18,7 @@ public abstract class ChangeDecorator implements Change {
 	}
 	
 	@Override
-	public void apply(ClientModel model) {
+	public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
 		decoratedChange.apply(model);
 	}
 

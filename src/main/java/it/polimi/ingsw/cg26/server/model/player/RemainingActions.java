@@ -39,7 +39,7 @@ public abstract class RemainingActions {
      * Performs an action: the number of remaining commands is decremented by one
      * @throws NoRemainingActionsException if there are no remaining commands
      */
-    public void perform() {
+    public void perform() throws NoRemainingActionsException {
         if (this.remaining == 0)
             throw new NoRemainingActionsException();
         this.remaining --;

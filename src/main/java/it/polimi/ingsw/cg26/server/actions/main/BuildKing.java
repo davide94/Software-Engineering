@@ -7,9 +7,7 @@ import it.polimi.ingsw.cg26.common.update.change.KingChange;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
+import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.King;
@@ -46,7 +44,7 @@ public class BuildKing extends Corrupt {
      * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action
      */
     @Override
-    public void apply(GameBoard gameBoard) {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotEnoughMoneyException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         super.apply(gameBoard);
         int coins = super.necessaryCoins(politicCards);
@@ -71,8 +69,13 @@ public class BuildKing extends Corrupt {
     
     @Override
     public void notifyChange(GameBoard gameBoard){
-    	Change change = new KingChange(new CityChange(new BasicChange(), gameBoard.getCity(city).getState()), gameBoard.getKing().getState());
-    	notifyDecoratingPlayersChange(gameBoard, change);
+        Change change = null;
+        try {
+            change = new KingChange(new CityChange(new BasicChange(), gameBoard.getCity(city).getState()), gameBoard.getKing().getState());
+        } catch (CityNotFoundException e) {
+            e.printStackTrace();
+        }
+        notifyDecoratingPlayersChange(gameBoard, change);
     }
 
 }

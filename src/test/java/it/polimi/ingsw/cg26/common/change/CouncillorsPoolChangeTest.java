@@ -83,7 +83,7 @@ public class CouncillorsPoolChangeTest {
 	}
 	
 	@Test
-	public void testApplyChange(){
+	public void testApplyChange() throws Exception {
 		Change change =  new CouncillorsPoolChange(this.change, newPool);
 		change.apply(model);
 		

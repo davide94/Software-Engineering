@@ -113,7 +113,7 @@ public class BPTDeckChangeTest {
 	}
 
 	@Test (expected = InvalidRegionException.class)
-	public void testApplyChangeToANotExistingregionShouldThrowException(){
+	public void testApplyChangeToANotExistingregionShouldThrowException() throws Throwable {
 		RegionDTO region = new RegionDTO("Molise", new ArrayList<>(), new BusinessPermissionTileDeckDTO(new ArrayList<BusinessPermissionTileDTO>()), new BalconyDTO(new ArrayList<>()), new EmptyBonusDTO());
 		Change change = new BPTDeckChange(this.change, chosenDeck, region);
 	
@@ -121,7 +121,7 @@ public class BPTDeckChangeTest {
 	}
 	
 	@Test
-	public void testApplyChange(){
+	public void testApplyChange() throws Throwable {
 		Change change = new BPTDeckChange(this.change, chosenDeck, chosenRegion);
 		
 		change.apply(model);

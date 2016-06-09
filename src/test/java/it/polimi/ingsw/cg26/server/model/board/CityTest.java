@@ -78,7 +78,7 @@ public class CityTest {
 	 
 	 
 	 
-	 public void testTakeBonusesOfCityC() {
+	 public void testTakeBonusesOfCityC() throws Throwable {
 		 Bonus bonusesA=new NobilityBonus(new CoinBonus(new EmptyBonus(), 5), 1);
 		 City cityA= City.createCity("Napoli", color1, bonusesA);
 		
@@ -106,7 +106,7 @@ public class CityTest {
 	 }
 	 
 	 
-	 public void testTakeBonusesOfCityBandCityCLinkedWithB() {
+	 public void testTakeBonusesOfCityBandCityCLinkedWithB() throws Throwable {
 		 Bonus bonusesA = new NobilityBonus(new CoinBonus(new EmptyBonus(), 5), 1);
 		 City cityA= City.createCity("Napoli", color1, bonusesA);
 		
@@ -138,7 +138,7 @@ public class CityTest {
 	 }
 	 
 	 @Test
-		public void testTakeBonusesOfAllCitiesLinkedToCityA() {
+		public void testTakeBonusesOfAllCitiesLinkedToCityA() throws Throwable {
 		 Bonus bonusesA = new NobilityBonus(new CoinBonus(new EmptyBonus(), 5), 1);		 
 		 City cityA= City.createCity("Napoli", color1, bonusesA);
 		
@@ -172,7 +172,7 @@ public class CityTest {
 	 
 	 
 	 @Test
-		public void testCity1DistanceFromCity3() {
+		public void testCity1DistanceFromCity3() throws Throwable {
 		 city2.link(city3);
 		 city1.link(city2);
 		 
@@ -183,7 +183,7 @@ public class CityTest {
 		}
 	 
 	 @Test
-		public void testGetDistanceOfCityFromCity2AndThereIsNotALink() {
+		public void testGetDistanceOfCityFromCity2AndThereIsNotALink() throws Throwable {
 		 
 		 int maxDistance= 2147483647;
 		 assertEquals(city1.distanceFrom(city2), maxDistance );
@@ -193,7 +193,7 @@ public class CityTest {
 		}
 	 
 	 @Test
-		public void testGetDistance1() {
+		public void testGetDistance1() throws Throwable {
 		 
 		 city1.link(city2);
 		 city2.link(city1);
@@ -208,7 +208,7 @@ public class CityTest {
 	 
 	 
 	 @Test
-		public void testCity1DistanceFromCity4() {
+		public void testCity1DistanceFromCity4() throws Throwable {
 		 
 		 City city4= City.createCity("Napoli", CityColor.createCityColor("Viola"), bonuses2);
 		 city3.link(city4);
@@ -225,7 +225,7 @@ public class CityTest {
 	 
 	 
 	 @Test
-		public void testGetDavideEmporiumsofCity1() {
+		public void testGetDavideEmporiumsofCity1() throws Throwable {
 			city1.build(Davide);
 			assertEquals(city1.getEmporiums(),emporiums2);
 			
@@ -233,7 +233,7 @@ public class CityTest {
 	 
 	 
 	 @Test
-		public void testGetAllEmporiumsofCity1() {
+		public void testGetAllEmporiumsofCity1() throws Throwable {
 			city1.build(Davide);
 			city1.build(Luca);
 			city1.build(Marco);
@@ -247,7 +247,7 @@ public class CityTest {
 	 
 		
 	 @Test (expected=ExistingEmporiumException.class)
-		public void testBuildFailed() {
+		public void testBuildFailed() throws Throwable {
 		 city1.build(Davide);
 		 city1.build(Luca);
 		 city1.build(Davide);
@@ -257,7 +257,7 @@ public class CityTest {
 	 
 
 	 @Test
-		public void testgetNearCities() {
+		public void testgetNearCities() throws Throwable {
 		 city1.link(city2);
 		 assertEquals(city1.getNearCities(),linkedCities);
 			
@@ -267,7 +267,7 @@ public class CityTest {
 
 			 
 	 @Test (expected=NullPointerException.class)
-		public void testLinkIfCityIsNull() {
+		public void testLinkIfCityIsNull() throws Throwable {
 		 
 		 City city4= City.createCity(null,null,null);
 		 city1.link(city4);
@@ -276,7 +276,7 @@ public class CityTest {
 	 
 	 
     @Test (expected=NullPointerException.class)
-		public void testShouldNotLinkCity1withNullCity() {
+		public void testShouldNotLinkCity1withNullCity() throws Throwable {
 	 
 	 	 city1.link(null);
 		
@@ -284,7 +284,7 @@ public class CityTest {
 	 
 	 
 	 @Test 
-		public void testLinkOneCitywithCity1() {
+		public void testLinkOneCitywithCity1() throws Throwable {
 		 city1.link(city2);
 		 assertEquals(city1.getNearCities(),linkedCities);
 		 
@@ -295,7 +295,7 @@ public class CityTest {
 	 
 
 	 @Test 
-		public void testLinkTwoCitieswithCity1() {
+		public void testLinkTwoCitieswithCity1() throws Throwable {
 		 linkedCities.add(city3);
 		 city1.link(city2);
 		 city1.link(city3);
@@ -456,14 +456,14 @@ public class CityTest {
 	}
 	
 	@Test
-	public void testIfCity2Has1Emporium() {
+	public void testIfCity2Has1Emporium() throws Throwable {
 		city2.build(Davide);
 		assertEquals(city2.getEmporiumsNumber(),1);
 		
 	}
 	
 	@Test
-	public void testIfCity2Has3Emporiums() {
+	public void testIfCity2Has3Emporiums() throws Throwable {
 		city2.build(Davide);
 		city2.build(Luca);
 		city2.build(Marco);
@@ -482,7 +482,7 @@ public class CityTest {
 	}
 	
 	@Test
-	public void testCity1HasLucaEmporium() {
+	public void testCity1HasLucaEmporium() throws Throwable {
 		city1.build(Luca);
 		assertTrue(city1.hasEmporium(Luca));
 		
@@ -490,7 +490,7 @@ public class CityTest {
 	
 	
 	@Test
-	public void testCity1HasLucaAndDavideEmporium() {
+	public void testCity1HasLucaAndDavideEmporium() throws Throwable {
 		city1.build(Luca);
 		city1.build(Davide);
 		assertTrue(city1.hasEmporium(Luca));
@@ -502,7 +502,7 @@ public class CityTest {
 	
 	
 	@Test
-	public void testGetState() {
+	public void testGetState() throws Throwable {
 		
 		
 		City city4= City.createCity("Napoli", color1, bonuses3);

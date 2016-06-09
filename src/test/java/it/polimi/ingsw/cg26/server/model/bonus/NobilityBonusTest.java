@@ -34,7 +34,7 @@ public class NobilityBonusTest {
 	}
 	
 	@Test
-	public void testApplyBonusWithMultiplicity2ToAPlayerOnCell1ShouldPutOnCell3(){
+	public void testApplyBonusWithMultiplicity2ToAPlayerOnCell1ShouldPutOnCell3() throws Exception {
 		NobilityCell cell3 = NobilityCell.createNobilityCell(3, null, new EmptyBonus());
 		NobilityCell cell2 = NobilityCell.createNobilityCell(2, cell3, new EmptyBonus());
 		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new EmptyBonus());
@@ -46,7 +46,7 @@ public class NobilityBonusTest {
 	}
 	
 	@Test
-	public void testApplyBonusWithMultiplicity1ToAPlayerOnCell1ShouldPutOnCell2(){
+	public void testApplyBonusWithMultiplicity1ToAPlayerOnCell1ShouldPutOnCell2() throws Exception {
 		NobilityCell cell2 = NobilityCell.createNobilityCell(2, null, new EmptyBonus());
 		NobilityCell cell1 = NobilityCell.createNobilityCell(1, cell2, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell1, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
@@ -57,7 +57,7 @@ public class NobilityBonusTest {
 	}
 	
 	@Test
-	public void testApplyBonusWithMultiplicity4ToAPlayerOnCell1ShouldPutOnCell4MaximumCell(){
+	public void testApplyBonusWithMultiplicity4ToAPlayerOnCell1ShouldPutOnCell4MaximumCell() throws Exception {
 		NobilityCell cell4 = NobilityCell.createNobilityCell(4, null, new EmptyBonus());
 		NobilityCell cell3 = NobilityCell.createNobilityCell(3, cell4, new EmptyBonus());
 		NobilityCell cell2 = NobilityCell.createNobilityCell(2, cell3, new EmptyBonus());

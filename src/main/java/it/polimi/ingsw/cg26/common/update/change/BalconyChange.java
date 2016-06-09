@@ -3,7 +3,9 @@ package it.polimi.ingsw.cg26.common.update.change;
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public class BalconyChange extends ChangeDecorator {
 
@@ -29,7 +31,7 @@ public class BalconyChange extends ChangeDecorator {
 	}
 
 	@Override
-	public void apply(ClientModel model) {
+	public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
 		super.apply(model);
 		for(RegionDTO iterRegionDTO : model.getRegions()){
 			if(iterRegionDTO.equals(this.regionDTO)){

@@ -3,18 +3,21 @@ package it.polimi.ingsw.cg26.server.exceptions;
 /**
  *
  */
-public class ParserErrorException extends RuntimeException {
+public class ParserErrorException extends Exception {
 
     public ParserErrorException() {
-        // Nothing to do here
+
     }
 
     public ParserErrorException(String message) {
         super(message);
     }
 
+    public ParserErrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public ParserErrorException(Throwable cause) {
         super(cause);
     }
-
 }

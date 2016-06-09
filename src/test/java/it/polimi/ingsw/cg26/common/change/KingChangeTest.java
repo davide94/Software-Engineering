@@ -73,7 +73,7 @@ public class KingChangeTest {
 	}
 	
 	@Test
-	public void testApplyChange(){
+	public void testApplyChange() throws Exception {
 		Change change =  new KingChange(this.change, changeKing);
 		change.apply(model);
 		

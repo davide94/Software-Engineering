@@ -23,7 +23,7 @@ public class FoldQuickAction extends Action {
      * @throws NoRemainingActionsException if the player has no more remaining actions to do
      */
     @Override
-    public void apply(GameBoard gameBoard) {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformQuickAction())
             throw new NoRemainingActionsException();

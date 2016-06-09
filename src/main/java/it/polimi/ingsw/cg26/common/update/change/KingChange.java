@@ -2,6 +2,9 @@ package it.polimi.ingsw.cg26.common.update.change;
 
 import it.polimi.ingsw.cg26.common.ClientModel;
 import it.polimi.ingsw.cg26.common.dto.KingDTO;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public class KingChange extends ChangeDecorator {
 
@@ -23,7 +26,7 @@ public class KingChange extends ChangeDecorator {
 	}
 	
 	@Override
-	public void apply(ClientModel model) {
+	public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
 		super.apply(model);
 		model.setKing(kingDTO);
 	}

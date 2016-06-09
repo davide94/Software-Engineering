@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.server.exceptions.NoMoreCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class PoliticDeckTest {
         deck.discard(null);
     }
 
-    @Test (expected = NoMoreCardsException.class)
+    @Test (expected = NoRemainingCardsException.class)
     public void testDrawShouldFail() throws Exception {
         deck.draw();
     }

@@ -37,7 +37,7 @@ public class Coins {
      * @throws IllegalArgumentException if the parameter is negative
      * @throws NotEnoughMoneyException if the decrement is greater than the number of coins owned by the player
      */
-    public synchronized void removeCoins(int decrement) {
+    public synchronized void removeCoins(int decrement) throws NotEnoughMoneyException {
         if (decrement < 0) {
             throw new IllegalArgumentException();
         }

@@ -175,7 +175,7 @@ public class Player {
 	 * Performs an action: the number of remaining main commands is decremented by one
 	 * @throws NoRemainingActionsException if the player do not have any remaining main commands
 	 */
-	public void performMainAction() {
+	public void performMainAction() throws NoRemainingActionsException {
 		this.remainingMainActions.perform();
 	}
 
@@ -183,7 +183,7 @@ public class Player {
 	 * Performs an action: the number of remaining quick commands is decremented by one
 	 * @throws NoRemainingActionsException if the player do not have any remaining quick commands
 	 */
-	public void performQuickAction() {
+	public void performQuickAction() throws NoRemainingActionsException {
 		this.remainingQuickActions.perform();
 	}
 
@@ -226,7 +226,7 @@ public class Player {
 	/**
 	 * Gains a position in the nobility track
 	 */
-	public void incrementNobility() {
+	public void incrementNobility() throws NoRemainingCardsException {
 		if (this.currentNobilityCell.hasNext()) {
 			this.currentNobilityCell = this.currentNobilityCell.next();
 			this.currentNobilityCell.apply(this);
@@ -254,7 +254,7 @@ public class Player {
 	 * @param number is the number of assistants to be taken
 	 * @throws NoRemainingAssistantsException if there are no assistants remaining
 	 */
-	public void takeAssistants(int number) {
+	public void takeAssistants(int number) throws NoRemainingAssistantsException {
 		if (this.assistants.size() < number)
 			throw new NoRemainingAssistantsException();
 		for (int i = 0; i < number; i++)
@@ -288,7 +288,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the parameter is negative
 	 * @throws NotEnoughMoneyException if the decrement is greater than the number of coins owned by the player
 	 */
-	public void removeCoins(int decrement) {
+	public void removeCoins(int decrement) throws NotEnoughMoneyException {
 		this.coins.removeCoins(decrement);
 	}
 
@@ -341,7 +341,7 @@ public class Player {
 	 * @return the tile
 	 * @throws InvalidCardsException if the player does not own the card
      */
-	public BusinessPermissionTile hasPermissionTile(BusinessPermissionTileDTO bPTState) {
+	public BusinessPermissionTile hasPermissionTile(BusinessPermissionTileDTO bPTState) throws InvalidCardsException {
 		for (BusinessPermissionTile tile : this.tiles)
 			if (tile.getState().equals(bPTState))
 				return tile;
@@ -353,7 +353,7 @@ public class Player {
 	 * @param tileState the tileState given by the user
 	 * @return the tile removed from the player
 	 */
-	public BusinessPermissionTile removeRealBPT(BusinessPermissionTileDTO tileState){
+	public BusinessPermissionTile removeRealBPT(BusinessPermissionTileDTO tileState) throws InvalidTileException {
 		BusinessPermissionTile tile = null;
 		for(BusinessPermissionTile t : tiles){
 			if(t.getState().equals(tileState)){
@@ -373,7 +373,7 @@ public class Player {
 	 * @param tile is the tile to mark as used
 	 * @throws InvalidCardsException if the player does not owns the tile
      */
-	public void useBPT(BusinessPermissionTile tile) {
+	public void useBPT(BusinessPermissionTile tile) throws InvalidCardsException {
 		if(this.tiles.remove(tile))
 			this.discardedTiles.add(tile);
 		else
@@ -420,7 +420,7 @@ public class Player {
 	 * @return a collection of politic cards that match with the required
 	 * @throws InvalidCardsException if the player does not owns all the cards required
 	 */
-	public Collection<PoliticCard> takeCards(Collection<PoliticCardDTO> requiredCards) {
+	public Collection<PoliticCard> takeCards(Collection<PoliticCardDTO> requiredCards) throws InvalidCardsException {
 		LinkedList<PoliticCard> removed = new LinkedList<>();
 		for (PoliticCardDTO requiredCard: requiredCards)
 			removed.add(takeCard(requiredCard));
@@ -433,7 +433,7 @@ public class Player {
 	 * @return a politic cards that match with the required
 	 * @throws InvalidCardsException if the player does not owns the required card
 	 */
-	public PoliticCard takeCard(PoliticCardDTO politicCardDTO) {
+	public PoliticCard takeCard(PoliticCardDTO politicCardDTO) throws InvalidCardsException {
 		PoliticCard removedCard = null;
 		for (PoliticCard card : this.cards) {
 			if (card.getColor().getState().equals(politicCardDTO.getColor())) {

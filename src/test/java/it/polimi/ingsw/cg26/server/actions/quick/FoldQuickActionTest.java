@@ -61,14 +61,14 @@ public class FoldQuickActionTest {
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingQuickActionShoulThrowAnException(){
+	public void testApplyActionToAPlayerWithoutRemainingQuickActionShoulThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
 		Action foldQuickAction = new FoldQuickAction(1);
 		foldQuickAction.apply(gameBoard);
 	}
 	
 	@Test
-	public void testApplyAction(){
+	public void testApplyAction() throws Exception {
 		Action foldQuickAction = new FoldQuickAction(1);
 		foldQuickAction.apply(gameBoard);
 		

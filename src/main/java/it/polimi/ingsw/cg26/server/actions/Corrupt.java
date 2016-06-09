@@ -1,11 +1,10 @@
 package it.polimi.ingsw.cg26.server.actions;
 
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 
 import java.util.Collection;
 
@@ -37,7 +36,7 @@ public abstract class Corrupt extends Action {
      * @return number of coins the player must have in order to do the action
      * @throws NullPointerException if the argument is null
      */
-    protected int necessaryCoins(Collection<PoliticCardDTO> cards){
+    protected int necessaryCoins(Collection<PoliticCardDTO> cards) throws InvalidCardsException {
         int multicolorCardsNumber = 0;
         for (PoliticCardDTO card: cards)
             if (card.getColor().equals(new PoliticColor("multicolor").getState()))
@@ -67,7 +66,7 @@ public abstract class Corrupt extends Action {
      * @throws InvalidCardsException if the cards given by the user doesn't match with the real cards of the player
      */
     @Override
-    public void apply(GameBoard gameBoard) {
+    public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();

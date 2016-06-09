@@ -135,7 +135,7 @@ public class SellBPTTest {
 	}
 	
 	@Test (expected = InvalidTileException.class)
-	public void testTryToSellBPTWithoutHavingItShouldThrowException(){
+	public void testTryToSellBPTWithoutHavingItShouldThrowException() throws Exception {
 		gameBoard.getCurrentPlayer().removeRealBPT(tileToSell.getState());
 		Action action = new SellBPT(5, tileToSell.getState(), 1);
 		
@@ -143,7 +143,7 @@ public class SellBPTTest {
 	}
 	
 	@Test
-	public void testApplyActionCheckChanges(){
+	public void testApplyActionCheckChanges() throws Exception {
 		Action action = new SellBPT(10, tileToSell.getState(), 1);
 		action.apply(gameBoard);
 		

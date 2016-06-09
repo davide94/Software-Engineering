@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -42,7 +43,7 @@ public class RewardTile {
 	 * Apply the bonuses to a player
 	 * @param player is the player who will earn the bonuses
      */
-    public void apply(Player player) {
+    public void apply(Player player) throws NoRemainingCardsException {
     	this.bonuses.apply(player);
     }
 

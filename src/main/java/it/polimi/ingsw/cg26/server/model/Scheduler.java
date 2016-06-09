@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.update.event.*;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -111,20 +112,30 @@ public class Scheduler {
 
     /**
      * Adds a Player to the list of players
+     * @throws NoRemainingCardsException
      */
     public long registerPlayer(String name) {
-        Player player = newPlayer(name);
+        Player player = null;
+        try {
+            player = newPlayer(name);
+        } catch (NoRemainingCardsException e) {
+            e.printStackTrace();
+        }
         if (players.isEmpty()) {
             player.setRemainingMainActions(1);
             player.setRemainingQuickActions(1);
-            player.addPoliticCard(gameBoard.getPoliticDeck().draw());
+            try {
+                player.addPoliticCard(gameBoard.getPoliticDeck().draw());
+            } catch (NoRemainingCardsException e) {
+                e.printStackTrace();
+            }
         }
         players.add(player);
         buyTurn.add(player);
         return player.getToken();
     }
 
-    private Player newPlayer(String name) {
+    private Player newPlayer(String name) throws NoRemainingCardsException {
         if (name.equals(""))
             name = "Player_" + players.size();
         LinkedList<Assistant> assistants = new LinkedList<>();
@@ -169,7 +180,11 @@ public class Scheduler {
 
         getCurrentPlayer().setRemainingMainActions(1);
         getCurrentPlayer().setRemainingQuickActions(1);
-        getCurrentPlayer().addPoliticCard(gameBoard.getPoliticDeck().draw());
+        try {
+            getCurrentPlayer().addPoliticCard(gameBoard.getPoliticDeck().draw());
+        } catch (NoRemainingCardsException e) {
+            e.printStackTrace();
+        }
     }
 
     private void startMarket() {

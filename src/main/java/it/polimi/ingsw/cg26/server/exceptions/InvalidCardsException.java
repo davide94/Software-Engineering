@@ -1,16 +1,20 @@
 package it.polimi.ingsw.cg26.server.exceptions;
 
-public class InvalidCardsException extends RuntimeException {
-	
-	/**
-     * Default constructor
-     */
+public class InvalidCardsException extends Exception {
+
     public InvalidCardsException() {
-        super();
+
     }
 
     public InvalidCardsException(String message) {
         super(message);
     }
 
+    public InvalidCardsException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public InvalidCardsException(Throwable cause) {
+        super(cause);
+    }
 }

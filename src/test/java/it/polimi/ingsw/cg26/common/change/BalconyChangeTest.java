@@ -112,7 +112,7 @@ public class BalconyChangeTest {
 	}
 	
 	@Test (expected = InvalidRegionException.class)
-	public void testApplyChangeToANotExistingregionShouldThrowException(){
+	public void testApplyChangeToANotExistingregionShouldThrowException() throws Exception {
 		RegionDTO region = new RegionDTO("Molise", new ArrayList<>(), new BusinessPermissionTileDeckDTO(new ArrayList<BusinessPermissionTileDTO>()), new BalconyDTO(new ArrayList<>()), new EmptyBonusDTO());
 		Change change = new BalconyChange(this.change, chosenBalcony, region);
 	
@@ -120,7 +120,7 @@ public class BalconyChangeTest {
 	}
 	
 	@Test
-	public void testApplyChange(){
+	public void testApplyChange() throws Exception {
 		Change change = new BalconyChange(this.change, chosenBalcony, chosenRegion);
 		
 		assertTrue(chosenRegion.getBalcony().getCouncillors().contains(new CouncillorDTO(new PoliticColorDTO("rosso"))));

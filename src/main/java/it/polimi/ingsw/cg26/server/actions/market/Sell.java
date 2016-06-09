@@ -4,6 +4,9 @@ import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.update.change.MarketChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
 ;
@@ -38,7 +41,7 @@ public abstract class Sell extends Action {
 	}
 	
 	@Override
-	public abstract void apply(GameBoard gameBoard);
+	public abstract void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, InvalidCardsException, InvalidTileException;
 	
 	@Override
 	public void notifyChange(GameBoard gameBoard){

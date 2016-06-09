@@ -32,7 +32,7 @@ public class XMLAdapter implements DOMParserInterface {
      * @return Items
      */
     @Override
-    public Document parse(String file, String schema) {
+    public Document parse(String file, String schema) throws ParserErrorException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();

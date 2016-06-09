@@ -24,7 +24,7 @@ import it.polimi.ingsw.cg26.common.dto.PoliticDeckDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
-import it.polimi.ingsw.cg26.server.exceptions.NotValidPlayerException;
+import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 
 public class PlayersChangeTest {
 
@@ -76,8 +76,8 @@ public class PlayersChangeTest {
 		new PlayersChange(change, null);
 	}
 	
-	@Test (expected = NotValidPlayerException.class)
-	public void testApplyChangeWithNotExistingPlayerShouldThrowException(){
+	@Test (expected = PlayerNotFoundException.class)
+	public void testApplyChangeWithNotExistingPlayerShouldThrowException() throws Exception {
 		PlayerDTO nePlayer = new PlayerDTO("Ajeje", 5, 6, 9, 0, 0, 3, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 		Change change = new PlayersChange(this.change, nePlayer);
 		
@@ -85,7 +85,7 @@ public class PlayersChangeTest {
 	}
 
 	@Test
-	public void testApply(){
+	public void testApply() throws Exception {
 		Change change = new PlayersChange(this.change, changePlayer);
 		change.apply(model);
 		PlayerDTO changedPlayer = null;

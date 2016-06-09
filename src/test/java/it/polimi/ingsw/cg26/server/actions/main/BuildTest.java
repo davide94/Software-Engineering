@@ -52,7 +52,7 @@ public class BuildTest {
 	
 	private long token;
 	
-	private Region createRegion(){
+	private Region createRegion() throws Exception {
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
@@ -83,7 +83,7 @@ public class BuildTest {
 	}
 
 	@Before
-	public void setUp(){
+	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
@@ -140,7 +140,7 @@ public class BuildTest {
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException(){
+	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
 		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
 		
@@ -148,7 +148,7 @@ public class BuildTest {
 	}
 	
 	@Test (expected = NoRemainingAssistantsException.class)
-	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException(){
+	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException() throws Exception {
 		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
 		gameBoard.getCurrentPlayer().takeAssistants(1);
 		
@@ -156,7 +156,7 @@ public class BuildTest {
 	}
 	
 	@Test
-	public void testApplyCheckChanges(){
+	public void testApplyCheckChanges() throws Exception {
 		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
 		
 		action.apply(gameBoard);

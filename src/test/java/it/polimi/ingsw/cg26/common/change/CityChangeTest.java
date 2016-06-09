@@ -101,7 +101,7 @@ public class CityChangeTest {
 	}
 	
 	@Test (expected = InvalidCityException.class)
-	public void testApplyChangeWithNotExistingCityShouldThrowException(){
+	public void testApplyChangeWithNotExistingCityShouldThrowException() throws Throwable {
 		CityDTO neCity = new CityDTO("Gotham", new CityColorDTO("nero"), new EmptyBonusDTO(), new ArrayList<>(), new ArrayList<>());
 		Change change =  new CityChange(this.change, neCity);
 		
@@ -109,7 +109,7 @@ public class CityChangeTest {
 	}
 	
 	@Test
-	public void testApplyChange(){
+	public void testApplyChange() throws Throwable {
 		Change change =  new CityChange(this.change, chosenCity);
 		change.apply(model);
 		

@@ -42,7 +42,7 @@ public class CoinBonusTest {
 	}
 	
 	@Test
-	public void testApplyCoinBonusWithMultiplicity6ToAPlayerWith2CoinsShouldAtTheEndHave8Coins(){
+	public void testApplyCoinBonusWithMultiplicity6ToAPlayerWith2CoinsShouldAtTheEndHave8Coins() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		CoinBonus coinBonus = new CoinBonus(bonus, 6);

@@ -34,7 +34,7 @@ public class MainActionBonusTest {
 	}
 	
 	@Test
-	public void testApplyOneMoreActionToAPlayerThatHasArleadyOneMainActionToDo(){
+	public void testApplyOneMoreActionToAPlayerThatHasArleadyOneMainActionToDo() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		MainActionBonus mainBonus = new MainActionBonus(bonus, 1);
@@ -43,7 +43,7 @@ public class MainActionBonusTest {
 	}
 	
 	@Test
-	public void testApplyOneMoreActionToAPlayerThatHasAlreadyOneMainActionToDoAndPerform2MainActionShuldntBePossibleToPerformAnotherOne(){
+	public void testApplyOneMoreActionToAPlayerThatHasAlreadyOneMainActionToDoAndPerform2MainActionShuldntBePossibleToPerformAnotherOne() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		MainActionBonus mainBonus = new MainActionBonus(bonus, 1);

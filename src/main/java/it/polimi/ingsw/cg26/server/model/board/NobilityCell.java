@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
@@ -69,7 +70,7 @@ public class NobilityCell {
         return this.index;
     }
 
-    public void apply(Player player) {
+    public void apply(Player player) throws NoRemainingCardsException {
         bonuses.apply(player);
     }
 

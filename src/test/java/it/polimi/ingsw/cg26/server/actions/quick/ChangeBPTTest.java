@@ -96,21 +96,21 @@ public class ChangeBPTTest {
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionWithoutRemainingQuickActionsShouldThrowAnException(){
+	public void testApplyActionWithoutRemainingQuickActionsShouldThrowAnException() throws Throwable{
 		gameBoard.getCurrentPlayer().performQuickAction();
 		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
 		changeBPT.apply(gameBoard);
 	}
 
 	@Test (expected = NoRemainingAssistantsException.class)
-	public void testApplyActionWithoutAssitantsShouldThrowAnException(){
+	public void testApplyActionWithoutAssitantsShouldThrowAnException() throws Throwable{
 		gameBoard.getCurrentPlayer().takeAssistants(3);
 		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
 		changeBPT.apply(gameBoard);
 	}
 	
 	@Test
-	public void testApplyActionOnADeckWith4TilesShouldMoveTheThirdTileToFirst(){
+	public void testApplyActionOnADeckWith4TilesShouldMoveTheThirdTileToFirst() throws Throwable{
 		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
 		changeBPT.apply(gameBoard);
 		
@@ -125,7 +125,7 @@ public class ChangeBPTTest {
 	}
 	
 	@Test
-	public void testApplyActionOnADeckWith4TilesShouldMoveTheFourthTileToSecond(){
+	public void testApplyActionOnADeckWith4TilesShouldMoveTheFourthTileToSecond() throws Throwable{
 		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
 		changeBPT.apply(gameBoard);
 		

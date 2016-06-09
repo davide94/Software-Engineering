@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
-import it.polimi.ingsw.cg26.server.exceptions.NoMoreCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -44,11 +44,11 @@ public class Deck<E> {
     /**
      * Draws (removes and returns) a card from the deck
      * @return the first element of the deck
-     * @throws NoMoreCardsException if there are no more cards remaining in the deck
+     * @throws NoRemainingCardsException if there are no more cards remaining in the deck
      */
-    public E draw() {
+    public E draw() throws NoRemainingCardsException {
         if (!hasNext())
-            throw new NoMoreCardsException();
+            throw new NoRemainingCardsException();
         return this.cards.poll();
     }
 

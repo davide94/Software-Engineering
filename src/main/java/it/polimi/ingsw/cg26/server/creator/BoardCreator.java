@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.creator;
 
+import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
@@ -20,7 +21,7 @@ public class BoardCreator {
         // Nothing to do here
     }
 
-    protected static GameBoard createBoard(Node root) {
+    protected static GameBoard createBoard(Node root) throws BadInputFileException {
 
         PoliticDeck politicDeck = PoliticDeckCreator.createDeck(root);
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -16,7 +17,7 @@ public class SellAssistant extends Sell {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard) {
+	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);
 		Assistant assistantToAdd = new Assistant();

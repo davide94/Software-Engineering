@@ -5,7 +5,7 @@ import java.util.List;
 
 import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
-import it.polimi.ingsw.cg26.server.exceptions.NotExistingSellableException;
+import it.polimi.ingsw.cg26.server.exceptions.SellableNotFoundException;
 
 /**
  * 
@@ -49,16 +49,16 @@ public class Market {
      * @param sellableDTO the sellable to get from the market
      * @return the sellable object cointained in the market
      * @throws NullPointerException if the given sellableDTO is null
-     * @throws NotExistingSellableException if the sellableDTO doesn't match any sellable object in the market
+     * @throws SellableNotFoundException if the sellableDTO doesn't match any sellable object in the market
      */
-    public Sellable getRealSellable(SellableDTO sellableDTO){
+    public Sellable getRealSellable(SellableDTO sellableDTO) throws SellableNotFoundException {
     	if(sellableDTO == null)
     		throw new NullPointerException();
     	for(Sellable s : onSale){
     		if(s.getState().equals(sellableDTO))
     			return s;
     	}
-    	throw new NotExistingSellableException();
+    	throw new SellableNotFoundException();
     }
     
     /**

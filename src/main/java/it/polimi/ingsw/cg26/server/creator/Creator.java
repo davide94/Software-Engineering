@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.controller.Controller;
+import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
+import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -27,7 +29,7 @@ public class Creator {
      * Creates the initial game structure.
      * @param file is the path+name of the configuration file
      */
-    public static GameBoard createGame(String file) {
+    public static GameBoard createGame(String file) throws ParserErrorException, BadInputFileException {
 
         Instant before = Instant.now();
 

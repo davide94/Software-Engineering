@@ -60,14 +60,14 @@ public class EngageAssistantTest {
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutQuickActionsShoulThrowAnException(){
+	public void testApplyActionToAPlayerWithoutQuickActionsShoulThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
 		Action engageAssitant = new EngageAssistant(1);
 		engageAssitant.apply(gameBoard);
 	}
 	
 	@Test
-	public void testApplyActionToAPlayerWith1AssistantsShouldAddOneMore(){
+	public void testApplyActionToAPlayerWith1AssistantsShouldAddOneMore() throws Exception {
 		Action engageAssitant = new EngageAssistant(1);
 		engageAssitant.apply(gameBoard);
 		
@@ -76,7 +76,7 @@ public class EngageAssistantTest {
 	}
 	
 	@Test
-	public void testApplyActionToAPlayerWith10ShouldHave7Coins(){
+	public void testApplyActionToAPlayerWith10ShouldHave7Coins() throws Exception {
 		Action engageAssitant = new EngageAssistant(1);
 		engageAssitant.apply(gameBoard);
 		

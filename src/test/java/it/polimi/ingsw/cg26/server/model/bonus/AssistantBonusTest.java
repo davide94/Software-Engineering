@@ -39,7 +39,7 @@ public class AssistantBonusTest {
 	}
 	
 	@Test
-	public void testApply3AssistantsToAPlayerWith0AssistantsShouldHave3Assistants(){
+	public void testApply3AssistantsToAPlayerWith0AssistantsShouldHave3Assistants() throws Throwable{
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		Bonus assBonus = new AssistantBonus(bonus, 3);
@@ -49,7 +49,7 @@ public class AssistantBonusTest {
 	}
 
 	@Test
-	public void testApplyDecoratedBonus(){
+	public void testApplyDecoratedBonus() throws Throwable{
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		Bonus assBonus = new AssistantBonus(new CoinBonus(bonus, 4), 3);
@@ -60,7 +60,7 @@ public class AssistantBonusTest {
 	}
 	
 	@Test
-	public void testApply1AssistantToAPlayerWith5AssistantsShouldHave6Assistants(){
+	public void testApply1AssistantToAPlayerWith5AssistantsShouldHave6Assistants() throws Throwable{
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player = new Player(1, "Marco", cell, 2, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 		for(int i=0; i<5; i++)

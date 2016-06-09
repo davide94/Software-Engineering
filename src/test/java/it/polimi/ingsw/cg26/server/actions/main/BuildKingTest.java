@@ -52,7 +52,7 @@ public class BuildKingTest {
 	
 	private long token;
 	
-	private Region createRegion(){
+	private Region createRegion() throws Exception {
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
@@ -88,7 +88,7 @@ public class BuildKingTest {
 	}
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
@@ -132,7 +132,7 @@ public class BuildKingTest {
 	}
 
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException(){
+	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
 		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), 1);
 		
@@ -140,7 +140,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testApplyActionWithPoliticCardsDTODifferentFromTheRealCardsOfThePlayerShouldThrowAnException(){
+	public void testApplyActionWithPoliticCardsDTODifferentFromTheRealCardsOfThePlayerShouldThrowAnException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("rosso"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("arancione"), 0, "Marco"));
@@ -152,7 +152,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testApplyNecessaryCoinsWithMoreThanFourCardsShouldThrowAnException(){
+	public void testApplyNecessaryCoinsWithMoreThanFourCardsShouldThrowAnException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -165,7 +165,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsWithFourCardsAndOneMulticolorCardAndOneStreetToGoAndPlayerWithLessThan3CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsWithFourCardsAndOneMulticolorCardAndOneStreetToGoAndPlayerWithLessThan3CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -178,7 +178,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsNumberWithThreeCardsAndOneMulticolorCardAndPlayerWithLessThan5CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsNumberWithThreeCardsAndOneMulticolorCardAndPlayerWithLessThan5CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -190,7 +190,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsNumberWithTwoCardsAndPlayerWithLessThan7CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsNumberWithTwoCardsAndPlayerWithLessThan7CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
@@ -201,7 +201,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyNecessaryCoinsNumberWithOneCardAndPlayerWithLessThan10CoinsShouldThrowException(){
+	public void testApplyNecessaryCoinsNumberWithOneCardAndPlayerWithLessThan10CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
@@ -211,7 +211,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testApplyWithCardsThatDoesntMatchTheCouncillorsOnTheKingBalconyShouldThrowException(){
+	public void testApplyWithCardsThatDoesntMatchTheCouncillorsOnTheKingBalconyShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("viola"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
@@ -224,7 +224,7 @@ public class BuildKingTest {
 	}
 	
 	@Test (expected = NoRemainingAssistantsException.class)
-	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException(){
+	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("viola"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
@@ -237,7 +237,7 @@ public class BuildKingTest {
 	}
 	
 	@Test
-	public void testApplyCheckChanges(){
+	public void testApplyCheckChanges() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("viola"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
@@ -254,6 +254,4 @@ public class BuildKingTest {
 		assertEquals(3, gameBoard.getCurrentPlayer().getFullState().getCards().size()); //player has 6 cards and draws 1 card, then uses 4 cards
 		assertFalse(gameBoard.getCurrentPlayer().canPerformMainAction());
 	}
-	
-	
 }

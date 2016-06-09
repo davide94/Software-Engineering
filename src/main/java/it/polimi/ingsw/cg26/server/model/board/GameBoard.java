@@ -2,7 +2,8 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.dto.*;
-import it.polimi.ingsw.cg26.server.exceptions.NotExistingRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
@@ -122,13 +123,13 @@ public class GameBoard extends Observable<Update> {
 		return this.king;
 	}
 
-	public City getCity(CityDTO requiredCity) {
+	public City getCity(CityDTO requiredCity) throws CityNotFoundException {
 		for (Region region: this.regions) {
 			City city = region.getCity(requiredCity);
 			if (city != null)
 				return city;
 		}
-		throw new NotExistingRegionException();
+		throw new CityNotFoundException();
 	}
 
 	public PoliticDeck getPoliticDeck() {
@@ -157,7 +158,7 @@ public class GameBoard extends Observable<Update> {
 		return market;
 	}
 
-	public void checkBonuses(Player player, CityColor color) {
+	public void checkBonuses(Player player, CityColor color) throws NoRemainingCardsException {
         if (checkColorBonuses(player, color)) {
             Bonus bonus = colorBonuses.get(color);
             if (bonus == null)

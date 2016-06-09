@@ -61,14 +61,14 @@ public class AdditionalMainActionTest {
 	}
 	
 	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAplayerWithoutRemainingQuickActionsShouldThrowAnException(){
+	public void testApplyActionToAplayerWithoutRemainingQuickActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
 		AdditionalMainAction action = new AdditionalMainAction(1);
 		action.apply(gameBoard);
 	}
 	
 	@Test
-	public void testApplyAction(){
+	public void testApplyAction() throws Exception {
 		AdditionalMainAction action = new AdditionalMainAction(1);
 		gameBoard.getCurrentPlayer().addAssistant(new Assistant());
 		gameBoard.getCurrentPlayer().addAssistant(new Assistant());

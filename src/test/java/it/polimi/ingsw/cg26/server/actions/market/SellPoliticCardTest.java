@@ -131,7 +131,7 @@ public class SellPoliticCardTest {
 	}
 	
 	@Test (expected = InvalidCardsException.class)
-	public void testTryToSellPoliticCardWithoutHavingItShouldThrowException(){
+	public void testTryToSellPoliticCardWithoutHavingItShouldThrowException() throws Throwable{
 		gameBoard.getCurrentPlayer().takeCard(cardToSell.getState());
 		Action action = new SellPoliticCard(5, cardToSell.getState(), 1);
 		
@@ -139,7 +139,7 @@ public class SellPoliticCardTest {
 	}
 	
 	@Test
-	public void testApplyActionCheckChanges(){
+	public void testApplyActionCheckChanges() throws Throwable{
 		Action action = new SellPoliticCard(6, cardToSell.getState(), 1);
 		action.apply(gameBoard);
 		

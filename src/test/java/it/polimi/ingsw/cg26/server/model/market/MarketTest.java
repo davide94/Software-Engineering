@@ -11,7 +11,7 @@ import org.junit.Test;
 import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
-import it.polimi.ingsw.cg26.server.exceptions.NotExistingSellableException;
+import it.polimi.ingsw.cg26.server.exceptions.SellableNotFoundException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
@@ -24,14 +24,14 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 public class MarketTest {
 	
 	@Test
-	public void testConstructAMarket(){
+	public void testConstructAMarket() throws Exception {
 		Market market = new Market();
 		
 		assertEquals(new ArrayList<Sellable>(), market.getOnSale());
 	}
 	
 	@Test
-	public void testGetState(){
+	public void testGetState() throws Exception {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("arancione"));
 		List<City> cities = new ArrayList<>();
@@ -49,13 +49,13 @@ public class MarketTest {
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testAddToMarketANullShouldThrowAnException(){
+	public void testAddToMarketANullShouldThrowAnException() throws Exception {
 		Market market = new Market();
 		market.addToMarket(null);
 	}
 	
 	@Test
-	public void testAddToMarketAPoliticCard(){
+	public void testAddToMarketAPoliticCard() throws Exception {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("arancione"));
 		market.addToMarket(card);
@@ -64,7 +64,7 @@ public class MarketTest {
 	}
 	
 	@Test
-	public void testAddToMarketABPTAndAnAssistant(){
+	public void testAddToMarketABPTAndAnAssistant() throws Exception {
 		Market market = new Market();
 		List<City> cities = new ArrayList<>();
 		BusinessPermissionTile tile = new BusinessPermissionTile(cities, new EmptyBonus());
@@ -78,7 +78,7 @@ public class MarketTest {
 	}
 	
 	@Test
-	public void testGetOnSale(){
+	public void testGetOnSale() throws Exception {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("giallo"));
 		market.addToMarket(card);
@@ -92,7 +92,7 @@ public class MarketTest {
 	}
 	
 	@Test
-	public void testGetRealSellableWithAPoliticCard(){
+	public void testGetRealSellableWithAPoliticCard() throws Exception {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("blu"));
 		market.addToMarket(card);
@@ -102,7 +102,7 @@ public class MarketTest {
 	}
 	
 	@Test
-	public void testGetRealSellableWithAnAssistant(){
+	public void testGetRealSellableWithAnAssistant() throws Exception {
 		Market market = new Market();
 		Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 5, new ArrayList<PoliticCard>(), new ArrayList<Assistant>());
 		Assistant assistant = new Assistant();
@@ -114,8 +114,8 @@ public class MarketTest {
 		assertEquals(assistant, market.getRealSellable(assistantDTO));
 	}
 	
-	@Test (expected = NotExistingSellableException.class)
-	public void testGetRealSellableShouldThrowAnExceptionIfThereIsntTheRequestedSellable(){
+	@Test (expected = SellableNotFoundException.class)
+	public void testGetRealSellableShouldThrowAnExceptionIfThereIsntTheRequestedSellable() throws Exception {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("giallo"));
 		market.addToMarket(card);
@@ -126,21 +126,21 @@ public class MarketTest {
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testGetRealSellableShouldThrowAnExceptionIfTheArgumentIsNull(){
+	public void testGetRealSellableShouldThrowAnExceptionIfTheArgumentIsNull() throws Exception {
 		Market market = new Market();
 		
 		market.getRealSellable(null);
 	}
 	
 	@Test (expected = NullPointerException.class)
-	public void testRemoveFromMarketShouldThrowAnExceptionIfTheArgumentIsNull(){
+	public void testRemoveFromMarketShouldThrowAnExceptionIfTheArgumentIsNull() throws Exception {
 		Market market = new Market();
 		
 		market.removeFromMarket(null);
 	}
 	
 	@Test
-	public void testRemoveFromMarket(){
+	public void testRemoveFromMarket() throws Exception {
 		Market market = new Market();
 		PoliticCard card = new PoliticCard(new PoliticColor("verde"));
 		market.addToMarket(card);
@@ -152,7 +152,7 @@ public class MarketTest {
 	}
 	
 	@Test
-	public void testEndMarket(){
+	public void testEndMarket() throws Exception {
 		NobilityCell cell = NobilityCell.createNobilityCell(1, null, new EmptyBonus());
 		Player player1 = new Player(1, "Marco", cell, 4, new LinkedList<PoliticCard>(), new LinkedList<Assistant>());
 		//created player with 0 assistants and 0 politic cards

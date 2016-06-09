@@ -139,7 +139,7 @@ private GameBoard gameBoard;
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
-	public void testApplyActionWithAPlayerThatTriesToBuyWithoutEnoughMoneyShouldThrowException(){
+	public void testApplyActionWithAPlayerThatTriesToBuyWithoutEnoughMoneyShouldThrowException() throws Exception {
 		Action action = new Buy(1, this.cardToBuy.getState());
 		gameBoard.getCurrentPlayer().removeCoins(10);
 		
@@ -147,7 +147,7 @@ private GameBoard gameBoard;
 	}
 	
 	@Test
-	public void testApplyActionBuyAssistantCheckChanges(){
+	public void testApplyActionBuyAssistantCheckChanges() throws Exception {
 		Action action = new Buy(1, this.assistantToBuy.getState());
 		action.apply(gameBoard);
 		
@@ -159,7 +159,7 @@ private GameBoard gameBoard;
 	}
 	
 	@Test
-	public void testApplyActionBuyBPTCheckChanges(){
+	public void testApplyActionBuyBPTCheckChanges() throws Exception {
 		Action action = new Buy(1, this.bPTToBuy.getState());
 		action.apply(gameBoard);
 		
@@ -171,7 +171,7 @@ private GameBoard gameBoard;
 	}
 	
 	@Test
-	public void testApplyActionBuyPoliticCardCheckChanges(){
+	public void testApplyActionBuyPoliticCardCheckChanges() throws Exception {
 		Action action = new Buy(1, this.cardToBuy.getState());
 		action.apply(gameBoard);
 		

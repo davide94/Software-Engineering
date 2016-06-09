@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.creator;
 
+import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
@@ -22,7 +23,7 @@ public class RegionsCreator {
         // Nothing to do here
     }
 
-    protected static List<Region> createRegions(Node root, List<List<City>> cities, PoliticDeck politicDeck, List<Councillor> councillors) {
+    protected static List<Region> createRegions(Node root, List<List<City>> cities, PoliticDeck politicDeck, List<Councillor> councillors) throws BadInputFileException {
         if (root == null || cities == null || politicDeck == null || councillors == null)
             throw new NullPointerException();
 
@@ -36,7 +37,7 @@ public class RegionsCreator {
         return regions;
     }
 
-    private static Region createRegion(Node root, List<City> cities, PoliticDeck politicDeck, List<Councillor> councillors) {
+    private static Region createRegion(Node root, List<City> cities, PoliticDeck politicDeck, List<Councillor> councillors) throws BadInputFileException {
         String name = Creator.getAttribute(root, "name");
         BusinessPermissionTileDeck tilesDeck = BusinessPermitTileDeckCreator.createDeck(Creator.getNode(root, "permissionTiles"), cities, politicDeck);
         Balcony balcony = BalconyCreator.createBalcony(councillors);

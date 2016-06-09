@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.market.Sellable;
@@ -66,7 +67,7 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
-    public void getReward(Player p) {
+    public void getReward(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
     }
 
