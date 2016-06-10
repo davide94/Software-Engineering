@@ -111,6 +111,7 @@ public class SellPoliticCardTest {
 		
 		gameBoard.registerPlayer("Marco");
 		gameBoard.getCurrentPlayer().addPoliticCard(cardToSell);
+		gameBoard.getScheduler().setMarket(true);
 	}
 	
 	@Test

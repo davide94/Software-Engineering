@@ -86,6 +86,10 @@ public class Scheduler {
     public List<Player> getPlayers() {
         return players;
     }
+    
+    public void setMarket(boolean b){
+    	this.market = b;
+    }
 
     /* -------------------------------------- */
 

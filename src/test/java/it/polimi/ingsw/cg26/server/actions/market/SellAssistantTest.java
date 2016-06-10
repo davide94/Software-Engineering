@@ -112,6 +112,7 @@ public class SellAssistantTest {
 		//player1.addAssistant(assistantToSell);
 		gameBoard.registerPlayer("Marco");
 		gameBoard.getCurrentPlayer().addAssistant(assistantToSell);
+		gameBoard.getScheduler().setMarket(true);
 		//gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
 	}

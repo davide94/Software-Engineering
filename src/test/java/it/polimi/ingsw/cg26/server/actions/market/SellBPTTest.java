@@ -115,6 +115,7 @@ public class SellBPTTest {
 		
 		gameBoard.registerPlayer("Marco");
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToSell);
+		gameBoard.getScheduler().setMarket(true);
 	}
 	
 	@Test
