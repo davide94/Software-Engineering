@@ -2,13 +2,13 @@ package it.polimi.ingsw.cg26.common.update.request;
 
 import it.polimi.ingsw.cg26.common.ClientModel;
 
-public class CityBonusRequest implements Request {
+public class BPTRequest implements Request {
 
-	private static final long serialVersionUID = 3270777908587153052L;
+	private static final long serialVersionUID = -801244429206223644L;
 
 	private int multiplicity;
 	
-	public CityBonusRequest(int multiplicity) {
+	public BPTRequest(int multiplicity) {
 		if(multiplicity < 1)
 			throw new IllegalArgumentException();
 		this.multiplicity = multiplicity;
@@ -42,12 +42,10 @@ public class CityBonusRequest implements Request {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CityBonusRequest other = (CityBonusRequest) obj;
+		BPTRequest other = (BPTRequest) obj;
 		if (multiplicity != other.multiplicity)
 			return false;
 		return true;
 	}
-	
-	
 
 }

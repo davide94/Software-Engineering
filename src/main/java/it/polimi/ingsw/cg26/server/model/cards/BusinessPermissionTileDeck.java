@@ -49,6 +49,18 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     }
 
     /**
+     * Returns one of the open cards
+     * @param position represents which card has to be drawn, 0 is the upper
+     * @return one of the open cards
+     * @throws IllegalArgumentException if which is negative or greater than the maximum allowed value
+     */
+    public BusinessPermissionTile getTile(int position) {
+        if (position < 0 || position >= OPEN_CARDS_NUMBER || position >= cards.size())
+            throw new IllegalArgumentException();
+        return this.cards.get(position);
+    }
+    
+    /**
      * Puts to the bottom of the deck the open cards
      * @throws NoRemainingCardsException
      */

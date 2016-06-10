@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class Player {
 	/**
 	 * A request not already satisfied by the player
 	 */
-	private Request pendingRequest;
+	private final List<Request> pendingRequests;
 
 	/**
 	 * Constructs a Player
@@ -117,6 +118,7 @@ public class Player {
 		this.remainingChooseActions = new RemainingChooseAction();
 		this.tiles = new LinkedList<>();
 		this.discardedTiles = new LinkedList<>();
+		this.pendingRequests = new ArrayList<>();
 	}
 
 	/**
@@ -496,14 +498,18 @@ public class Player {
 	/**
 	 * @return the pendingRequest
 	 */
-	public Request getPendingRequest() {
-		return pendingRequest;
+	public List<Request> getPendingRequest() {
+		return new ArrayList<>(pendingRequests);
 	}
 
 	/**
-	 * @param pendingRequest the pendingRequest to set
+	 * @param pendingRequest the pendingRequest to add
 	 */
-	public void setPendingRequest(Request pendingRequest) {
-		this.pendingRequest = pendingRequest;
+	public void addPendingRequest(Request pendingRequest) {
+		this.pendingRequests.add(pendingRequest);
+	}
+	
+	public void removePendingRequest(Request request){
+		this.pendingRequests.remove(request);
 	}
 }

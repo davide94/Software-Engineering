@@ -19,12 +19,12 @@ public class BusinessPermissionTile extends Sellable {
     /**
      * Collection of cities in which the tile permits to build
      */
-    private Collection<City> cities;
+    private final Collection<City> cities;
 
     /**
      * Collection of bonuses that the tile makes you earn
      */
-    private Bonus bonuses;
+    private final Bonus bonuses;
 
     /**
      * Constructs a Business Permit Tile
@@ -69,6 +69,10 @@ public class BusinessPermissionTile extends Sellable {
 
     public void getReward(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
+    }
+    
+    public Bonus getBonuses(){
+    	return this.bonuses;
     }
 
     /**

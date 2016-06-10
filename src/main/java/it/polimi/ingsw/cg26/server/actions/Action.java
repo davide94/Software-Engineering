@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions;
 
+import java.util.List;
+
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
@@ -44,10 +46,11 @@ public abstract class Action {
     
     public void checkPendingRequest(GameBoard gameBoard){
     	if(gameBoard.getCurrentPlayer().canPerformChooseAction()){
-    		Request request = gameBoard.getCurrentPlayer().getPendingRequest();
-    		if(request == null)
+    		List<Request> requests = gameBoard.getCurrentPlayer().getPendingRequest();
+    		if(requests.isEmpty())
     			throw new IllegalStateException();
-    		gameBoard.notifyObservers(request);
+    		for(Request r : requests)
+    			gameBoard.notifyObservers(r);
     	}
     }
 
