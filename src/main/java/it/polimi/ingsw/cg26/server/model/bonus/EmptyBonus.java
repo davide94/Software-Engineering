@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmptyBonus implements Bonus {
 

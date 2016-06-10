@@ -2,11 +2,18 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.observer.Observable;
+import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.Update;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
+import it.polimi.ingsw.cg26.common.update.event.GameStarted;
+import it.polimi.ingsw.cg26.common.update.event.TurnStarted;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
@@ -16,6 +23,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -63,13 +71,11 @@ public class GameBoard extends Observable<Update> {
 	}
 
 	public GameBoardDTO getState() {
-		LinkedList<RegionDTO> regionsState = new LinkedList<>();
-		for (Region region: regions)
-			regionsState.add(region.getState());
-		LinkedList<CouncillorDTO> councillorsState = new LinkedList<>();
-		for (Councillor c: councillorsPool)
-			councillorsState.add(c.getState());
-		List<PlayerDTO> playersState = scheduler.getPlayersState();
+		LinkedList<RegionDTO> regionsState = regions.stream().map(Region::getState)
+                .collect(Collectors.toCollection(LinkedList::new));
+        LinkedList<CouncillorDTO> councillorsState = councillorsPool.stream().map(Councillor::getState)
+                .collect(Collectors.toCollection(LinkedList::new));
+        List<PlayerDTO> playersState = scheduler.getPlayersState();
 		// TODO serialize market
 		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
 	}
@@ -81,6 +87,25 @@ public class GameBoard extends Observable<Update> {
     }
 
     /* -------------------------------------- */
+
+	public void start() {
+
+        if (scheduler.getPlayers().size() == 2) {
+            for (Region r: regions) {
+                BusinessPermissionTile tile = r.getBPTDeck().randomCard();
+                for (City c: tile.getCities()) {
+                    // TODO: add placeholderEmporium
+                }
+            }
+        }
+
+        notifyObservers(new FullStateChange(new BasicChange(), getState()));
+        for (PlayerDTO player : getFullPlayers())
+            notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
+
+        notifyObservers(new GameStarted());
+        notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
+    }
 
 	public Collection<PlayerDTO> getFullPlayers() {
 		return scheduler.getPlayersFullState();

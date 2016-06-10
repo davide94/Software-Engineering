@@ -70,9 +70,11 @@ public class PoliticCardTest {
 
     @Test
     public void testEquals() throws Exception {
+        assertTrue(card.equals(new PoliticCard(new PoliticColor("colorname"))));
         assertTrue(card.equals(card));
-        assertFalse(card.equals(new PoliticCard(new PoliticColor("colorname"))));
-        assertFalse(card.equals(new PoliticCard(new PoliticColor("othercolorname"))));
+        assertFalse(card.equals(null));
+        assertFalse(card.equals(new PoliticCard(new PoliticColor("red"))));
+        assertFalse(card.equals(new Assistant()));
     }
 
     @Test

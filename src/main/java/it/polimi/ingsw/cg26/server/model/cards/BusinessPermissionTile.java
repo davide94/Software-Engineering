@@ -67,6 +67,10 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
+    public Collection<City> getCities() {
+        return new LinkedList<>(cities);
+    }
+
     public void getReward(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
     }

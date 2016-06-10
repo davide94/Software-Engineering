@@ -314,7 +314,7 @@ public class BalconyTest {
 	public void testToString() {
 		
 		assertEquals(balcony1.toString(),"Balcony{" +
-				"councillors=" + "[Councillor{color=PoliticColor{color='nero'}}]" +
+				"councillors=" + "[Councillor{color=nero}]" +
 				'}');
 				
 	}

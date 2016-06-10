@@ -25,6 +25,7 @@ public class PoliticDeck extends Deck<PoliticCard> {
         if (cards == null)
             throw new NullPointerException();
         this.discarded = new LinkedList<>(cards);
+        shuffle();
     }
 
     /**
@@ -76,4 +77,17 @@ public class PoliticDeck extends Deck<PoliticCard> {
         this.discarded = new LinkedList<>();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (discarded != null ? discarded.hashCode() : 0);
+        return result;
+    }
 }

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg26.common.commands;
 
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
+
+import java.util.List;
 
 public class ChooseCityCommand extends Command {
 

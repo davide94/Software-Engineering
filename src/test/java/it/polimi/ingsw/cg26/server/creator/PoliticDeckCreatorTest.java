@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.creator;
 
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
@@ -9,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,7 +64,18 @@ public class PoliticDeckCreatorTest {
         cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("orange"))));
         cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("pink"))));
         cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("violet"))));
+        cards.addAll(Collections.nCopies(13, new PoliticCard(new PoliticColor("multicolor"))));
 
-        assertEquals(PoliticDeckCreator.createDeck(root), new PoliticDeck(cards));
+        PoliticDeck deck = PoliticDeckCreator.createDeck(root);
+
+        Collection<PoliticCard> c = new LinkedList<>();
+        while (true) {
+            try {
+                c.add(deck.draw());
+            } catch (NoRemainingCardsException e) { break; }
+        }
+        System.out.println(c);
+        System.out.println(cards);
+        assertTrue(c.containsAll(cards) && cards.containsAll(c));
     }
 }

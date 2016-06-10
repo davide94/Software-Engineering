@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.server.actions;
 
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
@@ -10,6 +8,8 @@ import it.polimi.ingsw.cg26.common.update.change.PlayersChange;
 import it.polimi.ingsw.cg26.common.update.request.Request;
 import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
+
+import java.util.List;
 
 /**
  *

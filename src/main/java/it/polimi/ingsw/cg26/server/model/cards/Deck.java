@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * 
  */
-public class Deck<E> {
+public abstract class Deck<E> {
 
     /**
      * List of cards in the deck
@@ -37,7 +37,7 @@ public class Deck<E> {
      * checks if there are at least one more card in the deck
      * @return true if there are at least one more card in the deck, false if not
      */
-    public boolean hasNext() {
+    protected boolean hasNext() {
         return !this.cards.isEmpty();
     }
 
@@ -46,7 +46,7 @@ public class Deck<E> {
      * @return the first element of the deck
      * @throws NoRemainingCardsException if there are no more cards remaining in the deck
      */
-    public E draw() throws NoRemainingCardsException {
+    protected E draw() throws NoRemainingCardsException {
         if (!hasNext())
             throw new NoRemainingCardsException();
         return this.cards.poll();
@@ -57,7 +57,7 @@ public class Deck<E> {
      * @param c is a card to be added to the desk
      * @throws NullPointerException if c is null
      */
-    public void add(E c) {
+    protected void add(E c) {
         if (c == null)
             throw new NullPointerException();
         this.cards.add(c);
@@ -68,7 +68,7 @@ public class Deck<E> {
      * @param c is a collection of cards to be added to the desk
      * @throws NullPointerException if c is null
      */
-    public void addAll(Collection<E> c) {
+    protected void addAll(Collection<E> c) {
         if (c == null)
             throw new NullPointerException();
         this.cards.addAll(c);
@@ -81,8 +81,8 @@ public class Deck<E> {
 
         Deck<?> deck = (Deck<?>) o;
 
+        //return cards != null ? (cards.containsAll(deck.cards) && deck.cards.containsAll(cards)) : deck.cards == null;
         return cards != null ? cards.equals(deck.cards) : deck.cards == null;
-
     }
 
     @Override

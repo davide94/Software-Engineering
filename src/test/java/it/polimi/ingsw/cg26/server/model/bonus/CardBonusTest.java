@@ -30,13 +30,8 @@ public class CardBonusTest {
 		this.bonus = new EmptyBonus();
 		
 		List<PoliticCard> cards = new LinkedList<>();
-		
+		cards.add(new PoliticCard(new PoliticColor("arancione")));
 		politicDeck = new PoliticDeck(cards);
-		
-		politicDeck.add(new PoliticCard(new PoliticColor("arancione")));
-		politicDeck.add(new PoliticCard(new PoliticColor("nero")));
-		politicDeck.add(new PoliticCard(new PoliticColor("bianco")));
-		politicDeck.add(new PoliticCard(new PoliticColor("azzurro")));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -61,9 +56,7 @@ public class CardBonusTest {
 		Player player = new Player(1, "Marco", cell, 2, playerCards, new LinkedList<Assistant>());
 		CardBonus cardBonus = new CardBonus(bonus, 1, politicDeck);
 		cardBonus.apply(player);
-		
-		assertEquals(politicDeck.draw().getColor(), new PoliticColor("nero"));
-		
+
 		PoliticCard card = player.takeCard(new PoliticCardDTO(new PoliticColorDTO("arancione"), 1, "Marco"));
 		assertEquals(new PoliticColor("arancione") ,card.getColor());
 	}

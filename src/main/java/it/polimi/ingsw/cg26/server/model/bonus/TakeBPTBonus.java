@@ -1,10 +1,10 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.update.request.BPTRequest;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+
+import java.util.List;
 
 public class TakeBPTBonus extends BonusDecorator {
 

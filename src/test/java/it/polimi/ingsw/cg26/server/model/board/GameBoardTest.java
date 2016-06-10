@@ -2,11 +2,7 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -405,7 +401,7 @@ public class GameBoardTest {
 		
 		assertNotEquals(board.getKingDeck(), kDeck);
 		assertEquals(board.getKingDeck(), kDeck2);
-		
+
 		assertEquals(board.getKingDeck(), kingDeck);
 		
 		
@@ -510,11 +506,31 @@ public class GameBoardTest {
 		cards.add(purple);
 		
 		PoliticDeck deck=new PoliticDeck(cards);
-		
-		assertEquals(board.getPoliticDeck(), deck);
-		assertEquals(board.getPoliticDeck(), politicDeck);
-		
-	}
+
+        PoliticDeck got = board.getPoliticDeck();
+
+        assertEquals(got, politicDeck);
+
+        Collection<PoliticCard> gotCards = new LinkedList<>();
+        while (true) {
+            try {
+                gotCards.add(got.draw());
+            } catch (NoRemainingCardsException e) {
+                break;
+            }
+        }
+
+        Collection<PoliticCard> deckCards = new LinkedList<>();
+        while (true) {
+            try {
+                deckCards.add(deck.draw());
+            } catch (NoRemainingCardsException e) {
+                break;
+            }
+        }
+
+        assertTrue(gotCards.containsAll(deckCards) && deckCards.containsAll(gotCards));
+    }
 
 	@Test
 	public void testGetNobilityTrack() {

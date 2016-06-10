@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg26.server.model;
 
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
-import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.update.event.*;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -196,9 +195,7 @@ public class Scheduler {
             }
         }
 
-        Event event = new TurnEnded();
-        Update u = new PrivateUpdate(event, getCurrentPlayer().getToken());
-        gameBoard.notifyObservers(u);
+        gameBoard.notifyObservers(new PrivateUpdate(new TurnEnded(), getCurrentPlayer().getToken()));
 
         current++;
         if (current == players.size())
@@ -222,9 +219,7 @@ public class Scheduler {
             log.error("Player can't draw from politic deck", e);
         }
 
-        event = new TurnStarted();
-        u = new PrivateUpdate(event, getCurrentPlayer().getToken());
-        gameBoard.notifyObservers(u);
+        gameBoard.notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
     }
 
     private void startMarket() {
@@ -232,20 +227,14 @@ public class Scheduler {
         sell = true;
         currentInMarket = 0;
 
-        Event e = new MarketStarted();
-        gameBoard.notifyObservers(e);
-
-        e = new SellTurnStarted();
-        Update u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-        gameBoard.notifyObservers(u);
+        gameBoard.notifyObservers(new MarketStarted());
+        gameBoard.notifyObservers(new PrivateUpdate(new SellTurnStarted(), getCurrentPlayer().getToken()));
     }
 
     public void foldSell() {
         if (!market || !sell)
             return;
-        Event e = new SellTurnEnded();
-        Update u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-        gameBoard.notifyObservers(u);
+        gameBoard.notifyObservers(new PrivateUpdate(new SellTurnEnded(), getCurrentPlayer().getToken()));
 
         currentInMarket++;
         if (currentInMarket == players.size()) {
@@ -253,37 +242,25 @@ public class Scheduler {
             currentInMarket = 0;
             Collections.shuffle(buyTurn);
 
-            e = new BuyTurnStarted();
-            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-            gameBoard.notifyObservers(u);
+            gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
         } else {
-            e = new SellTurnStarted();
-            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-            gameBoard.notifyObservers(u);
+            gameBoard.notifyObservers(new PrivateUpdate(new SellTurnStarted(), getCurrentPlayer().getToken()));
         }
     }
 
     public void foldBuy() {
         if (!market || sell)
             return;
-        Event e = new BuyTurnEnded();
-        Update u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-        gameBoard.notifyObservers(u);
+        gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnEnded(), getCurrentPlayer().getToken()));
 
         currentInMarket++;
         if (currentInMarket == players.size()) {
             market = false;
 
-            e = new MarketEnded();
-            gameBoard.notifyObservers(e);
-
-            e = new TurnStarted();
-            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-            gameBoard.notifyObservers(u);
+            gameBoard.notifyObservers(new MarketEnded());
+            gameBoard.notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
         } else {
-            e = new BuyTurnStarted();
-            u = new PrivateUpdate(e, getCurrentPlayer().getToken());
-            gameBoard.notifyObservers(u);
+            gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
         }
     }
 
@@ -334,7 +311,6 @@ public class Scheduler {
             // no one wins :(
         // players.gat(0) is the winner
 
-        Event e = new GameEnded(); // TODO: put inside final ranking
-        gameBoard.notifyObservers(e);
+        gameBoard.notifyObservers(new GameEnded()); // TODO: put inside final ranking
     }
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.request.CityBonusRequest;
@@ -13,6 +11,8 @@ import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+
+import java.util.List;
 
 public class ChooseCity extends Action {
 

@@ -2,10 +2,12 @@ package it.polimi.ingsw.cg26.server.model.cards;
 
 import it.polimi.ingsw.cg26.common.dto.KingDeckDTO;
 import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,11 +27,29 @@ public class KingDeck extends Deck<RewardTile> {
      * @return the dto of the deck
      */
     public KingDeckDTO getState() {
-        List<RewardTileDTO> tileState = new LinkedList<>();
-        for (RewardTile t: this.cards) {
-            tileState.add(t.getState());
-        }
+        List<RewardTileDTO> tileState = this.cards.stream()
+                .map(RewardTile::getState)
+                .collect(Collectors.toCollection(LinkedList::new));
         return new KingDeckDTO(tileState);
     }
 
+    @Override
+    public RewardTile draw() throws NoRemainingCardsException {
+        return super.draw();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return super.hasNext();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Deck<?> deck = (Deck<?>) o;
+
+        return cards != null ? cards.equals(deck.cards) : deck.cards == null;
+    }
 }

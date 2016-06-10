@@ -5,7 +5,9 @@ import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  *
@@ -49,6 +51,16 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     }
 
     /**
+     * Draw a BPT at random position then shuffle the deck. (for two players match initial configuration)
+     * @return a BusinessPermissionTile from the deck
+     */
+    public BusinessPermissionTile randomCard() {
+        BusinessPermissionTile tile = cards.get(new Random().nextInt(cards.size()));
+        Collections.shuffle(cards);
+        return tile;
+    }
+
+    /**
      * Returns one of the open cards
      * @param position represents which card has to be drawn, 0 is the upper
      * @return one of the open cards
@@ -59,7 +71,7 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
             throw new IllegalArgumentException();
         return this.cards.get(position);
     }
-    
+
     /**
      * Puts to the bottom of the deck the open cards
      * @throws NoRemainingCardsException

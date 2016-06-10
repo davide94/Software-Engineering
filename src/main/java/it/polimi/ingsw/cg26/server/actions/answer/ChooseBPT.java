@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.update.change.BPTDeckChange;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
@@ -15,6 +13,8 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+
+import java.util.List;
 
 public class ChooseBPT extends Action {
 

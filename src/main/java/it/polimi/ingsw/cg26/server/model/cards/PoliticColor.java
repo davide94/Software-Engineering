@@ -57,8 +57,9 @@ public class PoliticColor {
 
     @Override
     public String toString() {
-        return "PoliticColor{" +
+        /*return "PoliticColor{" +
                 "color='" + color + '\'' +
-                '}';
+                '}';*/
+        return color;
     }
 }

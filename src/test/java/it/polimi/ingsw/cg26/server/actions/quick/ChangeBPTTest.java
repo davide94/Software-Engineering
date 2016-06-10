@@ -121,7 +121,7 @@ public class ChangeBPTTest {
 		
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
 		assertEquals(0, gameBoard.getCurrentPlayer().getAssistantsNumber());
-		assertEquals(tile, gameBoard.getRegion(createRegion().getState()).getBPTDeck().draw());
+		assertEquals(tile, gameBoard.getRegion(createRegion().getState()).getBPTDeck().draw(0));
 	}
 	
 	@Test

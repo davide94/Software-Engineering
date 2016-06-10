@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -43,12 +44,10 @@ public class City {
     }
 
     public CityDTO getState() {
-        LinkedList<String> nearCitiesState = new LinkedList<>();
-        for (City c: nearCities)
-            nearCitiesState.add(c.getName());
-        LinkedList<EmporiumDTO> emporiumsState = new LinkedList<>();
-        for (Emporium e: emporiums)
-            emporiumsState.add(e.getState());
+        LinkedList<String> nearCitiesState = nearCities.stream().map(City::getName)
+                .collect(Collectors.toCollection(LinkedList::new));
+        LinkedList<EmporiumDTO> emporiumsState = emporiums.stream().map(Emporium::getState)
+                .collect(Collectors.toCollection(LinkedList::new));
         return new CityDTO(name, color.getState(), bonuses.getState(), emporiumsState, nearCitiesState);
     }
 
@@ -56,11 +55,9 @@ public class City {
      * @param
      */
     public void build(Player p) throws ExistingEmporiumException, NoRemainingCardsException {
-    	for(Emporium x:emporiums){
-    	if(x.getPlayer()==p){
-    		throw new ExistingEmporiumException();
-    		}
-    	}
+    	for(Emporium x:emporiums)
+    	    if(x.getPlayer() == p)
+    		    throw new ExistingEmporiumException();
         emporiums.add(Emporium.createEmporium(p));
         takeRecursivelyBonus(p);
     }

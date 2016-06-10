@@ -3,9 +3,6 @@ package it.polimi.ingsw.cg26.client.controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 import it.polimi.ingsw.cg26.common.update.Update;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
-import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
