@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg26.server.view;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.actions.answer.ChooseBPT;
+import it.polimi.ingsw.cg26.server.actions.answer.ChooseCity;
 import it.polimi.ingsw.cg26.server.actions.main.Acquire;
 import it.polimi.ingsw.cg26.server.actions.main.Build;
 import it.polimi.ingsw.cg26.server.actions.main.BuildKing;
@@ -80,4 +82,15 @@ public class ActionVisitor implements Visitor {
 		this.view.notifyObservers(action);
 	}
 
+	@Override
+	public void visit(ChooseBPTCommand chooseBPTCommand) {
+		Action action = new ChooseBPT(chooseBPTCommand.getChosenRegion(), chooseBPTCommand.getChosenPosition(), token);
+		this.view.notifyObservers(action);
+	}
+
+	@Override
+	public void visit(ChooseCityCommand chooseCityCommand) {
+		Action action = new ChooseCity(chooseCityCommand.getChosenCities(), token);
+		this.view.notifyObservers(action);
+	}
 }

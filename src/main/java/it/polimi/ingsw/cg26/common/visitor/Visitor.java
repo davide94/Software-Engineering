@@ -23,4 +23,8 @@ public interface Visitor {
 	public void visit(Staccah staccah);
 
 	public void visit(FoldQuickActionCommand foldQuickActionCommand);
+	
+	public void visit(ChooseBPTCommand chooseBPTCommand);
+	
+	public void visit(ChooseCityCommand chooseCityCommand);
 }
