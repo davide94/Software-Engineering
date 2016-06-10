@@ -68,6 +68,7 @@ public class Build extends Action {
         currentPlayer.useBPT(tile);
         currentPlayer.performMainAction();
         notifyChange(gameBoard);
+        checkPendingRequest(gameBoard);
     }
     
     @Override

@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.model.player;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.update.request.Request;
 import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -46,6 +47,11 @@ public class Player {
 	 * Reference to the quick commands manager
 	 */
 	private final RemainingActions remainingQuickActions;
+	
+	/**
+	 * Reference to the choose command manager
+	 */
+	private final RemainingChooseAction remainingChooseActions;
 
 	/**
 	 * Reference to the current cell in the nobility track
@@ -71,6 +77,11 @@ public class Player {
 	 * The collection of business permission tiles owned by the player, already used
 	 */
 	private final List<BusinessPermissionTile> discardedTiles;
+	
+	/**
+	 * A request not already satisfied by the player
+	 */
+	private Request pendingRequest;
 
 	/**
 	 * Constructs a Player
@@ -103,6 +114,7 @@ public class Player {
 		}
 		this.remainingMainActions = new RemainingMainActions();
 		this.remainingQuickActions = new RemainingQuickActions();
+		this.remainingChooseActions = new RemainingChooseAction();
 		this.tiles = new LinkedList<>();
 		this.discardedTiles = new LinkedList<>();
 	}
@@ -170,6 +182,14 @@ public class Player {
 	public boolean canPerformQuickAction() {
 		return this.remainingQuickActions.canPerform();
 	}
+	
+	/**
+	 * Checks if the player can perform a choose action
+	 * @return true if the player can perform a quick action, false if not
+	 */
+	public boolean canPerformChooseAction() {
+		return this.remainingChooseActions.canPerform();
+	}
 
 	/**
 	 * Performs an action: the number of remaining main commands is decremented by one
@@ -185,6 +205,14 @@ public class Player {
 	 */
 	public void performQuickAction() throws NoRemainingActionsException {
 		this.remainingQuickActions.perform();
+	}
+	
+	/**
+	 * Performs an action: the number of remaining choose commands is decremented by one
+	 * @throws NoRemainingActionsException if the player do not have any remaining choose commands
+	 */
+	public void performChooseAction() throws NoRemainingActionsException {
+		this.remainingChooseActions.perform();
 	}
 
 	/**
@@ -221,6 +249,15 @@ public class Player {
 	 */
 	public void addRemainingQuickActions(int increment) {
 		this.remainingQuickActions.addActions(increment);
+	}
+	
+	/**
+	 * Increments the number of choose commands in this turn
+	 * @param increment is the number of choose commands to be added for this turn
+	 * @throws IllegalArgumentException if the increment is negative
+	 */
+	public void addRemainingChooseAction(int increment){
+		this.remainingChooseActions.addActions(increment);
 	}
 
 	/**
@@ -454,5 +491,19 @@ public class Player {
 	 */
 	public int getCoinsNumber() {
 		return this.coins.getValue();
+	}
+
+	/**
+	 * @return the pendingRequest
+	 */
+	public Request getPendingRequest() {
+		return pendingRequest;
+	}
+
+	/**
+	 * @param pendingRequest the pendingRequest to set
+	 */
+	public void setPendingRequest(Request pendingRequest) {
+		this.pendingRequest = pendingRequest;
 	}
 }

@@ -69,6 +69,7 @@ public class BuildKing extends Corrupt {
         currentPlayer.takeAssistants(empNumber);
         currentPlayer.performMainAction();
         notifyChange(gameBoard);
+        checkPendingRequest(gameBoard);
     }
     
     @Override

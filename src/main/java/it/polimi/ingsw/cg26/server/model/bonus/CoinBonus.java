@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import java.util.List;
+
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
@@ -29,6 +31,13 @@ public class CoinBonus extends BonusDecorator {
         player.addCoins(this.getMultiplicity());
     }
 
+    @Override
+    public List<String> getBonusNames(){
+    	List<String> bonuses = super.getBonusNames();
+    	bonuses.add("Coin");
+    	return bonuses;
+    }
+    
     @Override
     public BonusDTO getState() {
         return new CoinBonusDTO(super.getState(), getMultiplicity());

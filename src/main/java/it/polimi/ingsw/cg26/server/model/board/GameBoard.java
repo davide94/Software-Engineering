@@ -98,6 +98,10 @@ public class GameBoard extends Observable<Update> {
 		return scheduler.getCurrentPlayer();
 	}
 	
+	public boolean isMarket(){
+		return scheduler.isMarket();
+	}
+	
 	public void foldSell(){
 		scheduler.foldSell();
 	}

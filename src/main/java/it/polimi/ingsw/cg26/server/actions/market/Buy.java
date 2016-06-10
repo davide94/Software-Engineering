@@ -31,6 +31,8 @@ public class Buy extends Action {
 	 */
 	@Override
 	public void apply(GameBoard gameBoard) throws SellableNotFoundException, NotEnoughMoneyException {
+		if(!gameBoard.isMarket())
+			throw new IllegalStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Sellable realSellable = gameBoard.getMarket().getRealSellable(sellable);
 		if(currentPlayer.getCoinsNumber()<realSellable.getPrice())

@@ -29,6 +29,8 @@ public class SellPoliticCard extends Sell {
 
 	@Override
 	public void apply(GameBoard gameBoard) throws InvalidCardsException {
+		if(!gameBoard.isMarket())
+			throw new IllegalStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		PoliticCard cardToSell = currentPlayer.takeCard(this.politicCard);
 		sell(gameBoard, cardToSell);

@@ -71,6 +71,7 @@ public class Acquire extends Corrupt {
 		currentPlayer.removeCoins(usedCoins);
     	currentPlayer.performMainAction();
     	notifyChange(gameBoard);
+    	checkPendingRequest(gameBoard);
     }
     
     @Override

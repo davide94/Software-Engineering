@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import java.util.List;
+
 import it.polimi.ingsw.cg26.common.dto.bonusdto.AssistantBonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
@@ -30,6 +32,13 @@ public class AssistantBonus extends BonusDecorator {
     	for(int i=0; i<this.getMultiplicity(); i++){
         	player.addAssistant(new Assistant());
     	}
+    }
+    
+    @Override
+    public List<String> getBonusNames(){
+    	List<String> bonuses = super.getBonusNames();
+    	bonuses.add("Assistant");
+    	return bonuses;
     }
 
     @Override

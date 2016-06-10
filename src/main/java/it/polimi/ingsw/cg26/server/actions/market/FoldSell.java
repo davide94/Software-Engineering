@@ -11,6 +11,8 @@ public class FoldSell extends Action {
 
 	@Override
 	public void apply(GameBoard gameBoard) {
+		if(!gameBoard.isMarket())
+			throw new IllegalStateException();
 		gameBoard.foldSell();
 	}
 

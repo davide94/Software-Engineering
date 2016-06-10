@@ -18,6 +18,8 @@ public class SellAssistant extends Sell {
 
 	@Override
 	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException {
+		if(!gameBoard.isMarket())
+			throw new IllegalStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);
 		Assistant assistantToAdd = new Assistant();

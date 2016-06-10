@@ -29,6 +29,8 @@ public class SellBPT extends Sell {
 
 	@Override
 	public void apply(GameBoard gameBoard) throws InvalidTileException {
+		if(!gameBoard.isMarket())
+			throw new IllegalStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileState);
 		sell(gameBoard, bpTile);
