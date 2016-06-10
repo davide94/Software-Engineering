@@ -27,4 +27,6 @@ public interface Visitor {
 	public void visit(ChooseBPTCommand chooseBPTCommand);
 	
 	public void visit(ChooseCityCommand chooseCityCommand);
+	
+	public void visit(ChoosePlayerBPTCommand choosePlayerBPTCommand);
 }

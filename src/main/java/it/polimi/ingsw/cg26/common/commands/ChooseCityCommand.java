@@ -12,6 +12,8 @@ public class ChooseCityCommand extends Command {
 	private final List<CityDTO> chosenCities;
 	
 	public ChooseCityCommand(List<CityDTO> chosenCities) {
+		if(chosenCities == null)
+			throw new NullPointerException();
 		this.chosenCities = chosenCities;
 	}
 	

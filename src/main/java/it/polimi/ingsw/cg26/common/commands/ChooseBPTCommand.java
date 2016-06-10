@@ -12,6 +12,8 @@ public class ChooseBPTCommand extends Command {
 	private final int chosenPosition;
 	
 	public ChooseBPTCommand(RegionDTO chosenRegion, int chosenPosition) {
+		if(chosenRegion == null)
+			throw new NullPointerException();
 		this.chosenRegion = chosenRegion;
 		this.chosenPosition = chosenPosition;
 	}

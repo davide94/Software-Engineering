@@ -387,6 +387,17 @@ public class Player {
 		throw new InvalidCardsException();
 	}
 
+	public BusinessPermissionTile hasPermissionTileAlsoFaceDown(BusinessPermissionTileDTO bPTState) throws InvalidCardsException {
+		try {
+			return hasPermissionTile(bPTState);
+		} catch (InvalidCardsException e) {
+			for (BusinessPermissionTile tile : this.discardedTiles)
+				if (tile.getState().equals(bPTState))
+					return tile;
+			throw e;
+		}
+	}
+	
 	/**
 	 * Returns a BusinessPermissionTile equal to the BPT dto given, removes the tile from the player
 	 * @param tileState the tileState given by the user

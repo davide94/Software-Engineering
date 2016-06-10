@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.visitor.Visitor;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseBPT;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseCity;
+import it.polimi.ingsw.cg26.server.actions.answer.ChoosePlayerBPT;
 import it.polimi.ingsw.cg26.server.actions.main.Acquire;
 import it.polimi.ingsw.cg26.server.actions.main.Build;
 import it.polimi.ingsw.cg26.server.actions.main.BuildKing;
@@ -91,6 +92,12 @@ public class ActionVisitor implements Visitor {
 	@Override
 	public void visit(ChooseCityCommand chooseCityCommand) {
 		Action action = new ChooseCity(chooseCityCommand.getChosenCities(), token);
+		this.view.notifyObservers(action);
+	}
+
+	@Override
+	public void visit(ChoosePlayerBPTCommand choosePlayerBPTCommand) {
+		Action action = new ChoosePlayerBPT(choosePlayerBPTCommand.getChosenBPT(), token);
 		this.view.notifyObservers(action);
 	}
 }

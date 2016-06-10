@@ -14,8 +14,6 @@ import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-import java.util.List;
-
 public class ChooseBPT extends Action {
 
 	private final RegionDTO chosenRegion;
@@ -24,6 +22,8 @@ public class ChooseBPT extends Action {
 	
 	public ChooseBPT(RegionDTO chosenRegion, int chosenPosition, long token) {
 		super(token);
+		if(chosenRegion == null)
+			throw new NullPointerException();
 		this.chosenRegion = chosenRegion;
 		this.chosenPosition = chosenPosition;
 	}
@@ -33,11 +33,7 @@ public class ChooseBPT extends Action {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
-		BusinessPermissionTile addedBPT = gameBoard.getRegion(this.chosenRegion).getBPTDeck().getTile(this.chosenPosition);
-		List<String> bonusNames = addedBPT.getBonuses().getBonusNames();
-		if(bonusNames.contains("Nobility"))
-				throw new InvalidTileException();
-		gameBoard.getRegion(this.chosenRegion).getBPTDeck().draw(this.chosenPosition);
+		BusinessPermissionTile addedBPT = gameBoard.getRegion(this.chosenRegion).getBPTDeck().draw(this.chosenPosition);
 		currentPlayer.addPermissionTile(addedBPT);
 		addedBPT.getReward(currentPlayer);
 		currentPlayer.performChooseAction();
