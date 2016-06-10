@@ -5,13 +5,9 @@ import it.polimi.ingsw.cg26.common.ClientModel;
 public class BPTRequest implements Request {
 
 	private static final long serialVersionUID = -801244429206223644L;
-
-	private int multiplicity;
 	
-	public BPTRequest(int multiplicity) {
-		if(multiplicity < 1)
-			throw new IllegalArgumentException();
-		this.multiplicity = multiplicity;
+	public BPTRequest() {
+		
 	}
 	
 	@Override
@@ -27,7 +23,7 @@ public class BPTRequest implements Request {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + multiplicity;
+		result = prime * result;
 		return result;
 	}
 
@@ -41,9 +37,6 @@ public class BPTRequest implements Request {
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
-			return false;
-		BPTRequest other = (BPTRequest) obj;
-		if (multiplicity != other.multiplicity)
 			return false;
 		return true;
 	}

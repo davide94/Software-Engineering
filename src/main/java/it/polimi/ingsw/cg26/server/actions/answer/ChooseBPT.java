@@ -41,7 +41,7 @@ public class ChooseBPT extends Action {
 		currentPlayer.addPermissionTile(addedBPT);
 		addedBPT.getReward(currentPlayer);
 		currentPlayer.performChooseAction();
-		currentPlayer.removePendingRequest(new BPTRequest(1));
+		currentPlayer.removePendingRequest(new BPTRequest());
 	}
 
 	@Override

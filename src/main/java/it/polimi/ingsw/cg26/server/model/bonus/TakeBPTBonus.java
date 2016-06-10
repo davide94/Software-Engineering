@@ -18,7 +18,7 @@ public class TakeBPTBonus extends BonusDecorator {
 	public void apply(Player player) throws NoRemainingCardsException{
 		super.apply(player);
 		player.addRemainingChooseAction(1);
-		player.addPendingRequest(new BPTRequest(this.getMultiplicity()));
+		player.addPendingRequest(new BPTRequest());
 	}
 	
 	@Override
