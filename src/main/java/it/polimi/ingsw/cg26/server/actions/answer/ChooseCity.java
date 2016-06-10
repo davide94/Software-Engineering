@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
+import java.util.List;
+
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.server.actions.Action;
@@ -14,11 +16,13 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class ChooseCity extends Action {
 
-	private CityDTO chosenCity;
+	private List<CityDTO> chosenCities;
 	
-	public ChooseCity(CityDTO chosenCity, long token) {
+	private List<Bonus> bonusesToApply;
+	
+	public ChooseCity(List<CityDTO> chosenCities, long token) {
 		super(token);
-		this.chosenCity = chosenCity;
+		this.chosenCities = chosenCities;
 	}
 
 	@Override
@@ -26,11 +30,15 @@ public class ChooseCity extends Action {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
-		City realCity = gameBoard.getCity(chosenCity);
-		Bonus bonuses = realCity.getBonuses();
-		if(bonuses.getBonusNames().contains("Nobility") || bonuses.getBonusNames().contains("TakeYourCity"))
-			throw new InvalidCityException();
-		bonuses.apply(currentPlayer);
+		for(CityDTO c : chosenCities){
+			City realCity = gameBoard.getCity(c);
+			Bonus bonuses = realCity.getBonuses();
+			if(bonuses.getBonusNames().contains("Nobility") || bonuses.getBonusNames().contains("TakeYourCity"))
+				throw new InvalidCityException();
+			bonusesToApply.add(bonuses);
+		}
+		for(Bonus b : bonusesToApply)
+			b.apply(currentPlayer);
 		currentPlayer.performChooseAction();
 		currentPlayer.setPendingRequest(null);
 	}

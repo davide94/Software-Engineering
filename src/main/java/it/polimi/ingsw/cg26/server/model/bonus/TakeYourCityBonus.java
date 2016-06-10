@@ -20,7 +20,7 @@ public class TakeYourCityBonus extends BonusDecorator {
 	@Override
 	public void apply(Player player){
 		player.addRemainingChooseAction(1);
-		player.setPendingRequest(new CityBonusRequest());
+		player.setPendingRequest(new CityBonusRequest(this.getMultiplicity()));
 	}
 	
 	@Override
