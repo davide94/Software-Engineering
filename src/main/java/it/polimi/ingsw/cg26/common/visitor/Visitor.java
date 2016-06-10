@@ -20,7 +20,7 @@ public interface Visitor {
 	
 	public void visit(EngageAssistantCommand engageAssistantCommand);
 
-	public void visit(Staccah staccah);
+	public void visit(StaccahCommand staccahCommand);
 
 	public void visit(FoldQuickActionCommand foldQuickActionCommand);
 	

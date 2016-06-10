@@ -80,17 +80,19 @@ public class GameBoard extends Observable<Update> {
 		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
 	}
 
-    /* ---------- ONLY FOR TESTING ---------- */
-
     public Scheduler getScheduler() {
         return scheduler;
     }
 
-    /* -------------------------------------- */
-
 	public void start() {
 
-        if (scheduler.getPlayers().size() == 2) {
+        try {
+            scheduler.initPlayers();
+        } catch (NoRemainingCardsException e) {
+            e.printStackTrace();
+        }
+
+        if (scheduler.playersNumber() == 2) {
             for (Region r: regions) {
                 BusinessPermissionTile tile = r.getBPTDeck().randomCard();
                 for (City c: tile.getCities()) {

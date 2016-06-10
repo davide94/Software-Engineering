@@ -66,7 +66,7 @@ public class CLITest {
         cli.update(board);
 
         cli.run();
-        verify(mockedOutHandler).writeObject(new Staccah());*/
+        verify(mockedOutHandler).writeObject(new StaccahCommand());*/
     }
 
     @Test

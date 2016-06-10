@@ -185,7 +185,7 @@ public class CLI implements Observer<Update>, Runnable {
     private void quit() {
         writer.println("Bye.");
         writer.flush();
-        outView.writeObject(new Staccah());
+        outView.writeObject(new StaccahCommand());
     }
 
     private void electAsMainAction() {

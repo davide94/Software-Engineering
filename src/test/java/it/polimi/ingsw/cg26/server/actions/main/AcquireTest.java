@@ -84,12 +84,12 @@ public class AcquireTest {
 		regions.add(region);
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
-		
 		List<Assistant> assistants = new ArrayList<>();
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
 		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, assistants);
 		token = gameBoard.registerPlayer("Marco"); //create player with 10 coins, 0 nobility, 1 assistant, 6 politic cards
+		gameBoard.start();
 	}
 	
 	@Test

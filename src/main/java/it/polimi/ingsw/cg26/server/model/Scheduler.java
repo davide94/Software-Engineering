@@ -80,6 +80,10 @@ public class Scheduler {
         return market;
     }
 
+    public int playersNumber() {
+        return players.size();
+    }
+
     /* ---------- ONLY FOR TESTING ---------- */
 
     public List<Player> getPlayers() {
@@ -139,15 +143,6 @@ public class Scheduler {
     public long registerPlayer(String name) throws NoRemainingCardsException {
         Player player = null;
         player = newPlayer(name);
-        if (players.isEmpty()) {
-            player.setRemainingMainActions(1);
-            player.setRemainingQuickActions(1);
-            try {
-                player.addPoliticCard(gameBoard.getPoliticDeck().draw());
-            } catch (NoRemainingCardsException e) {
-                log.error("Player can't draw from politic deck", e);
-            }
-        }
         players.add(player);
         buyTurn.add(player);
         return player.getToken();
@@ -156,14 +151,37 @@ public class Scheduler {
     private Player newPlayer(String name) throws NoRemainingCardsException {
         if (name.equals(""))
             name = "Player_" + players.size();
-        LinkedList<Assistant> assistants = new LinkedList<>();
-        for (int i = 0; i <= players.size(); i++)
-            assistants.add(new Assistant());
-        LinkedList<PoliticCard> cards = new LinkedList<>();
-        for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
-            cards.add(gameBoard.getPoliticDeck().draw());
         long token = new BigInteger(64, new SecureRandom()).longValue();
-        return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), players.size() + 10, cards, assistants);
+        return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), 10, new LinkedList<>(), new LinkedList<>());
+    }
+
+    public void initPlayers() throws NoRemainingCardsException {
+
+        for (int i = 0; i < playersNumber(); i++) {
+            Player p = players.get(i);
+            p.addCoins(i);
+            for (int j = 0; j < i + 1; j++)
+                p.addAssistant(new Assistant());
+            for (int j = 0; j < INITIAL_CARDS_NUMBER; j++)
+                p.addPoliticCard(gameBoard.getPoliticDeck().draw());
+            if (i == 0) {
+                p.setRemainingMainActions(1);
+                p.setRemainingQuickActions(1);
+                p.addPoliticCard(gameBoard.getPoliticDeck().draw());
+            }
+        }
+
+    }
+
+    public void killPlayer(long token) {
+        Player toBeKilled = null;
+        for (Player p: players)
+            if (p.getToken() == token)
+                toBeKilled = p;
+        if (toBeKilled != null) {
+            players.remove(toBeKilled);
+            buyTurn.remove(toBeKilled);
+        }
     }
 
     /**

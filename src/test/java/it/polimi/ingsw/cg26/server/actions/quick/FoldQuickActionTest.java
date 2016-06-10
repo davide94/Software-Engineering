@@ -51,6 +51,7 @@ public class FoldQuickActionTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
 		gameBoard.registerPlayer("Marco");
+		gameBoard.start();
 	}
 	
 	@Test

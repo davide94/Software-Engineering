@@ -1,8 +1,9 @@
 package it.polimi.ingsw.cg26.server.view;
 
-import it.polimi.ingsw.cg26.common.commands.Staccah;
+import it.polimi.ingsw.cg26.common.commands.StaccahCommand;
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.visitor.Visitable;
+import it.polimi.ingsw.cg26.server.actions.Staccah;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +50,7 @@ public class ServerSocketView extends View {
             try {
                 Object object = socketIn.readObject();
 
-                if (object instanceof Staccah) {
+                if (object instanceof StaccahCommand) {
                     System.out.println("STACCAH STACCAH STACCAH");
                     break;
                 }
@@ -58,14 +59,19 @@ public class ServerSocketView extends View {
                 visitable.accept(this.actionVisitor);
 
             } catch (EOFException e) {
-                log.info("Client disconnected");
+                log.error("Client disconnected", e);
+                notifyObservers(new Staccah(token));
                 break;
-            } catch (ClassNotFoundException e) {
-                System.out.println(e.getMessage());
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                log.error("Error sending update with Socket.", e);
             }
         }
 
+    }
+
+    @Override
+    public boolean isConnectionAlive() {
+        // TODO: implement
+        return true;
     }
 }

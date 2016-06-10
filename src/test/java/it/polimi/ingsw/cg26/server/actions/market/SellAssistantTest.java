@@ -115,6 +115,7 @@ public class SellAssistantTest {
 		gameBoard.getScheduler().setMarket(true);
 		//gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
+		gameBoard.start();
 	}
 	
 	@Test

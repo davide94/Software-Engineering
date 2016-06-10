@@ -10,4 +10,5 @@ import it.polimi.ingsw.cg26.server.actions.Action;
  */
 public abstract class View extends Observable<Action> implements Observer<Update>, Runnable {
 
+    public abstract boolean isConnectionAlive();
 }

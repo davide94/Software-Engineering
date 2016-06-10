@@ -119,6 +119,8 @@ public class BuildTest {
 		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		//player1.addPermissionTile(tileToUse);
 		token = gameBoard.registerPlayer("Marco");
+		gameBoard.start();
+
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);
 	}
 	

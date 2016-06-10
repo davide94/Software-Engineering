@@ -125,6 +125,7 @@ private GameBoard gameBoard;
 		gameBoard.getScheduler().setMarket(true);
 		//gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
+		gameBoard.start();
 	}
 	
 	@Test

@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
+import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
@@ -26,6 +27,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -46,22 +50,50 @@ public class Server {
 
     private GameBoard model;
 
-    private int playersNumber;
+    private Map<Long, View> clients;
+
+    private Scheduler scheduler;
 
     private final ExecutorService executor;
 
     public Server() throws IOException {
-        playersNumber = 0;
+        clients = new LinkedHashMap<>();
         this.executor = Executors.newCachedThreadPool();
     }
 
     private void newGame() throws BadInputFileException, ParserErrorException {
         model = Creator.createGame("src/main/resources/config.xml");
+        scheduler = model.getScheduler();
         this.controller = new Controller(model);
     }
 
     private void start() {
-        this.playersNumber = 0;
+        for (Map.Entry e: clients.entrySet()) {
+            View view = (View) e.getValue();
+            long token = (Long) e.getKey();
+            if (!view.isConnectionAlive()){
+                clients.remove(view);
+                scheduler.killPlayer(token);
+            }
+        }
+
+        if (clients.size() < 2) {
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    start();
+                }
+            }, START_DELAY);
+            return;
+        }
+
+        for (Map.Entry e: clients.entrySet()) {
+            View view = (View) e.getValue();
+            view.registerObserver(this.controller);
+            model.registerObserver(view);
+            executor.submit(view);
+        }
+
         this.executor.submit(this.controller);
         try {
             newGame();
@@ -117,10 +149,7 @@ public class Server {
             log.error("Cannot create player because there are no politic cards remaining.", e);
             // TODO: notify client that player cannot be created
         }
-        View view = new ServerSocketView(socket, socketIn, socketOut, token);
-        view.registerObserver(this.controller);
-        model.registerObserver(view);
-        executor.submit(view);
+        clients.put(token, new ServerSocketView(socket, socketIn, socketOut, token));
         log.info("New player registered on Socket");
     }
 
@@ -133,9 +162,7 @@ public class Server {
             // TODO: notify client that player cannot be created
         }
         ServerRMIView view = new ServerRMIView(client, token);
-        view.registerObserver(this.controller);
-        model.registerObserver(view);
-        executor.submit(view);
+        clients.put(token, view);
         log.info("New player registered on RMI");
 
         return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
@@ -143,8 +170,7 @@ public class Server {
 
     private synchronized long registerPlayer(String name) throws NoRemainingCardsException {
         long token = model.registerPlayer(name);
-        playersNumber++;
-        if (playersNumber == 2) {
+        if (clients.size() == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
                 public void run() {

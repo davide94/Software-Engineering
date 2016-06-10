@@ -23,7 +23,7 @@ public class SchedulerTest {
         scheduler = gameBoard.getScheduler();
         scheduler.registerPlayer("Gigi");
         scheduler.registerPlayer("Ugo");
-
+        scheduler.initPlayers();
         gigi = scheduler.getPlayers().get(0);
         ugo = scheduler.getPlayers().get(1);
     }

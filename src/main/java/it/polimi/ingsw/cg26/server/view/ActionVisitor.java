@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.view;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.actions.Staccah;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseBPT;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseCity;
 import it.polimi.ingsw.cg26.server.actions.answer.ChoosePlayerBPT;
@@ -72,9 +73,9 @@ public class ActionVisitor implements Visitor {
 	}
 
 	@Override
-	public void visit(Staccah staccah) {
-		
-
+	public void visit(StaccahCommand staccahCommand) {
+		Action action = new Staccah(token);
+		this.view.notifyObservers(action);
 	}
 
 	@Override
