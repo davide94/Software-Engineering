@@ -11,11 +11,19 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
+import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -588,8 +596,8 @@ public class GameBoardTest {
 	
 	
 	@Test
-	public void testCheckNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() {
-		/*
+	public void testCheckNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() throws ExistingEmporiumException, NoRemainingCardsException, CityNotFoundException {
+		
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 		
 		Collection<EmporiumDTO> emporiums= new ArrayList<>();
@@ -610,16 +618,16 @@ public class GameBoardTest {
 		
 		board.checkBonuses(Luca, CityColor.createCityColor("bronze"));
 		
-		assertEquals(Luca.getVictoryPoints(), 8);
-		//MANCANO I VICPOINTS DI KINGTILES PER REGION
-		*/
+		assertEquals(Luca.getVictoryPoints(), 58);
+		
+		
 	}
 	
 	
 	@Test
-	public void testCheckGoldBonusAndNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() {
+	public void testCheckGoldBonusAndNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() throws ExistingEmporiumException, NoRemainingCardsException, CityNotFoundException {
 		
-		/*GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 		
 		Collection<EmporiumDTO> emporiums= new ArrayList<>();
 		Collection<String> nearCities= new ArrayList<>();
@@ -644,9 +652,8 @@ public class GameBoardTest {
 		
 		board.checkBonuses(Luca, CityColor.createCityColor("gold"));
 		
-		assertEquals(Luca.getVictoryPoints(), 80);
-		//MANCANO I VICPOINTS DI KINGTILES PER REGION
-		*/
+		assertEquals(Luca.getVictoryPoints(), 120);
+		
 	}
 	
 
@@ -694,52 +701,169 @@ public class GameBoardTest {
 
 	@Test
 	public void testGetColorBonus() {
-		/*
+		
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
-		*/
+		
+		
+		CityColor gold=CityColor.createCityColor("gold");
+		CityColor silver=CityColor.createCityColor("silver");
+		CityColor bronze=CityColor.createCityColor("bronze");
+		CityColor iron=CityColor.createCityColor("iron");
+		CityColor violet=CityColor.createCityColor("violet");
+		
+		
+		assertEquals(board.getColorBonus(gold), new VictoryBonus(new EmptyBonus(), 20));
+		assertEquals(board.getColorBonus(silver), new VictoryBonus(new EmptyBonus(), 15));
+		assertEquals(board.getColorBonus(bronze), new VictoryBonus(new EmptyBonus(), 10));
+		assertEquals(board.getColorBonus(iron), new VictoryBonus(new EmptyBonus(), 5));
+		assertEquals(board.getColorBonus(violet), null);
+		
 	}
+	
+	
+	
+	
+	
+	@Test 
+	public void testShouldNotGetARegionThatIsNotInBoard() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		
+		CouncillorDTO c1 = new CouncillorDTO(new PoliticColorDTO("c1"));
+        CouncillorDTO c2 = new CouncillorDTO(new PoliticColorDTO("c2"));
+        CouncillorDTO c3 = new CouncillorDTO(new PoliticColorDTO("c3"));
+        CouncillorDTO c4 = new CouncillorDTO(new PoliticColorDTO("c4"));
+        LinkedList<CouncillorDTO> councillors = new LinkedList<>();
+        councillors.add(c1);
+        councillors.add(c2);
+        councillors.add(c3);
+        councillors.add(c4);
+        
+        LinkedList<String> cities = new LinkedList<>();
+        cities.add("city1Name");
+        cities.add("city2Name");
+        LinkedList<BusinessPermissionTileDTO> cards = new LinkedList<>();
+        cards.add(new BusinessPermissionTileDTO(cities, new EmptyBonusDTO(), 0, "playerName"));
+        BusinessPermissionTileDeckDTO deck = new BusinessPermissionTileDeckDTO(cards);
+        
+		Collection<CityDTO> citiesInRegion= new ArrayList<>();
+		
+		RegionDTO molise= new RegionDTO("Molise", citiesInRegion, deck, new BalconyDTO(councillors), new EmptyBonusDTO());
+		
+		assertEquals(board.getRegion(molise), null);
+		
+		
+		
+	}
+	
+	
+	@Test 
+	public void testShouldGetARegionThatIsInBoard() {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		CouncillorDTO c1 = new CouncillorDTO(new PoliticColorDTO("c1"));
+        CouncillorDTO c2 = new CouncillorDTO(new PoliticColorDTO("c2"));
+        CouncillorDTO c3 = new CouncillorDTO(new PoliticColorDTO("c3"));
+        CouncillorDTO c4 = new CouncillorDTO(new PoliticColorDTO("c4"));
+        LinkedList<CouncillorDTO> councillors = new LinkedList<>();
+        councillors.add(c1);
+        councillors.add(c2);
+        councillors.add(c3);
+        councillors.add(c4);
+        
+        LinkedList<String> cities = new LinkedList<>();
+        cities.add("city1Name");
+        cities.add("city2Name");
+        LinkedList<BusinessPermissionTileDTO> cards = new LinkedList<>();
+        cards.add(new BusinessPermissionTileDTO(cities, new EmptyBonusDTO(), 0, "playerName"));
+        BusinessPermissionTileDeckDTO deck = new BusinessPermissionTileDeckDTO(cards);
+        
+		Collection<CityDTO> citiesInRegion= new ArrayList<>();
+		
+		RegionDTO sudDTO= new RegionDTO("Sud", citiesInRegion, deck, new BalconyDTO(councillors), new EmptyBonusDTO());
+		
+		
+		
+		
+
+		City napoli = City.createCity("Napoli", CityColor.createCityColor("gold"), new VictoryBonus(new EmptyBonus(), 2));
+		City bari = City.createCity("Bari", CityColor.createCityColor("silver"), new AssistantBonus(new EmptyBonus(), 1));
+		City palermo = City.createCity("Palermo", CityColor.createCityColor("silver"), new CoinBonus(new EmptyBonus(), 3));
+		City catanzaro = City.createCity("Catanzaro", CityColor.createCityColor("bronze"), new NobilityBonus(new EmptyBonus(), 1));
+		City potenza = City.createCity("Potenza", CityColor.createCityColor("iron"), new CardBonus(new EmptyBonus(), 1, politicDeck));
+		
+		Collection<City> sudCities= new LinkedList<>();
+		sudCities.add(napoli);
+		sudCities.add(bari);
+		sudCities.add(palermo);
+		sudCities.add(catanzaro);
+		sudCities.add(potenza);
+		
+		
+		Balcony sudBalcony= Balcony.createBalcony(4);
+		Councillor consWhite= Councillor.createCouncillor(new PoliticColor("white"));
+		Councillor consBlue= Councillor.createCouncillor(new PoliticColor("blue"));
+		Councillor consPink= Councillor.createCouncillor(new PoliticColor("pink"));
+		
+		(sudBalcony.getCouncillors()).add(consBlue);
+		(sudBalcony.getCouncillors()).add(consPink);
+		(sudBalcony.getCouncillors()).add(consBlue);
+		(sudBalcony.getCouncillors()).add(consWhite);
+		
+		Collection<BusinessPermissionTile> sudBPTCards= new LinkedList<BusinessPermissionTile>();
+		BusinessPermissionTileDeck sudBPTDeck= new BusinessPermissionTileDeck(sudBPTCards);
+		
+		
+		Region sud= Region.createRegion("Sud", sudCities, sudBPTDeck, sudBalcony ,new VictoryBonus(new EmptyBonus(), 5));
+		
+		
+		
+		assertEquals(board.getRegion(sudDTO), sud);
+		
+		
+	}
+	
+	
 	
 	@Test
 	public void testGetState() {
 		/*
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		scheduler= new Scheduler(board);
+		
 		*/
 	}
 	
+	
+	
+	
+	
+	
+	/*
+	
+	
 	@Test
-	public void testGetFullPlayers() {
-		/*
-		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
-		*/
-	}
+	public void testGetFullPlayers() {}
+	
+	
 
 	@Test
-	public void testRegisterPlayer() {
-		/*
-		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
-		*/
-	}
+	public void testRegisterPlayer() {}
+	
+	
 
 	@Test
-	public void testActionPerformed() {
-		/*
-		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
-		*/
-	}
+	public void testActionPerformed() {}
+	
+	
 
 	@Test
-	public void testGetCurrentPlayer() {
-		/*
-		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
-		*/
-	}
-
-	@Test
-	public void testGetRegion() {
-		/*
-		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
-		scheduler= new Scheduler(board);
-		*/
-	}
+	public void testGetCurrentPlayer() {}
+	
+	
+*/
+	
 
 }
