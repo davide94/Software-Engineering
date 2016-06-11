@@ -29,6 +29,8 @@ public class Player {
 	 */
 	private final long token;
 
+	private boolean online;
+
 	/**
 	 * Reference to the victory points manager
 	 */
@@ -101,6 +103,7 @@ public class Player {
 
 		this.token = token;
 		this.name = name;
+        online = true;
 		this.victoryPoints = new VictoryPoints();
 		this.coins = new Coins();
 		this.currentNobilityCell = nobilityCell;
@@ -168,6 +171,14 @@ public class Player {
 	public long getToken() {
 		return this.token;
 	}
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean b) {
+        online = b;
+    }
 
 	/**
 	 * Checks if the player can perform a main action

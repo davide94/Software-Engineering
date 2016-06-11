@@ -144,32 +144,14 @@ public class Server {
 
         long token = 0;
         try {
-            token = registerPlayer(name);
+            token = model.registerPlayer(name);
         } catch (NoRemainingCardsException e) {
             log.error("Cannot create player because there are no politic cards remaining.", e);
             // TODO: notify client that player cannot be created
         }
         clients.put(token, new ServerSocketView(socket, socketIn, socketOut, token));
         log.info("New player registered on Socket");
-    }
 
-    public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
-        long token = 0;
-        try {
-            token = registerPlayer(name);
-        } catch (NoRemainingCardsException e) {
-            log.error("Cannot create player because there are no politic cards remaining.", e);
-            // TODO: notify client that player cannot be created
-        }
-        ServerRMIView view = new ServerRMIView(client, token);
-        clients.put(token, view);
-        log.info("New player registered on RMI");
-
-        return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
-    }
-
-    private synchronized long registerPlayer(String name) throws NoRemainingCardsException {
-        long token = model.registerPlayer(name);
         if (clients.size() == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
@@ -178,7 +160,30 @@ public class Server {
                 }
             }, START_DELAY);
         }
-        return token;
+    }
+
+    public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
+        long token = 0;
+        try {
+            token = model.registerPlayer(name);
+        } catch (NoRemainingCardsException e) {
+            log.error("Cannot create player because there are no politic cards remaining.", e);
+            // TODO: notify client that player cannot be created
+        }
+        ServerRMIView view = new ServerRMIView(client, token);
+        clients.put(token, view);
+        log.info("New player registered on RMI");
+
+        if (clients.size() == 2) {
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    start();
+                }
+            }, START_DELAY);
+        }
+
+        return (ServerRMIViewInterface) UnicastRemoteObject.exportObject(view, 0);
     }
 
     public static void main( String[] args ) throws IOException, ClassNotFoundException, AlreadyBoundException, BadInputFileException, ParserErrorException {

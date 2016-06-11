@@ -18,7 +18,7 @@ public class Staccah extends Action {
 
     @Override
     public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, NoRemainingActionsException, InvalidCardsException, CouncillorNotFoundException, NotEnoughMoneyException, CityNotFoundException, ExistingEmporiumException, SellableNotFoundException, NoRemainingCardsException, InvalidTileException, InvalidCityException {
-
+        gameBoard.getScheduler().deactivatePlayer(getToken());
     }
 
     @Override

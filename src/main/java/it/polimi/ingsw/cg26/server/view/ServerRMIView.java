@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.server.view;
 
 import it.polimi.ingsw.cg26.common.commands.Command;
-import it.polimi.ingsw.cg26.common.commands.StaccahCommand;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
@@ -59,7 +58,10 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
 
     @Override
     public boolean isConnectionAlive() {
-        // TODO: implement
-        return true;
+        try {
+            return client.isConnectionAlive();
+        } catch (RemoteException e) {
+            return false;
+        }
     }
 }

@@ -184,6 +184,18 @@ public class Scheduler {
         }
     }
 
+    public void deactivatePlayer(long token) {
+        int activePlayers = 0;
+        for (Player p: players) {
+            if (p.isOnline())
+                activePlayers++;
+            if (p.getToken() == token)
+                p.setOnline(false);
+        }
+        if (activePlayers < 2)
+            endMatch();
+    }
+
     /**
      * Checks if the player can perform more actions and if not, the turn passes tu the next player.
      * Also checks if someone won.
@@ -215,7 +227,10 @@ public class Scheduler {
 
         gameBoard.notifyObservers(new PrivateUpdate(new TurnEnded(), getCurrentPlayer().getToken()));
 
-        current++;
+        current = (current + 1) % playersNumber();
+        while (!players.get(current).isOnline())
+            current = (current + 1) % playersNumber();
+
         if (current == players.size())
             current = 0;
 

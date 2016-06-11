@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  */
 public interface ClientRMIViewInterface extends Remote {
 
-    boolean isAlive() throws RemoteException;
+    boolean isConnectionAlive() throws RemoteException;
 
     void updateClient(Update c) throws RemoteException;
 }

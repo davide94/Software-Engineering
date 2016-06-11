@@ -25,6 +25,7 @@ public class ServerSocketView extends View {
     private ObjectOutputStream socketOut;
     private ActionVisitor actionVisitor;
     private final long token;
+    private boolean connectionAlive;
 
     public ServerSocketView(Socket socket, ObjectInputStream socketIn, ObjectOutputStream socketOut, long token) throws IOException {
         this.socket = socket;
@@ -32,6 +33,7 @@ public class ServerSocketView extends View {
         this.socketOut = socketOut;
         this.actionVisitor = new ActionVisitor(this, token);
         this.token = token;
+        connectionAlive = true;
     }
 
     @Override
@@ -60,6 +62,7 @@ public class ServerSocketView extends View {
 
             } catch (EOFException e) {
                 log.error("Client disconnected", e);
+                connectionAlive = false;
                 notifyObservers(new Staccah(token));
                 break;
             } catch (Exception e) {
@@ -71,7 +74,6 @@ public class ServerSocketView extends View {
 
     @Override
     public boolean isConnectionAlive() {
-        // TODO: implement
-        return true;
+        return connectionAlive;
     }
 }

@@ -25,7 +25,7 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
     }
 
     @Override
-    public boolean isAlive() throws RemoteException {
+    public boolean isConnectionAlive() throws RemoteException {
         return true;
     }
 
