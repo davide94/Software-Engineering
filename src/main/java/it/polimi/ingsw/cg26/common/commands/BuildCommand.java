@@ -13,11 +13,13 @@ public class BuildCommand extends Command {
 
     private final CityDTO city;
     
-    private final BusinessPermissionTileDTO bPTState;
+    private final BusinessPermissionTileDTO tile;
 
-    public BuildCommand(CityDTO city, BusinessPermissionTileDTO bPTState) {
+    public BuildCommand(CityDTO city, BusinessPermissionTileDTO tile) {
+    	if(city == null || tile == null)
+    		throw new NullPointerException();
         this.city = city;
-        this.bPTState = bPTState; 
+        this.tile = tile; 
     }
 
     public CityDTO getCity() {
@@ -25,7 +27,7 @@ public class BuildCommand extends Command {
     }
     
     public BusinessPermissionTileDTO getTile(){
-    	return bPTState;
+    	return tile;
     }
 
 	@Override

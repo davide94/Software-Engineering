@@ -11,7 +11,7 @@ public class SellBPT extends Sell {
 	/**
 	 * The Business Permit Tile the player wants to sell
 	 */
-	private BusinessPermissionTileDTO bpTileState;
+	private BusinessPermissionTileDTO bpTileDTO;
 	
 	/**
 	 * Construct an action to sell a Business Permit Tile
@@ -24,7 +24,7 @@ public class SellBPT extends Sell {
 		super(price, token);
 		if(bpTileState == null)
 			throw new NullPointerException();
-		this.bpTileState = bpTileState;
+		this.bpTileDTO = bpTileState;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SellBPT extends Sell {
 		if(!gameBoard.isMarket())
 			throw new IllegalStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
-		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileState);
+		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileDTO);
 		sell(gameBoard, bpTile);
 		notifyChange(gameBoard);
 	}

@@ -18,6 +18,8 @@ public class BuildKingCommand extends Command {
     private final List<PoliticCardDTO> cards;
 
     public BuildKingCommand(CityDTO city, List<PoliticCardDTO> cards) {
+    	if(city == null || cards == null)
+    		throw new NullPointerException();
         this.city = city;
         this.cards = cards;
     }

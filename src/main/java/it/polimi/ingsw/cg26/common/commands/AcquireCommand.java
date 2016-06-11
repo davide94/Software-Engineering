@@ -20,6 +20,8 @@ public class AcquireCommand extends Command {
     private final int position;
 
     public AcquireCommand(RegionDTO region, List<PoliticCardDTO> cards, int position) {
+    	if(region == null || cards == null)
+    		throw new NullPointerException();
         this.region = region;
         this.cards = cards;
         this.position = position;

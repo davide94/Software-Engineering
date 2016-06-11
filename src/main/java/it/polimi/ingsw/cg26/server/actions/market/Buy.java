@@ -19,7 +19,7 @@ public class Buy extends Action {
 	/**
 	 * Construct a simple action buy
 	 */
-	public Buy(long token, SellableDTO sellable) {
+	public Buy(SellableDTO sellable, long token) {
 		super(token);
 		if(sellable == null)
 			throw new NullPointerException();

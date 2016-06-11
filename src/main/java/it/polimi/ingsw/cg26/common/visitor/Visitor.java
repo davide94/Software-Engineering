@@ -1,6 +1,12 @@
 package it.polimi.ingsw.cg26.common.visitor;
 
 import it.polimi.ingsw.cg26.common.commands.*;
+import it.polimi.ingsw.cg26.common.commands.market.BuyCommand;
+import it.polimi.ingsw.cg26.common.commands.market.FoldBuyCommand;
+import it.polimi.ingsw.cg26.common.commands.market.FoldSellCommand;
+import it.polimi.ingsw.cg26.common.commands.market.SellAssistantCommand;
+import it.polimi.ingsw.cg26.common.commands.market.SellBPTCommand;
+import it.polimi.ingsw.cg26.common.commands.market.SellPoliticCardCommand;
 
 public interface Visitor {
 
@@ -29,4 +35,20 @@ public interface Visitor {
 	public void visit(ChooseCityCommand chooseCityCommand);
 	
 	public void visit(ChoosePlayerBPTCommand choosePlayerBPTCommand);
+	
+	public void visit(ElectKingAsMainActionCommand electKingAsMainActionCommand);
+	
+	public void visit(ElectKingAsQuickActionCommand electKingAsQuickActionCommand);
+	
+	public void visit(BuyCommand buyCommand);
+	
+	public void visit(FoldBuyCommand foldBuyCommand);
+	
+	public void visit(FoldSellCommand foldSellCommand);
+	
+	public void visit(SellAssistantCommand sellAssistantCommand);
+	
+	public void visit(SellBPTCommand sellBPTCommand);
+	
+	public void visit(SellPoliticCardCommand sellPoliticCardCommand);
 }

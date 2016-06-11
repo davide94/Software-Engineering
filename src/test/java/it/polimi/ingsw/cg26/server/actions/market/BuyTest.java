@@ -130,19 +130,19 @@ private GameBoard gameBoard;
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken(){
-		Action action = new Buy(12, assistantToBuy.getState());
+		Action action = new Buy(assistantToBuy.getState(), 12);
 		
 		assertEquals(12, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
 	public void testBuildActionWithAssistantDTONullShouldThrowAnException(){
-		new Buy(67, null);
+		new Buy(null, 67);
 	}
 	
 	@Test (expected = NotEnoughMoneyException.class)
 	public void testApplyActionWithAPlayerThatTriesToBuyWithoutEnoughMoneyShouldThrowException() throws Exception {
-		Action action = new Buy(1, this.cardToBuy.getState());
+		Action action = new Buy(this.cardToBuy.getState(), 1);
 		gameBoard.getCurrentPlayer().removeCoins(10);
 		
 		action.apply(gameBoard);
@@ -150,7 +150,7 @@ private GameBoard gameBoard;
 	
 	@Test
 	public void testApplyActionBuyAssistantCheckChanges() throws Exception {
-		Action action = new Buy(1, this.assistantToBuy.getState());
+		Action action = new Buy(this.assistantToBuy.getState(), 1);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), assistantToBuy.getOwner());
@@ -162,7 +162,7 @@ private GameBoard gameBoard;
 	
 	@Test
 	public void testApplyActionBuyBPTCheckChanges() throws Exception {
-		Action action = new Buy(1, this.bPTToBuy.getState());
+		Action action = new Buy(this.bPTToBuy.getState(), 1);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), bPTToBuy.getOwner());
@@ -174,7 +174,7 @@ private GameBoard gameBoard;
 	
 	@Test
 	public void testApplyActionBuyPoliticCardCheckChanges() throws Exception {
-		Action action = new Buy(1, this.cardToBuy.getState());
+		Action action = new Buy(this.cardToBuy.getState(), 1);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), cardToBuy.getOwner());

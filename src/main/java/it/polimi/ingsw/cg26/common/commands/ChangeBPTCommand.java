@@ -13,6 +13,8 @@ public class ChangeBPTCommand extends Command {
     private final RegionDTO region;
 
     public ChangeBPTCommand(RegionDTO region) {
+    	if(region == null)
+    		throw new NullPointerException();
         this.region = region;
     }
 

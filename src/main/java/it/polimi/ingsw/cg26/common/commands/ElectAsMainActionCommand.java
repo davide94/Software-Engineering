@@ -16,6 +16,8 @@ public class ElectAsMainActionCommand extends Command {
     private final CouncillorDTO councillor;
 
     public ElectAsMainActionCommand(RegionDTO region, CouncillorDTO councillor) {
+    	if(region == null || councillor == null)
+    		throw new NullPointerException();
         this.region = region;
         this.councillor = councillor;
     }
