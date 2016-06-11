@@ -4,7 +4,7 @@ import it.polimi.ingsw.cg26.common.commands.Command;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
-public class BuyCommand extends Command {
+public class BuyCommand implements Command {
 
 	private static final long serialVersionUID = 923150246513621227L;
 	

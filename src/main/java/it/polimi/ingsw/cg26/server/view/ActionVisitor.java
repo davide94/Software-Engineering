@@ -87,7 +87,7 @@ public class ActionVisitor implements Visitor {
 
 	@Override
 	public void visit(StaccahCommand staccahCommand) {
-		Action action = new Staccah(token);
+		Action action = new Staccah(token, view);
 		this.view.notifyObservers(action);
 	}
 

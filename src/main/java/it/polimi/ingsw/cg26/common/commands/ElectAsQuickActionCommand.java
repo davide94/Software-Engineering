@@ -7,7 +7,7 @@ import it.polimi.ingsw.cg26.common.visitor.Visitor;
 /**
  *
  */
-public class ElectAsQuickActionCommand extends Command {
+public class ElectAsQuickActionCommand implements Command {
 
     private static final long serialVersionUID = 1363842039097368981L;
 

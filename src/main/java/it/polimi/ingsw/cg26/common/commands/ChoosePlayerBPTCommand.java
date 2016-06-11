@@ -5,7 +5,7 @@ import java.util.List;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
-public class ChoosePlayerBPTCommand extends Command {
+public class ChoosePlayerBPTCommand implements Command {
 
 	private static final long serialVersionUID = -6646811266003256236L;
 	

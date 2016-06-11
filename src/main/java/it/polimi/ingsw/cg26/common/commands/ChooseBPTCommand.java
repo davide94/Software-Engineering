@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.common.commands;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
-public class ChooseBPTCommand extends Command {
+public class ChooseBPTCommand implements Command {
 
 	private static final long serialVersionUID = -125023821650037451L;
 

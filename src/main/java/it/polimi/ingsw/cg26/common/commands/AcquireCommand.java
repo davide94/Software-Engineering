@@ -9,7 +9,7 @@ import java.util.List;
 /**
  *
  */
-public class AcquireCommand extends Command {
+public class AcquireCommand implements Command {
 
     private static final long serialVersionUID = 4122987227120035880L;
 

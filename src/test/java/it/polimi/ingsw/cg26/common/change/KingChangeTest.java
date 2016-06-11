@@ -45,7 +45,7 @@ public class KingChangeTest {
 		KingDTO king = new KingDTO("Milano");
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
-		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, false, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		model = new Model();
 		model.setPlayers(players);

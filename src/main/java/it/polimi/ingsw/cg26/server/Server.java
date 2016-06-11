@@ -40,7 +40,7 @@ public class Server {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private final static int START_DELAY = 1000;
+    private final static int START_DELAY = 5000;
 
     private final static int SOCKET_PORT = 29999;
 
@@ -62,36 +62,36 @@ public class Server {
     }
 
     private void newGame() throws BadInputFileException, ParserErrorException {
+        clients = new LinkedHashMap<>();
         model = Creator.createGame("src/main/resources/config.xml");
         scheduler = model.getScheduler();
         this.controller = new Controller(model);
+        log.info("New match created.");
     }
 
     private void start() {
+        log.info("It's time to start the match.");
         for (Map.Entry e: clients.entrySet()) {
             View view = (View) e.getValue();
             long token = (Long) e.getKey();
-            if (!view.isConnectionAlive()){
-                clients.remove(view);
+            if (!view.isConnectionAlive()) {
+                log.info(token + " is offline.");
+                clients.remove(token);
                 scheduler.killPlayer(token);
             }
         }
 
         if (clients.size() < 2) {
-            new java.util.Timer().schedule(new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    start();
-                }
-            }, START_DELAY);
+            log.info("Not enough players.");
             return;
         }
 
         for (Map.Entry e: clients.entrySet()) {
             View view = (View) e.getValue();
+            long token = (Long) e.getKey();
+            log.info("Submitting " + token + "'s view");
             view.registerObserver(this.controller);
             model.registerObserver(view);
-            executor.submit(view);
         }
 
         this.executor.submit(this.controller);
@@ -149,8 +149,10 @@ public class Server {
             log.error("Cannot create player because there are no politic cards remaining.", e);
             // TODO: notify client that player cannot be created
         }
-        clients.put(token, new ServerSocketView(socket, socketIn, socketOut, token));
-        log.info("New player registered on Socket");
+        ServerSocketView view = new ServerSocketView(socket, socketIn, socketOut, token);
+        executor.submit(view);
+        clients.put(token, view);
+        log.info("New player registered on Socket (" + token + ")");
 
         if (clients.size() == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
@@ -171,8 +173,9 @@ public class Server {
             // TODO: notify client that player cannot be created
         }
         ServerRMIView view = new ServerRMIView(client, token);
+        executor.submit(view);
         clients.put(token, view);
-        log.info("New player registered on RMI");
+        log.info("New player registered on RMI (" + token + ")");
 
         if (clients.size() == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {

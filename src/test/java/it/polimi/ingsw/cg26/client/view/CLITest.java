@@ -43,7 +43,7 @@ public class CLITest {
         MockitoAnnotations.initMocks(this);
 
         players = new LinkedList<>();
-        currentPlayer = new PlayerDTO("playerName", 0, 0, 0, 0, 0, 0, 0, new LinkedList<PoliticCardDTO>(), new LinkedList<BusinessPermissionTileDTO>(), new LinkedList<BusinessPermissionTileDTO>());
+        currentPlayer = new PlayerDTO("playerName", 0, false, 0, 0, 0, 0, 0, 0, new LinkedList<PoliticCardDTO>(), new LinkedList<BusinessPermissionTileDTO>(), new LinkedList<BusinessPermissionTileDTO>());
         deck = new PoliticDeckDTO();
         councillorsPool = new LinkedList<>();
         kingBalcony = new BalconyDTO(new LinkedList<>());

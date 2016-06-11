@@ -33,13 +33,13 @@ public class PrivateUpdate implements Update {
 
     @Override
     public void sendSocket(ObjectOutputStream socketOut, long token) throws IOException {
-        if(this.token == token){
+        if(this.token == token)
             socketOut.writeObject(carried);
-        }
     }
 
     @Override
     public void sendRMI(ClientRMIViewInterface client, long token) throws RemoteException {
-        client.updateClient(carried);
+        if(this.token == token)
+            client.updateClient(carried);
     }
 }

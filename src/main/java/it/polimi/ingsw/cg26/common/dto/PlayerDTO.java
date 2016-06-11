@@ -14,6 +14,8 @@ public class PlayerDTO implements Serializable {
 
     private final long token;
 
+    private final boolean online;
+
     private final int victoryPoints;
 
     private final int coins;
@@ -48,13 +50,14 @@ public class PlayerDTO implements Serializable {
      * @throws NullPointerException if any parameter is null
      * @throws IllegalArgumentException if any String parameter is empty or an integer parameter is negative
      */
-    public PlayerDTO(String name, long token, int victoryPoints, int coins, int remainingMainActions, int remainingQuickActions, int nobilityCell, int assistantsNumber, Collection<PoliticCardDTO> cards, Collection<BusinessPermissionTileDTO> tiles, Collection<BusinessPermissionTileDTO> discardedTiles) {
+    public PlayerDTO(String name, long token, boolean online, int victoryPoints, int coins, int remainingMainActions, int remainingQuickActions, int nobilityCell, int assistantsNumber, Collection<PoliticCardDTO> cards, Collection<BusinessPermissionTileDTO> tiles, Collection<BusinessPermissionTileDTO> discardedTiles) {
         if (cards == null || tiles == null || discardedTiles == null)
             throw new NullPointerException();
         if (name.isEmpty() || victoryPoints < 0 || coins < 0 || remainingMainActions < 0 || remainingQuickActions < 0 || nobilityCell < 0 || assistantsNumber < 0)
             throw new IllegalArgumentException();
         this.name = name;
         this.token = token;
+        this.online = online;
         this.victoryPoints = victoryPoints;
         this.coins = coins;
         this.remainingMainActions = remainingMainActions;
@@ -80,6 +83,10 @@ public class PlayerDTO implements Serializable {
      */
     public long getToken() {
         return token;
+    }
+
+    public boolean isOnline() {
+        return online;
     }
 
     /**

@@ -7,7 +7,7 @@ import it.polimi.ingsw.cg26.common.visitor.Visitor;
 /**
  *
  */
-public class BuildCommand extends Command {
+public class BuildCommand implements Command {
 
     private static final long serialVersionUID = -7169935530571666693L;
 

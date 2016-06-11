@@ -41,57 +41,57 @@ public class PlayerDTOTest {
         cards = new LinkedList<>();
         tiles = new LinkedList<>();
         discardedTiles = new LinkedList<>();
-        player = new PlayerDTO(playerName, token, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        player = new PlayerDTO(playerName, token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = NullPointerException.class)
     public void testConstructorShouldFail1() throws Exception {
-        new PlayerDTO(null, token, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO(null, token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = NullPointerException.class)
     public void testConstructorShouldFail2() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, null, discardedTiles);
+        new PlayerDTO(playerName, token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, null, discardedTiles);
     }
 
     @Test (expected = NullPointerException.class)
     public void testConstructorShouldFail3() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, null);
+        new PlayerDTO(playerName, token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, null);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail4() throws Exception {
-        new PlayerDTO("", token, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO("", token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail5() throws Exception {
-        new PlayerDTO(playerName, token, -1, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO(playerName, token, false, -1, coins, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail6() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, -1, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO(playerName, token, false, victoryPoints, -1, remainingMainActions, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail7() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, coins, -1, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO(playerName, token, false, victoryPoints, coins, -1, remainingQuickActions, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail8() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, coins, remainingMainActions, -1, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO(playerName, token, false, victoryPoints, coins, remainingMainActions, -1, nobilityCell, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail9() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, coins, remainingMainActions, remainingQuickActions, -1, assistantsNumber, cards, tiles, discardedTiles);
+        new PlayerDTO(playerName, token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, -1, assistantsNumber, cards, tiles, discardedTiles);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructorShouldFail10() throws Exception {
-        new PlayerDTO(playerName, token, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, -1, cards, tiles, discardedTiles);
+        new PlayerDTO(playerName, token, false, victoryPoints, coins, remainingMainActions, remainingQuickActions, nobilityCell, -1, cards, tiles, discardedTiles);
     }
 
     @Test

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  *
  */
-public class BuildKingCommand extends Command {
+public class BuildKingCommand implements Command {
 
     private static final long serialVersionUID = 8976504149589335869L;
 

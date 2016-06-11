@@ -40,16 +40,16 @@ public class PlayersChangeTest {
 		
 		List<RegionDTO> regions = new ArrayList<>();
 		List<PlayerDTO> players = new ArrayList<>();
-		players.add(new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
-		players.add(new PlayerDTO("Davide", 2, 5, 8, 0, 0, 2, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
-		players.add(new PlayerDTO("Luca", 3, 13, 6, 0, 0, 4, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+		players.add(new PlayerDTO("Marco", 1, false, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+		players.add(new PlayerDTO("Davide", 2, false, 5, 8, 0, 0, 2, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+		players.add(new PlayerDTO("Luca", 3, false, 13, 6, 0, 0, 4, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
 		List<CouncillorDTO> pool = new ArrayList<>();
 		BalconyDTO kingB = new BalconyDTO(new ArrayList<>());
 		NobilityTrackDTO track = new NobilityTrackDTO(new ArrayList<NobilityCellDTO>());
 		KingDTO king = new KingDTO("Milano");
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
-		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, false, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		model = new Model();
 		model.setPlayers(players);
@@ -63,7 +63,7 @@ public class PlayersChangeTest {
 		model.setMarket(market);
 		model.setKingDeck(kDeck);
 
-		changePlayer = new PlayerDTO("Marco", 1, 6, 8, 0, 1, 3, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		changePlayer = new PlayerDTO("Marco", 1, false, 6, 8, 0, 1, 3, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -78,7 +78,7 @@ public class PlayersChangeTest {
 	
 	@Test (expected = PlayerNotFoundException.class)
 	public void testApplyChangeWithNotExistingPlayerShouldThrowException() throws Exception {
-		PlayerDTO nePlayer = new PlayerDTO("Ajeje", 5, 6, 9, 0, 0, 3, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		PlayerDTO nePlayer = new PlayerDTO("Ajeje", 5, false, 6, 9, 0, 0, 3, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 		Change change = new PlayersChange(this.change, nePlayer);
 		
 		change.apply(model);

@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.visitor.Visitor;
 /**
  *
  */
-public class EngageAssistantCommand extends Command {
+public class EngageAssistantCommand implements Command {
 
     private static final long serialVersionUID = -4571957079293475835L;
 

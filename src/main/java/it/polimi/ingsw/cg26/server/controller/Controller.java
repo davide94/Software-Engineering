@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.event.ActionFailed;
 import it.polimi.ingsw.cg26.common.update.event.ActionSuccessFul;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.actions.Staccah;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class Controller implements Observer<Action>, Runnable {
     @Override
     public synchronized void update(Action action) {
         log.info("Action received: " + action);
-        if (gameBoard.getCurrentPlayer().getToken() != action.getToken()) {
+        if ((gameBoard.getCurrentPlayer() != null && gameBoard.getCurrentPlayer().getToken() != action.getToken()) && !(action instanceof Staccah)) { // TODO: find alternative to instanceof
             log.error("Is not the turn of the sender");
             return;
         }

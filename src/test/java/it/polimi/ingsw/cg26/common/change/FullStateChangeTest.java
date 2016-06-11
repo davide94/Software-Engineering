@@ -69,7 +69,7 @@ public class FullStateChangeTest {
 		KingDTO king = new KingDTO("Milano");
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
-		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, false, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		model = new Model();
 		model.setPlayers(players);
@@ -115,7 +115,7 @@ public class FullStateChangeTest {
 		
 		changeKingDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		
-		changeCurrentPlayer = new PlayerDTO("Luca", 1, 2, 3, 1, 1, 5, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		changeCurrentPlayer = new PlayerDTO("Luca", 1, false, 2, 3, 1, 1, 5, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 	}
 	
 	@Test (expected = NullPointerException.class)

@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.common.commands.market;
 import it.polimi.ingsw.cg26.common.commands.Command;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
-public abstract class SellCommand extends Command {
+public abstract class SellCommand implements Command {
 
 	private static final long serialVersionUID = 9024298220774620465L;
 	

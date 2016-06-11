@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
 import java.util.List;
 
-public class ChooseCityCommand extends Command {
+public class ChooseCityCommand implements Command {
 
 	private static final long serialVersionUID = 2543376097909235749L;
 	

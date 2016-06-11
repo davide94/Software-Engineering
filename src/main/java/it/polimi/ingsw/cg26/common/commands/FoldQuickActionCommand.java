@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.visitor.Visitor;
 /**
  *
  */
-public class FoldQuickActionCommand extends Command {
+public class FoldQuickActionCommand implements Command {
 
     private static final long serialVersionUID = -1745676362472524590L;
 

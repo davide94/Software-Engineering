@@ -34,7 +34,6 @@ public class ClientSocketInView extends Observable<Update> implements Runnable {
                 }
 
             } catch (EOFException e) {
-                System.out.println("Server disconnected.");
                 log.error("Server disconnected.", e);
                 break;
             } catch (Exception e) {

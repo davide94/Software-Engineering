@@ -20,6 +20,12 @@ public abstract class Observable<C> {
         this.observers.add(o);
     }
 
+    public void deregisterObserver(Observer<C> o) {
+        if (o == null)
+            throw new NullPointerException();
+        this.observers.remove(o);
+    }
+
     public void notifyObservers(C c) {
         for (Observer<C> o: this.observers)
             o.update(c);

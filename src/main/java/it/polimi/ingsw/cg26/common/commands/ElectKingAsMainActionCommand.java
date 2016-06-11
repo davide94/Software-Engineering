@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.common.commands;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 
-public class ElectKingAsMainActionCommand extends Command {
+public class ElectKingAsMainActionCommand implements Command {
 
 	private static final long serialVersionUID = -707093014887120864L;
 	

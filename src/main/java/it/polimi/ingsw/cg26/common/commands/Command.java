@@ -7,6 +7,6 @@ import java.io.Serializable;
 /**
  *
  */
-public abstract class Command implements Serializable, Visitable {
+public interface Command extends Serializable, Visitable {
 
 }

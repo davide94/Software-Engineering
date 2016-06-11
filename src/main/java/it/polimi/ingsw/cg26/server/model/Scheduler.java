@@ -141,8 +141,7 @@ public class Scheduler {
      * @throws NoRemainingCardsException
      */
     public long registerPlayer(String name) throws NoRemainingCardsException {
-        Player player = null;
-        player = newPlayer(name);
+        Player player = newPlayer(name);
         players.add(player);
         buyTurn.add(player);
         return player.getToken();
@@ -182,6 +181,7 @@ public class Scheduler {
             players.remove(toBeKilled);
             buyTurn.remove(toBeKilled);
         }
+        log.info("Player " + token + " killed.");
     }
 
     public void deactivatePlayer(long token) {
@@ -192,6 +192,7 @@ public class Scheduler {
             if (p.getToken() == token)
                 p.setOnline(false);
         }
+        log.info("Player " + token + " deactivated.");
         if (activePlayers < 2)
             endMatch();
     }

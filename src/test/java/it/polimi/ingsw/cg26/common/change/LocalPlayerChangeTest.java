@@ -45,7 +45,7 @@ public class LocalPlayerChangeTest {
 		KingDTO king = new KingDTO("Milano");
 		MarketDTO market = new MarketDTO(new ArrayList<SellableDTO>());
 		KingDeckDTO kDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
-		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		PlayerDTO currentPlayer = new PlayerDTO("Marco", 1, false, 2, 5, 1, 1, 2, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		model = new Model();
 		model.setPlayers(players);
@@ -59,7 +59,7 @@ public class LocalPlayerChangeTest {
 		model.setMarket(market);
 		model.setKingDeck(kDeck);
 
-		changePlayer = new PlayerDTO("Luca", 2, 12, 5, 0, 0, 8, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		changePlayer = new PlayerDTO("Luca", 2, false, 12, 5, 0, 0, 8, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 	}
 	
 	@Test (expected = NullPointerException.class)
