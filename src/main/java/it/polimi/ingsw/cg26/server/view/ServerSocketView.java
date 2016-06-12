@@ -1,11 +1,7 @@
 package it.polimi.ingsw.cg26.server.view;
 
 import it.polimi.ingsw.cg26.common.commands.Command;
-import it.polimi.ingsw.cg26.common.commands.PingResponse;
-import it.polimi.ingsw.cg26.common.commands.StaccahCommand;
 import it.polimi.ingsw.cg26.common.update.Update;
-import it.polimi.ingsw.cg26.common.update.change.BasicChange;
-import it.polimi.ingsw.cg26.common.update.event.PingRequest;
 import it.polimi.ingsw.cg26.common.visitor.Visitable;
 import it.polimi.ingsw.cg26.server.actions.Staccah;
 import org.slf4j.Logger;
@@ -16,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
 /**
  *

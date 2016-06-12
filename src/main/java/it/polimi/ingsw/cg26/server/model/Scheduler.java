@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.event.*;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ public class Scheduler {
 
     private static final int INITIAL_CARDS_NUMBER = 6;
 
-    private static final int TURN_TIMEOUT = 600000;
+    private static final int TURN_TIMEOUT = 5000;
 
     /**
      * List of players
@@ -202,13 +201,6 @@ public class Scheduler {
      * Also checks if someone won.
      */
     public void actionPerformed() {
-        /*timer.cancel();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                nextPlayer();
-            }
-        }, TURN_TIMEOUT);*/
 
         if (market || getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction())
             return;

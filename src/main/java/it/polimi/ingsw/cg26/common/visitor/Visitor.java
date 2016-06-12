@@ -1,12 +1,7 @@
 package it.polimi.ingsw.cg26.common.visitor;
 
 import it.polimi.ingsw.cg26.common.commands.*;
-import it.polimi.ingsw.cg26.common.commands.market.BuyCommand;
-import it.polimi.ingsw.cg26.common.commands.market.FoldBuyCommand;
-import it.polimi.ingsw.cg26.common.commands.market.FoldSellCommand;
-import it.polimi.ingsw.cg26.common.commands.market.SellAssistantCommand;
-import it.polimi.ingsw.cg26.common.commands.market.SellBPTCommand;
-import it.polimi.ingsw.cg26.common.commands.market.SellPoliticCardCommand;
+import it.polimi.ingsw.cg26.common.commands.market.*;
 
 public interface Visitor {
 

@@ -19,4 +19,8 @@ public class AssistantDTO extends SellableDTO implements Serializable {
 		//nothing to do here, assistant has only a price and an owner
 	}
 
+	@Override
+	public String toString() {
+		return "Assistant, price: " + getPrice() + ", owner: " + getOwner();
+	}
 }

@@ -28,7 +28,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,7 +55,7 @@ public class Server {
 
     private final ExecutorService executor;
 
-    public Server() throws IOException {
+    private Server() throws IOException {
         clients = new LinkedHashMap<>();
         this.executor = Executors.newCachedThreadPool();
     }

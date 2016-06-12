@@ -1,29 +1,15 @@
 package it.polimi.ingsw.cg26.server.view;
 
 import it.polimi.ingsw.cg26.common.commands.*;
-import it.polimi.ingsw.cg26.common.commands.market.BuyCommand;
-import it.polimi.ingsw.cg26.common.commands.market.FoldBuyCommand;
-import it.polimi.ingsw.cg26.common.commands.market.FoldSellCommand;
-import it.polimi.ingsw.cg26.common.commands.market.SellAssistantCommand;
-import it.polimi.ingsw.cg26.common.commands.market.SellBPTCommand;
-import it.polimi.ingsw.cg26.common.commands.market.SellPoliticCardCommand;
+import it.polimi.ingsw.cg26.common.commands.market.*;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.actions.Staccah;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseBPT;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseCity;
 import it.polimi.ingsw.cg26.server.actions.answer.ChoosePlayerBPT;
-import it.polimi.ingsw.cg26.server.actions.main.Acquire;
-import it.polimi.ingsw.cg26.server.actions.main.Build;
-import it.polimi.ingsw.cg26.server.actions.main.BuildKing;
-import it.polimi.ingsw.cg26.server.actions.main.ElectAsMainAction;
-import it.polimi.ingsw.cg26.server.actions.main.ElectKingAsMainAction;
-import it.polimi.ingsw.cg26.server.actions.market.Buy;
-import it.polimi.ingsw.cg26.server.actions.market.FoldBuy;
-import it.polimi.ingsw.cg26.server.actions.market.FoldSell;
-import it.polimi.ingsw.cg26.server.actions.market.SellAssistant;
-import it.polimi.ingsw.cg26.server.actions.market.SellBPT;
-import it.polimi.ingsw.cg26.server.actions.market.SellPoliticCard;
+import it.polimi.ingsw.cg26.server.actions.main.*;
+import it.polimi.ingsw.cg26.server.actions.market.*;
 import it.polimi.ingsw.cg26.server.actions.quick.*;
 
 public class ActionVisitor implements Visitor {

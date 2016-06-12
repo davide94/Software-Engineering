@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.client.view.ui;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.common.commands.*;
+import it.polimi.ingsw.cg26.common.commands.market.*;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
@@ -103,6 +104,16 @@ public class CLI implements Observer<Update>, Runnable {
         writer.flush();
     };
 
+    private Consumer<SellableDTO> sellablePrinter = s -> {
+        writer.println(s);
+        writer.flush();
+    };
+
+    private Consumer<MarketDTO> marketPrinter = m -> {
+        m.getOnSale().forEach(s -> sellablePrinter.accept(s));
+        writer.flush();
+    };
+
     public CLI(Scanner scanner, PrintWriter writer, OutView outView, Model model) {
         this.outView = outView;
         this.scanner = scanner;
@@ -183,6 +194,13 @@ public class CLI implements Observer<Update>, Runnable {
         writer.flush();
     }
 
+    private void printMarket() {
+        writer.println("--------------------");
+        marketPrinter.accept(model.getMarket());
+        writer.println("--------------------");
+        writer.flush();
+    }
+
     private void quit() {
         writer.println("Bye.");
         writer.flush();
@@ -248,6 +266,62 @@ public class CLI implements Observer<Update>, Runnable {
 
     private void foldQuickAction() {
         outView.writeObject(new FoldQuickActionCommand());
+    }
+
+    private void sell() {
+        writer.println("Which element?");
+        PlayerDTO player = model.getLocalPlayer();
+        int i = 1;
+        if (player.getAssistantsNumber() > 0) {
+            writer.println("(" + i + ") an assistant");
+            i++;
+        }
+        int j = i;
+        List<PoliticCardDTO> cards = new LinkedList<>(player.getCards());
+        for (PoliticCardDTO c: cards) {
+            writer.print("(" + j + ") ");
+            politicCardPrinter.accept(c);
+            writer.println(" card");
+            j++;
+        }
+        int k = j;
+        List<BusinessPermissionTileDTO> tiles = new LinkedList<>(player.getTiles());
+        tiles.addAll(player.getDiscardedTiles());
+        for (BusinessPermissionTileDTO t: tiles) {
+            writer.print("(" + k + ") ");
+            bptPrinter.accept(t);
+            k++;
+        }
+        writer.flush();
+        int res = readInt(1, k - 1);
+        writer.println("Which price?");
+        writer.flush();
+        int price = readInt();
+        while (price < 1) {
+            writer.println("Price not permited, try again...");
+            writer.flush();
+            price = readInt();
+        }
+        if (res < i) {
+            outView.writeObject(new SellAssistantCommand(price));
+        } else if (res < j) {
+            outView.writeObject(new SellPoliticCardCommand(price, cards.get(res - i)));
+        } else {
+            outView.writeObject(new SellBPTCommand(price, tiles.get(res - j)));
+        }
+    }
+
+    private void foldSell() {
+        outView.writeObject(new FoldSellCommand());
+    }
+
+    private void buy() {
+        SellableDTO sellable = askForElement(model.getMarket().getOnSale(), "What do you want to buy?", sellablePrinter);
+        outView.writeObject(new BuyCommand(sellable));
+    }
+
+    private void foldBuy() {
+        outView.writeObject(new FoldBuyCommand());
     }
 
     private <T> T askForElement(List<T> list, String title, Consumer<T> printer) {

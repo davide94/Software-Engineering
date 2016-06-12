@@ -12,6 +12,10 @@ public class YourTurnToBuy implements State {
     public Map<String, String> commands() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Quit", "quit");
+        map.put("Print state", "printFullState");
+        map.put("Print market", "printMarket");
+        map.put("Buy something", "buy");
+        map.put("Fold", "foldBuy");
         return map;
     }
 }

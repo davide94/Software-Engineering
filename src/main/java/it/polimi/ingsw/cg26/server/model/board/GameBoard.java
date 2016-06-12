@@ -19,10 +19,7 @@ import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -107,6 +104,7 @@ public class GameBoard extends Observable<Update> {
 
         notifyObservers(new GameStarted());
         notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
+
     }
 
 	public Collection<PlayerDTO> getFullPlayers() {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class MarketDTO implements Serializable {
 	 * @return the sellableDTO onSale in the market
 	 */
 	public List<SellableDTO> getOnSale() {
-		return onSale;
+		return new LinkedList<>(onSale);
 	}
     
     

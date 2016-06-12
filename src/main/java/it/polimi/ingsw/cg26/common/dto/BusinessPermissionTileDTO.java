@@ -79,6 +79,6 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
         return "BusinessPermissionTileDTO{" +
                 "cities=" + cities +
                 ", bonuses=" + bonuses +
-                '}';
+                "}, price: " + getPrice() + ", owner: " + getOwner();
     }
 }

@@ -1,14 +1,12 @@
 package it.polimi.ingsw.cg26.server.actions;
 
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
-import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.update.change.PlayersChange;
 import it.polimi.ingsw.cg26.common.update.event.PlayerLeft;
 import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.view.View;
 
 /**
