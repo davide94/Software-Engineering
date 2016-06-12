@@ -49,13 +49,16 @@ public class Build extends Action {
     /**
      * @throws NoRemainingActionsException if the player has no more remaining actions to do
      * @throws NoRemainingAssistantsException if the player cannot pay the required number of assistant to build
+     * @throws InvalidCityException if the city is not in the BPT cities list
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, InvalidCityException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
         BusinessPermissionTile tile = currentPlayer.hasPermissionTile(bPTState);
+        if(!tile.canBuildIn(city))
+        	throw new InvalidCityException();
         City realCity = gameBoard.getCity(city);
         int empNumber = realCity.getEmporiumsNumber();
         if (currentPlayer.getAssistantsNumber() < empNumber)

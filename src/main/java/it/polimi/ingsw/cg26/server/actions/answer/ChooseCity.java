@@ -46,7 +46,7 @@ public class ChooseCity extends Action {
 			throw new NoRemainingActionsException();
 		for(CityDTO c : chosenCities){
 			Bonus bonuses = gameBoard.getCity(c).getBonuses();
-			if(bonuses.getBonusNames().contains("Nobility"))
+			if(bonuses.getBonusNames().contains("Nobility") || !gameBoard.getCity(c).hasEmporium(currentPlayer))
 				throw new InvalidCityException();
 			bonusesToApply.add(bonuses);
 		}
@@ -54,6 +54,7 @@ public class ChooseCity extends Action {
 			b.apply(currentPlayer);
 		currentPlayer.performChooseAction();
 		currentPlayer.removePendingRequest(new CityBonusRequest(chosenCities.size()));
+		notifyChange(gameBoard);
 	}
 
 	@Override

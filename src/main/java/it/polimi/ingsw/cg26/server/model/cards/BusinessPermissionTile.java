@@ -92,14 +92,21 @@ public class BusinessPermissionTile extends Sellable {
     	player.addPermissionTile(this);
     }
 
+    /* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((bonuses == null) ? 0 : bonuses.hashCode());
 		result = prime * result + ((cities == null) ? 0 : cities.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -109,6 +116,11 @@ public class BusinessPermissionTile extends Sellable {
 		if (getClass() != obj.getClass())
 			return false;
 		BusinessPermissionTile other = (BusinessPermissionTile) obj;
+		if (bonuses == null) {
+			if (other.bonuses != null)
+				return false;
+		} else if (!bonuses.equals(other.bonuses))
+			return false;
 		if (cities == null) {
 			if (other.cities != null)
 				return false;
@@ -117,7 +129,7 @@ public class BusinessPermissionTile extends Sellable {
 		return true;
 	}
 
-    @Override
+	@Override
     public String toString() {
         return "BusinessPermissionTile{" +
                 "cities=" + cities +

@@ -38,6 +38,7 @@ public class ChooseBPT extends Action {
 		addedBPT.getReward(currentPlayer);
 		currentPlayer.performChooseAction();
 		currentPlayer.removePendingRequest(new BPTRequest());
+		notifyChange(gameBoard);
 	}
 
 	@Override

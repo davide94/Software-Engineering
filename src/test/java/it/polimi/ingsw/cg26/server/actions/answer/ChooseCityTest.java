@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.server.actions.main;
+package it.polimi.ingsw.cg26.server.actions.answer;
 
 import static org.junit.Assert.*;
 
@@ -11,10 +11,12 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.update.request.CityBonusRequest;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.actions.main.Build;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.Balcony;
 import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.CityColor;
@@ -28,6 +30,9 @@ import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.CoinBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.NobilityBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.TakeYourCityBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
@@ -39,22 +44,22 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-public class BuildTest {
-
-	private City chosenCity;
-	
-	private City otherCity;
-	
-	private City cityNotInBPT;
+public class ChooseCityTest {
 	
 	private GameBoard gameBoard;
 	
-	private Region region;
+	private City chosenCity;
 	
-	private BusinessPermissionTile tileToUse; 
+	private Region region;
 	
 	private long token;
 	
+	private List<CityDTO> chosenCities;
+	
+	private City otherCity;
+	
+	private City cityWithNobilityBonus;
+
 	private Region createRegion() throws Exception {
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
@@ -70,8 +75,8 @@ public class BuildTest {
 		Bonus bonuses = new CoinBonus(new AssistantBonus(new EmptyBonus(), 2), 3);
 		
 		chosenCity = City.createCity("Milano", CityColor.createCityColor("grigio"), bonuses);
-		otherCity = City.createCity("KingsLanding", CityColor.createCityColor("oro"), new EmptyBonus());
-		cityNotInBPT = City.createCity("Firenze", CityColor.createCityColor("blu"), new EmptyBonus());
+		otherCity = City.createCity("KingsLanding", CityColor.createCityColor("oro"), new VictoryBonus(new EmptyBonus(),4));
+		cityWithNobilityBonus = City.createCity("London", CityColor.createCityColor("verde"), new NobilityBonus(new EmptyBonus(), 3));
 		//kingCity = City.createCity("Roma", CityColor.createCityColor("rosso"), new RewardTile(new ArrayList<Bonus>()));
 		//chosenCity.link(kingCity);
 		//kingCity.link(chosenCity);
@@ -79,9 +84,9 @@ public class BuildTest {
 		chosenCity.build(player2);
 		List<City> cities = new ArrayList<>();
 		cities.add(chosenCity);
-		//cities.add(kingCity);
+		cities.add(cityWithNobilityBonus);
 		cities.add(otherCity);
-		cities.add(cityNotInBPT);
+		cities.add(City.createCity("Firenze", CityColor.createCityColor("blu"), new EmptyBonus()));
 		cities.add(City.createCity("Torino", CityColor.createCityColor("nero"), new EmptyBonus()));
 		return Region.createRegion("hills", cities, bPTDeck, balcony, new EmptyBonus());
 	}
@@ -108,76 +113,108 @@ public class BuildTest {
 		KingDeck kingDeck = new KingDeck(new ArrayList<RewardTile>());
 		Map<CityColor, Bonus> map = new HashMap<>();
 		
-		
-		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		/*List<Assistant> assistants = new ArrayList<>();
-		for(int i=0; i<3; i++)
-			assistants.add(new Assistant());*/
-		//List<PoliticCard> cards = new ArrayList<PoliticCard>();
-		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
 		List<City> tileCities = new ArrayList<>();
 		tileCities.add(chosenCity);
-		tileCities.add(otherCity);
-		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
-		//player1.addPermissionTile(tileToUse);
+		BusinessPermissionTile tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		token = gameBoard.registerPlayer("Marco");
 		gameBoard.start();
 
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);
+		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
+		action.apply(gameBoard);
+		Bonus cityBonus = new TakeYourCityBonus(new EmptyBonus(), 1);
+		cityBonus.apply(gameBoard.getCurrentPlayer());
+		chosenCities = new ArrayList<>();
+		chosenCities.add(chosenCity.getState());
 	}
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
+		Action action = new ChooseCity(chosenCities, token);
 		
 		assertEquals(token, action.getToken());
 	}
-	
+
 	@Test (expected = NullPointerException.class)
-	public void testBuildActionWithCityNullShouldThrowAnException() {
-		new Build(null, tileToUse.getState(), 279);
+	public void testBuildActionWithCitiesNullShouldThrowException() {
+		new ChooseCity(null, token);
 	}
 	
-	@Test (expected = NullPointerException.class)
-	public void testBuildActionWithTileNullShouldThrowAnException() {
-		new Build(chosenCity.getState(), null, 279);
-	}
-	
-	@Test (expected = NoRemainingActionsException.class)
-	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
-		gameBoard.getCurrentPlayer().performMainAction();
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
+	@Test (expected = InvalidCityException.class)
+	public void testApplyActionWithTwoEqualCitiesShouldThrowException() throws Exception {
+		chosenCities.add(chosenCity.getState());
+		Action action = new ChooseCity(chosenCities, token);
 		
 		action.apply(gameBoard);
 	}
 	
-	@Test (expected = NoRemainingAssistantsException.class)
-	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException() throws Exception {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
-		gameBoard.getCurrentPlayer().takeAssistants(1);
+	@Test (expected = NoRemainingActionsException.class)
+	public void testApplyToAPlayerWithoutRemainingChooseActionShouldThrowException() throws Exception {
+		gameBoard.getCurrentPlayer().performChooseAction();
+		Action action = new ChooseCity(chosenCities, token);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test (expected = InvalidCityException.class)
-	public void testApplyActionToACityThatIsNotInBPTShouldThrowException() throws Exception {
-		Action action = new Build(cityNotInBPT.getState(), tileToUse.getState(), 1);
-
+	public void testApplyWithACityWithoutTheEmporiumOfThePlayerShouldThrowException() throws Exception {
+		List<CityDTO> cities = new ArrayList<>();
+		cities.add(otherCity.getState());
+		Action action = new ChooseCity(cities, token);
+		
+		action.apply(gameBoard);
+	}
+	
+	@Test (expected = InvalidCityException.class)
+	public void testApplyActionToACityWithNobilityBonusShouldThrowException() throws Exception {
+		List<City> tileCities = new ArrayList<>();
+		tileCities.add(cityWithNobilityBonus);
+		BusinessPermissionTile tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
+		gameBoard.getCurrentPlayer().addRemainingMainActions(1);
+		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);
+		Action buildAction = new Build(cityWithNobilityBonus.getState(), tileToUse.getState(), token);
+		buildAction.apply(gameBoard);
+		List<CityDTO> cities = new ArrayList<>();
+		cities.add(cityWithNobilityBonus.getState());
+		Action action = new ChooseCity(cities, token);
+		
 		action.apply(gameBoard);
 	}
 	
 	@Test
-	public void testApplyCheckChanges() throws Exception {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
-		
+	public void testApplyActionCheckChanges() throws Exception {
+		Action action = new ChooseCity(chosenCities, token);
 		action.apply(gameBoard);
 		
-		assertTrue(chosenCity.hasEmporium(gameBoard.getCurrentPlayer()));
-		assertEquals(13, gameBoard.getCurrentPlayer().getCoinsNumber());
-		assertEquals(2, gameBoard.getCurrentPlayer().getAssistantsNumber());
-		assertFalse(gameBoard.getCurrentPlayer().canPerformMainAction());
+		assertEquals(16, gameBoard.getCurrentPlayer().getCoinsNumber());
+		assertEquals(4, gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertFalse(gameBoard.getCurrentPlayer().canPerformChooseAction());
+		assertTrue(gameBoard.getCurrentPlayer().getPendingRequest().isEmpty());
+	}
+	
+	@Test
+	public void testApplyActionWithMultiplicity2CheckChanges() throws Exception {
+		gameBoard.getCurrentPlayer().performChooseAction();
+		gameBoard.getCurrentPlayer().removePendingRequest(new CityBonusRequest(1));
+		Bonus cityBonus = new TakeYourCityBonus(new EmptyBonus(), 2);
+		cityBonus.apply(gameBoard.getCurrentPlayer());
+		List<City> tileCities = new ArrayList<>();
+		tileCities.add(otherCity);
+		BusinessPermissionTile tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
+		gameBoard.getCurrentPlayer().addRemainingMainActions(1);
+		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);
+		Action buildAction = new Build(otherCity.getState(), tileToUse.getState(), token);
+		buildAction.apply(gameBoard);
+		chosenCities.add(otherCity.getState());
+		Action action = new ChooseCity(chosenCities, token);
+		action.apply(gameBoard);
 		
+		assertEquals(8, gameBoard.getCurrentPlayer().getVictoryPoints());
+		assertEquals(16, gameBoard.getCurrentPlayer().getCoinsNumber());
+		assertEquals(4, gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertFalse(gameBoard.getCurrentPlayer().canPerformChooseAction());
+		assertTrue(gameBoard.getCurrentPlayer().getPendingRequest().isEmpty());
 	}
 }

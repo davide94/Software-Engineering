@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
@@ -11,17 +12,21 @@ import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class ChoosePlayerBPT extends Action {
 
 	private final List<BusinessPermissionTileDTO> chosenBPT;
 	
+	private final List<Bonus> bonusesToApply;
+	
 	public ChoosePlayerBPT(List<BusinessPermissionTileDTO> chosenBPT, long token) {
 		super(token);
 		if(chosenBPT == null)
 			throw new NullPointerException();
 		this.chosenBPT = chosenBPT;
+		this.bonusesToApply = new ArrayList<>();
 	}
 	
 	private void checkList() throws InvalidTileException{
@@ -40,9 +45,12 @@ public class ChoosePlayerBPT extends Action {
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
 		for(BusinessPermissionTileDTO tile : chosenBPT)
-			currentPlayer.hasPermissionTileAlsoFaceDown(tile).getReward(currentPlayer);
+			bonusesToApply.add(currentPlayer.hasPermissionTileAlsoFaceDown(tile).getBonuses());
+		for(Bonus b : bonusesToApply)
+			b.apply(currentPlayer);
 		currentPlayer.performChooseAction();
 		currentPlayer.removePendingRequest(new PlayerBPTRequest(this.chosenBPT.size()));
+		notifyChange(gameBoard);
 	}
 
 	@Override
