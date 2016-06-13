@@ -13,9 +13,9 @@ public class KingChange extends ChangeDecorator {
 	private KingDTO kingDTO;
 	
 	/**
-	 * Constructs a change of the king's state
+	 * Constructs a change of the king's State
 	 * @param decoratedChange the change to decorate
-	 * @param kingDTO the new state of the king
+	 * @param kingDTO the new State of the king
 	 * @throws NullPointerException if one or more arguments are null
 	 */
 	public KingChange(Change decoratedChange, KingDTO kingDTO) {

@@ -125,8 +125,8 @@ public class Player {
 	}
 
 	/**
-	 * Generates the state of the player
-	 * @return a PlayerDTO object that represents the current player's state
+	 * Generates the State of the player
+	 * @return a PlayerDTO object that represents the current player's State
 	 */
 	public PlayerDTO getState() {
 		LinkedList<PoliticCardDTO> cardsState = new LinkedList<>();
@@ -140,8 +140,8 @@ public class Player {
 	}
 
 	/**
-	 * Generates the state of the player
-	 * @return a PlayerDTO object that represents the current player's state
+	 * Generates the State of the player
+	 * @return a PlayerDTO object that represents the current player's State
 	 */
 	public PlayerDTO getFullState() {
 		LinkedList<PoliticCardDTO> cardsState = new LinkedList<>();

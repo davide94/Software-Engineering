@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -52,13 +53,18 @@ public class Balcony {
     }
 
 	public boolean checkPoliticCards(Collection<PoliticCardDTO> requiredCards) {
-		if (requiredCards.size() <1){
-    		throw new IllegalArgumentException();}
+		if (requiredCards.isEmpty())
+    		throw new IllegalArgumentException();
+        List<PoliticCardDTO> cardsList = new LinkedList<>(requiredCards);
+        PoliticCardDTO multicolor = new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "");
+        while(true)
+            if (!(cardsList.remove(multicolor)))
+                break;
 		LinkedList<Councillor> councillors = new LinkedList<>(this.councillors);
-		for (PoliticCardDTO card: requiredCards) {
+		for (PoliticCardDTO card: cardsList) {
 			Councillor c = null;
 			for (Councillor councillor: councillors) {
-				if (councillor.getColor().getState().equals(card.getColor()) || card.getColor().equals(new PoliticColorDTO("multicolor"))) {
+				if (councillor.getColor().getState().equals(card.getColor())) {
 					c = councillor;
 					break;
 				}

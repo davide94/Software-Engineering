@@ -7,8 +7,6 @@ import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
-import it.polimi.ingsw.cg26.common.update.event.GameStarted;
-import it.polimi.ingsw.cg26.common.update.event.TurnStarted;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
@@ -19,7 +17,10 @@ import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -83,12 +84,6 @@ public class GameBoard extends Observable<Update> {
 
 	public void start() {
 
-        try {
-            scheduler.initPlayers();
-        } catch (NoRemainingCardsException e) {
-            e.printStackTrace();
-        }
-
         if (scheduler.playersNumber() == 2) {
             for (Region r: regions) {
                 BusinessPermissionTile tile = r.getBPTDeck().randomCard();
@@ -98,13 +93,15 @@ public class GameBoard extends Observable<Update> {
             }
         }
 
+        try {
+            scheduler.start();
+        } catch (NoRemainingCardsException e) {
+            e.printStackTrace(); // TODO: handle
+        }
+
         notifyObservers(new FullStateChange(new BasicChange(), getState()));
         for (PlayerDTO player : getFullPlayers())
             notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
-
-        notifyObservers(new GameStarted());
-        notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
-
     }
 
 	public Collection<PlayerDTO> getFullPlayers() {
@@ -115,24 +112,9 @@ public class GameBoard extends Observable<Update> {
 		return scheduler.registerPlayer(name);
 	}
 
-	public void actionPerformed() {
-		scheduler.actionPerformed();
-	}
 
 	public Player getCurrentPlayer() {
 		return scheduler.getCurrentPlayer();
-	}
-	
-	public boolean isMarket(){
-		return scheduler.isMarket();
-	}
-	
-	public void foldSell(){
-		scheduler.foldSell();
-	}
-	
-	public void foldBuy(){
-		scheduler.foldBuy();
 	}
 
     public Collection<Region> getRegions() {

@@ -5,17 +5,15 @@ package it.polimi.ingsw.cg26.common;
  */
 public interface ClientState {
 
-    void gameStarted();
+    void regularGameStarted();
 
-    void gameEnded();
+    void matchEnded();
 
     void turnStarted();
 
     void turnEnded();
 
     void marketStarted();
-
-    void marketEnded();
 
     void sellTurnStarted();
 

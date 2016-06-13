@@ -18,7 +18,7 @@ public class BPTDeckChange extends ChangeDecorator {
 	/**
 	 * Constructs a change of the BPT Deck
 	 * @param decoratedChange the decorated change
-	 * @param bPTDeckState the new state of the deck to apply
+	 * @param bPTDeckState the new State of the deck to apply
 	 * @param regionDTO the region in which the change has to be applied
 	 * @throws NullPointerException if one or more arguments are null
 	 */

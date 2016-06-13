@@ -66,7 +66,7 @@ public class CLI implements Observer<Update>, Runnable {
     };
 
     private Consumer<CityDTO> cityPrinter = c -> {
-        writer.print(c.getName());
+        writer.print(c.getName() + " [" + c.getColor().getColor() + "] " + c.getBonuses().toString());
         if (model.getKing().getCurrentCity().equalsIgnoreCase(c.getName()))
             writer.print(" (KING) ");
         if (!c.getEmporiums().isEmpty())
@@ -205,6 +205,7 @@ public class CLI implements Observer<Update>, Runnable {
         writer.println("Bye.");
         writer.flush();
         outView.writeObject(new StaccahCommand());
+        // TODO: Staccah Staccah Staccah
     }
 
     private void electAsMainAction() {
@@ -212,18 +213,37 @@ public class CLI implements Observer<Update>, Runnable {
     }
 
     private void elect(boolean asMainAction) {
-        RegionDTO region = askForElement(model.getRegions(), "In which region?", regionPrinter);
+        List<RegionDTO> regions = model.getRegions();
+
+        writer.println("Where?");
+        writer.println("(1) King's balcony");
+        for (int i = 0; i < regions.size(); i++) {
+            writer.print("(" + (i + 2) + ") ");
+            regionPrinter.accept(regions.get(i));
+            writer.println();
+        }
+        writer.flush();
+        int res = readInt(1, regions.size());
+
         CouncillorDTO councillor = askForElement(new LinkedList<>(model.getCouncillorsPool()), "Which Councillor?", councillorPrinter);
-        if (asMainAction)
-            outView.writeObject(new ElectAsMainActionCommand(region, councillor));
-        else
-            outView.writeObject(new ElectAsQuickActionCommand(region, councillor));
+        if(res == 1) {
+            if (asMainAction)
+                outView.writeObject(new ElectKingAsMainActionCommand(councillor));
+            else
+                outView.writeObject(new ElectKingAsQuickActionCommand(councillor));
+        } else {
+            if (asMainAction)
+                outView.writeObject(new ElectAsMainActionCommand(regions.get(res - 2), councillor));
+            else
+                outView.writeObject(new ElectAsQuickActionCommand(regions.get(res - 2), councillor));
+        }
     }
 
     private void acquire() {
         RegionDTO region = askForElement(model.getRegions(), "In which region?", regionPrinter);
         List<PoliticCardDTO> cards = askForList(new LinkedList<>(model.getLocalPlayer().getCards()), 4, "Which card do you want to use?", politicCardPrinter);
         writer.println("Do you want the left(l) or the right(R) one? ");
+        writer.flush();
         String response = this.scanner.nextLine();
         int position = 0;
         if ("l".equalsIgnoreCase(response) || "left".equalsIgnoreCase(response))
@@ -326,14 +346,16 @@ public class CLI implements Observer<Update>, Runnable {
 
     private <T> T askForElement(List<T> list, String title, Consumer<T> printer) {
         writer.println(title);
-        list.forEach(e -> {
-            writer.print("(" + (list.indexOf(e) + 1) + ") ");
-            printer.accept(e);
+        for (int i = 0; i < list.size(); i++) {
+            writer.print("(" + (i + 1) + ") ");
+            printer.accept(list.get(i));
             writer.println();
-        });
+        }
         writer.flush();
-        int res = readInt(0, list.size()) - 1;
-        return list.get(res);
+        int res = readInt(1, list.size());
+        if (res == 0)
+            return null;
+        return list.get(res - 1);
     }
 
     private <T> List<T> askForList(List<T> list, int max, String title, Consumer<T> printer) {
@@ -341,9 +363,11 @@ public class CLI implements Observer<Update>, Runnable {
         LinkedList<T> all = new LinkedList<>(list);
         int n = 0;
         while (true) {
-            if (n > 0)
+            if (n == 1)
                 title += " (press return to end)";
             T t = askForElement(all, title, printer);
+            if (t == null)
+                break;
             all.remove(t);
             ret.add(t);
             if (ret.size() == max || all.isEmpty())
@@ -354,7 +378,7 @@ public class CLI implements Observer<Update>, Runnable {
     }
 
     private int readInt() {
-        return readInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return readInt(0, Integer.MAX_VALUE);
     }
 
     private int readInt(Integer min, Integer max) {
@@ -363,7 +387,7 @@ public class CLI implements Observer<Update>, Runnable {
             try {
                 String str = scanner.nextLine();
                 if (str.isEmpty())
-                    return -1;
+                    return min - 1;
                 ret = Integer.parseInt(str);
                 if (ret > max || ret < min)
                     throw new NumberFormatException();

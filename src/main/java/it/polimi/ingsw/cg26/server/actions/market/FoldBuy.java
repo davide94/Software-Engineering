@@ -11,9 +11,9 @@ public class FoldBuy extends Action {
 
 	@Override
 	public void apply(GameBoard gameBoard) {
-		if(!gameBoard.isMarket())
+		if(!gameBoard.getScheduler().canBuy(getToken()))
 			throw new IllegalStateException();
-		gameBoard.foldBuy();
+		gameBoard.getScheduler().foldedBuy();
 	}
 
 	@Override

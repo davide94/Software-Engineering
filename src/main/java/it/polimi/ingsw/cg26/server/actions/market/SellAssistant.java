@@ -18,7 +18,7 @@ public class SellAssistant extends Sell {
 
 	@Override
 	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException {
-		if(!gameBoard.isMarket())
+		if(!gameBoard.getScheduler().canSell(getToken()))
 			throw new IllegalStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);

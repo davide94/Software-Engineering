@@ -15,7 +15,7 @@ public class KingBalconyChange extends ChangeDecorator {
 	/**
 	 * Construct a change of the king's balcony
 	 * @param decoratedChange the change to decorate
-	 * @param kingBalcony the new state of the balcony
+	 * @param kingBalcony the new State of the balcony
 	 */
 	public KingBalconyChange(Change decoratedChange, BalconyDTO kingBalcony) {
 		super(decoratedChange);

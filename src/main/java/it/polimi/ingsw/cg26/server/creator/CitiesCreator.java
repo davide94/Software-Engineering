@@ -48,8 +48,10 @@ public class CitiesCreator {
         CityColor color = CityColor.createCityColor(colorString);
         //Bonus bonus = new RewardTile(new LinkedList<>());
         Bonus bonus = new EmptyBonus();
-        if (!Creator.hasChild("king", root))
+        if (!Creator.hasChild("king", root)) {
             bonus = bonuses.get(0);
+            bonuses.remove(0);
+        }
         return City.createCity(name, color, bonus);
     }
 

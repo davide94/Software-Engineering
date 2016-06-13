@@ -12,7 +12,8 @@ public class NotYourTurnMarket implements State {
     public Map<String, String> commands() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Quit", "quit");
-        map.put("Print state", "printFullState");
+        map.put("Print State", "printFullState");
+        map.put("Print market", "printMarket");
         return map;
     }
 }

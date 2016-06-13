@@ -57,7 +57,7 @@ public abstract class BonusDecorator implements Bonus{
 	}
 
     /**
-     * Get the state of the bonus 
+     * Get the State of the bonus
      * @return Bonus DTO of the bonus
      */
 	@Override

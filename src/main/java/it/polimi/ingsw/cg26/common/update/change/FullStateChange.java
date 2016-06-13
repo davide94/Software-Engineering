@@ -16,9 +16,9 @@ public class FullStateChange extends ChangeDecorator {
     private GameBoardDTO state;
 
     /**
-     * Constructs a change of the full state of the game
+     * Constructs a change of the full State of the game
      * @param decoratedChange the change to decorate
-     * @param state the new state to set
+     * @param state the new State to set
      * @throws NullPointerException if one or more arguments are null
      */
     public FullStateChange(Change decoratedChange, GameBoardDTO state) {
@@ -30,7 +30,7 @@ public class FullStateChange extends ChangeDecorator {
 
     /**
      * 
-     * @return the state
+     * @return the State
      */
     public GameBoardDTO getState() {
         return state;

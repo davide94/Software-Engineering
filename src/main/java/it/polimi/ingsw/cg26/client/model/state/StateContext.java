@@ -19,13 +19,13 @@ public class StateContext implements ClientState {
         return state.commands();
     }
 
-    public void gameStarted() {
-        System.out.println("gameStarted");
+    public void regularGameStarted() {
+        System.out.println("regularGameStarted");
         state = new NotYourTurn();
     }
 
-    public void gameEnded() {
-        System.out.println("gameEnded");
+    public void matchEnded() {
+        System.out.println("matchEnded");
         state = new GameEnded();
     }
 
@@ -42,11 +42,6 @@ public class StateContext implements ClientState {
     public void marketStarted() {
         System.out.println("marketStarted");
         state = new NotYourTurnMarket();
-    }
-
-    public void marketEnded() {
-        System.out.println("marketEnded");
-        state = new NotYourTurn();
     }
 
     public void sellTurnStarted() {

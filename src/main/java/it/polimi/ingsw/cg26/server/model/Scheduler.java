@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg26.server.model;
 
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
-import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
-import it.polimi.ingsw.cg26.common.update.event.*;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.MatchNotStarted;
+import it.polimi.ingsw.cg26.server.model.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,24 +31,7 @@ public class Scheduler {
      */
     private final List<Player> players;
 
-    private final List<Player> buyTurn;
-
-    /**
-     * The position of the current player in the players list
-     */
-    private int current;
-
-    private int currentInMarket;
-
-    private boolean market;
-
-    private boolean sell;
-
-    private boolean lastTurn;
-
-    private int winner;
-
-    private Timer timer;
+    private State state;
 
     /**
      * The Game Board
@@ -65,18 +48,15 @@ public class Scheduler {
         if (gameBoard == null)
             throw new NullPointerException();
         this.players = new LinkedList<>();
-        this.buyTurn = new LinkedList<>();
-        this.current = 0;
-        this.market = false;
-        this.lastTurn = false;
-        this.sell = false;
-        this.winner = 0;
-        this.timer = new Timer();
         this.gameBoard = gameBoard;
-    }
-
-    public boolean isMarket() {
-        return market;
+        /*timer = new Timer();
+        turnTimeout = new TimerTask() {
+            @Override
+            public void run() {
+                nextPlayer();
+            }
+        };*/
+        state = new MatchNotStarted(gameBoard);
     }
 
     public int playersNumber() {
@@ -87,10 +67,6 @@ public class Scheduler {
 
     public List<Player> getPlayers() {
         return players;
-    }
-    
-    public void setMarket(boolean b){
-    	this.market = b;
     }
 
     /* -------------------------------------- */
@@ -123,7 +99,7 @@ public class Scheduler {
      *
      * @return the current Player
      */
-    public Player getCurrentPlayer() {
+    /*public Player getCurrentPlayer() {
         if (players.isEmpty())
             return null;
         if (market) {
@@ -133,7 +109,7 @@ public class Scheduler {
         }
         return players.get(current);
 
-    }
+    }*/
 
     /**
      * Adds a Player to the list of players
@@ -142,7 +118,7 @@ public class Scheduler {
     public long registerPlayer(String name) throws NoRemainingCardsException {
         Player player = newPlayer(name);
         players.add(player);
-        buyTurn.add(player);
+        //buyTurn.add(player);
         return player.getToken();
     }
 
@@ -151,6 +127,12 @@ public class Scheduler {
             name = "Player_" + players.size();
         long token = new BigInteger(64, new SecureRandom()).longValue();
         return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), 10, new LinkedList<>(), new LinkedList<>());
+    }
+
+    public void start() throws NoRemainingCardsException {
+        initPlayers();
+        state = state.startMatch(new LinkedList<>(players));
+        //timer.schedule(turnTimeout, TURN_TIMEOUT);
     }
 
     public void initPlayers() throws NoRemainingCardsException {
@@ -162,11 +144,6 @@ public class Scheduler {
                 p.addAssistant(new Assistant());
             for (int j = 0; j < INITIAL_CARDS_NUMBER; j++)
                 p.addPoliticCard(gameBoard.getPoliticDeck().draw());
-            if (i == 0) {
-                p.setRemainingMainActions(1);
-                p.setRemainingQuickActions(1);
-                p.addPoliticCard(gameBoard.getPoliticDeck().draw());
-            }
         }
 
     }
@@ -178,11 +155,55 @@ public class Scheduler {
                 toBeKilled = p;
         if (toBeKilled != null) {
             players.remove(toBeKilled);
-            buyTurn.remove(toBeKilled);
+            //buyTurn.remove(toBeKilled);
         }
         log.info("Player " + token + " killed.");
     }
 
+    public void deactivatePlayer(long token) {
+        for (Player p: players)
+            if (p.getToken() == token)
+                p.setOnline(false);
+    }
+
+    public Player getCurrentPlayer() {
+        return state.getCurrentPlayer();
+    }
+
+    public boolean canPerformRegularAction(long token) {
+        return state.canPerformRegularAction(token);
+    }
+
+    public boolean canSell(long token) {
+        return state.canSell(token);
+    }
+
+    public boolean canBuy(long token) {
+        return state.canBuy(token);
+    }
+
+    public void regularActionPerformed() {
+        //check if someone built 10 emporiums
+        int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
+                c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
+        if (count >= 10) {
+            getCurrentPlayer().addVictoryPoints(3);
+            state = state.tenEmporiumsBuilt();
+        } else {
+            state = state.regularActionPerformed();
+        }
+    }
+
+    public void foldSell() {
+        state = state.sellFolded();
+    }
+
+    public void foldedBuy() {
+        state = state.buyFolded();
+    }
+
+
+    /*
     public void deactivatePlayer(long token) {
         int activePlayers = 0;
         for (Player p: players) {
@@ -200,10 +221,11 @@ public class Scheduler {
      * Checks if the player can perform more actions and if not, the turn passes tu the next player.
      * Also checks if someone won.
      */
-    public void actionPerformed() {
+/*    public void actionPerformed() {
 
         if (market || getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction())
             return;
+
         nextPlayer();
     }
 
@@ -218,7 +240,7 @@ public class Scheduler {
             }
         }
 
-        gameBoard.notifyObservers(new PrivateUpdate(new TurnEnded(), getCurrentPlayer().getToken()));
+        gameBoard.notifyObservers(new PrivateUpdate(new RegulaTurnEnded(), getCurrentPlayer().getToken()));
 
         current = (current + 1) % playersNumber();
         while (!players.get(current).isOnline())
@@ -244,8 +266,8 @@ public class Scheduler {
         } catch (NoRemainingCardsException e) {
             log.error("Player can't draw from politic deck", e);
         }
-
-        gameBoard.notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
+        gameBoard.notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), getCurrentPlayer().getFullState()), getCurrentPlayer().getToken()));
+        gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnStarted(), getCurrentPlayer().getToken()));
     }
 
     private void startMarket() {
@@ -284,13 +306,13 @@ public class Scheduler {
             market = false;
 
             gameBoard.notifyObservers(new MarketEnded());
-            gameBoard.notifyObservers(new PrivateUpdate(new TurnStarted(), getCurrentPlayer().getToken()));
+            gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnStarted(), getCurrentPlayer().getToken()));
         } else {
             gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
         }
     }
-
-    private Comparator<Player> nobilityComparator = (x, y) ->
+*/
+    /*private Comparator<Player> nobilityComparator = (x, y) ->
             x.getNobilityCell().getIndex() < y.getNobilityCell().getIndex() ? -1 :
                     x.getNobilityCell().getIndex() == y.getNobilityCell().getIndex() ? 0 : 1;
 
@@ -337,6 +359,6 @@ public class Scheduler {
             // no one wins :(
         // players.gat(0) is the winner
 
-        gameBoard.notifyObservers(new GameEnded()); // TODO: put inside final ranking
-    }
+        gameBoard.notifyObservers(new MatchEnded()); // TODO: put inside final ranking
+    }*/
 }

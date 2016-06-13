@@ -5,9 +5,10 @@ import it.polimi.ingsw.cg26.common.ClientModel;
 /**
  *
  */
-public class MarketEnded implements Event {
+public class RegularGameStarted implements Event {
+
     @Override
     public void apply(ClientModel model) {
-        model.getState().marketEnded();
+        model.getState().regularGameStarted();
     }
 }

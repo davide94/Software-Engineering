@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.ClientModel;
 /**
  *
  */
-public class TurnStarted implements Event {
+public class RegularTurnStarted implements Event {
     @Override
     public void apply(ClientModel model) {
         model.getState().turnStarted();

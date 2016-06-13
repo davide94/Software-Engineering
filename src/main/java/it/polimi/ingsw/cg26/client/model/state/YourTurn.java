@@ -12,7 +12,7 @@ public class YourTurn implements State {
     public Map<String, String> commands() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Quit", "quit");
-        map.put("Print state", "printFullState");
+        map.put("Print State", "printFullState");
         map.put("Elect a Councillor", "electAsMainAction");
         map.put("Acquire a Business Permit Tile", "acquire");
         map.put("Build an emporium using a Permit Tile", "build");
