@@ -6,18 +6,16 @@ import it.polimi.ingsw.cg26.common.dto.NobilityTrackDTO;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * 
- */
+
 public class NobilityTrack {
 
 	/**
-	 *
+	 *the first cell of the nobility track
 	 */
 	private NobilityCell firstCell;
 
 	/**
-	 *
+	 *Default constructor
 	 */
 	private NobilityTrack(NobilityCell firstCell) {
 		if (firstCell == null)
@@ -25,10 +23,21 @@ public class NobilityTrack {
 		this.firstCell = firstCell;
 	}
 
+	
+	/**
+	 * Create a nobility track
+	 * @param firstCell is the first nobility cell of the track
+	 * @return a new nobility track
+	 */
 	public static NobilityTrack createNobilityTrack(NobilityCell firstCell) {
 		return new NobilityTrack(firstCell);
 	}
 
+	
+	/**
+	 * Create a nobility track DTO
+	 * @return the DTO of the nobility track
+	 */
 	public NobilityTrackDTO getState() {
 		List<NobilityCellDTO> cellsState = new LinkedList<>();
 		NobilityCell cell = firstCell;
@@ -39,9 +48,11 @@ public class NobilityTrack {
 		return new NobilityTrackDTO(cellsState);
 	}
 
+	
+	
 	/**
-	 *
-	 * @return
+	 *Get the first nobility cell of the track
+	 * @return the first of the track
      */
 	public NobilityCell getFirstCell() {
 		return firstCell;

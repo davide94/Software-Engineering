@@ -3,13 +3,11 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-/**
- * 
- */
+
 public class Emporium {
 	
 	/**
-	 * 
+	 * The owner of the emporium
 	 */
 	private Player player;
 	
@@ -23,14 +21,29 @@ public class Emporium {
     	this.player=player;
     }
 
+    
+    /**
+     * Create a player's emporium
+     * @param player is the owner of the emporium
+     * @return a new player's emporium
+     */
 	public static Emporium createEmporium(Player player) {
 		return new Emporium(player);
 	}
 
+	
+	/**
+	 * Create an emporium DTO
+	 * @return the DTO of the emporium
+	 */
 	public EmporiumDTO getState() {
 		return new EmporiumDTO(player.getName());
 	}
 
+	/**
+	 * Get the player of the emporium 
+	 * @return the owner of the emporium
+	 */
     public Player getPlayer(){
     	return this.player;
     }

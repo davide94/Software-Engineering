@@ -296,7 +296,7 @@ public class GameBoard extends Observable<Update> {
 	 * Apply all the bonuses if the player has his emporiums in all the cities with the same color or of the same region 
 	 * @param player is the player that has just built an emporium
 	 * @param color is the color of the city in which the player has just built an emporium
-	 * @throws NoRemainingCardsException if there aren't enough cards in the deck
+	 * @throws NoRemainingCardsException if there aren't enough cards in the Politic cards deck
 	 */
 	public void checkBonuses(Player player, CityColor color) throws NoRemainingCardsException {
         if (checkColorBonuses(player, color)) {

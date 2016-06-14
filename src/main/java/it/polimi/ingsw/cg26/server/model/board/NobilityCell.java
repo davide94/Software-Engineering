@@ -5,23 +5,21 @@ import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-/**
- * 
- */
+
 public class NobilityCell {
 
     /**
-     *
+     * the index of the cell 
      */
     private int index;
 
     /**
-     *
+     *the next nobility cell
      */
     private NobilityCell next;
 
     /**
-     *
+     *the bonuses on the cell
      */
     private Bonus bonuses;
 
@@ -39,37 +37,60 @@ public class NobilityCell {
         this.bonuses = bonuses;
     }
 
+    
+    /**
+     * Create a nobility cell
+     * @param index is the index of the cell
+     * @param next is the next nobility cell
+     * @param bonuses are the bonuses on the cell
+     * @return a new nobility cell
+     */
     public static NobilityCell createNobilityCell(int index, NobilityCell next, Bonus bonuses) {
         return new NobilityCell(index, next, bonuses);
     }
 
+    
+    /**
+     * Create a nobility cell DTO
+     * @return the DTO of the nobility cell
+     */
     public NobilityCellDTO getState() {
 
         return new NobilityCellDTO(this.index, this.bonuses.getState());
     }
 
+    
     /**
-     * @return
+     * Get the following nobility cell
+     * @return the following nobility cell
      */
     public NobilityCell next() {
         return this.next;
     }
 
     /**
-     * @return
+     * Check if there is another cell after the current cell 
+     * @return true if the current cell has a following nobility cell else false 
      */
     public Boolean hasNext() {
         return this.next != null;
     }
+    
 
     /**
-     *
-     * @return
+     *Get the index of the cell
+     * @return the index of the cell
      */
     public int getIndex() {
         return this.index;
     }
 
+    
+    /**
+     * Apply the bonuses on the cell to the player that is on it
+     * @param player is the player on the nobility cell
+     * @throws NoRemainingCardsException if there aren't enough cards in the politic cards deck
+     */
     public void apply(Player player) throws NoRemainingCardsException {
         bonuses.apply(player);
     }
