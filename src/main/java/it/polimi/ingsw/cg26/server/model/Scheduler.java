@@ -24,8 +24,6 @@ public class Scheduler {
 
     private static final int INITIAL_CARDS_NUMBER = 6;
 
-    private static final int TURN_TIMEOUT = 5000;
-
     /**
      * List of players
      */
@@ -49,13 +47,6 @@ public class Scheduler {
             throw new NullPointerException();
         this.players = new LinkedList<>();
         this.gameBoard = gameBoard;
-        /*timer = new Timer();
-        turnTimeout = new TimerTask() {
-            @Override
-            public void run() {
-                nextPlayer();
-            }
-        };*/
         state = new MatchNotStarted(gameBoard);
     }
 
@@ -132,7 +123,6 @@ public class Scheduler {
     public void start() throws NoRemainingCardsException {
         initPlayers();
         state = state.startMatch(new LinkedList<>(players));
-        //timer.schedule(turnTimeout, TURN_TIMEOUT);
     }
 
     public void initPlayers() throws NoRemainingCardsException {
@@ -183,15 +173,7 @@ public class Scheduler {
     }
 
     public void regularActionPerformed() {
-        //check if someone built 10 emporiums
-        int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
-                c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
-        if (count >= 10) {
-            getCurrentPlayer().addVictoryPoints(3);
-            state = state.tenEmporiumsBuilt();
-        } else {
-            state = state.regularActionPerformed();
-        }
+        state = state.regularActionPerformed();
     }
 
     public void foldSell() {
@@ -202,6 +184,9 @@ public class Scheduler {
         state = state.buyFolded();
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
 
     /*
     public void deactivatePlayer(long token) {

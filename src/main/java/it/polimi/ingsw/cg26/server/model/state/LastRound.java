@@ -16,11 +16,9 @@ import java.util.List;
 /**
  *
  */
-public class LastRound implements State {
+public class LastRound extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    private GameBoard gameBoard;
 
     private List<Player> players;
 
@@ -29,7 +27,7 @@ public class LastRound implements State {
     private int winner;
 
     public LastRound(List<Player> players, int winner, GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+        super(gameBoard);
         this.players = players;
         this.winner = winner;
 
@@ -54,7 +52,8 @@ public class LastRound implements State {
         return nextPlayer();
     }
 
-    private State nextPlayer() {
+    @Override
+    public State nextPlayer() {
         current++;
         if (current == players.size())
             current = 0;
@@ -63,6 +62,7 @@ public class LastRound implements State {
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();
 
+        startTimer();
         getCurrentPlayer().setRemainingMainActions(1);
         getCurrentPlayer().setRemainingQuickActions(1);
         try {

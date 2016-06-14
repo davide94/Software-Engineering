@@ -8,17 +8,10 @@ import java.util.List;
 /**
  *
  */
-public class MatchNotStarted implements State {
-
-    private GameBoard gameBoard;
+public class MatchNotStarted extends State {
 
     public MatchNotStarted(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    @Override
-    public Player getCurrentPlayer() {
-        return null;
+        super(gameBoard);
     }
 
     @Override

@@ -4,26 +4,29 @@ import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.event.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 /**
  *
  */
-public class MarketSell implements State {
+public class MarketSell extends State {
 
-    private GameBoard gameBoard;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private List<Player> players;
 
     private int current;
 
     public MarketSell(List<Player> players, GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+        super(gameBoard);
         this.players = players;
-        current = 0;
+        current = -1;
         gameBoard.notifyObservers(new MarketStarted());
-        gameBoard.notifyObservers(new PrivateUpdate(new SellTurnStarted(), getCurrentPlayer().getToken()));
+        log.info("Market Sell started.");
+        nextPlayer();
     }
 
     @Override
@@ -33,7 +36,7 @@ public class MarketSell implements State {
 
     @Override
     public boolean canSell(long token) {
-        return players.get(current).getToken() == token;
+        return getCurrentPlayer().getToken() == token;
     }
 
     @Override
@@ -43,13 +46,15 @@ public class MarketSell implements State {
         return nextPlayer();
     }
 
-    private State nextPlayer() {
+    @Override
+    public State nextPlayer() {
         current++;
         if (current == players.size())
             return new MarketBuy(players, gameBoard);
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();
-
+        log.info("Player " + getCurrentPlayer().getToken() + " begin his Sell turn.");
+        startTimer();
         gameBoard.notifyObservers(new PrivateUpdate(new SellTurnStarted(), getCurrentPlayer().getToken()));
         return this;
     }

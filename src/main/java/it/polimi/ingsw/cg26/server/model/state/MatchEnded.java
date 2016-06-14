@@ -10,14 +10,12 @@ import java.util.List;
 /**
  *
  */
-public class MatchEnded implements State {
-
-    private GameBoard gameBoard;
+public class MatchEnded extends State {
 
     private List<Player> players;
 
     public MatchEnded(List<Player> players, GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+        super(gameBoard);
         this.players = players;
         calculateWinner();
         gameBoard.notifyObservers(new it.polimi.ingsw.cg26.common.update.event.MatchEnded());

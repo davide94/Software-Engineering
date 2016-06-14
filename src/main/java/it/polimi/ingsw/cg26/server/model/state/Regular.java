@@ -17,21 +17,20 @@ import java.util.List;
 /**
  *
  */
-public class Regular implements State {
+public class Regular extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    private GameBoard gameBoard;
 
     private List<Player> players;
 
     private int current;
 
     public Regular(List<Player> players, GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+        super(gameBoard);
         this.players = players;
         current = -1;
         gameBoard.notifyObservers(new RegularGameStarted());
+        log.info("Regular game started.");
         nextPlayer();
     }
 
@@ -47,20 +46,29 @@ public class Regular implements State {
 
     @Override
     public State regularActionPerformed() {
-        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction())
+        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction()) {
+            //check if someone built 10 emporiums
+            int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
+                    c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
+            if (count >= 10) {
+                getCurrentPlayer().addVictoryPoints(3);
+                return new LastRound(players, current, gameBoard);
+            }
             return this;
-
+        }
         gameBoard.notifyObservers(new PrivateUpdate(new RegulaTurnEnded(), getCurrentPlayer().getToken()));
         return nextPlayer();
     }
 
-    private State nextPlayer() {
+    @Override
+    public State nextPlayer() {
         current++;
         if (current == players.size())
             return new MarketSell(players, gameBoard);
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();
-
+        log.info("Player " + getCurrentPlayer().getToken() + " begin his regular turn.");
+        startTimer();
         getCurrentPlayer().setRemainingMainActions(1);
         getCurrentPlayer().setRemainingQuickActions(1);
         try {
@@ -71,10 +79,5 @@ public class Regular implements State {
         gameBoard.notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), getCurrentPlayer().getFullState()), getCurrentPlayer().getToken()));
         gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnStarted(), getCurrentPlayer().getToken()));
         return this;
-    }
-
-    @Override
-    public State tenEmporiumsBuilt() {
-        return new LastRound(players, current, gameBoard);
     }
 }

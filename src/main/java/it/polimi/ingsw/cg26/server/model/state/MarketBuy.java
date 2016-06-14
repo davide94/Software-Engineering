@@ -5,6 +5,8 @@ import it.polimi.ingsw.cg26.common.update.event.BuyTurnEnded;
 import it.polimi.ingsw.cg26.common.update.event.BuyTurnStarted;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -13,9 +15,9 @@ import java.util.List;
 /**
  *
  */
-public class MarketBuy implements State {
+public class MarketBuy extends State {
 
-    private GameBoard gameBoard;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private List<Player> players;
 
@@ -24,12 +26,13 @@ public class MarketBuy implements State {
     private int current;
 
     public MarketBuy(List<Player> players, GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+        super(gameBoard);
         this.players = players;
         shuffled = new LinkedList<>(players);
         Collections.shuffle(shuffled);
-        current = 0;
-        gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
+        current = -1;
+        log.info("Market Buy started.");
+        nextPlayer();
     }
 
     @Override
@@ -39,7 +42,7 @@ public class MarketBuy implements State {
 
     @Override
     public boolean canBuy(long token) {
-        return shuffled.get(current).getToken() == token;
+        return getCurrentPlayer().getToken() == token;
     }
 
     @Override
@@ -49,14 +52,15 @@ public class MarketBuy implements State {
         return nextPlayer();
     }
 
-    private State nextPlayer() {
+    @Override
+    public State nextPlayer() {
         current++;
-        if (current == players.size()) {
+        if (current == players.size())
             return new Regular(players, gameBoard);
-        }
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();
-
+        log.info("Player " + getCurrentPlayer().getToken() + " begin his Buy turn.");
+        startTimer();
         gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
         return this;
     }
