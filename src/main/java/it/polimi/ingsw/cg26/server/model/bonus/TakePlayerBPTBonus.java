@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg26.server.model.bonus;
 
 import java.util.List;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.TakePlayerBPTBonusDTO;
 import it.polimi.ingsw.cg26.common.update.request.PlayerBPTRequest;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -33,4 +35,8 @@ public class TakePlayerBPTBonus extends BonusDecorator {
     	return bonuses;
     }
 
+	@Override
+	public BonusDTO getState() {
+		return new TakePlayerBPTBonusDTO(super.getState(), this.getMultiplicity());
+	}
 }

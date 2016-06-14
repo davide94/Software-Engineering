@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.TakeYourCityBonusDTO;
 import it.polimi.ingsw.cg26.common.update.request.CityBonusRequest;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -33,4 +35,8 @@ public class TakeYourCityBonus extends BonusDecorator {
     	return bonuses;
     }
 	
+	@Override
+	public BonusDTO getState() {
+		return new TakeYourCityBonusDTO(super.getState(), this.getMultiplicity());
+	}
 }
