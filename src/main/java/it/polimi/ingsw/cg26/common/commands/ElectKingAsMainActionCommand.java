@@ -7,12 +7,28 @@ public class ElectKingAsMainActionCommand implements Command {
 
 	private static final long serialVersionUID = -707093014887120864L;
 	
+	/**
+	 * The councillor to elect in the king's balcony
+	 */
 	private final CouncillorDTO councillor;
 	
+	/**
+	 * Construct a command to elect in the king's balcony as main action
+	 * @param councillor the councillor to elect
+	 * @throws NullPointerException if the councillor is null
+	 */
 	public ElectKingAsMainActionCommand(CouncillorDTO councillor) {
 		if(councillor == null)
 			throw new NullPointerException();
 		this.councillor = councillor;
+	}
+	
+	/**
+	 * Get the councillorDTO to elect
+	 * @return the councillor to elect
+	 */
+	public CouncillorDTO getCouncillor() {
+		return councillor;
 	}
 	
 	@Override
@@ -20,12 +36,4 @@ public class ElectKingAsMainActionCommand implements Command {
 		visitor.visit(this);
 
 	}
-
-	/**
-	 * @return the councillor
-	 */
-	public CouncillorDTO getCouncillor() {
-		return councillor;
-	}
-
 }

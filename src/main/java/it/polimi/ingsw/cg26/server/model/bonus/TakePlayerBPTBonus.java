@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.bonus;
 
+import java.util.List;
+
 import it.polimi.ingsw.cg26.common.update.request.PlayerBPTRequest;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -23,5 +25,12 @@ public class TakePlayerBPTBonus extends BonusDecorator {
 		player.addRemainingChooseAction(1);
 		player.addPendingRequest(new PlayerBPTRequest(this.getMultiplicity()));
 	}
+	
+	@Override
+    public List<String> getBonusNames(){
+    	List<String> bonuses = super.getBonusNames();
+    	bonuses.add("TakePlayerBPT");
+    	return bonuses;
+    }
 
 }
