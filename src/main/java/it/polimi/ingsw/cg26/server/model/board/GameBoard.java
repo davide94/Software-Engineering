@@ -48,6 +48,21 @@ public class GameBoard extends Observable<Update> {
 
 	private final Scheduler scheduler;
 
+	
+	
+	/**
+	 * Create a Board for the game
+	 * @param deck is collection of politic cards
+	 * @param councillorsPool is a collection of councillors that are not located in any balcony
+	 * @param kingBalcony  is the king's balcony
+	 * @param regions is a collection of regions that are on the map
+	 * @param nobilityTrack contains the first nobility cell of the path of the nobility
+	 * @param king is the king in the game
+	 * @param market is the part of the game to sell and buy cards, tiles and assistants
+	 * @param kingDeck is the the of Business Permission Tiles of the king
+	 * @param colorBonuses it is the matching between all the cities with the same color and a particular bonus
+	 * @throws NullPointerException if one of the parameters is null
+	 */
 	private GameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, Bonus> colorBonuses) {
 		if (deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null || colorBonuses == null)
 			throw new NullPointerException();
@@ -64,24 +79,54 @@ public class GameBoard extends Observable<Update> {
 
 	}
 
+	
+	/**
+	 * Create a Board for the game
+	 * @param deck is collection of politic cards
+	 * @param councillorsPool is a collection of councillors that are not located in any balcony
+	 * @param kingBalcony  is the king's balcony
+	 * @param regions is a collection of regions that are on the map
+	 * @param nobilityTrack contains the first nobility cell of the path of the nobility
+	 * @param king is the king in the game
+	 * @param market is the part of the game to sell and buy cards, tiles and assistants
+	 * @param kingDeck is the the of Business Permission Tiles of the king
+	 * @param colorBonuses it is the matching between all the cities with the same color and a particular bonus
+	 * @return a new game board
+	 */
 	public static GameBoard createGameBoard(PoliticDeck deck, Collection<Councillor> councillorsPool, Balcony kingBalcony, Collection<Region> regions, NobilityTrack nobilityTrack, King king, Market market, KingDeck kingDeck, Map<CityColor, Bonus> colorBonuses) {
 		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck, colorBonuses);
 	}
 
+	
+	
+	/**
+	 * Get the State of the Game board
+     * @return GameBoard DTO of the Game board
+	 */
 	public GameBoardDTO getState() {
 		LinkedList<RegionDTO> regionsState = regions.stream().map(Region::getState)
                 .collect(Collectors.toCollection(LinkedList::new));
         LinkedList<CouncillorDTO> councillorsState = councillorsPool.stream().map(Councillor::getState)
                 .collect(Collectors.toCollection(LinkedList::new));
         List<PlayerDTO> playersState = scheduler.getPlayersState();
-		// TODO serialize market
 		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
 	}
+	
+	
+	
 
+	/**
+	 * Get the scheduler that rules the turn logic of the game
+	 * @return the scheduler of the game 
+	 */
     public Scheduler getScheduler() {
         return scheduler;
     }
 
+    
+    /**
+     * It is the procedure to start the game
+     */
 	public void start() {
 
         if (scheduler.playersNumber() == 2) {
@@ -104,23 +149,51 @@ public class GameBoard extends Observable<Update> {
             notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
     }
 
+	
+	/**
+	 * Returns a collection that represents the DTO of all the players
+	 * @return the dto of all the players
+	 */
 	public Collection<PlayerDTO> getFullPlayers() {
 		return scheduler.getPlayersFullState();
 	}
 
+	
+	/**
+	 * Registers a new player
+	 * @param name is the name of the player that have to be registered
+	 * @return the token of the player that has been registered
+	 * @throws NoRemainingCardsException if the new player doesn't draw the cards to start the game
+	 */
 	public long registerPlayer(String name) throws NoRemainingCardsException {
 		return scheduler.registerPlayer(name);
 	}
 
 
+	
+	/**
+	 * Returns the current Player
+	 * @return the current Player
+	 */
 	public Player getCurrentPlayer() {
 		return scheduler.getCurrentPlayer();
 	}
 
+	
+	/**
+	 * Get the region of the board
+	 * @return all the regions of the board
+	 */
     public Collection<Region> getRegions() {
         return new LinkedList<>(regions);
     }
 
+    
+    /**
+     * 
+     * @param requiredRegion is a region DTO 
+     * @return the region of the board that matches with requiredRegion
+     */
     public Region getRegion(RegionDTO requiredRegion) {
 		for (Region region: this.regions)
 			if (region.getName().equals(requiredRegion.getName()))
@@ -128,22 +201,48 @@ public class GameBoard extends Observable<Update> {
 		return null;
 	}
 
+    /**
+     * Get king's balcony
+     * @return king's balcony
+     */
 	public Balcony getKingBalcony() {
 		return this.kingBalcony;
 	}
 
+	
+	/**
+	 * Get king's deck of Business Permission Tiles
+	 * @return king's deck of Business Permission Tiles
+	 */
 	public KingDeck getKingDeck() {
 		return this.kingDeck;
 	}
 
+	
+	/**
+	 * get the councillors' pool
+	 * @return the councillors' pool
+	 */
 	public Collection<Councillor> getCouncillorsPool() {
 		return this.councillorsPool;
 	}
 
+	
+	/**
+	 * Get the king
+	 * @return the king
+	 */
 	public King getKing() {
 		return this.king;
 	}
 
+	
+	/**
+	 * 
+	 * @param requiredCity is a city DTO
+	 * @return the city of the board that matches with requiredCity
+	 * @throws CityNotFoundException if there isn't a city in board that matches with requiredCity
+	 */
 	public City getCity(CityDTO requiredCity) throws CityNotFoundException {
 		for (Region region: this.regions) {
 			City city = region.getCity(requiredCity);
@@ -153,14 +252,26 @@ public class GameBoard extends Observable<Update> {
 		throw new CityNotFoundException();
 	}
 
+	
+	/**
+	 * Get the deck of politic cards
+	 * @return the deck of politic cards
+	 */
 	public PoliticDeck getPoliticDeck() {
 		return this.politicDeck;
 	}
 
+	
+	/**
+	 * Get the nobility Track
+	 * @return the nobility Track
+	 */
 	public NobilityTrack getNobilityTrack() {
 		return this.nobilityTrack;
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return "GameBoard{" +
@@ -173,12 +284,20 @@ public class GameBoard extends Observable<Update> {
 	}
 
 	/**
+	 * Get the market
 	 * @return the market
 	 */
 	public Market getMarket() {
 		return market;
 	}
 
+	
+	/**
+	 * Apply all the bonuses if the player has his emporiums in all the cities with the same color or of the same region 
+	 * @param player is the player that has just built an emporium
+	 * @param color is the color of the city in which the player has just built an emporium
+	 * @throws NoRemainingCardsException if there aren't enough cards in the deck
+	 */
 	public void checkBonuses(Player player, CityColor color) throws NoRemainingCardsException {
         if (checkColorBonuses(player, color)) {
             Bonus bonus = colorBonuses.get(color);
@@ -201,6 +320,14 @@ public class GameBoard extends Observable<Update> {
         }
     }
 
+	
+	
+	/**
+	 * Check if the player has his emporiums in all the cities with the same color
+	 * @param player is the player that has just built an emporium
+	 * @param color is the color of the city in which the player has just built an emporium
+	 * @return true if the player has one emporium in every city with the same color else false
+	 */
     public boolean checkColorBonuses(Player player, CityColor color){
         for(Region iterRegion:regions){
             for(City iterCity: iterRegion.getCities()){
@@ -212,6 +339,12 @@ public class GameBoard extends Observable<Update> {
         return true;
     }
 
+    
+    /**
+     * Get a bonus associated to the color of a group of cities
+     * @param color is the color of a group of cities in the map
+     * @return the bonus associated to the color of a group of cities
+     */
     public Bonus getColorBonus(CityColor color) {
         return colorBonuses.get(color);
     }

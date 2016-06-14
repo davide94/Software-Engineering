@@ -90,6 +90,9 @@ public class Scheduler {
      *
      * @return the current Player
      */
+    public Player getCurrentPlayer() {
+        return state.getCurrentPlayer();
+    }
     /*public Player getCurrentPlayer() {
         if (players.isEmpty())
             return null;
@@ -156,9 +159,7 @@ public class Scheduler {
                 p.setOnline(false);
     }
 
-    public Player getCurrentPlayer() {
-        return state.getCurrentPlayer();
-    }
+   
 
     public boolean canPerformRegularAction(long token) {
         return state.canPerformRegularAction(token);

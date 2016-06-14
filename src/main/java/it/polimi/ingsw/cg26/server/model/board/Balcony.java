@@ -40,6 +40,11 @@ public class Balcony {
 	
 	
 
+	/**
+	 * Create a Balcony
+	 * @param capacity of the balcony 
+	 * @return a new empty balcony
+	 */
 	public static Balcony createBalcony(int capacity) {
 		return new Balcony(capacity, new LinkedList<>());
 	}
