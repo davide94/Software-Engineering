@@ -39,7 +39,7 @@ public class Server {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private final static int START_DELAY = 5000;
+    private final static int START_DELAY = 5 * 1000;
 
     private final static int SOCKET_PORT = 29999;
 

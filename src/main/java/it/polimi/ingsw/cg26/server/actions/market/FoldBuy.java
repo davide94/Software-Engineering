@@ -12,7 +12,7 @@ public class FoldBuy extends Action {
 	@Override
 	public void apply(GameBoard gameBoard) {
 		if(!gameBoard.getScheduler().canBuy(getToken()))
-			throw new IllegalStateException();
+			throw new IllegalStateException("FoldBuyAction");
 		gameBoard.getScheduler().foldedBuy();
 	}
 

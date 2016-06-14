@@ -1,45 +1,79 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
+import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
  */
-public interface State {
+public abstract class State {
 
-    Player getCurrentPlayer();
+    private static final int TURN_TIMEOUT = 5 * 60 * 1000;
 
-    default State startMatch(List<Player> players) {
+    protected GameBoard gameBoard;
+
+    private Timer timer = new Timer();
+
+    private TimerTask toggleNextPlayer;
+
+    public State(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+        toggleNextPlayer = new TimerTask() {
+            @Override
+            public void run() {
+                gameBoard.getScheduler().setState(nextPlayer());
+            }
+        };
+    }
+
+    public Player getCurrentPlayer() {
+        return null;
+    }
+
+    public State startMatch(List<Player> players) {
         return this;
     }
 
-    default boolean canPerformRegularAction(long token) {
+    public boolean canPerformRegularAction(long token) {
         return false;
     }
 
-    default boolean canSell(long token) {
+    public boolean canSell(long token) {
         return false;
     }
 
-    default boolean canBuy(long token) {
+    public boolean canBuy(long token) {
         return false;
     }
 
-    default State regularActionPerformed() {
+    public State regularActionPerformed() {
         return this;
     }
 
-    default State sellFolded() {
+    public State sellFolded() {
         return this;
     }
 
-    default State buyFolded() {
+    public State buyFolded() {
         return this;
     }
 
-    default State tenEmporiumsBuilt() {
+    public State nextPlayer() {
         return this;
+    }
+
+    public void startTimer() {
+        toggleNextPlayer.cancel();
+        toggleNextPlayer = new TimerTask() {
+            @Override
+            public void run() {
+                gameBoard.getScheduler().setState(nextPlayer());
+            }
+        };
+        timer.schedule(toggleNextPlayer, TURN_TIMEOUT);
     }
 }
