@@ -17,6 +17,7 @@ public class VictoryBonus extends BonusDecorator {
      * @param decoratedBonus the bonus to be decorated
      * @param multilplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
+     * @throws NullPointerException if the bonus to decorate is null
      */
     public VictoryBonus(Bonus decoratedBonus, int multilplicity) {
     	super(decoratedBonus, multilplicity);

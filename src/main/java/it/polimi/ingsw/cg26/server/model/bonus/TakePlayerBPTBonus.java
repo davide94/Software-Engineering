@@ -6,6 +6,13 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class TakePlayerBPTBonus extends BonusDecorator {
 
+	/**
+	 * Create a Bonus that allows the player to take a bonus of one or more BPT owned
+	 * @param decoratedBonus the bonus to decorate
+	 * @param multiplicity the multiplicity of the bonus
+	 * @throws IllegalArgumentException if the multiplicity is less than one
+	 * @throws NullPointerException if the bonus to decorate is null
+	 */
 	public TakePlayerBPTBonus(Bonus decoratedBonus, int multiplicity) {
 		super(decoratedBonus, multiplicity);
 	}

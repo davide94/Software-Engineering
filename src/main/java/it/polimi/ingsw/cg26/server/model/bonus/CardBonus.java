@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class CardBonus extends BonusDecorator {
 
+	/**
+	 * The politic Card Deck from which the player will draw
+	 */
     private PoliticDeck politicDeck;
 
     /**

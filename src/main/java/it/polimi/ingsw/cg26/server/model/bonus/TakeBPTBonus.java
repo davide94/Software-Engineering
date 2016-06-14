@@ -8,6 +8,13 @@ import java.util.List;
 
 public class TakeBPTBonus extends BonusDecorator {
 
+	/**
+	 * Create a bonus that allows the player to take a BPT from the Board
+	 * @param decoratedBonus the bonus to decorate
+	 * @param multiplicity the multiplicity of the bonus
+	 * @throws IllegalArgumentException if multiplicity is != 1
+	 * @throws NullPointerException if the bonus to decorate is null
+	 */
 	public TakeBPTBonus(Bonus decoratedBonus, int multiplicity) {
 		super(decoratedBonus, multiplicity);
 		if(this.getMultiplicity()>1)

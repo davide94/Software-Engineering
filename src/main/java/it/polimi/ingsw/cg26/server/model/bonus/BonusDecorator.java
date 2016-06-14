@@ -25,7 +25,7 @@ public abstract class BonusDecorator implements Bonus{
      * Create the bonus
      * @param multiplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
-     * @throws NullPointerException if the decorated bonus is null
+     * @throws NullPointerException if the bonus to decorate is null
      */
     public BonusDecorator(Bonus decoratedBonus, int multiplicity) {
     	if(multiplicity < 1)
@@ -43,6 +43,9 @@ public abstract class BonusDecorator implements Bonus{
 		return multiplicity;
 	}
 	
+	/**
+	 * @return a list of string containing the names of the decorated bonus
+	 */
 	@Override
 	public List<String> getBonusNames(){
 		return decoratedBonus.getBonusNames();
@@ -50,6 +53,7 @@ public abstract class BonusDecorator implements Bonus{
 	
     /**
      * @param player the player to apply the bonus
+     * @throws NoRemainingCardsException if the politic deck and the discarded politic card deck are empty 
      */
 	@Override
     public void apply(Player player) throws NoRemainingCardsException {

@@ -9,10 +9,11 @@ import java.util.List;
 public class TakeYourCityBonus extends BonusDecorator {
 
 	/**
-     * Create a TakeYourCityBonus
+     * Create a Bonus that allows the player to choose and take another bonus placed on a city in which he has an emporium 
      * @param decoratedBonus the bonus to be decorated
      * @param multilplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
+     * @throws NullPointerException if the bonus to decorate is null
      */
 	public TakeYourCityBonus(Bonus decoratedBonus, int multiplicity) {
 		super(decoratedBonus, multiplicity);
