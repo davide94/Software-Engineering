@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
+import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
@@ -8,6 +10,9 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.util.*;
 
@@ -22,6 +27,8 @@ public class SellBPTTest {
 	private Player player3;
 	
 	private BusinessPermissionTile tileToSell;
+	
+	private long token;
 	
 	private Market buildMarket(){
 		Market market = new Market();
@@ -90,15 +97,14 @@ public class SellBPTTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco");
 		gameBoard.start();
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToSell);
-		//gameBoard.getScheduler().setMarket(true);
 		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
 		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
 		gameBoard.getScheduler().regularActionPerformed();
 	}
-/*
+
 	@Test
 	public void testBuildActionShouldAssignTheToken(){
 		Action action = new SellBPT(10, tileToSell.getState(), 15);
@@ -119,18 +125,17 @@ public class SellBPTTest {
 	@Test (expected = InvalidTileException.class)
 	public void testTryToSellBPTWithoutHavingItShouldThrowException() throws Exception {
 		gameBoard.getCurrentPlayer().removeRealBPT(tileToSell.getState());
-		Action action = new SellBPT(5, tileToSell.getState(), 1);
+		Action action = new SellBPT(5, tileToSell.getState(), token);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyActionCheckChanges() throws Exception {
-		Action action = new SellBPT(10, tileToSell.getState(), 1);
+		Action action = new SellBPT(10, tileToSell.getState(), token);
 		action.apply(gameBoard);
 		
 		tileToSell.setPrice(10);
 		assertTrue(gameBoard.getMarket().getOnSale().contains(tileToSell));
 	}
-*/
 }

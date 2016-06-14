@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
+import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
@@ -8,6 +10,9 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.util.*;
 
@@ -22,6 +27,8 @@ public class SellPoliticCardTest {
 	private Player player3;
 	
 	private PoliticCard cardToSell;
+	
+	private long token;
 	
 	private Market buildMarket(){
 		Market market = new Market();
@@ -86,14 +93,14 @@ public class SellPoliticCardTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco");
+		gameBoard.start();
 		gameBoard.getCurrentPlayer().addPoliticCard(cardToSell);
-		//gameBoard.getScheduler().setMarket(true);
 		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
 		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
 		gameBoard.getScheduler().regularActionPerformed();
 	}
-	/*
+
 	@Test
 	public void testBuildActionShouldAssignTheToken(){
 		Action action = new SellPoliticCard(10, cardToSell.getState(), 15);
@@ -114,18 +121,17 @@ public class SellPoliticCardTest {
 	@Test (expected = InvalidCardsException.class)
 	public void testTryToSellPoliticCardWithoutHavingItShouldThrowException() throws Throwable{
 		gameBoard.getCurrentPlayer().takeCard(cardToSell.getState());
-		Action action = new SellPoliticCard(5, cardToSell.getState(), 1);
+		Action action = new SellPoliticCard(5, cardToSell.getState(), token);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyActionCheckChanges() throws Throwable{
-		Action action = new SellPoliticCard(6, cardToSell.getState(), 1);
+		Action action = new SellPoliticCard(6, cardToSell.getState(), token);
 		action.apply(gameBoard);
 		
 		cardToSell.setPrice(6);
 		assertTrue(gameBoard.getMarket().getOnSale().contains(cardToSell));
 	}
-	*/
 }

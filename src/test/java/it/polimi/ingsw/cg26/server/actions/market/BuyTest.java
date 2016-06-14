@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
+import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
@@ -9,6 +11,9 @@ import it.polimi.ingsw.cg26.server.model.market.Sellable;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.util.*;
 
@@ -27,6 +32,8 @@ private GameBoard gameBoard;
 	private BusinessPermissionTile bPTToBuy;
 	
 	private PoliticCard cardToBuy;
+	
+	private long token;
 	
 	private Market buildMarket(){
 		Market market = new Market();
@@ -98,42 +105,40 @@ private GameBoard gameBoard;
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		gameBoard.registerPlayer("Marco");
-		//gameBoard.getScheduler().setMarket(true);
-		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
-		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
-		gameBoard.getScheduler().regularActionPerformed();
+		token = gameBoard.registerPlayer("Marco");
 		//gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
 		gameBoard.start();
+		
+		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+		gameBoard.getScheduler().regularActionPerformed();
+		gameBoard.getScheduler().foldSell();
 	}
-	/*
+	
 	@Test
 	public void testBuildActionShouldAssignTheToken(){
 		Action action = new Buy(assistantToBuy.getState(), 12);
 		
 		assertEquals(12, action.getToken());
 	}
-	*/
-	/*
+	
 	@Test (expected = NullPointerException.class)
 	public void testBuildActionWithAssistantDTONullShouldThrowAnException(){
 		new Buy(null, 67);
 	}
-	*/
-    /*
+	
 	@Test (expected = NotEnoughMoneyException.class)
 	public void testApplyActionWithAPlayerThatTriesToBuyWithoutEnoughMoneyShouldThrowException() throws Exception {
-		Action action = new Buy(this.cardToBuy.getState(), 1);
+		Action action = new Buy(this.cardToBuy.getState(), token);
 		gameBoard.getCurrentPlayer().removeCoins(10);
 		
 		action.apply(gameBoard);
 	}
-	*/
-    /*
+
 	@Test
 	public void testApplyActionBuyAssistantCheckChanges() throws Exception {
-		Action action = new Buy(this.assistantToBuy.getState(), 1);
+		Action action = new Buy(this.assistantToBuy.getState(), token);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), assistantToBuy.getOwner());
@@ -142,11 +147,10 @@ private GameBoard gameBoard;
 		assertEquals(2, player2.getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(assistantToBuy));
 	}
-	*/
-    /*
+	
 	@Test
 	public void testApplyActionBuyBPTCheckChanges() throws Exception {
-		Action action = new Buy(this.bPTToBuy.getState(), 1);
+		Action action = new Buy(this.bPTToBuy.getState(), token);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), bPTToBuy.getOwner());
@@ -155,11 +159,10 @@ private GameBoard gameBoard;
 		assertEquals(8, player3.getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(bPTToBuy));
 	}
-	*/
-    /*
+	
 	@Test
 	public void testApplyActionBuyPoliticCardCheckChanges() throws Exception {
-		Action action = new Buy(this.cardToBuy.getState(), 1);
+		Action action = new Buy(this.cardToBuy.getState(), token);
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), cardToBuy.getOwner());
@@ -168,5 +171,4 @@ private GameBoard gameBoard;
 		assertEquals(5, player2.getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(cardToBuy));
 	}
-	*/
 }

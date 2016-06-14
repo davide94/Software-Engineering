@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
@@ -11,9 +12,9 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
+import java.util.*;
 
 public class SellAssistantTest {
 
@@ -26,6 +27,8 @@ public class SellAssistantTest {
 	private Player player3;
 	
 	private Assistant assistantToSell;
+	
+	private long token;
 	
 	private Market buildMarket(){
 		Market market = new Market();
@@ -90,11 +93,9 @@ public class SellAssistantTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		//player1.addAssistant(assistantToSell);
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco");
         gameBoard.start();
 		gameBoard.getCurrentPlayer().addAssistant(assistantToSell);
-		//gameBoard.getScheduler().setMarket(true);
         gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
         gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
 		gameBoard.getScheduler().regularActionPerformed();
@@ -113,24 +114,22 @@ public class SellAssistantTest {
 	public void testBuildActionWithPriceLessThan1ShouldThrowException(){
 		new SellAssistant(-3, 19);
 	}
-	/*
+	
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testTryToSellAssistantWithoutHavingItShouldThrowException() throws Exception {
 		gameBoard.getCurrentPlayer().takeAssistants(2);
-		Action action = new SellAssistant(5, 1);
+		Action action = new SellAssistant(5, token);
 		
 		action.apply(gameBoard);
 	}
-	*/
-    /*
+
 	@Test
 	public void testApplyActionCheckChanges() throws Exception {
-		Action action = new SellAssistant(4, 1);
+		Action action = new SellAssistant(4, token);
 		action.apply(gameBoard);
 		
 		assistantToSell.setPrice(4);
 		assertTrue(gameBoard.getMarket().getOnSale().contains(assistantToSell));
 		assertEquals(1, gameBoard.getCurrentPlayer().getAssistantsNumber());
 	}
-    */
 }
