@@ -123,7 +123,7 @@ public class ElectAsQuickActionTest {
 	
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingAssistantsShouldThrowAnException() throws Exception {
-		gameBoard.getCurrentPlayer().takeAssistants(3);
+		gameBoard.getCurrentPlayer().takeAssistants(1);
 		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("arancione")), 1);
 		
 		action.apply(gameBoard);
