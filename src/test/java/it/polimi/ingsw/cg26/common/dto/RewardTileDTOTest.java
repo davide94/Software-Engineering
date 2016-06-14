@@ -34,4 +34,12 @@ public class RewardTileDTOTest {
     public void testGetBonuses() throws Exception {
         assertEquals(tile.getBonuses(), bonuses);
     }
+    
+    @Test
+    public void testEquals() throws Exception {
+    	BonusDTO bonuses = new CardBonusDTO(new CoinBonusDTO(new EmptyBonusDTO(), 2), 3);
+    	RewardTileDTO tile = new RewardTileDTO(bonuses);
+    	
+    	assertTrue(this.tile.equals(tile));
+    }
 }

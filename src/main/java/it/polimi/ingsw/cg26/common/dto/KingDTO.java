@@ -16,8 +16,11 @@ public class KingDTO implements Serializable {
      * @param currentCity is a string that identifies the city where the king is
      * @throws NullPointerException if currentCity is null
      * @throws IllegalArgumentException if currentCity is empty
+     * @throws NullPointerException if the argument is null
      */
     public KingDTO(String currentCity) {
+    	if(currentCity == null)
+    		throw new NullPointerException();
         if (currentCity.isEmpty())
             throw new IllegalArgumentException();
         this.currentCity = currentCity;
@@ -36,8 +39,11 @@ public class KingDTO implements Serializable {
      * @param currentCity is a string that identifies a city
      * @throws NullPointerException if currentCity is null
      * @throws IllegalArgumentException if currentCity is empty
+     * @throws NullPointerException if the currentCity is null
      */
     public void setCurrentCity(String currentCity) {
+    	if(currentCity == null)
+    		throw new NullPointerException();
         if (currentCity.isEmpty())
             throw new IllegalArgumentException();
 		this.currentCity = currentCity;

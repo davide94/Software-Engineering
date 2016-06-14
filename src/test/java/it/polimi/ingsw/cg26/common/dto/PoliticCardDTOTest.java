@@ -34,4 +34,20 @@ public class PoliticCardDTOTest {
     public void testGetColor() throws Exception {
         assertEquals(card.getColor(), color);
     }
+    
+    @Test
+    public void testHashCodeEquals() throws Exception {
+    	PoliticCardDTO card = new PoliticCardDTO(new PoliticColorDTO("colorname"), 0, "playerName");
+    	
+    	assertEquals(card.hashCode(), this.card.hashCode());
+    	assertTrue(this.card.equals(card));
+    	assertFalse(this.card.equals(null));
+    }
+    
+    @Test
+    public void testToString() throws Exception {
+    	String string = "PoliticCard, " + color + ", price: 0, owner: playerName";
+    	
+    	assertEquals(string, card.toString());
+    }
 }

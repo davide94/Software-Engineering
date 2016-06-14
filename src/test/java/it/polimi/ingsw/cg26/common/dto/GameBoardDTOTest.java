@@ -3,6 +3,11 @@ package it.polimi.ingsw.cg26.common.dto;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.AssistantBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.NobilityBonusDTO;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,15 +93,40 @@ public class GameBoardDTOTest {
     public void testConstructorShouldFail9() throws Exception {
         new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, null);
     }
+    
+    @Test
+    public void testSetCurrentPlayer() throws Exception {
+    	PlayerDTO player = new PlayerDTO("Davide", 2, true, 2, 5, 2, 0, 0, 5, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    	board.setCurrentPlayer(player);
+    	
+    	assertEquals(player, board.getCurrentPlayer());
+    }
 
     @Test
     public void testGetPlayers() throws Exception {
         assertEquals(board.getPlayers(), players);
     }
+    
+    @Test
+    public void testSetPlayers() throws Exception {
+    	PlayerDTO player = new PlayerDTO("Marco", 1, false, 2, 5, 1, 1, 0, 3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    	List<PlayerDTO> players = new ArrayList<>();
+    	players.add(player);
+    	board.setPlayers(players);
+    	
+    	assertEquals(players, board.getPlayers());
+    }
 
     @Test
     public void testGetPoliticDeck() throws Exception {
         assertEquals(board.getPoliticDeck(), deck);
+    }
+    
+    @Test
+    public void testSetPoliticDeck() throws Exception {
+    	PoliticDeckDTO deck = new PoliticDeckDTO();
+    	board.setPoliticDeck(deck);
+    	assertEquals(deck, board.getPoliticDeck());
     }
 
     @Test
@@ -123,10 +153,32 @@ public class GameBoardDTOTest {
     public void testGetKingDeck() throws Exception {
         assertEquals(board.getKingDeck(), kingDeck);
     }
+    
+    @Test
+    public void testSetKingDeck() throws Exception {
+    	List<RewardTileDTO> tiles = new ArrayList<>();
+    	tiles.add(new RewardTileDTO(new CoinBonusDTO(new EmptyBonusDTO(), 3)));
+    	KingDeckDTO kingDeck = new KingDeckDTO(tiles);
+    	board.setKingDeck(kingDeck);
+    	
+    	assertEquals(kingDeck, board.getKingDeck());
+    }
 
     @Test
     public void testGetKingBalcony() throws Exception {
         assertEquals(board.getKingBalcony(), kingBalcony);
+    }
+    
+    @Test
+    public void testSetKingBalcony() throws Exception {
+    	List<CouncillorDTO> councillors = new ArrayList<>();
+    	councillors.add(new CouncillorDTO(new PoliticColorDTO("verde")));
+    	councillors.add(new CouncillorDTO(new PoliticColorDTO("blu")));
+    	councillors.add(new CouncillorDTO(new PoliticColorDTO("rosso")));
+    	BalconyDTO balcony = new BalconyDTO(councillors);
+    	board.setKingBalcony(balcony);
+    	
+    	assertEquals(balcony, board.getKingBalcony());
     }
 
     @Test
@@ -135,18 +187,60 @@ public class GameBoardDTOTest {
     }
 
     @Test
+    public void testSetRegions() throws Exception {
+    	List<RegionDTO> regions = new ArrayList<>();
+    	regions.add(new RegionDTO("Lombardia", new ArrayList<>(), new BusinessPermissionTileDeckDTO(new ArrayList<>()), new BalconyDTO(new ArrayList<>()), new EmptyBonusDTO()));
+    	regions.add(new RegionDTO("Veneto", new ArrayList<>(), new BusinessPermissionTileDeckDTO(new ArrayList<>()), new BalconyDTO(new ArrayList<>()), new EmptyBonusDTO()));
+    	board.setRegions(regions);
+    	
+    	assertEquals(regions, board.getRegions());
+    }
+    
+    @Test
     public void testGetNobilityTrack() throws Exception {
         assertEquals(board.getNobilityTrack(), nobilityTrack);
+    }
+    
+    @Test
+    public void testSetNobilityTrack() throws Exception {
+    	List<NobilityCellDTO> cells = new ArrayList<>();
+    	cells.add(new NobilityCellDTO(0, new CoinBonusDTO(new EmptyBonusDTO(), 2)));
+    	cells.add(new NobilityCellDTO(1, new AssistantBonusDTO(new EmptyBonusDTO(), 3)));
+    	NobilityTrackDTO track = new NobilityTrackDTO(cells);
+    	board.setNobilityTrack(track);
+    	
+    	assertEquals(track, board.getNobilityTrack());
     }
 
     @Test
     public void testGetKing() throws Exception {
         assertEquals(board.getKing(), king);
     }
+    
+    @Test
+    public void setKing() throws Exception {
+    	KingDTO king = new KingDTO("Roma");
+    	board.setKing(king);
+    	
+    	assertEquals(king, board.getKing());
+    	assertNotEquals(new KingDTO("Mialno"), board.getKing());
+    }
 
     @Test
     public void testGetMarket() throws Exception {
         assertEquals(board.getMarket(), market);
+    }
+    
+    @Test
+    public void testSetMarket() throws Exception {
+    	List<SellableDTO> onSale = new ArrayList<>();
+    	onSale.add(new AssistantDTO(2, "Marco"));
+    	onSale.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 4, "Luca"));
+    	onSale.add(new BusinessPermissionTileDTO(new ArrayList<>(), new NobilityBonusDTO(new EmptyBonusDTO(), 1), 5, "Davide"));
+    	MarketDTO market = new MarketDTO(onSale);
+    	board.setMarket(market);
+    	
+    	assertEquals(market, board.getMarket());
     }
 
     @Test

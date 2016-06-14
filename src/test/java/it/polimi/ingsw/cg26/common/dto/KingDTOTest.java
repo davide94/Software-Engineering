@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 /**
  *
  */
@@ -51,5 +53,17 @@ public class KingDTOTest {
     @Test
     public void testToString() throws Exception {
         king.toString();
+    }
+    
+    @Test
+    public void testHashCodeEquals() throws Exception {
+    	KingDTO king = new KingDTO("currentCityName");
+    	KingDTO differentKing = new KingDTO("Milano");
+    	
+    	assertEquals(king.hashCode(), this.king.hashCode());
+    	assertTrue(this.king.equals(king));
+    	assertFalse(this.king.equals(null));
+    	assertFalse(this.king.equals(new KingDeckDTO(new ArrayList<>())));
+    	assertFalse(this.king.equals(differentKing));
     }
 }
