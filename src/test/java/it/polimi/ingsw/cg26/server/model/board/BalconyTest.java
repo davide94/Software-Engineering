@@ -69,8 +69,10 @@ public class BalconyTest {
 	}
 	
 	
+	
+	
 	@Test
-	public void testCheckPoliticCards1() {
+	public void testCheckPoliticCardsIfIPass4RegularCards() {
 		
 		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
 		
@@ -103,7 +105,7 @@ public class BalconyTest {
 	
 	
 	@Test
-	public void testCheckPoliticCards2() {
+	public void testCheckPoliticCardsIfIPassOnly3RegularCards() {
 		
 		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
 		
@@ -124,6 +126,62 @@ public class BalconyTest {
 		b.elect(c4);
 		
 		assertTrue(b.checkPoliticCards(politicCards));
+				
+		
+	}
+	
+	
+	
+	
+	@Test
+	public void testCheckPoliticCardsIfIPassOnly2RegularCards() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		
+		PoliticCardDTO blackCard= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO whiteCard= new PoliticCardDTO(new PoliticColorDTO("bianco"), 0 , "Luca");
+		
+		politicCards.add(blackCard);
+		politicCards.add(whiteCard);
+		
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c2);
+		b.elect(c3);
+		b.elect(c4);
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+				
+	}
+	
+	
+	
+	
+	
+	  @Test
+      public void testCheckPoliticCardsIfIPassOnly1RegularCards() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		PoliticCardDTO bluCard= new PoliticCardDTO(new PoliticColorDTO("blu"), 0 , "Luca");
+		
+		
+	    politicCards.add(bluCard);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1);
+		b.elect(c2);
+		b.elect(c3);
+		b.elect(c4);
+		
+		assertTrue(b.checkPoliticCards(politicCards));
 		
 		
 		
@@ -134,7 +192,7 @@ public class BalconyTest {
 	
 	
 	@Test
-	public void testCheckPoliticCards3() {
+	public void testCheckPoliticCardsIfThereAre3CouncillorsWithTheSameColorInBalcony() {
 		
 		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
 		
@@ -167,7 +225,7 @@ public class BalconyTest {
 	
 	
 	@Test
-	public void testCheckPoliticCards4() {
+	public void testCheckPoliticCardsShouldBeFalseIfIPassAColorThatIsNotInBalcony() {
 		
 		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
 		
@@ -199,7 +257,7 @@ public class BalconyTest {
 	
 	
 	@Test (expected=IllegalArgumentException.class)
-	public void testCheckPoliticCards5() {
+	public void testCheckPoliticCardsIfIPassNoCards() {
 		
 		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
 		
@@ -215,6 +273,116 @@ public class BalconyTest {
 		
 		b.checkPoliticCards(politicCards);
 	
+		
+	}
+	
+	
+	
+
+	@Test
+	public void testCheckPoliticCardsIfIPass2MulticolorCardsAnd2RegularCards() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		
+		PoliticCardDTO blackCard= new PoliticCardDTO(new PoliticColorDTO("nero"), 0 , "Luca");
+		PoliticCardDTO blueCard= new PoliticCardDTO(new PoliticColorDTO("blu"), 0 , "Luca");
+		PoliticCardDTO jollyCard= new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0 , "Luca");
+		
+		
+		
+		
+		
+		politicCards.add(blackCard);
+		politicCards.add(jollyCard);
+		politicCards.add(jollyCard);
+		politicCards.add(blueCard);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1); //nero
+		b.elect(c2); //blu
+		b.elect(c3); //nero 
+		b.elect(c4); //bianco
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	@Test
+	public void testCheckPoliticCardsIfIPass3MulticolorCardsAnd1RegularCard() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		
+		
+		PoliticCardDTO blueCard= new PoliticCardDTO(new PoliticColorDTO("blu"), 0 , "Luca");
+		PoliticCardDTO jollyCard= new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0 , "Luca");
+		
+		
+		
+		
+		politicCards.add(jollyCard);
+		politicCards.add(jollyCard);
+		politicCards.add(blueCard);
+		politicCards.add(jollyCard);
+		
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1); //nero
+		b.elect(c2); //blu
+		b.elect(c3); //nero 
+		b.elect(c4); //bianco
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	@Test
+	public void testCheckPoliticCardsIfIPass4MulticolorCards() {
+		
+		Collection<PoliticCardDTO> politicCards= new LinkedList<>();
+		
+		
+		
+		PoliticCardDTO jollyCard= new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0 , "Luca");
+		
+		
+		
+	
+		politicCards.add(jollyCard);
+		politicCards.add(jollyCard);
+		politicCards.add(jollyCard);
+		politicCards.add(jollyCard);
+		
+		
+		
+		Balcony b=Balcony.createBalcony(4);
+		b.elect(c1); //nero
+		b.elect(c2); //blu
+		b.elect(c3); //nero 
+		b.elect(c4); //bianco
+		
+		assertTrue(b.checkPoliticCards(politicCards));
+		
+		
+		
+		
 		
 	}
 	

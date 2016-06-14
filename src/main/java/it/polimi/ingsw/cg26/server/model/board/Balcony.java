@@ -19,6 +19,15 @@ public class Balcony {
 
 	private Queue<Councillor> councillors;
 
+	
+	
+	/**
+	 * Create a Balcony
+	 * @param capacity of the balcony
+	 * @param councillors that are located on the balcony
+	 * @throws IllegalArgumentException if the capacity is less than 1
+     * @throws NullPointerException if councillors is null
+	 */
 	private Balcony(int capacity, Queue<Councillor> councillors) {
 		if (councillors == null)
 			throw new NullPointerException();
@@ -27,11 +36,20 @@ public class Balcony {
 		this.capacity = capacity;
 		this.councillors = councillors;
 	}
+	
+	
+	
 
 	public static Balcony createBalcony(int capacity) {
 		return new Balcony(capacity, new LinkedList<>());
 	}
-
+	
+	
+ 
+	/**
+	 * This method get the state of the balcony
+	 * @return balcony DTO that is a copy of the balcony and the councillors on the balcony
+	 */
 	public BalconyDTO getState() {
 		LinkedList<CouncillorDTO> councillorsState = new LinkedList<>();
 		for (Councillor c: councillors)
@@ -40,8 +58,10 @@ public class Balcony {
 	}
 
     /**
-     * @param
-     * @return
+     * elect a councillor on the balcony
+     * @param the councillor you want to elect
+     * @return the councillor that is dropped or null if the balcony is not full
+     * @throws NullPointerException if someone elect a null councillor
      */
     public Councillor elect(Councillor c) {
     	if (c == null)
@@ -52,6 +72,14 @@ public class Balcony {
 		return null;
     }
 
+    
+    
+    /**
+     * A comparison with a collection of cards that player is using and the color of the councillors on the balcony 
+     * @param requiredCards is a collection of Politic Cards DTO
+     * @return true if you pass a collection of cards that is compatible with the councillors on the balcony
+     * @throws IllegalArgumentException if you pass a collection of cards that is empty
+     */
 	public boolean checkPoliticCards(Collection<PoliticCardDTO> requiredCards) {
 		if (requiredCards.isEmpty())
     		throw new IllegalArgumentException();
@@ -83,6 +111,11 @@ public class Balcony {
 				'}';
 	}
 
+	
+	/**
+	 * This method get the councillors on the balcony
+	 * @return the collection of councillors on the balcony
+	 */
 	public Queue<Councillor> getCouncillors() {
 		return councillors;
 	}
