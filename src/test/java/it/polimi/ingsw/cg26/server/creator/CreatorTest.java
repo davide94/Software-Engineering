@@ -6,10 +6,6 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import java.time.Instant;
-
-import static org.junit.Assert.*;
-
 /**
  *
  */
@@ -20,15 +16,11 @@ public class CreatorTest {
 
     @Before
     public void setUp() throws Exception {
-        Instant before = Instant.now();
-
         DOMParserInterface parserInterface = new XMLAdapter();
+        Document document = parserInterface.parse("maps/test.xml", "maps/schema.xsd");
+        root = document.getDocumentElement();
 
-        Document document = parserInterface.parse("src/test/resources/configTest.xml", "src/main/resources/schema.xsd");
-
-        root = document.getFirstChild();
-
-        gameBoard = Creator.createGame("src/test/resources/configTest.xml");
+        gameBoard = Creator.createGame("maps/test.xml");
     }
 
     @Test

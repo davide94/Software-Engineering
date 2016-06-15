@@ -8,7 +8,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.time.Instant;
 import java.util.LinkedList;
 
 /**
@@ -29,14 +28,14 @@ public class Creator {
      * @param file is the path+name of the configuration file
      */
     public static GameBoard createGame(String file) throws ParserErrorException, BadInputFileException {
-
-        Instant before = Instant.now();
+        if (file == null)
+            throw new NullPointerException();
 
         DOMParserInterface parserInterface = new XMLAdapter();
 
-        Document document = parserInterface.parse(file, "src/main/resources/schema.xsd");
+        Document document = parserInterface.parse(file, "maps/schema.xsd");
 
-        return BoardCreator.createBoard(document.getFirstChild());
+        return BoardCreator.createBoard(document.getDocumentElement());
     }
 
     protected static Boolean hasChild(String name, Node root) {

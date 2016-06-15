@@ -17,7 +17,7 @@ public class SchedulerTest {
 
     @Before
     public void setUp() throws Exception {
-        GameBoard gameBoard = Creator.createGame("src/main/resources/config.xml");
+        GameBoard gameBoard = Creator.createGame("maps/1.xml");
         scheduler = gameBoard.getScheduler();
         scheduler.registerPlayer("Gigi");
         scheduler.registerPlayer("Ugo");

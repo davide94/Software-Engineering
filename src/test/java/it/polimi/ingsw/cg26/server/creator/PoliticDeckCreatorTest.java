@@ -9,13 +9,12 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -27,14 +26,9 @@ public class PoliticDeckCreatorTest {
 
     @Before
     public void setUp() throws Exception {
-        Instant before = Instant.now();
-
         DOMParserInterface parserInterface = new XMLAdapter();
-
-        Document document = parserInterface.parse("src/test/resources/configTest.xml", "src/main/resources/schema.xsd");
-
-        root = document.getFirstChild();
-
+        Document document = parserInterface.parse("maps/test.xml", "maps/schema.xsd");
+        root = document.getDocumentElement();
     }
 
     @Test (expected = NullPointerException.class)

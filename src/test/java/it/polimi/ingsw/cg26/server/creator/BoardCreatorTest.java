@@ -10,11 +10,8 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  *
@@ -26,12 +23,9 @@ public class BoardCreatorTest {
 
     @Before
     public void setUp() throws Exception {
-
         DOMParserInterface parserInterface = new XMLAdapter();
-
-        Document document = parserInterface.parse("src/test/resources/configTest.xml", "src/main/resources/schema.xsd");
-
-        Node root = document.getFirstChild();
+        Document document = parserInterface.parse("maps/test.xml", "maps/schema.xsd");
+        Node root = document.getDocumentElement();
 
         PoliticDeck politicDeck = PoliticDeckCreator.createDeck(root);
         List<Councillor> councillors = CouncillorsCreator.createCouncillors(root);
@@ -52,5 +46,4 @@ public class BoardCreatorTest {
     public void testBoardCreatorShouldThrowNullPointerException() throws Exception {
         BoardCreator.createBoard(null);
     }
-
 }

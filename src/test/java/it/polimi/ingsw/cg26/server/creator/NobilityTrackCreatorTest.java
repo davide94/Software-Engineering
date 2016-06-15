@@ -2,21 +2,16 @@ package it.polimi.ingsw.cg26.server.creator;
 
 import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
 import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.server.model.bonus.CoinBonus;
-import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
-import it.polimi.ingsw.cg26.server.model.bonus.MainActionBonus;
-import it.polimi.ingsw.cg26.server.model.bonus.VictoryBonus;
+import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import java.time.Instant;
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -28,13 +23,9 @@ public class NobilityTrackCreatorTest {
 
     @Before
     public void setUp() throws Exception {
-        Instant before = Instant.now();
-
         DOMParserInterface parserInterface = new XMLAdapter();
-
-        Document document = parserInterface.parse("src/test/resources/configTest.xml", "src/main/resources/schema.xsd");
-
-        root = document.getFirstChild();
+        Document document = parserInterface.parse("maps/test.xml", "maps/schema.xsd");
+        root = document.getDocumentElement();
 
         politicDeck = new PoliticDeck(new LinkedList<>());
     }

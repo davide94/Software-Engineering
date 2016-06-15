@@ -21,6 +21,8 @@ public class BoardCreator {
     }
 
     protected static GameBoard createBoard(Node root) throws BadInputFileException {
+        if (root == null)
+            throw new NullPointerException();
 
         PoliticDeck politicDeck = PoliticDeckCreator.createDeck(root);
 

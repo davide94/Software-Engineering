@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.creator;
 
+import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
@@ -17,11 +18,14 @@ public class PoliticDeckCreator {
         // Nothing to do here
     }
 
-    protected static PoliticDeck createDeck(Node root) {
+    protected static PoliticDeck createDeck(Node root) throws BadInputFileException {
         if (root == null)
             throw new NullPointerException();
 
         Node politicRoot = Creator.getNode(root, "politic");
+
+        if (politicRoot == null)
+            throw new BadInputFileException();
 
         LinkedList<PoliticCard> cards = new LinkedList<>();
         for (Node node: Creator.getNodes(politicRoot, "color")) {

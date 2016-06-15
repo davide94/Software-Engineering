@@ -62,7 +62,7 @@ public class Server {
 
     private void newGame() throws BadInputFileException, ParserErrorException {
         clients = new LinkedHashMap<>();
-        model = Creator.createGame("src/main/resources/config.xml");
+        model = Creator.createGame("maps/1.xml");
         scheduler = model.getScheduler();
         this.controller = new Controller(model);
         log.info("New match created.");
