@@ -10,6 +10,11 @@ public class BuyCommand implements Command {
 	
 	private final SellableDTO sellable;
 	
+	/**
+	 * Constructs a command for Buy a Sellable of the market
+	 * @param sellable the sellable that the player wants to buy
+	 * @throws NullPointerException if the tile is null
+	 */
 	public BuyCommand(SellableDTO sellable) {
 		if(sellable == null)
 			throw new NullPointerException();
