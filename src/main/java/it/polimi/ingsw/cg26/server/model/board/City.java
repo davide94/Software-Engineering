@@ -12,23 +12,49 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 
- */
+
 public class City {
 
     private Double distance = Double.POSITIVE_INFINITY;
 
+    /**
+     * the name of the city
+     */
     private String name;
     
+    
+    /**
+     * the color of the city
+     */
     private CityColor color;
 
+    
+    /**
+     * the list of emporiums that have been built in the city by the players
+     */
     private List<Emporium> emporiums;
     
+    
+    /**
+     * the bonus that every player takes if he builds an emporium in the city
+     */
     private Bonus bonuses;
     
+    /**
+     * the list of cities that are linked directly with the city
+     */
     private List<City> nearCities;
 
+    
+    /**
+     * Default constructor
+     * @param name of the city
+     * @param color of the city
+     * @param bonuses that every player takes if he builds an emporium in the city
+     * @param emporiums is the list of emporiums that have been built in the city by the players
+     * @param nearCities is the list of cities that are linked directly with the city
+     * @throws NullPointerException if one of the parameters is null
+     */
     private City(String name, CityColor color, Bonus bonuses, List<Emporium> emporiums, List<City> nearCities) {
         if (name == null || color == null || bonuses == null || emporiums == null || nearCities == null)
             throw new NullPointerException();
@@ -39,10 +65,25 @@ public class City {
         this.nearCities = nearCities;
     }
 
+    
+    /**
+     * Create a city
+     * @param name of the city
+     * @param color of the city
+     * @param bonuses that every player takes if he builds an emporium in the city
+     * @param emporiums is the list of emporiums that have been built in the city by the players
+     * @param nearCities is the list of cities that are linked directly with the city
+     * @return a new city
+     */
     public static City createCity(String name, CityColor color, Bonus bonuses) {
         return new City(name, color, bonuses, new ArrayList<>(), new LinkedList<>());
     }
 
+    
+    /**
+     * Create a city DTO
+     * @return the DTO of a city
+     */
     public CityDTO getState() {
         LinkedList<String> nearCitiesState = nearCities.stream().map(City::getName)
                 .collect(Collectors.toCollection(LinkedList::new));
@@ -51,8 +92,13 @@ public class City {
         return new CityDTO(name, color.getState(), bonuses.getState(), emporiumsState, nearCitiesState);
     }
 
+    
+    
     /**
-     * @param
+     * Build an emporium in the city
+     * @param p is the player that wants to build an emporium in city
+     * @throws ExistingEmporiumException if a player has already built an emporium in the city
+     * @throws NoRemainingCardsExceptionif there are more politic cards in the deck
      */
     public void build(Player p) throws ExistingEmporiumException, NoRemainingCardsException {
     	for(Emporium x:emporiums)
@@ -62,33 +108,57 @@ public class City {
         takeRecursivelyBonus(p);
     }
     
-        
+    
+    /**
+     * Get the name of the city
+     * @return the name of the city
+     */
     public String getName() {
         return this.name;
     }
 
     
-    
+    /**
+     * Get the color of the city
+     * @return the color of the city
+     */
     public CityColor getColor() {
 		return color;
 	}
 
 
-   
+   /**
+    * Get the collecction of emporium that have been built in the city
+    * @return the emporiums built in the city
+    */
 	public List<Emporium> getEmporiums() {
 		return emporiums;
 	}
 
 
-	
+	/**
+	 * Get the bonus that every player takes if he builds an emporium in the city
+	 * @return the bonus that every player takes if he builds an emporium in the city
+	 */
 	public Bonus getBonuses() {
 		return bonuses;
 	}
 
+	
+	/**
+	 * Get the number of emporiums in the city
+	 * @return the number of emporiums in the city
+	 */
     public int getEmporiumsNumber() {
         return this.emporiums.size();
     }
 
+    
+    /**
+     * Check if a player has an emporium in the city
+     * @param p is a player of the game
+     * @return true if p has an emporium in the city else false
+     */
     public boolean hasEmporium(Player p) {
         for (Emporium e: this.emporiums)
             if (e.getPlayer().equals(p))
@@ -98,23 +168,26 @@ public class City {
 	
 
 	/**
-     * @param
-     */
+	 * Apply the bonus to a player
+	 * @param p is a player of the game
+	 * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
+	 */
     private void takeBonus(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
     }
     
     /**
-     * 
-     * @return
+     * Get the list of cities linked with the city
+     * @return the list of cities linked with the city
      */
     public List<City> getNearCities() {
 		return nearCities;
 	}
 
 	/**
-	 * 
-	 * @param p
+	 * Apply the bonus of the cities linked with city to a player
+	 * @param p is a player of the game 
+	 * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
 	 */
     private void takeRecursivelyBonus(Player p) throws NoRemainingCardsException {
         LinkedList<City> queue = new LinkedList<>();
@@ -130,9 +203,14 @@ public class City {
             }
         }
     }
+    
+    
+    
 
     /**
-     * @param c this method add a city to nearCities
+     * Add a city to nearCities
+     * @param c is a city that has to be added to nearCities
+     * @throws NullPointerException if c is null
      */
     public void link(City c){
     	if (c == null)
@@ -142,7 +220,7 @@ public class City {
     }
 
     /**
-     * 
+     * Set the initial value of distance 
      */
     private void initDistance() {
         if (this.distance.isInfinite())

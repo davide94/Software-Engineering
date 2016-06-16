@@ -3,18 +3,19 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 
-/**
- * 
- */
+
 public class Councillor {
 
     /**
-     *
+     *the color of the councillor
      */
     private PoliticColor color;
 
+    
     /**
      * Default constructor
+     * @param color is the color of the councillor
+     * @throws NullPointerException if color is null
      */
     private Councillor(PoliticColor color) {
         if (color == null)
@@ -22,16 +23,30 @@ public class Councillor {
         this.color = color;
     }
 
+    
+    /**
+     * Create a councillor
+     * @param color is the color of the councillor
+     * @return a new councillor
+     */
     public static Councillor createCouncillor(PoliticColor color) {
         return new Councillor(color);
     }
 
+    
+    /**
+     * Create a councillor DTO
+     * @return the DTO of the councillor
+     */
     public CouncillorDTO getState() {
         return new CouncillorDTO(color.getState());
     }
 
+    
+    
     /**
-     *
+     * Get the color of the councillor
+     * @return the color of the councillor
      */
     public PoliticColor getColor() {
         return this.color;

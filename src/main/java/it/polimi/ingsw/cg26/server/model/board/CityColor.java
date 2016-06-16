@@ -2,18 +2,19 @@ package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 
-/**
- * 
- */
+
 public class CityColor {
 
 	/**
-	 *
+	 *The name of the color
 	 */
 	private String color;
 
+	
 	/**
-	 *
+	 * Default constructor
+	 * @param color is the name of the color
+	 * @throws NullPointerException if color is null
 	 */
 	private CityColor(String color) {
 		if (color == null)
@@ -21,16 +22,28 @@ public class CityColor {
 		this.color = color;
 	}
 
+	
+	/**
+	 * Create a city color
+	 * @param color is the name of the color
+	 * @return a new city color
+	 */
 	public static CityColor createCityColor(String color) {
 		return new CityColor(color);
 	}
 
+	
+	/**
+	 * Create a city color DTO 
+	 * @return the DTO of the city color
+	 */
 	public CityColorDTO getState() {
 		return new CityColorDTO(color);
 	}
 
 	/**
-     * @return
+	 * Get the name of the color
+     * @return the name of the color
      */
     public String getColor() {
         return this.color;
