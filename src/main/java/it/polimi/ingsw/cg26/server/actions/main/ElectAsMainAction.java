@@ -21,6 +21,7 @@ public class ElectAsMainAction extends ElectRegion {
 	}
 	
 	/**
+	 * @param gameBoard is the board
 	 * @throws NoRemainingActionsException if the player has no more remaining actions to do
 	 */
 	@Override

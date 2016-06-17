@@ -3,18 +3,17 @@ package it.polimi.ingsw.cg26.server.model.market;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
-/**
- * 
- */
+
+
 public abstract class Sellable {
 
     /**
-     *
+     *The cost of the object
      */
     private int price;
 
     /**
-     *
+     *The owner of the object
      */
     private Player owner;
 
@@ -27,6 +26,7 @@ public abstract class Sellable {
     public abstract SellableDTO getState();
 
     /**
+     * Get the price
 	 * @return the price
 	 */
 	public int getPrice() {
@@ -34,7 +34,9 @@ public abstract class Sellable {
 	}
 
 	/**
-	 * @param price the price to set
+	 * Set the price
+	 * @param price
+	 * @throws IllegalArgumentException if the price is negative
 	 */
 	public void setPrice(int price) {
 		if (price < 0)
@@ -43,6 +45,7 @@ public abstract class Sellable {
 	}
 
 	/**
+	 * Get the owner
 	 * @return the owner
 	 */
 	public Player getOwner() {
@@ -50,6 +53,7 @@ public abstract class Sellable {
 	}
 
 	/**
+	 * Set the owner
 	 * @param owner the owner to set
 	 */
 	public void setOwner(Player owner) {

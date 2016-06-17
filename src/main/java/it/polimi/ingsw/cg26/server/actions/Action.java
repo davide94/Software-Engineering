@@ -11,9 +11,7 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 import java.util.List;
 
-/**
- *
- */
+
 public abstract class Action {
 
     private final long token;
@@ -25,6 +23,11 @@ public abstract class Action {
         this.token = token;
     }
 
+    
+    /**
+     * Get the token of the player
+     * @return token
+     */
     public long getToken() {
         return token;
     }

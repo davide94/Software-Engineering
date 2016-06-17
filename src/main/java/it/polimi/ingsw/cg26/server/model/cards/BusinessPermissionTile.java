@@ -67,14 +67,30 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
+    
+    /**
+     * Get the cities on the BPT
+     * @return the cities on the BPT
+     */
     public Collection<City> getCities() {
         return new LinkedList<>(cities);
     }
 
+    
+    /**
+     * Apply the bonus to the player
+     * @param p is the player that should receive the bonus
+     * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
+     */
     public void getReward(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
     }
     
+    
+    /**
+     * Get the bonuses of the BPT
+     * @return the bonuses of the BPT
+     */
     public Bonus getBonuses(){
     	return this.bonuses;
     }
@@ -87,6 +103,10 @@ public class BusinessPermissionTile extends Sellable {
     	this.getOwner().addPermissionTile(this);
     }
     
+    
+    /**
+     * Add the BPT to the new player
+     */
     @Override
 	public void giveToNewOwner(Player player){
     	player.addPermissionTile(this);

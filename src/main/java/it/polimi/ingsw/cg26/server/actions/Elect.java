@@ -27,8 +27,10 @@ public abstract class Elect extends Action {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Search the real councillor in the pool that has to match with the councillor DTO
+	 * @param councillorsPool is the pool of councillors that are not in any balcony
+	 * @return the real councillor
+	 * @throws CouncillorNotFoundException if the real councillor is not present in pool councillors
 	 */
 	public Councillor getRealCouncillorFromPool(Collection<Councillor> councillorsPool) throws CouncillorNotFoundException {
 		for (Councillor c: councillorsPool) {
