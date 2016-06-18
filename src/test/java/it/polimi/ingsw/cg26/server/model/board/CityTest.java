@@ -77,7 +77,7 @@ public class CityTest {
 	    }
 	 
 	 
-	 
+	 @Test
 	 public void testTakeBonusesOfCityC() throws Throwable {
 		 Bonus bonusesA=new NobilityBonus(new CoinBonus(new EmptyBonus(), 5), 1);
 		 City cityA= City.createCity("Napoli", color1, bonusesA);
@@ -105,7 +105,7 @@ public class CityTest {
 		 
 	 }
 	 
-	 
+	 @Test
 	 public void testTakeBonusesOfCityBandCityCLinkedWithB() throws Throwable {
 		 Bonus bonusesA = new NobilityBonus(new CoinBonus(new EmptyBonus(), 5), 1);
 		 City cityA= City.createCity("Napoli", color1, bonusesA);
