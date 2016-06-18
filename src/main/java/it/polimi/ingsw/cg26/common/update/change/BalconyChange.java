@@ -11,8 +11,14 @@ public class BalconyChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = 9200814381675839335L;
 
+	/**
+	 * The new Balcony to set
+	 */
 	private BalconyDTO balconyDTO;
 	
+	/**
+	 * The Region of the Balcony to set
+	 */
 	private RegionDTO regionDTO;
 	
 	/**

@@ -18,6 +18,8 @@ public class MarketChange extends ChangeDecorator {
 	 */
 	public MarketChange(Change decoratedChange, MarketDTO marketDTO) {
 		super(decoratedChange);
+		if(marketDTO == null)
+			throw new NullPointerException();
 		this.marketDTO = marketDTO;
 	}
 	

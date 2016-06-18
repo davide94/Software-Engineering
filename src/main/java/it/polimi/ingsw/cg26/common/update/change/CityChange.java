@@ -11,6 +11,9 @@ public class CityChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = 5382493602096067408L;
 
+	/**
+	 * The new City to set
+	 */
 	private CityDTO cityDTO;
 	
 	/**

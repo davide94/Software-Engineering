@@ -12,6 +12,9 @@ public class PlayersChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = -9080677273453131329L;
 
+	/**
+	 * The new Player State to set
+	 */
 	private PlayerDTO playerDTO;
 	
 	/**

@@ -13,6 +13,9 @@ public class LocalPlayerChange extends ChangeDecorator {
 
     private static final long serialVersionUID = 8457704269752814158L;
 
+    /**
+     * The new local player to set
+     */
     private final PlayerDTO localPlayer;
 
     /**

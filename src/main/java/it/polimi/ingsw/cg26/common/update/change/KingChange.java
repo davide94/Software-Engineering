@@ -10,6 +10,9 @@ public class KingChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = 5707210211297999062L;
 
+	/**
+	 * The new King to set
+	 */
 	private KingDTO kingDTO;
 	
 	/**

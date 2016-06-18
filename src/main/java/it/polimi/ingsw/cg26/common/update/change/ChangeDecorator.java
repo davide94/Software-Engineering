@@ -9,6 +9,9 @@ public abstract class ChangeDecorator implements Change {
 
 	private static final long serialVersionUID = 3146183584551937856L;
 
+	/**
+	 * The change that has to be decorated
+	 */
 	private Change decoratedChange;
 	
 	public ChangeDecorator(Change decoratedChange) {

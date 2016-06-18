@@ -13,6 +13,9 @@ public class FullStateChange extends ChangeDecorator {
 
     private static final long serialVersionUID = -6556639578792576624L;
 
+    /**
+     * The new Full State to set
+     */
     private GameBoardDTO state;
 
     /**

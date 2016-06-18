@@ -12,6 +12,9 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = 2109057430783266087L;
 
+	/**
+	 * The new Councillor Pool to set
+	 */
 	private  Collection<CouncillorDTO> councillorsPoolState;
 	
 	/**

@@ -10,6 +10,9 @@ public class CurrentPlayerChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = -7382652511433362486L;
 
+	/**
+	 * The new Current Player to set
+	 */
 	private PlayerDTO currentPlayer;
 	
 	/**

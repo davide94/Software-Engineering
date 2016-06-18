@@ -10,6 +10,9 @@ public class KingBalconyChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = -2091081956592374355L;
 
+	/**
+	 * The new King Balcony to set
+	 */
 	private BalconyDTO kingBalcony;
 	
 	/**

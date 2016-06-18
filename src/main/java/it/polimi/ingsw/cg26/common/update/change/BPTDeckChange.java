@@ -11,8 +11,14 @@ public class BPTDeckChange extends ChangeDecorator {
 
 	private static final long serialVersionUID = 4492908129334448776L;
 
+	/**
+	 * The new BPT deck to set
+	 */
 	private BusinessPermissionTileDeckDTO bPTDeckState;
 	
+	/**
+	 * The Region of the BPT deck to set
+	 */
 	private RegionDTO regionDTO;
 	
 	/**
