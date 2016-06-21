@@ -12,7 +12,7 @@ public class GUI extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/GUI.fxml"));
 		
-		Scene scene = new Scene(root, 1150, 1000);
+		Scene scene = new Scene(root, 1432, 952);
 		
 		primaryStage.setTitle("Council Of Four");
 		primaryStage.setScene(scene);
