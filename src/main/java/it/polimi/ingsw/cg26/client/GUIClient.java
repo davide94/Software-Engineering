@@ -9,11 +9,13 @@ import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -73,7 +75,7 @@ public class GUIClient extends Application {
 
         AnchorPane root = new AnchorPane();
 
-        root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
+        root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.jpg") + ");" +
                       "-fx-background-position: center;" +
                       "-fx-background-size: 100% 100%;");
 
@@ -112,7 +114,6 @@ public class GUIClient extends Application {
                 this.ip = ip;
             }
         }
-
 
         Dialog<Conf> dialog = new Dialog<>();
         dialog.setTitle("Welcome to Council of Four");
@@ -186,7 +187,6 @@ public class GUIClient extends Application {
                 result.get().ip = res.get();
             }
         }
-
     }
 
     private OutView startSocketClient(String ip, int port, String name) throws IOException, ClassNotFoundException {
@@ -255,13 +255,13 @@ public class GUIClient extends Application {
         AnchorPane.setTopAnchor(pane, y * root.getHeight());
         pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
 
-        DropShadow ds = new DropShadow();
-        ds.setOffsetY(3.0f);
-        ds.setColor(Color.BLACK);
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(2.0);
+        shadow.setColor(Color.BLACK);
 
         Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight());
         Label nameLabel = new Label(city.getName().substring(0, 1).toUpperCase() + city.getName().substring(1));
-        //nameLabel.setEffect(ds);
+        nameLabel.setEffect(shadow);
         nameLabel.setFont(goudyMedieval);
         nameLabel.setTextFill(Color.rgb(137, 135, 143));
         nameLabel.setRotate(45.0);
@@ -306,25 +306,29 @@ public class GUIClient extends Application {
     }
 
     private void constructActionsPane(Pane root) {
-        AnchorPane actionsPane = new AnchorPane();
-        root.getChildren().add(actionsPane);
-        AnchorPane.setTopAnchor(actionsPane, 50.0);
-        AnchorPane.setRightAnchor(actionsPane, 50.0);
-        actionsPane.setPrefWidth(400.0);
-        actionsPane.setPrefHeight(310.0);
-        actionsPane.setVisible(false);
-        actionsPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actions.jpg") + ");" +
-                "-fx-background-position: center;" +
-                "-fx-background-size: 100% 100%;");
-        actionsPane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> actionsPane.setVisible(false));
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(3.0f);
+        shadow.setRadius(50.0);
+        shadow.setColor(Color.BLACK);
+
+        AnchorPane pane = new AnchorPane();
+        pane.setEffect(shadow);
+        AnchorPane.setTopAnchor(pane, 50.0);
+        AnchorPane.setRightAnchor(pane, 50.0);
+        pane.setPrefWidth(400.0);
+        pane.setPrefHeight(310.0);
+        pane.setVisible(false);
+        pane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actions.jpg") + ");" +
+                      "-fx-background-position: center;" +
+                      "-fx-background-size: 100% 100%;");
+        pane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> pane.setVisible(false));
 
         Pane showHidePane = new Pane();
-        root.getChildren().add(showHidePane);
-        AnchorPane.setTopAnchor(showHidePane, 5.0);
-        AnchorPane.setRightAnchor(showHidePane, 5.0);
+        AnchorPane.setTopAnchor(showHidePane, 50.0);
+        AnchorPane.setRightAnchor(showHidePane, 50.0);
         showHidePane.setPrefSize(20.0, 20.0);
         showHidePane.setStyle("-fx-background-color: azure");
-        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> actionsPane.setVisible(true));
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
 
         Button p1 = new Button();
         p1.setPrefWidth(200);
@@ -384,15 +388,91 @@ public class GUIClient extends Application {
         AnchorPane.setRightAnchor(s1, 0.0);
         AnchorPane.setBottomAnchor(s1, 180.0);
 
-        actionsPane.getChildren().addAll(p1, p2, p3, p4, s1, s2, s3, s4);
+        pane.getChildren().addAll(p1, p2, p3, p4, s1, s2, s3, s4);
+        root.getChildren().add(showHidePane);
+        root.getChildren().add(pane);
     }
 
     private void constructStatePane(Pane root) {
-        // TODO: implement
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(3.0f);
+        shadow.setRadius(50.0);
+        shadow.setColor(Color.BLACK);
+
+        ScrollPane scrollPane = new ScrollPane();
+        GridPane pane = new GridPane();
+        AnchorPane.setTopAnchor(scrollPane, 50.0);
+        AnchorPane.setLeftAnchor(scrollPane, 50.0);
+        scrollPane.setPrefWidth(400.0);
+        scrollPane.setPrefHeight(root.getHeight() - 100.0);
+        scrollPane.setVisible(false);
+        scrollPane.setEffect(shadow);
+        scrollPane.setStyle("-fx-background-color: azure");
+        scrollPane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> scrollPane.setVisible(false));
+
+        Pane showHidePane = new Pane();
+        AnchorPane.setTopAnchor(showHidePane, 50.0);
+        AnchorPane.setLeftAnchor(showHidePane, 50.0);
+        showHidePane.setPrefSize(20.0, 20.0);
+        showHidePane.setStyle("-fx-background-color: azure");
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> scrollPane.setVisible(true));
+
+        pane.add(new Label("You: "), 0, 0);
+        pane.add(createPlayerPane(scrollPane, model.getLocalPlayer()), 1, 1);
+        pane.add(new Label("Other Players: "), 0, 2);
+
+        scrollPane.setContent(pane);
+        root.getChildren().add(showHidePane);
+        root.getChildren().add(scrollPane);
+    }
+
+    private Pane createPlayerPane(Node root, PlayerDTO player) {
+        GridPane playerPane = new GridPane();
+        playerPane.add(new Label("Name: "), 1, 1);
+        playerPane.add(new Label(player.getName()), 2, 1);
+        playerPane.add(new Label("State: "), 1, 2);
+        playerPane.add(new Label(player.isOnline()? "online" : "offline"), 2, 2);
+        playerPane.add(new Label("Victory Points number: "), 1, 3);
+        playerPane.add(new Label(Integer.toString(player.getVictoryPoints())), 2, 3);
+        playerPane.add(new Label("Coins number: "), 1, 4);
+        playerPane.add(new Label(Integer.toString(player.getCoins())), 2, 4);
+        playerPane.add(new Label("Position in Nobility Track: "), 1, 5);
+        playerPane.add(new Label(Integer.toString(player.getNobilityCell())), 2, 5);
+        playerPane.add(new Label("Assistants number: "), 1, 6);
+        playerPane.add(new Label(Integer.toString(player.getAssistantsNumber())), 2, 6);
+        playerPane.add(new Label("Remaining Main Actions: "), 1, 7);
+        playerPane.add(new Label(Integer.toString(player.getRemainingMainActions())), 2, 7);
+        playerPane.add(new Label("Remaining Quick Actions: "), 1, 8);
+        playerPane.add(new Label(Integer.toString(player.getRemainingQuickActions())), 2, 8);
+        // TODO: remaining things
+        return playerPane;
     }
 
     private void constructChatPane(Pane root) {
-        // TODO: implement
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(3.0f);
+        shadow.setRadius(50.0);
+        shadow.setColor(Color.BLACK);
+
+        AnchorPane pane = new AnchorPane();
+        AnchorPane.setBottomAnchor(pane, 50.0);
+        AnchorPane.setRightAnchor(pane, 50.0);
+        pane.setPrefWidth(400.0);
+        pane.setPrefHeight(root.getHeight() / 2.0);
+        pane.setVisible(false);
+        pane.setEffect(shadow);
+        pane.setStyle("-fx-background-color: azure");
+        pane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> pane.setVisible(false));
+
+        Pane showHidePane = new Pane();
+        AnchorPane.setBottomAnchor(showHidePane, 50.0);
+        AnchorPane.setRightAnchor(showHidePane, 50.0);
+        showHidePane.setPrefSize(20.0, 20.0);
+        showHidePane.setStyle("-fx-background-color: azure");
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
+
+        root.getChildren().add(showHidePane);
+        root.getChildren().add(pane);
     }
 
     private void electAsMainAction() {
