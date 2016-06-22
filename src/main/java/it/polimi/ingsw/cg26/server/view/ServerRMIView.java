@@ -38,7 +38,7 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
             try {
                 throw e.getCause();
             } catch (EOFException e1) {
-                log.error("Client disconnected.", e);
+                log.error("CLIClient disconnected.", e);
                 notifyObservers(new Staccah(token, this));
             } catch (Throwable throwable) {
                 log.error("Error sending update with RMI.", e);
@@ -61,7 +61,7 @@ public class ServerRMIView extends View implements ServerRMIViewInterface {
         try {
             return client.checkConnection();
         } catch (RemoteException e) {
-            log.error("Client disconnected.", e);
+            log.error("CLIClient disconnected.", e);
             return false;
         }
     }

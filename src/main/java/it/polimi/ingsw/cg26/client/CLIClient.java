@@ -29,9 +29,9 @@ import java.util.concurrent.Executors;
 /**
  *
  */
-public class Client {
+public class CLIClient {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final static String DEFAULT_IP = "localhost";
 
@@ -47,7 +47,7 @@ public class Client {
 
     private Controller controller;
 
-    public Client() {
+    public CLIClient() {
         executor = Executors.newCachedThreadPool();
         model = new Model();
         controller = new Controller(model);
@@ -117,7 +117,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Client client = new Client();
+        CLIClient client = new CLIClient();
         client.startClient();
     }
 }

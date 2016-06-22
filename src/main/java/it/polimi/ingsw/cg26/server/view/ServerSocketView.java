@@ -61,7 +61,7 @@ public class ServerSocketView extends View {
                 }
 
             } catch (EOFException e) {
-                log.error("Client disconnected", e);
+                log.error("CLIClient disconnected", e);
                 connectionActive = false;
                 if (matchStarted)
                     notifyObservers(new Staccah(token, this));
