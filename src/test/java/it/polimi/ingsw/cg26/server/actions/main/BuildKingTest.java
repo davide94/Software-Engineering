@@ -93,7 +93,7 @@ public class BuildKingTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
-		token = gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.start();
 	}
 	

@@ -3,6 +3,9 @@ package it.polimi.ingsw.cg26.server;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.server.controller.Controller;
 import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
@@ -10,6 +13,7 @@ import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerSocketView;
@@ -141,17 +145,21 @@ public class Server {
 
         String name = (String)o;
 
-        long token = 0;
+        Player player;
         try {
-            token = model.registerPlayer(name);
+            player = model.registerPlayer(name);
         } catch (NoRemainingCardsException e) {
             log.error("Cannot create player because there are no politic cards remaining.", e);
             // TODO: notify client that player cannot be created
+            return;
         }
-        ServerSocketView view = new ServerSocketView(socket, socketIn, socketOut, token);
+        new FullStateChange(new BasicChange(), model.getState()).sendSocket(socketOut, 0);
+        new LocalPlayerChange(new BasicChange(), player.getFullState()).sendSocket(socketOut, 0);
+
+        ServerSocketView view = new ServerSocketView(socket, socketIn, socketOut, player.getToken());
         executor.submit(view);
-        clients.put(token, view);
-        log.info("New player registered on Socket (" + token + ")");
+        clients.put(player.getToken(), view);
+        log.info("New player registered on Socket (" + player.getToken() + ")");
 
         if (clients.size() == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
@@ -164,17 +172,21 @@ public class Server {
     }
 
     public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
-        long token = 0;
+        Player player;
         try {
-            token = model.registerPlayer(name);
+            player = model.registerPlayer(name);
         } catch (NoRemainingCardsException e) {
             log.error("Cannot create player because there are no politic cards remaining.", e);
             // TODO: notify client that player cannot be created
+            throw new RemoteException();
         }
-        ServerRMIView view = new ServerRMIView(client, token);
+
+        new FullStateChange(new BasicChange(), model.getState()).sendRMI(client, 0);
+        new LocalPlayerChange(new BasicChange(), player.getFullState()).sendRMI(client, 0);
+        ServerRMIView view = new ServerRMIView(client, player.getToken());
         executor.submit(view);
-        clients.put(token, view);
-        log.info("New player registered on RMI (" + token + ")");
+        clients.put(player.getToken(), view);
+        log.info("New player registered on RMI (" + player.getToken() + ")");
 
         if (clients.size() == 2) {
             new java.util.Timer().schedule(new java.util.TimerTask() {
@@ -194,5 +206,4 @@ public class Server {
         server.startRMI();
         server.startSocket();
     }
-
 }

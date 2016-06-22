@@ -13,9 +13,10 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class BuyTest {
 
@@ -105,7 +106,7 @@ private GameBoard gameBoard;
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
-		token = gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		//gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
 		gameBoard.start();

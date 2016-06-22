@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import javafx.application.Application;
@@ -14,10 +16,13 @@ import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -31,7 +36,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -59,6 +64,8 @@ public class GUIClient extends Application {
     private Model model;
 
     private Controller controller;
+
+    private Map<String, Pane> citiesPanes = new LinkedHashMap<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -157,6 +164,7 @@ public class GUIClient extends Application {
         executor = Executors.newCachedThreadPool();
         model = new Model();
         controller = new Controller(model);
+        executor.submit(controller);
 
         while (true) {
             try {
@@ -184,15 +192,17 @@ public class GUIClient extends Application {
     private OutView startSocketClient(String ip, int port, String name) throws IOException, ClassNotFoundException {
         Socket socket = new Socket(ip, port);
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+
+        ClientSocketInView inView = new ClientSocketInView(inputStream);
+        inView.registerObserver(controller);
+        executor.submit(inView);
+
         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 
         log.info("Connection created, waiting to start...");
 
         outputStream.writeObject(name);
 
-        ClientSocketInView inView = new ClientSocketInView(inputStream);
-        inView.registerObserver(controller);
-        executor.submit(inView);
         return new ClientSocketOutView(outputStream);
     }
 
@@ -211,44 +221,88 @@ public class GUIClient extends Application {
     }
 
     private void constructCities(Pane root) {
+        while (model.getRegions() == null)
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        List<CityDTO> cities = new LinkedList<>();
+        cities.addAll(model.getRegions().get(0).getCities());
+        cities.addAll(model.getRegions().get(1).getCities());
+        cities.addAll(model.getRegions().get(2).getCities());
 
-        Pane c1 = createCity(root, 0.050, 0.060);
-        Pane c2 = createCity(root, 0.035, 0.240);
-        Pane c3 = createCity(root, 0.210, 0.110);
-        Pane c4 = createCity(root, 0.200, 0.270);
-        Pane c5 = createCity(root, 0.100, 0.380);
-        Pane c6 = createCity(root, 0.350, 0.060);
-        Pane c7 = createCity(root, 0.335, 0.240);
-        Pane c8 = createCity(root, 0.400, 0.380);
-        Pane c9 = createCity(root, 0.510, 0.110);
-        Pane c10 = createCity(root, 0.500, 0.270);
-        Pane c11 = createCity(root, 0.700, 0.060);
-        Pane c12 = createCity(root, 0.680, 0.240);
-        Pane c13 = createCity(root, 0.680, 0.400);
-        Pane c14 = createCity(root, 0.810, 0.150);
-        Pane c15 = createCity(root, 0.800, 0.350);
-
-        root.getChildren().addAll(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15);
+        createCity(root, 0.050, 0.060, cities.get(0));
+        createCity(root, 0.035, 0.240, cities.get(1));
+        createCity(root, 0.210, 0.110, cities.get(2));
+        createCity(root, 0.200, 0.270, cities.get(3));
+        createCity(root, 0.100, 0.380, cities.get(4));
+        createCity(root, 0.350, 0.060, cities.get(5));
+        createCity(root, 0.335, 0.240, cities.get(6));
+        createCity(root, 0.400, 0.380, cities.get(7));
+        createCity(root, 0.510, 0.110, cities.get(8));
+        createCity(root, 0.500, 0.270, cities.get(9));
+        createCity(root, 0.700, 0.060, cities.get(10));
+        createCity(root, 0.680, 0.240, cities.get(11));
+        createCity(root, 0.680, 0.400, cities.get(12));
+        createCity(root, 0.810, 0.150, cities.get(13));
+        createCity(root, 0.800, 0.350, cities.get(14));
     }
 
-    private Pane createCity(Pane root, double x, double y) {
-        Pane city = new Pane();
-        AnchorPane.setLeftAnchor(city, x * root.getWidth());
-        AnchorPane.setTopAnchor(city, y * root.getHeight());
+    private void createCity(Pane root, double x, double y, CityDTO city) {
+        AnchorPane pane = new AnchorPane();
+        AnchorPane.setLeftAnchor(pane, x * root.getWidth());
+        AnchorPane.setTopAnchor(pane, y * root.getHeight());
+        pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
+
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(3.0f);
+        ds.setColor(Color.BLACK);
+
+        Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight());
+        Label nameLabel = new Label(city.getName().substring(0, 1).toUpperCase() + city.getName().substring(1));
+        //nameLabel.setEffect(ds);
+        nameLabel.setFont(goudyMedieval);
+        nameLabel.setTextFill(Color.rgb(137, 135, 143));
+        nameLabel.setRotate(45.0);
+        AnchorPane.setRightAnchor(nameLabel, 10.0);
+        AnchorPane.setTopAnchor(nameLabel, 10.0);
+        pane.getChildren().add(nameLabel);
+
+        String style = "-fx-background-image: url(" + getClass().getResource("/img/cities/violet.png") + ");";
+        if (city.getColor().equals(new CityColorDTO("iron"))) {
+            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/iron.png") + ");";
+            nameLabel.setTextFill(Color.rgb(62, 171, 182));
+        }
+        if (city.getColor().equals(new CityColorDTO("bronze"))) {
+            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/bronze.png") + ");";
+            nameLabel.setTextFill(Color.rgb(196, 112, 81));
+        }
+        if (city.getColor().equals(new CityColorDTO("silver"))) {
+            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/silver.png") + ");";
+            nameLabel.setTextFill(Color.rgb(150, 155, 159));
+        }
+        if (city.getColor().equals(new CityColorDTO("gold"))) {
+            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/gold.png") + ");";
+            nameLabel.setTextFill(Color.rgb(186, 148, 38));
+        }
+
+        style += "-fx-background-position: center;-fx-background-size: 100% 100%;";
+        pane.setStyle(style);
+
         root.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            AnchorPane.setLeftAnchor(city, x * newSceneWidth.doubleValue());
-            city.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
+            AnchorPane.setLeftAnchor(pane, x * newSceneWidth.doubleValue());
+            pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
+            nameLabel.setFont(Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight()));
         });
         root.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
-            AnchorPane.setTopAnchor(city, y * newSceneHeight.doubleValue());
-            city.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
+            AnchorPane.setTopAnchor(pane, y * newSceneHeight.doubleValue());
+            pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
+            nameLabel.setFont(Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight()));
         });
-        city.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
-        city.setStyle("-fx-background-image: url(" + getClass().getResource("/img/cities/gold.png") + ");" +
-                "-fx-background-position: center;" +
-                "-fx-background-size: 100% 100%;");
 
-        return city;
+        citiesPanes.put(city.getName(), pane);
+        root.getChildren().add(pane);
     }
 
     private void constructActionsPane(Pane root) {

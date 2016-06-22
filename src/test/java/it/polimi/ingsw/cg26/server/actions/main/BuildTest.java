@@ -1,43 +1,24 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.server.model.board.Balcony;
-import it.polimi.ingsw.cg26.server.model.board.City;
-import it.polimi.ingsw.cg26.server.model.board.CityColor;
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.board.King;
-import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
-import it.polimi.ingsw.cg26.server.model.board.Region;
+import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.AssistantBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.CoinBonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
-import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class BuildTest {
 
@@ -122,7 +103,7 @@ public class BuildTest {
 		tileCities.add(otherCity);
 		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		//player1.addPermissionTile(tileToUse);
-		token = gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.start();
 
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);

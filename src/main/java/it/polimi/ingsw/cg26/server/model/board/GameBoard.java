@@ -109,7 +109,7 @@ public class GameBoard extends Observable<Update> {
         LinkedList<CouncillorDTO> councillorsState = councillorsPool.stream().map(Councillor::getState)
                 .collect(Collectors.toCollection(LinkedList::new));
         List<PlayerDTO> playersState = scheduler.getPlayersState();
-		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
+		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer() == null ? null: scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
 	}
 	
 	
@@ -165,7 +165,7 @@ public class GameBoard extends Observable<Update> {
 	 * @return the token of the player that has been registered
 	 * @throws NoRemainingCardsException if the new player doesn't draw the cards to start the game
 	 */
-	public long registerPlayer(String name) throws NoRemainingCardsException {
+	public Player registerPlayer(String name) throws NoRemainingCardsException {
 		return scheduler.registerPlayer(name);
 	}
 

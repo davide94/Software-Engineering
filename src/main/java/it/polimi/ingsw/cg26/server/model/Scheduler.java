@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -68,7 +69,10 @@ public class Scheduler {
      * @return the dto of all the players
      */
     public List<PlayerDTO> getPlayersState() {
-        return this.players.stream().map(Player::getState).collect(Collectors.toList());
+        List<PlayerDTO> playersState = new ArrayList<>();
+        for (Player player : players)
+            playersState.add(player.getState());
+        return playersState;
     }
 
     /**
@@ -78,10 +82,8 @@ public class Scheduler {
      */
     public List<PlayerDTO> getPlayersFullState() {
         List<PlayerDTO> playersState = new ArrayList<>();
-        playersState.add(getCurrentPlayer().getFullState());
-        for (Player player : this.players) {
+        for (Player player : players)
             playersState.add(player.getFullState());
-        }
         return playersState;
     }
 
@@ -109,11 +111,11 @@ public class Scheduler {
      * Adds a Player to the list of players
      * @throws NoRemainingCardsException
      */
-    public long registerPlayer(String name) throws NoRemainingCardsException {
+    public Player registerPlayer(String name) throws NoRemainingCardsException {
         Player player = newPlayer(name);
         players.add(player);
         //buyTurn.add(player);
-        return player.getToken();
+        return player;
     }
 
     private Player newPlayer(String name) throws NoRemainingCardsException {

@@ -45,7 +45,7 @@ public class GameBoardDTO implements Serializable {
      * @throws NullPointerException if any of the parameters is null
      */
     public GameBoardDTO(List<PlayerDTO> players, PlayerDTO currentPlayer, PoliticDeckDTO deck, Collection<CouncillorDTO> councillorsPool, BalconyDTO kingBalcony, List<RegionDTO> regions, NobilityTrackDTO nobilityTrack, KingDTO king, MarketDTO market, KingDeckDTO kingDeck) {
-        if (players == null || currentPlayer == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
+        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
             throw new NullPointerException();
         this.players = players;
         this.currentPlayer = currentPlayer;

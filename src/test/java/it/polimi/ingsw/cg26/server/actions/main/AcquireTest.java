@@ -1,42 +1,24 @@
 package it.polimi.ingsw.cg26.server.actions.main;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
-import it.polimi.ingsw.cg26.server.model.board.Balcony;
-import it.polimi.ingsw.cg26.server.model.board.City;
-import it.polimi.ingsw.cg26.server.model.board.CityColor;
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.board.King;
-import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
-import it.polimi.ingsw.cg26.server.model.board.Region;
+import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
-import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class AcquireTest {
 
@@ -88,7 +70,7 @@ public class AcquireTest {
 		for(int i=0; i<3; i++)
 			assistants.add(new Assistant());
 		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, assistants);
-		token = gameBoard.registerPlayer("Marco"); //create player with 10 coins, 0 nobility, 1 assistant, 6 politic cards
+		token = gameBoard.registerPlayer("Marco").getToken(); //create player with 10 coins, 0 nobility, 1 assistant, 6 politic cards
 		gameBoard.start();
 	}
 	
