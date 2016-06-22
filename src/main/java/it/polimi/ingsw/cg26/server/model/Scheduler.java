@@ -159,8 +159,6 @@ public class Scheduler {
                 p.setOnline(false);
     }
 
-   
-
     public boolean canPerformRegularAction(long token) {
         return state.canPerformRegularAction(token);
     }

@@ -33,7 +33,8 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		</dependency>
     </dependencies>
 	<build>
-		<plugins>
+        <finalName>Council-of-Four-Server/Council-of-Four-Server</finalName>
+        <plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -67,7 +68,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 					</execution>
 				</executions>
 			</plugin>
-			<!-- jar --><!--
+			<!-- jar -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
@@ -114,7 +115,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifest>
+						<manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>it.polimi.ingsw.cg26.server.Server</mainClass>
@@ -123,9 +124,8 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                             <Class-Path>.</Class-Path>
                         </manifestEntries>
                     </archive>
-                    <finalName>Council-of-Four-Server/Council-of-Four-Server</finalName>
                 </configuration>
-            </plugin>-->
+            </plugin>
 			<!-- war --><!--
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
