@@ -7,23 +7,25 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
+import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -67,7 +69,11 @@ public class GUIClient extends Application {
 
     private Controller controller;
 
-    private Map<String, Pane> citiesPanes = new LinkedHashMap<>();
+    private Map<CityDTO, Pane> citiesPanes = new LinkedHashMap<>();
+
+    private final static List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
+
+    private final static List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.140, 0.593), new Point2D(0.215, 0.593), new Point2D(0.441, 0.593), new Point2D(0.516, 0.593), new Point2D(0.776, 0.593), new Point2D(0.851, 0.593));
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -86,13 +92,22 @@ public class GUIClient extends Application {
 
         primaryStage.setMaxWidth(maxWidth);
         primaryStage.setMaxHeight(maxHeight);
-
+        primaryStage.setResizable(false);
         Scene scene = new Scene(root, maxWidth, maxHeight);
 
-        // TODO: maintain fixed ratio on resize
-        // TODO: set window min size
-
         constructCities(root);
+
+        int i = 0;
+        for (RegionDTO r: model.getRegions()) {
+            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
+                Pane bpt = constructBPT(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
+                AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
+                AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
+                root.getChildren().add(bpt);
+                i++;
+            }
+        }
+
         constructActionsPane(root);
         constructStatePane(root);
         constructChatPane(root);
@@ -232,27 +247,90 @@ public class GUIClient extends Application {
         cities.addAll(model.getRegions().get(1).getCities());
         cities.addAll(model.getRegions().get(2).getCities());
 
-        createCity(root, 0.050, 0.060, cities.get(0));
-        createCity(root, 0.035, 0.240, cities.get(1));
-        createCity(root, 0.210, 0.110, cities.get(2));
-        createCity(root, 0.200, 0.270, cities.get(3));
-        createCity(root, 0.100, 0.380, cities.get(4));
-        createCity(root, 0.350, 0.060, cities.get(5));
-        createCity(root, 0.335, 0.240, cities.get(6));
-        createCity(root, 0.400, 0.380, cities.get(7));
-        createCity(root, 0.510, 0.110, cities.get(8));
-        createCity(root, 0.500, 0.270, cities.get(9));
-        createCity(root, 0.700, 0.060, cities.get(10));
-        createCity(root, 0.680, 0.240, cities.get(11));
-        createCity(root, 0.680, 0.400, cities.get(12));
-        createCity(root, 0.810, 0.150, cities.get(13));
-        createCity(root, 0.800, 0.350, cities.get(14));
+        for (CityDTO city: cities) {
+            createCity(root, citiesOrigins.get(cities.indexOf(city)), cities.get(cities.indexOf(city)));
+        }
+
+        Collection<String> alreadyVisited = new LinkedList<>();
+
+        for (CityDTO city: citiesPanes.keySet()) {
+            for (String nearName: city.getNearCities()) {
+                CityDTO nearCity = null;
+                for (CityDTO c: citiesPanes.keySet()) {
+                    if (c.getName().equalsIgnoreCase(nearName)) {
+                        nearCity = c;
+                        break;
+                    }
+                }
+                if (nearCity != null && !alreadyVisited.contains(nearName)) {
+                    Point2D p1 = citiesOrigins.get(cities.indexOf(city));
+                    Point2D p2 = citiesOrigins.get(cities.indexOf(nearCity));
+                    double offset = 0.075 * root.getHeight();
+                    final Shape[] line = {createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset)};
+                    root.getChildren().add(line[0]);
+                    /*root.widthProperty().addListener(new ChangeListener<Number>() {
+                        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                            root.getChildren().remove(line[0]);
+                            line[0] = createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset);
+                            root.getChildren().add(line[0]);
+                        }
+                    });
+                    root.heightProperty().addListener(new ChangeListener<Number>() {
+                        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                            root.getChildren().remove(line[0]);
+                            line[0] = createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset);
+                            root.getChildren().add(line[0]);
+                        }
+                    });*/
+                }
+            }
+            alreadyVisited.add(city.getName());
+        }
+
+        for (CityDTO city: citiesPanes.keySet()) {
+            root.getChildren().add(citiesPanes.get(city));
+        }
     }
 
-    private void createCity(Pane root, double x, double y, CityDTO city) {
+    public Shape createRoute(double x1, double y1, double x2, double y2) {
+        Point2D startPoint = new Point2D(x1, y1);
+        Point2D endPoint = new Point2D(x2, y2);
+
+        double wobble = Math.sqrt((endPoint.getX() - startPoint.getX()) * (endPoint.getX() - startPoint.getX()) + (endPoint.getY() - startPoint.getY()) * (endPoint.getY() - startPoint.getY())) / 25 + 0.5;
+
+        double r1 = Math.random();
+        double r2 = Math.random();
+
+        double xfactor = (Math.random() > 0.5 ? wobble : -wobble) * 3.0;
+        double yfactor = (Math.random() > 0.5 ? wobble : -wobble) * 3.0;
+
+        Point2D control1 = new Point2D((endPoint.getX() - startPoint.getX()) * r1 + startPoint.getX() + xfactor, (endPoint.getY() - startPoint.getY()) * r1 + startPoint.getY() + yfactor);
+        Point2D control2 = new Point2D((endPoint.getX() - startPoint.getX()) * r2 + startPoint.getX() - xfactor, (endPoint.getY() - startPoint.getY()) * r2 + startPoint.getY() - yfactor);
+
+        MoveTo startMove = new MoveTo(startPoint.getX(), startPoint.getY());
+        CubicCurveTo curve = new CubicCurveTo(control1.getX(), control1.getY(),
+                control2.getX(), control2.getY(),
+                endPoint.getX(), endPoint.getY());
+
+        InnerShadow shadow = new InnerShadow();
+        shadow.setRadius(10.0);
+        //shadow.setColor(Color.rgb(137, 122, 92));
+        shadow.setColor(Color.web("#6B5832"));
+
+        Path path = new Path(startMove, curve);
+        path.setStrokeLineCap(StrokeLineCap.ROUND);
+        path.setStroke(Color.rgb(172, 146, 83));
+        path.setEffect(shadow);
+        double strokeWidth = 15.0;
+        path.setStrokeWidth(strokeWidth + (strokeWidth * (Math.random() - 0.5) / 8.0));
+        path.setStrokeType(StrokeType.CENTERED);
+        return path;
+    }
+
+    private void createCity(Pane root, Point2D origin, CityDTO city) {
         AnchorPane pane = new AnchorPane();
-        AnchorPane.setLeftAnchor(pane, x * root.getWidth());
-        AnchorPane.setTopAnchor(pane, y * root.getHeight());
+        AnchorPane.setLeftAnchor(pane, origin.getX() * root.getWidth());
+        AnchorPane.setTopAnchor(pane, origin.getY() * root.getHeight());
         pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
 
         DropShadow shadow = new DropShadow();
@@ -291,18 +369,114 @@ public class GUIClient extends Application {
         pane.setStyle(style);
 
         root.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            AnchorPane.setLeftAnchor(pane, x * newSceneWidth.doubleValue());
+            AnchorPane.setLeftAnchor(pane, origin.getX() * newSceneWidth.doubleValue());
             pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
             nameLabel.setFont(Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight()));
         });
         root.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
-            AnchorPane.setTopAnchor(pane, y * newSceneHeight.doubleValue());
+            AnchorPane.setTopAnchor(pane, origin.getY() * newSceneHeight.doubleValue());
             pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
             nameLabel.setFont(Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight()));
         });
 
-        citiesPanes.put(city.getName(), pane);
-        root.getChildren().add(pane);
+        // create city bonus
+        if (!city.getBonuses().toString().isEmpty()) {
+            Pane bonusPane = constructBonus(0.04 * root.getHeight(), 0.04 * root.getHeight(), city.getBonuses());
+            AnchorPane.setLeftAnchor(bonusPane, 0.030 * root.getHeight());
+            AnchorPane.setTopAnchor(bonusPane, 0.020 * root.getHeight());
+            pane.getChildren().add(bonusPane);
+        }
+        citiesPanes.put(city, pane);
+        //root.getChildren().add(pane);
+    }
+
+    private Pane constructBonus(double width, double height, BonusDTO bonus) {
+        GridPane pane = new GridPane();
+        //pane.setStyle("-fx-background-color: burlywood;");
+        pane.setPrefWidth(width);
+        pane.setPrefHeight(height);
+        List<String> bonusesStrings = Arrays.asList(bonus.toString().split(","));
+        int i = 0;
+        for (String bonusString: bonusesStrings) {
+            AnchorPane bonusPane = new AnchorPane();
+            double bonusSize = bonusesStrings.size() == 1 ? width * 0.75 : width /(double) bonusesStrings.size();
+            bonusPane.setPrefSize(bonusSize, bonusSize);
+            String styleString = "";
+            if (bonusString.contains("Assistants"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/assistants.png") + ");";
+            if (bonusString.contains("Cards"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/cards.png") + ");";
+            if (bonusString.contains("Coins"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/coins.png") + ");";
+            if (bonusString.contains("Main"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+            if (bonusString.contains("Nobility"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/nobility.png") + ");";
+            if (bonusString.contains("Take BPT"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+            if (bonusString.contains("Take Player"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+            if (bonusString.contains("Take Your"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+            if (bonusString.contains("Victory"))
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/victory.png") + ");";
+            styleString += "-fx-background-position: center;-fx-background-size: 100%; -fx-background-repeat: no-repeat;";
+            //System.out.println(bonusString);
+            int j = 0;
+            while (true) {
+                if (bonusString.charAt(j) > 47 && bonusString.charAt(j) < 58)
+                    break;
+                j++;
+            }
+            bonusPane.setStyle(styleString);
+            Label multiplicityLabel = new Label();
+            AnchorPane.setLeftAnchor(multiplicityLabel, bonusSize / 3.0);
+            AnchorPane.setTopAnchor(multiplicityLabel, bonusSize / 4.0);
+            multiplicityLabel.setTextFill(Color.WHITE);
+            multiplicityLabel.setText(new String(new char[]{bonusString.charAt(j)}));
+            bonusPane.getChildren().add(multiplicityLabel);
+            pane.add(bonusPane, i, 1);
+            i++;
+        }
+        return pane;
+    }
+
+    private Pane constructBPT(double width, double height, BusinessPermissionTileDTO tile) {
+        AnchorPane pane = new AnchorPane();
+
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(4.0);
+        shadow.setColor(Color.BLACK);
+        pane.setEffect(shadow);
+
+        pane.setPrefSize(width, height);
+        pane.setMaxSize(width, height);
+        pane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/bpt.png") + ");" +
+                      "-fx-background-position: center;" +
+                      "-fx-background-size: 100% 100%;");
+        //System.out.println(tile.toString());
+        String cities = "";
+        for(String city: tile.getCities()) {
+            cities += new String(new char[]{city.charAt(0)}).toUpperCase() + "/";
+        }
+
+        if (cities.length() > 0) {
+            cities = cities.substring(0, cities.length()-1);
+        }
+
+        Label label = new Label(cities);
+        Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.25 * width);
+        label.setFont(goudyMedieval);
+        AnchorPane.setLeftAnchor(label, width / 3.0);
+        AnchorPane.setTopAnchor(label, height / 4.0);
+        pane.getChildren().add(label);
+
+        Pane bonusPane = constructBonus(width / 2.0, width / 2, tile.getBonuses());
+        AnchorPane.setLeftAnchor(bonusPane, width / 4.0);
+        AnchorPane.setBottomAnchor(bonusPane, 0.0);
+        pane.getChildren().add(bonusPane);
+
+        return pane;
     }
 
     private void constructActionsPane(Pane root) {
