@@ -23,6 +23,7 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -51,15 +52,15 @@ public class GUIClient extends Application {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final static double RATIO = 2.0d / 1.7d;
+    private static final double RATIO = 2.0d / 1.7d;
 
-    private final static String DEFAULT_IP = "127.0.0.1";
+    private static final String DEFAULT_IP = "127.0.0.1";
 
-    private final static int DEFAULT_SOCKET_PORT = 29999;
+    private static final int DEFAULT_SOCKET_PORT = 29999;
 
-    private final static int DEFAULT_RMI_PORT = 52365;
+    private static final int DEFAULT_RMI_PORT = 52365;
 
-    private final static String INTERFACE_NAME = "WELCOME_VIEW";
+    private static final String INTERFACE_NAME = "WELCOME_VIEW";
 
     private OutView outView;
 
@@ -71,9 +72,11 @@ public class GUIClient extends Application {
 
     private Map<CityDTO, Pane> citiesPanes = new LinkedHashMap<>();
 
-    private final static List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
+    private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
-    private final static List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
+    private static final List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
+    
+    private static final List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -109,6 +112,8 @@ public class GUIClient extends Application {
         }
         
         constructCoveredBPT(root);
+        
+        constructBalconies(root);
 
         constructActionsPane(root);
         constructStatePane(root);
@@ -500,7 +505,55 @@ public class GUIClient extends Application {
     		root.getChildren().add(coveredBPT);
     	}
     }
+    
+    private void constructBalconies(Pane root) {
+    	HBox kingBalcony = createSingleBalcony(model.getKingBalcony(), 0.105 * root.getWidth(), 0.058 * root.getHeight());
+    	AnchorPane.setLeftAnchor(kingBalcony, 0.630 * root.getWidth());
+    	AnchorPane.setTopAnchor(kingBalcony, 0.721 * root.getHeight());
+    	root.getChildren().add(kingBalcony);
+    	int i = 0;
+    	for(RegionDTO r : model.getRegions()) {
+    		HBox balcony = createSingleBalcony(r.getBalcony(), 0.105 * root.getWidth(), 0.058 * root.getHeight());
+    		AnchorPane.setLeftAnchor(balcony, balconiesOrigins.get(i).getX() * root.getWidth());
+    		AnchorPane.setTopAnchor(balcony, balconiesOrigins.get(i).getY() * root.getHeight());
+    		root.getChildren().add(balcony);
+    		i++;
+    	}
+    }
 
+    private HBox createSingleBalcony(BalconyDTO balcony, double width, double height) {
+    	HBox balconyBox = new HBox();
+    	balconyBox.setPrefSize(width, height);
+		balconyBox.setMaxSize(width, height);
+    	for(CouncillorDTO c : balcony.getCouncillors()) {
+    		Pane councillor = new Pane();
+    		councillor.setPrefSize(width/4, height);
+    		String resource = null;
+    		switch (c.getColor().getColor()) {
+    		case "white": resource = "White_Councillor.png";
+    			break;
+    		case "violet": resource = "Violet_Councillor.png";
+    			break;
+    		case "blue": resource = "Blue_Councillor.png";
+    			break;
+    		case "orange": resource = "Orange_Councillor.png";
+    			break;
+    		case "black": resource = "Black_Councillor.png";
+    			break;
+    		case "pink": resource = "Pink_Councillor.png";
+    			break;
+    		default:
+    			break;
+    		}
+    		councillor.setStyle("-fx-background-image: url(" + getClass().getResource("/img/councillors/" + resource) + ");" +
+    				"-fx-background-position: center;" +
+    				"-fx-background-size: 100% 100%;");
+    		balconyBox.getChildren().add(councillor);
+    	}
+    	
+    	return balconyBox;
+    }
+    
     private void constructActionsPane(Pane root) {
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
