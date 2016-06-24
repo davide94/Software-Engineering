@@ -2,6 +2,10 @@ package it.polimi.ingsw.cg26.common.dto.bonusdto;
 
 public class TakePlayerBPTBonusDTO extends BonusDTODecorator {
 
+	
+	/**
+	 * Serial number
+	 */
 	private static final long serialVersionUID = -328195322419976384L;
 
 	/**

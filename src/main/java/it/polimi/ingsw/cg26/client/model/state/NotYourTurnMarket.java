@@ -4,7 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ *If a player is in this state the game is in the market phase but he can't buy or sell anything
+ *because this isn't his turn
  */
 public class NotYourTurnMarket implements State {
 

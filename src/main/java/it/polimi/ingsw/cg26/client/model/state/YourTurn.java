@@ -4,7 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ *If you are in this state you are the current player and you can 
+ *do the moves that you usually do in your turn
  */
 public class YourTurn implements State {
 

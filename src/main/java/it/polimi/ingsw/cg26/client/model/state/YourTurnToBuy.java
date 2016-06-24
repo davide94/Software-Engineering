@@ -4,7 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ *If a player is in this state the game is in the market phase and he can buy the items
+ *because this is his turn
  */
 public class YourTurnToBuy implements State {
 

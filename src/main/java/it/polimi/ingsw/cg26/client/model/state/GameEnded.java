@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ *In this state the game is over
  */
 public class GameEnded implements State {
 

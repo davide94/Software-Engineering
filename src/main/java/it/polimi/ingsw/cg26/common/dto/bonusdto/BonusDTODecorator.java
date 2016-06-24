@@ -5,8 +5,16 @@ package it.polimi.ingsw.cg26.common.dto.bonusdto;
  */
 public class BonusDTODecorator implements BonusDTO {
 
+	
+	/**
+	 * Serial number
+	 */
     private static final long serialVersionUID = 2736328090252332859L;
 
+    
+    /**
+     * The multiplicity of the bonus
+     */
 	private final int multiplicity;
 	
 	private BonusDTO decoratedBonusDTO;

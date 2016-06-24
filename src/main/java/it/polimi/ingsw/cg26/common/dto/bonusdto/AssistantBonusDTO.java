@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg26.common.dto.bonusdto;
 public class AssistantBonusDTO extends BonusDTODecorator {
 
 	/**
-	 * 
+	 * Serial number
 	 */
 	private static final long serialVersionUID = -8869020502968734786L;
 

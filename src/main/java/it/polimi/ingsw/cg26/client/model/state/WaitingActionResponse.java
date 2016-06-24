@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ *If a player is in this state he is waiting for a response about an action he has done
  */
 public class WaitingActionResponse implements State {
 
