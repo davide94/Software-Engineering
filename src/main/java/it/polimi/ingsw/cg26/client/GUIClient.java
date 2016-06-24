@@ -445,7 +445,7 @@ public class GUIClient extends Application {
 
     private Pane constructBPT(double width, double height, BusinessPermissionTileDTO tile) {
         AnchorPane pane = new AnchorPane();
-        pane.setRotate((new Random().nextDouble() - 0.5) * 15.0);
+        //pane.setRotate((new Random().nextDouble() - 0.5) * 15.0);
         DropShadow shadow = new DropShadow();
         shadow.setRadius(4.0);
         shadow.setColor(Color.BLACK);
