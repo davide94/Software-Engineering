@@ -6,7 +6,10 @@ import it.polimi.ingsw.cg26.common.ClientModel;
  *
  */
 public class MarketStarted implements Event{
-    @Override
+	
+	private static final long serialVersionUID = 1065163135746987162L;
+
+	@Override
     public void apply(ClientModel model) {
         model.getState().marketStarted();
     }

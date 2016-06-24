@@ -23,10 +23,22 @@ public interface Update extends Serializable {
      */
     void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException;
 
+    /**
+     * Send the update on socket
+     * @param socketOut the socket in which the update has to be send
+     * @param token the token of the destination player
+     * @throws IOException
+     */
     default void sendSocket(ObjectOutputStream socketOut, long token) throws IOException {
         socketOut.writeObject(this);
     }
 
+    /**
+     * Send the update on RMI
+     * @param client the destination client
+     * @param token the token of the destination player
+     * @throws RemoteException
+     */
     default void sendRMI(ClientRMIViewInterface client, long token) throws RemoteException {
         client.updateClient(this);
     }

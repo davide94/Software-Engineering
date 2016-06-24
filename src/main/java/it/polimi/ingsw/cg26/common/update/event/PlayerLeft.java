@@ -10,7 +10,10 @@ import it.polimi.ingsw.cg26.server.exceptions.PlayerNotFoundException;
  *
  */
 public class PlayerLeft implements Update {
-    @Override
+
+	private static final long serialVersionUID = 3086378319015322799L;
+
+	@Override
     public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
         System.out.println("a Player Left");
     }

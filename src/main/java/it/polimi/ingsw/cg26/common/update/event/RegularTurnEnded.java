@@ -5,8 +5,11 @@ import it.polimi.ingsw.cg26.common.ClientModel;
 /**
  *
  */
-public class RegulaTurnEnded implements Event {
-    @Override
+public class RegularTurnEnded implements Event {
+
+	private static final long serialVersionUID = 3714498163196048841L;
+
+	@Override
     public void apply(ClientModel model) {
         model.getState().turnEnded();
     }

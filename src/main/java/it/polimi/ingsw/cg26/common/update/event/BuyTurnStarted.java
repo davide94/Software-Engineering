@@ -6,7 +6,10 @@ import it.polimi.ingsw.cg26.common.ClientModel;
  *
  */
 public class BuyTurnStarted implements Event {
-    @Override
+
+	private static final long serialVersionUID = -6202453713926911026L;
+
+	@Override
     public void apply(ClientModel model) {
         model.getState().buyTurnStarted();
     }

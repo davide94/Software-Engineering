@@ -4,7 +4,7 @@ import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.common.update.event.RegularGameStarted;
-import it.polimi.ingsw.cg26.common.update.event.RegulaTurnEnded;
+import it.polimi.ingsw.cg26.common.update.event.RegularTurnEnded;
 import it.polimi.ingsw.cg26.common.update.event.RegularTurnStarted;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -56,7 +56,7 @@ public class Regular extends State {
             }
             return this;
         }
-        gameBoard.notifyObservers(new PrivateUpdate(new RegulaTurnEnded(), getCurrentPlayer().getToken()));
+        gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnEnded(), getCurrentPlayer().getToken()));
         return nextPlayer();
     }
 
