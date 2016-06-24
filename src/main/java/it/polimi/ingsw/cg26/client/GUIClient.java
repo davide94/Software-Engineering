@@ -51,7 +51,7 @@ public class GUIClient extends Application {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final static double RATIO = 7.0d / 6.0d;
+    private final static double RATIO = 2.0d / 1.7d;
 
     private final static String DEFAULT_IP = "127.0.0.1";
 
@@ -81,7 +81,7 @@ public class GUIClient extends Application {
 
         AnchorPane root = new AnchorPane();
 
-        root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.jpg") + ");" +
+        root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
                       "-fx-background-position: center;" +
                       "-fx-background-size: 100% 100%;");
 
@@ -386,6 +386,7 @@ public class GUIClient extends Application {
             Pane bonusPane = constructBonus(0.04 * root.getHeight(), 0.04 * root.getHeight(), city.getBonuses());
             AnchorPane.setLeftAnchor(bonusPane, 0.030 * root.getHeight());
             AnchorPane.setTopAnchor(bonusPane, 0.020 * root.getHeight());
+            //bonusPane.setRotate((new Random().nextDouble() - 0.5) * 60.0);
             pane.getChildren().add(bonusPane);
         }
         citiesPanes.put(city, pane);
@@ -394,7 +395,6 @@ public class GUIClient extends Application {
 
     private Pane constructBonus(double width, double height, BonusDTO bonus) {
         GridPane pane = new GridPane();
-        //pane.setStyle("-fx-background-color: burlywood;");
         pane.setPrefWidth(width);
         pane.setPrefHeight(height);
         List<String> bonusesStrings = Arrays.asList(bonus.toString().split(","));
@@ -411,15 +411,15 @@ public class GUIClient extends Application {
             if (bonusString.contains("Coins"))
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/coins.png") + ");";
             if (bonusString.contains("Main"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/main.png") + ");";
             if (bonusString.contains("Nobility"))
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/nobility.png") + ");";
             if (bonusString.contains("Take BPT"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeTileBonus.png") + ");";
             if (bonusString.contains("Take Player"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCityBonus.png") + ");";
             if (bonusString.contains("Take Your"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/.png") + ");";
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/takeYour.png") + ");";
             if (bonusString.contains("Victory"))
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/victory.png") + ");";
             styleString += "-fx-background-position: center;-fx-background-size: 100%; -fx-background-repeat: no-repeat;";
@@ -445,7 +445,7 @@ public class GUIClient extends Application {
 
     private Pane constructBPT(double width, double height, BusinessPermissionTileDTO tile) {
         AnchorPane pane = new AnchorPane();
-
+        pane.setRotate((new Random().nextDouble() - 0.5) * 15.0);
         DropShadow shadow = new DropShadow();
         shadow.setRadius(4.0);
         shadow.setColor(Color.BLACK);
@@ -453,7 +453,7 @@ public class GUIClient extends Application {
 
         pane.setPrefSize(width, height);
         pane.setMaxSize(width, height);
-        pane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/bpt.png") + ");" +
+        pane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/cards/bpt.png") + ");" +
                       "-fx-background-position: center;" +
                       "-fx-background-size: 100% 100%;");
         //System.out.println(tile.toString());
@@ -469,8 +469,8 @@ public class GUIClient extends Application {
         Label label = new Label(cities);
         Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.25 * width);
         label.setFont(goudyMedieval);
-        AnchorPane.setLeftAnchor(label, width / 3.0);
-        AnchorPane.setTopAnchor(label, height / 4.0);
+        AnchorPane.setLeftAnchor(label, width / 2.0 - tile.getCities().size() * width / 8.0);
+        AnchorPane.setTopAnchor(label, height / 6.0);
         pane.getChildren().add(label);
 
         Pane bonusPane = constructBonus(width / 2.0, width / 2, tile.getBonuses());
