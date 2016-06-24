@@ -73,8 +73,8 @@ public class GUIClient extends Application {
 
     private final static List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
-    private final static List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.140, 0.593), new Point2D(0.215, 0.593), new Point2D(0.441, 0.593), new Point2D(0.516, 0.593), new Point2D(0.776, 0.593), new Point2D(0.851, 0.593));
-
+    private final static List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         initialConfiguration();
@@ -107,6 +107,8 @@ public class GUIClient extends Application {
                 i++;
             }
         }
+        
+        constructCoveredBPT(root);
 
         constructActionsPane(root);
         constructStatePane(root);
@@ -478,6 +480,26 @@ public class GUIClient extends Application {
 
         return pane;
     }
+    
+    private void constructCoveredBPT(Pane root) {
+    	List<Point2D> coveredBPTOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.364, 0.587), new Point2D(0.698, 0.587));
+    	List<String> bptUrls = Arrays.asList("BPTCoast.png", "BPTHills.png", "BPTMountain.png");
+    	for(int i = 0; i<coveredBPTOrigins.size(); i++) {
+    		Pane coveredBPT = new Pane();
+    		DropShadow shadow = new DropShadow();
+    		shadow.setRadius(4.0);
+    		shadow.setColor(Color.BLACK);
+    		coveredBPT.setEffect(shadow);
+    		coveredBPT.setPrefSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
+    		coveredBPT.setMaxSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
+    		coveredBPT.setStyle("-fx-background-image: url(" + getClass().getResource("/img/coveredBPT/" + bptUrls.get(i)) + ");" +
+    				"-fx-background-position: center;" +
+    				"-fx-background-size: 100% 100%;");
+    		AnchorPane.setLeftAnchor(coveredBPT, coveredBPTOrigins.get(i).getX() * root.getWidth());
+    		AnchorPane.setTopAnchor(coveredBPT, coveredBPTOrigins.get(i).getY() * root.getHeight());
+    		root.getChildren().add(coveredBPT);
+    	}
+    }
 
     private void constructActionsPane(Pane root) {
         DropShadow shadow = new DropShadow();
@@ -683,5 +705,9 @@ public class GUIClient extends Application {
 
     private void foldQuickAction() {
         System.out.println("foldQuickAction");
+    }
+    
+    public static void main(String[] args) {
+    	launch(args);
     }
 }
