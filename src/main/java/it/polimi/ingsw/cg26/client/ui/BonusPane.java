@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.client.view.ui;
+package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import javafx.geometry.Pos;
@@ -23,7 +23,8 @@ public class BonusPane extends GridPane {
         int i = 0;
         for (String bonusString: bonusesStrings) {
             GridPane bonusPane = new GridPane();
-            double bonusSize = bonusesStrings.size() == 1 ? size * 0.75 : size /(double) bonusesStrings.size();
+            double bonusSize = 0.75 * size /(double) bonusesStrings.size();
+            //double bonusSize = bonusesStrings.size() == 1 ? size * 0.75 : size /(double) bonusesStrings.size();
             bonusPane.setPrefSize(bonusSize, bonusSize);
             String styleString = "";
             if (bonusString.contains("Assistants"))

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.client.view.ui;
+package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.view.OutView;

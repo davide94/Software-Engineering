@@ -2,15 +2,15 @@ package it.polimi.ingsw.cg26.client;
 
 import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.client.ui.BPTPane;
+import it.polimi.ingsw.cg26.client.ui.BalconyPane;
+import it.polimi.ingsw.cg26.client.ui.CLI;
+import it.polimi.ingsw.cg26.client.ui.CityPane;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.client.view.ui.BPTPane;
-import it.polimi.ingsw.cg26.client.view.ui.BalconyPane;
-import it.polimi.ingsw.cg26.client.view.ui.CLI;
-import it.polimi.ingsw.cg26.client.view.ui.CityPane;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
@@ -19,7 +19,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -78,19 +77,23 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
-    private static final List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
+    private static final List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
     
     private static final List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         if (establishConnection())
-            createGUI(primaryStage);
+            buildGUI(primaryStage);
     }
 
+    /**
+     * Displays a Dialog then tries to establish the desired connection
+     * @return true iff the desired ui is gui
+     */
     private boolean establishConnection() {
 
-        Optional<Conf> result = constructDialog().showAndWait();
+        Optional<Conf> result = buildDialog().showAndWait();
 
         if (!result.isPresent()) {
             Platform.exit();
@@ -133,7 +136,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         return true;
     }
 
-    private Dialog<Conf> constructDialog() {
+    /**
+     * Builds and returns a dialog to ask for connection/ui settings
+     * @return the dialog
+     */
+    private Dialog<Conf> buildDialog() {
 
         Dialog<Conf> dialog = new Dialog<>();
         dialog.setTitle("Welcome to Council of Four");
@@ -189,6 +196,15 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         return dialog;
     }
 
+    /**
+     * Establish the connection with the server through Sockets
+     * @param ip is the ip/host name of the server
+     * @param port is the port of the server
+     * @param name is the name of the player that has to be communicated to the server
+     * @return the OutView that works with Sockets
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private OutView startSocketClient(String ip, int port, String name) throws IOException, ClassNotFoundException {
         Socket socket = new Socket(ip, port);
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
@@ -206,6 +222,15 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         return new ClientSocketOutView(outputStream);
     }
 
+    /**
+     * Establish the connection with the server through RMI
+     * @param ip is the ip/host name of the server
+     * @param port is the port of the server
+     * @param name is the name of the player that has to be communicated to the server
+     * @return the OutView that works with RMI
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     private OutView startRMIClient(String ip, int port, String name) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ip, port);
         ServerRMIWelcomeViewInterface welcomeView = (ServerRMIWelcomeViewInterface) registry.lookup(INTERFACE_NAME);
@@ -220,9 +245,12 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         return new ClientRMIOutView(server);
     }
 
-    private void createGUI(Stage primaryStage) {
+    /**
+     * Builds the game main window
+     * @param primaryStage
+     */
+    private void buildGUI(Stage primaryStage) {
         AnchorPane root = new AnchorPane();
-
         root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
@@ -237,35 +265,24 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         primaryStage.setResizable(false);
         Scene scene = new Scene(root, maxWidth, maxHeight);
 
-        constructCities(root);
+        buildCities(root);
+        buildBPT(root);
+        buildBalconies(root);
 
-        int i = 0;
-        for (RegionDTO r: model.getRegions()) {
-            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
-                Pane bpt = new BPTPane(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
-                AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
-                AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
-                root.getChildren().add(bpt);
-                i++;
-            }
-        }
-
-        constructCoveredBPT(root);
-
-        constructBalconies(root);
-
-        moveKing(model.getKing());
-
-        constructActionsPane(root);
-        constructStatePane(root);
-        constructChatPane(root);
+        buildActionsPane(root);
+        buildStatePane(root);
+        buildChatPane(root);
 
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void constructCities(Pane root) {
+    /**
+     * Builds the cities
+     * @param root is the root Pane
+     */
+    private void buildCities(Pane root) {
         while (model.getRegions() == null)
             try {
                 Thread.sleep(10);
@@ -278,13 +295,27 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         cities.addAll(model.getRegions().get(2).getCities());
 
         for (CityDTO city: cities) {
-            //createCity(root, citiesOrigins.get(cities.indexOf(city)), cities.get(cities.indexOf(city)));
-            Point2D origin = citiesOrigins.get(cities.indexOf(city));
-            citiesPanes.put(city, new CityPane(new Point2D(origin.getX() * root.getWidth(), origin.getY() * root.getHeight()), 0.15 * root.getHeight(), city));
+            Point2D o = citiesOrigins.get(cities.indexOf(city));
+            Point2D origin = new Point2D(o.getX() * root.getWidth(), o.getY() * root.getHeight());
+            citiesPanes.put(city, new CityPane(origin, 0.15 * root.getHeight(), city));
         }
 
-        Collection<String> alreadyVisited = new LinkedList<>();
+        moveKing(model.getKing());
 
+        linkCities(root, cities);
+
+        for (CityDTO city: citiesPanes.keySet()) {
+            root.getChildren().add(citiesPanes.get(city));
+        }
+    }
+
+    /**
+     * Draws the routes between linked cities
+     * @param root is the root Pane
+     * @param cities is a list of CityDTO
+     */
+    private void linkCities(Pane root, List<CityDTO> cities) {
+        Collection<String> alreadyVisited = new LinkedList<>();
         for (CityDTO city: citiesPanes.keySet()) {
             for (String nearName: city.getNearCities()) {
                 CityDTO nearCity = null;
@@ -297,22 +328,24 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
                 if (nearCity != null && !alreadyVisited.contains(nearName)) {
                     Point2D p1 = citiesOrigins.get(cities.indexOf(city));
                     Point2D p2 = citiesOrigins.get(cities.indexOf(nearCity));
-                    double offset = 0.075 * root.getHeight();
-                    final Shape[] line = {createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset)};
-                    root.getChildren().add(line[0]);
+                    Point2D startPoint = new Point2D((p1.getX() + 0.075) * root.getWidth(), (p1.getY() + 0.075) * root.getHeight());
+                    Point2D endPoint = new Point2D((p2.getX() + 0.075) * root.getWidth(), (p2.getY() + 0.075) * root.getHeight());
+
+                    final Shape line = buildRoute(startPoint, endPoint);
+                    root.getChildren().add(line);
                 }
             }
             alreadyVisited.add(city.getName());
         }
-
-        for (CityDTO city: citiesPanes.keySet()) {
-            root.getChildren().add(citiesPanes.get(city));
-        }
     }
 
-    public Shape createRoute(double x1, double y1, double x2, double y2) {
-        Point2D startPoint = new Point2D(x1, y1);
-        Point2D endPoint = new Point2D(x2, y2);
+    /**
+     * Builds a route between startPoint and endPoint
+     * @param startPoint is the point where the route begins
+     * @param endPoint is the point where the route ends
+     * @return the street created
+     */
+    private Shape buildRoute(Point2D startPoint, Point2D endPoint) {
 
         double wobble = Math.sqrt((endPoint.getX() - startPoint.getX()) * (endPoint.getX() - startPoint.getX()) + (endPoint.getY() - startPoint.getY()) * (endPoint.getY() - startPoint.getY())) / 25 + 0.5;
 
@@ -344,28 +377,45 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         path.setStrokeType(StrokeType.CENTERED);
         return path;
     }
-    
-    private void constructCoveredBPT(Pane root) {
-    	List<Point2D> coveredBPTOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.364, 0.587), new Point2D(0.698, 0.587));
-    	List<String> bptUrls = Arrays.asList("BPTCoast.png", "BPTHills.png", "BPTMountain.png");
-    	for(int i = 0; i<coveredBPTOrigins.size(); i++) {
-    		Pane coveredBPT = new Pane();
-    		DropShadow shadow = new DropShadow();
-    		shadow.setRadius(4.0);
-    		shadow.setColor(Color.BLACK);
-    		coveredBPT.setEffect(shadow);
-    		coveredBPT.setPrefSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
-    		coveredBPT.setMaxSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
-    		coveredBPT.setStyle("-fx-background-image: url(" + getClass().getResource("/img/coveredBPT/" + bptUrls.get(i)) + ");" +
-    				"-fx-background-position: center;" +
-    				"-fx-background-size: 100% 100%;");
-    		AnchorPane.setLeftAnchor(coveredBPT, coveredBPTOrigins.get(i).getX() * root.getWidth());
-    		AnchorPane.setTopAnchor(coveredBPT, coveredBPTOrigins.get(i).getY() * root.getHeight());
-    		root.getChildren().add(coveredBPT);
-    	}
+
+    /**
+     * Builds and displays the Business Permit Tiles
+     * @param root is the root Pane
+     */
+    private void buildBPT(Pane root) {
+        List<String> bptUrls = Arrays.asList("BPTCoast.png", "BPTHills.png", "BPTMountain.png");
+
+        int i = 0;
+        for (RegionDTO r: model.getRegions()) {
+            Pane coveredBPT = new Pane();
+            DropShadow shadow = new DropShadow();
+            shadow.setRadius(4.0);
+            shadow.setColor(Color.BLACK);
+            coveredBPT.setEffect(shadow);
+            coveredBPT.setPrefSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
+            coveredBPT.setMaxSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
+            coveredBPT.setStyle("-fx-background-image: url(" + getClass().getResource("/img/coveredBPT/" + bptUrls.get(i / 3)) + ");" +
+                    "-fx-background-position: center;" +
+                    "-fx-background-size: 100% 100%;");
+            AnchorPane.setLeftAnchor(coveredBPT, bptOrigins.get(i).getX() * root.getWidth());
+            AnchorPane.setTopAnchor(coveredBPT, bptOrigins.get(i).getY() * root.getHeight());
+            root.getChildren().add(coveredBPT);
+            i++;
+            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
+                Pane bpt = new BPTPane(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
+                AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
+                AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
+                root.getChildren().add(bpt);
+                i++;
+            }
+        }
     }
-    
-    private void constructBalconies(Pane root) {
+
+    /**
+     * Builds and displays the Balconies
+     * @param root is the root Pane
+     */
+    private void buildBalconies(Pane root) {
     	HBox kingBalcony = new BalconyPane(new Point2D(0.630 * root.getWidth(), 0.721 * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model.getKingBalcony());
     	root.getChildren().add(kingBalcony);
     	int i = 0;
@@ -375,7 +425,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     		i++;
     	}
     }
-    
+
+    /**
+     * Updates the position of the king's visual representation to the actual king's position
+     * @param king is a KingDTO
+     */
     private void moveKing(KingDTO king) {
     	for(Map.Entry<CityDTO, CityPane> c : citiesPanes.entrySet()){
     		if(c.getKey().getName().equals(king.getCurrentCity()))
@@ -384,8 +438,12 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	}
     	king.getCurrentCity();
     }
-    
-    private void constructActionsPane(Pane root) {
+
+    /**
+     * Builds and displays the panel where the user can perform actions
+     * @param root is the root Pane
+     */
+    private void buildActionsPane(Pane root) {
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
         shadow.setRadius(50.0);
@@ -473,7 +531,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(pane);
     }
 
-    private void constructStatePane(Pane root) {
+    /**
+     * Builds and displays the panel where the user can see the player's state
+     * @param root is the root Pane
+     */
+    private void buildStatePane(Pane root) {
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
         shadow.setRadius(50.0);
@@ -498,7 +560,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> scrollPane.setVisible(true));
 
         pane.add(new Label("You: "), 0, 0);
-        pane.add(createPlayerPane(scrollPane, model.getLocalPlayer()), 1, 1);
+        pane.add(buildPlayerPane(model.getLocalPlayer()), 1, 1);
         pane.add(new Label("Other Players: "), 0, 2);
 
         scrollPane.setContent(pane);
@@ -506,7 +568,12 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(scrollPane);
     }
 
-    private Pane createPlayerPane(Node root, PlayerDTO player) {
+    /**
+     * Builds and returns a pane displaying the Player's state
+     * @param player is a PlayerDTO
+     * @return the pane
+     */
+    private Pane buildPlayerPane(PlayerDTO player) {
         GridPane playerPane = new GridPane();
         playerPane.add(new Label("Name: "), 1, 1);
         playerPane.add(new Label(player.getName()), 2, 1);
@@ -528,7 +595,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         return playerPane;
     }
 
-    private void constructChatPane(Pane root) {
+    /**
+     * Builds and displays the panel where the user chat
+     * @param root is the root Pane
+     */
+    private void buildChatPane(Pane root) {
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
         shadow.setRadius(50.0);
@@ -600,6 +671,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     }
 
+    /**
+     * Inner class used for the configuration dialog
+     */
     class Conf {
         boolean gui;
         String name;

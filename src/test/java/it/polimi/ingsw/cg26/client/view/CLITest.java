@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.client.view;
 
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.client.view.ui.CLI;
+import it.polimi.ingsw.cg26.client.ui.CLI;
 import it.polimi.ingsw.cg26.common.dto.*;
 import org.junit.Before;
 import org.junit.Test;
