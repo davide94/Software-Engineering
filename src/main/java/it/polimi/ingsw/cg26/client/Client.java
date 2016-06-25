@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
@@ -77,7 +78,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private static final List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
     
     private static final List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
-    
+   
+    private static final List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
     @Override
     public void start(Stage primaryStage) throws Exception {
         if (establishConnection())
@@ -267,6 +269,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildBPT(root);
         buildBalconies(root);
         buildNobilityTrack(root);
+        buildColorBonuses(root);
 
         buildActionsPane(root);
         buildStatePane(root);
@@ -431,6 +434,47 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(track);
     }
 
+    private void buildColorBonuses(Pane root) {
+    	for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
+    		AnchorPane rewardTile = new AnchorPane();
+    		rewardTile.setPrefSize(0.058 * root.getWidth(), 0.035 * root.getHeight());
+			rewardTile.setRotate(45);
+    		switch (t.getKey().getColor()) {
+			case "iron":
+				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/ironCityTile.png") + ");" +
+	                    "-fx-background-position: center;" +
+	                    "-fx-background-size: 100% 100%;");
+				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(0).getX() * root.getWidth());
+				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(0).getY() * root.getHeight());
+				break;
+			case "silver":
+				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/bronzeCityTile.png") + ");" +
+	                    "-fx-background-position: center;" +
+	                    "-fx-background-size: 100% 100%;");
+				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(1).getX() * root.getWidth());
+				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(1).getY() * root.getHeight());
+				break;
+			case "bronze":
+				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/silverCityTile.png") + ");" +
+	                    "-fx-background-position: center;" +
+	                    "-fx-background-size: 100% 100%;");
+				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(2).getX() * root.getWidth());
+				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(2).getY() * root.getHeight());
+				break;
+			case "gold":
+				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/goldCityTile.png") + ");" +
+	                    "-fx-background-position: center;" +
+	                    "-fx-background-size: 100% 100%;");
+				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(3).getX() * root.getWidth());
+				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(3).getY() * root.getHeight());
+				break;
+			default:
+				break;
+			}
+    		root.getChildren().add(rewardTile);
+    	}
+    }
+    
     /**
      * Updates the position of the king's visual representation to the actual king's position
      * @param king is a KingDTO
