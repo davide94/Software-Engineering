@@ -1,9 +1,11 @@
 package it.polimi.ingsw.cg26.common;
 
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -37,5 +39,7 @@ public interface ClientModel {
     void setKing(KingDTO king);
 
     void setMarket(MarketDTO market);
+    
+    void setColorBonuses(Map<CityColorDTO, BonusDTO> colorBonuses);
 
 }

@@ -3,7 +3,9 @@ package it.polimi.ingsw.cg26.common.change;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
@@ -15,6 +17,7 @@ import org.junit.Test;
 import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.GameBoardDTO;
@@ -29,7 +32,10 @@ import it.polimi.ingsw.cg26.common.dto.PoliticDeckDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.VictoryBonusDTO;
 
 public class FullStateChangeTest {
 
@@ -56,6 +62,8 @@ public class FullStateChangeTest {
 	private List<PlayerDTO> changePlayers;
 	
 	private PoliticDeckDTO changeDeck;
+	
+	private Map<CityColorDTO, BonusDTO> changeColorBonuses;
 	
 	@Before
 	public void setUp(){
@@ -115,12 +123,16 @@ public class FullStateChangeTest {
 		
 		changeKingDeck = new KingDeckDTO(new ArrayList<RewardTileDTO>());
 		
+		changeColorBonuses = new HashMap<>();
+		changeColorBonuses.put(new CityColorDTO("rosso"), new CoinBonusDTO(new EmptyBonusDTO(), 2));
+		changeColorBonuses.put(new CityColorDTO("verde"), new VictoryBonusDTO(new EmptyBonusDTO(), 4));
+		
 		changeCurrentPlayer = new PlayerDTO("Luca", 1, false, 2, 3, 1, 1, 5, 4, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 	}
 	
 	@Test (expected = NullPointerException.class)
 	public void testBuildChangeWithChangeNullShouldThrowException(){
-		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck);
+		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck, changeColorBonuses);
 		new FullStateChange(null, changeGameBoard);
 	}
 	
@@ -131,7 +143,7 @@ public class FullStateChangeTest {
 	
 	@Test
 	public void testApplyChange() throws Exception {
-		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck);
+		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck, changeColorBonuses);
 		Change change =  new FullStateChange(this.change, changeGameBoard);
 		change.apply(model);
 		
@@ -145,11 +157,12 @@ public class FullStateChangeTest {
 		assertEquals(changeKing, model.getKing());
 		assertEquals(changeMarket, model.getMarket());
 		assertEquals(changeKingDeck, model.getKingDeck());
+		assertEquals(changeColorBonuses, model.getColorBonuses());
 	}
 	
 	@Test
 	public void testToString(){
-		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck);
+		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck, changeColorBonuses);
 		Change change =  new FullStateChange(this.change, changeGameBoard);
 		
 		assertEquals("FullStateChange{dto=" + changeGameBoard +'}', change.toString());
@@ -157,7 +170,7 @@ public class FullStateChangeTest {
 	
 	@Test
 	public void testGetState(){
-		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck);
+		GameBoardDTO changeGameBoard = new GameBoardDTO(changePlayers, changeCurrentPlayer, changeDeck , changePool, changeKingBalcony, changeRegions, changeTrack, changeKing, changeMarket, changeKingDeck, changeColorBonuses);
 		FullStateChange change =  new FullStateChange(this.change, changeGameBoard);
 		
 		assertEquals(changeGameBoard, change.getState());

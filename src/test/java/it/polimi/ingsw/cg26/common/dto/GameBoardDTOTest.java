@@ -4,13 +4,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.polimi.ingsw.cg26.common.dto.bonusdto.AssistantBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.NobilityBonusDTO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -29,6 +32,7 @@ public class GameBoardDTOTest {
     private KingDTO king;
     private MarketDTO market;
     private KingDeckDTO kingDeck;
+    private Map<CityColorDTO, BonusDTO> colorBonuses;
 
     private GameBoardDTO board;
 
@@ -44,54 +48,60 @@ public class GameBoardDTOTest {
         king = new KingDTO("cityname");
         market = new MarketDTO(new ArrayList<SellableDTO>());
         kingDeck = new KingDeckDTO(new LinkedList<>());
+        colorBonuses = new HashMap<>();
 
-        board = new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        board = new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
 
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail1() throws Exception {
-        new GameBoardDTO(null, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        new GameBoardDTO(null, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail2() throws Exception {
-        new GameBoardDTO(players, currentPlayer, null, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        new GameBoardDTO(players, currentPlayer, null, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail3() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, null, kingBalcony, regions, nobilityTrack, king, market, kingDeck);
+        new GameBoardDTO(players, currentPlayer, deck, null, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail4() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, null, regions, nobilityTrack, king, market, kingDeck);
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, null, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail5() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, null, nobilityTrack, king, market, kingDeck);
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, null, nobilityTrack, king, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail6() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, null, king, market, kingDeck);
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, null, king, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail7() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, null, market, kingDeck);
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, null, market, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail8() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, null, kingDeck);
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, null, kingDeck, colorBonuses);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorShouldFail9() throws Exception {
-        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, null);
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, null, colorBonuses);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testConstructorShouldFail10() throws Exception {
+        new GameBoardDTO(players, currentPlayer, deck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, null);
     }
     
     @Test
