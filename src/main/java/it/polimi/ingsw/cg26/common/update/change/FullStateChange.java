@@ -59,5 +59,6 @@ public class FullStateChange extends ChangeDecorator {
         model.setKing(state.getKing());
         model.setMarket(state.getMarket());
         model.setKingDeck(state.getKingDeck());
+        model.setColorBonuses(state.getColorBonuses());
     }
 }

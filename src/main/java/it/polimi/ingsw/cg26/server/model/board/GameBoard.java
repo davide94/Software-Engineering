@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
 import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.Update;
@@ -18,6 +19,7 @@ import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +111,11 @@ public class GameBoard extends Observable<Update> {
         LinkedList<CouncillorDTO> councillorsState = councillorsPool.stream().map(Councillor::getState)
                 .collect(Collectors.toCollection(LinkedList::new));
         List<PlayerDTO> playersState = scheduler.getPlayersState();
-		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer() == null ? null: scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState());
+        Map<CityColorDTO, BonusDTO> colorBonusesDTO = new HashMap<>();
+        for(Map.Entry<CityColor, Bonus> b : colorBonuses.entrySet()){
+        	colorBonusesDTO.put(b.getKey().getState(), b.getValue().getState());
+        }
+		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer() == null ? null: scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState(), colorBonusesDTO);
 	}
 	
 	

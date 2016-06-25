@@ -3,6 +3,9 @@ package it.polimi.ingsw.cg26.common.dto;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 /**
  *
@@ -30,6 +33,8 @@ public class GameBoardDTO implements Serializable {
     private KingDTO king;
 
     private MarketDTO market;
+    
+    private Map<CityColorDTO, BonusDTO> colorBonuses;
 
     /**
      * Constructs a GameBoard DTO object
@@ -44,8 +49,8 @@ public class GameBoardDTO implements Serializable {
      * @param kingDeck is a king's deck DTO
      * @throws NullPointerException if any of the parameters is null
      */
-    public GameBoardDTO(List<PlayerDTO> players, PlayerDTO currentPlayer, PoliticDeckDTO deck, Collection<CouncillorDTO> councillorsPool, BalconyDTO kingBalcony, List<RegionDTO> regions, NobilityTrackDTO nobilityTrack, KingDTO king, MarketDTO market, KingDeckDTO kingDeck) {
-        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null)
+    public GameBoardDTO(List<PlayerDTO> players, PlayerDTO currentPlayer, PoliticDeckDTO deck, Collection<CouncillorDTO> councillorsPool, BalconyDTO kingBalcony, List<RegionDTO> regions, NobilityTrackDTO nobilityTrack, KingDTO king, MarketDTO market, KingDeckDTO kingDeck, Map<CityColorDTO, BonusDTO> colorBonuses) {
+        if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null || colorBonuses == null)
             throw new NullPointerException();
         this.players = players;
         this.currentPlayer = currentPlayer;
@@ -57,6 +62,7 @@ public class GameBoardDTO implements Serializable {
         this.king = king;
         this.market = market;
         this.kingDeck = kingDeck;
+        this.colorBonuses = colorBonuses;
     }
 
     /**
@@ -221,6 +227,21 @@ public class GameBoardDTO implements Serializable {
     public void setMarket(MarketDTO market) {
         this.market = market;
     }
+    
+
+	/**
+	 * @return the colorBonuses
+	 */
+	public Map<CityColorDTO, BonusDTO> getColorBonuses() {
+		return colorBonuses;
+	}
+
+	/**
+	 * @param colorBonuses the colorBonuses to set
+	 */
+	public void setColorBonuses(Map<CityColorDTO, BonusDTO> colorBonuses) {
+		this.colorBonuses = colorBonuses;
+	}
 
     @Override
     public String toString() {
@@ -235,5 +256,4 @@ public class GameBoardDTO implements Serializable {
                 ", market=" + market +
                 '}';
     }
-
 }
