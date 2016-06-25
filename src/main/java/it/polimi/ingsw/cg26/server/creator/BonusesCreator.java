@@ -39,6 +39,12 @@ public class BonusesCreator {
             bonuses = new VictoryBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "victory")));
         if (Creator.hasAttribute(root, "action"))
             bonuses = new MainActionBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "action")));
+        if (Creator.hasAttribute(root, "takeBPT"))
+            bonuses = new TakeBPTBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takeBPT")));
+        if (Creator.hasAttribute(root, "takePlayer"))
+            bonuses = new TakePlayerBPTBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takePlayer")));
+        if (Creator.hasAttribute(root, "takeYour"))
+            bonuses = new TakeYourCityBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takeYour")));
         return bonuses;
     }
 }

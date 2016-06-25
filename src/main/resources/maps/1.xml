@@ -18,9 +18,13 @@
     </cityBonuses>
     <nobilityTrack len="21">
         <bonus position="2" earn="2" victory="2" />
+        <bonus position="4" takePlayer="1" />
         <bonus position="6" action="1" />
         <bonus position="8" draw="1" victory="3" />
+        <bonus position="10" takeYour="1" />
         <bonus position="12" assistants="1" victory="5" />
+        <bonus position="14" takeBPT="1" />
+        <bonus position="16" takePlayer="2" />
         <bonus position="18" victory="8" />
         <bonus position="19" victory="2" />
         <bonus position="20" victory="3" />

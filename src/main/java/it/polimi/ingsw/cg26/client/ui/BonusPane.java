@@ -23,9 +23,20 @@ public class BonusPane extends GridPane {
         int i = 0;
         for (String bonusString: bonusesStrings) {
             GridPane bonusPane = new GridPane();
+            if (bonusString.isEmpty())
+                break;
             double bonusSize = 0.75 * size /(double) bonusesStrings.size();
             //double bonusSize = bonusesStrings.size() == 1 ? size * 0.75 : size /(double) bonusesStrings.size();
             bonusPane.setPrefSize(bonusSize, bonusSize);
+
+            int j = 0;
+            while (true) {
+                if (bonusString.charAt(j) > 47 && bonusString.charAt(j) < 58)
+                    break;
+                j++;
+            }
+            String multiplicity = new String(new char[]{bonusString.charAt(j)});
+
             String styleString = "";
             if (bonusString.contains("Assistants"))
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/assistants.png") + ");";
@@ -37,28 +48,34 @@ public class BonusPane extends GridPane {
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/main.png") + ");";
             if (bonusString.contains("Nobility"))
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/nobility.png") + ");";
-            if (bonusString.contains("Take BPT"))
+            if (bonusString.contains("Take BPT")) {
+                multiplicity = "";
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeTileBonus.png") + ");";
-            if (bonusString.contains("Take Player"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCityBonus.png") + ");";
-            if (bonusString.contains("Take Your"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/takeYour.png") + ");";
+            }
+            if (bonusString.contains("Take Player")) {
+                if (multiplicity.equals("1"))
+                    styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCityBonus.png") + ");";
+                else
+                    styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCity2.png") + ");";
+                multiplicity = "";
+            }
+            if (bonusString.contains("Take Your")) {
+                multiplicity = "";
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeYour.png") + ");";
+            }
             if (bonusString.contains("Victory"))
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/victory.png") + ");";
-            styleString += "-fx-background-position: center;-fx-background-size: 100%; -fx-background-repeat: no-repeat;";
-            int j = 0;
-            while (true) {
-                if (bonusString.charAt(j) > 47 && bonusString.charAt(j) < 58)
-                    break;
-                j++;
-            }
+            styleString += "-fx-background-position: center;-fx-background-size: contain; -fx-background-repeat: no-repeat;";
+
             //styleString += "-fx-background-color: red;";
+            //styleString += "-fx-border-width: 1px;-fx-border-color: black;";
             bonusPane.setStyle(styleString);
             bonusPane.setAlignment(Pos.CENTER);
+
             Label multiplicityLabel = new Label();
             multiplicityLabel.setTextFill(Color.WHITE);
             multiplicityLabel.setFont(Font.font(9.0));
-            multiplicityLabel.setText(new String(new char[]{bonusString.charAt(j)}));
+            multiplicityLabel.setText(multiplicity);
             bonusPane.add(multiplicityLabel, 0, 0);
             this.add(bonusPane, i, 1);
             i++;

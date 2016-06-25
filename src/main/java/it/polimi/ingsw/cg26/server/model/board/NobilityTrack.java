@@ -41,9 +41,11 @@ public class NobilityTrack {
 	public NobilityTrackDTO getState() {
 		List<NobilityCellDTO> cellsState = new LinkedList<>();
 		NobilityCell cell = firstCell;
-		while (cell.hasNext()) {
+		while (true) {
 			cellsState.add(cell.getState());
-			cell=cell.next();
+			if (!cell.hasNext())
+				break;
+			cell = cell.next();
 		}
 		return new NobilityTrackDTO(cellsState);
 	}

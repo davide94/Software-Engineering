@@ -2,10 +2,7 @@ package it.polimi.ingsw.cg26.client;
 
 import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.client.ui.BPTPane;
-import it.polimi.ingsw.cg26.client.ui.BalconyPane;
-import it.polimi.ingsw.cg26.client.ui.CLI;
-import it.polimi.ingsw.cg26.client.ui.CityPane;
+import it.polimi.ingsw.cg26.client.ui.*;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
@@ -93,7 +90,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      */
     private boolean establishConnection() {
 
-        Optional<Conf> result = buildDialog().showAndWait();
+        //Optional<Conf> result = buildDialog().showAndWait();
+        Optional<Conf> result = Optional.of(new Conf(true, "", true, "127.0.0.1"));
 
         if (!result.isPresent()) {
             Platform.exit();
@@ -268,6 +266,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildCities(root);
         buildBPT(root);
         buildBalconies(root);
+        buildNobilityTrack(root);
 
         buildActionsPane(root);
         buildStatePane(root);
@@ -424,6 +423,12 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     		root.getChildren().add(balcony);
     		i++;
     	}
+    }
+
+    private void buildNobilityTrack(Pane root) {
+        Point2D origin = new Point2D(0.0475 * root.getWidth(), 0.81 * root.getHeight());
+        Pane track = new NobilityTrackPane(origin, 0.69 * root.getWidth(), 0.05 * root.getHeight(), model.getNobilityTrack());
+        root.getChildren().add(track);
     }
 
     /**
