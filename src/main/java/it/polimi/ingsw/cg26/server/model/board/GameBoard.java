@@ -11,6 +11,7 @@ import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
 import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
@@ -304,6 +305,7 @@ public class GameBoard extends Observable<Update> {
             if (bonus == null)
                 return;
             bonus.apply(player);
+            colorBonuses.remove(color);
             if (kingDeck.hasNext())
                 this.kingDeck.draw().apply(player);
         }
@@ -311,11 +313,13 @@ public class GameBoard extends Observable<Update> {
         for (Region r: regions) {
             if (r.checkRegionBonuses(player)) {
                 Bonus regionBonus = r.getRegionBonus();
-                if (regionBonus != null) {
+                Bonus empty= new EmptyBonus();
+                if (!regionBonus.equals(empty)){
                     regionBonus.apply(player);
                     if (kingDeck.hasNext())
                         this.kingDeck.draw().apply(player);
                 }
+               
             }
         }
     }

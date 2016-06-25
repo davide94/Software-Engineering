@@ -604,9 +604,18 @@ public class GameBoardTest {
 		board.getCity(veneziaDTO).build(Luca);
 		board.getCity(napoliDTO).build(Luca);
 		
+    
+		board.getCity(milanoDTO).build(Davide);
+		board.getCity(torinoDTO).build(Davide);
+		board.getCity(firenzeDTO).build(Davide);
+		board.getCity(veneziaDTO).build(Davide);
+		board.getCity(napoliDTO).build(Davide);
+		
 		board.checkBonuses(Luca, CityColor.createCityColor("gold"));
+		board.checkBonuses(Davide, CityColor.createCityColor("gold"));
 		
 		assertEquals(Luca.getVictoryPoints(), 75);
+		assertEquals(Davide.getVictoryPoints(), 5);
 		
 	}
 	
@@ -632,9 +641,17 @@ public class GameBoardTest {
 		board.getCity(veneziaDTO).build(Luca);
 		board.getCity(triesteDTO).build(Luca);
 		
+		board.getCity(milanoDTO).build(Davide);
+		board.getCity(torinoDTO).build(Davide);
+		board.getCity(genovaDTO).build(Davide);
+		board.getCity(veneziaDTO).build(Davide);
+		board.getCity(triesteDTO).build(Davide);
+		
 		board.checkBonuses(Luca, CityColor.createCityColor("bronze"));
+		board.checkBonuses(Davide, CityColor.createCityColor("bronze"));
 		
 		assertEquals(Luca.getVictoryPoints(), 58);
+		assertEquals(Davide.getVictoryPoints(), 3);
 		
 		
 	}

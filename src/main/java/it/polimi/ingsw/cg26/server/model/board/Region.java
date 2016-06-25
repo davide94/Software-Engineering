@@ -4,6 +4,7 @@ package it.polimi.ingsw.cg26.server.model.board;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -103,12 +104,12 @@ public class Region {
     
     
     /**
-     * Get the bonus of the region and set null the bonus because it has just been taken
+     * Get the bonus of the region and set empty the bonus because it has just been taken
      * @return the bonus of the region
      */
     public Bonus getRegionBonus() {
     	Bonus ret = this.bonus;
-    	this.bonus = null;
+    	this.bonus = new EmptyBonus();
     	return ret;
     }
    
