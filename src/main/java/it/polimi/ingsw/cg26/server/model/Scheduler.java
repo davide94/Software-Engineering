@@ -23,6 +23,9 @@ public class Scheduler {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * Number of politic cards when the match starts
+     */
     private static final int INITIAL_CARDS_NUMBER = 6;
 
     /**
@@ -30,6 +33,10 @@ public class Scheduler {
      */
     private final List<Player> players;
 
+    
+    /**
+     * The state of the match
+     */
     private State state;
 
     /**
@@ -37,6 +44,8 @@ public class Scheduler {
      */
     private final GameBoard gameBoard;
 
+    
+    
     /**
      * Constructs a Scheduler
      *
@@ -51,12 +60,22 @@ public class Scheduler {
         state = new MatchNotStarted(gameBoard);
     }
 
+    
+    /**
+     * Get the numbers of players
+     * @return numbers of players
+     */
     public int playersNumber() {
         return players.size();
     }
 
     /* ---------- ONLY FOR TESTING ---------- */
 
+    
+    /**
+     * Get the list of players
+     * @return the list of players
+     */
     public List<Player> getPlayers() {
         return players;
     }
@@ -118,6 +137,13 @@ public class Scheduler {
         return player;
     }
 
+    
+    /**
+     * Create a new player
+     * @param name of the new player
+     * @return the new player
+     * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
+     */
     private Player newPlayer(String name) throws NoRemainingCardsException {
         if (name.equals(""))
             name = "Player_" + players.size();
@@ -125,11 +151,21 @@ public class Scheduler {
         return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), 10, new LinkedList<>(), new LinkedList<>());
     }
 
+    
+    /**
+     * Start the match and change state
+     * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
+     */
     public void start() throws NoRemainingCardsException {
         initPlayers();
         state = state.startMatch(new LinkedList<>(players));
     }
 
+    
+    /**
+     * Add all the items to the players to start the match
+     * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
+     */
     public void initPlayers() throws NoRemainingCardsException {
 
         for (int i = 0; i < playersNumber(); i++) {
@@ -143,6 +179,11 @@ public class Scheduler {
 
     }
 
+    
+    /**
+     * Remove a player from the match 
+     * @param token is the token of the player that has to be removed
+     */
     public void killPlayer(long token) {
         Player toBeKilled = null;
         for (Player p: players)
@@ -155,36 +196,74 @@ public class Scheduler {
         log.info("Player " + token + " killed.");
     }
 
+    
+    /**
+     * Set Offline the state of a player
+     * @param token is the token of the player
+     */
     public void deactivatePlayer(long token) {
         for (Player p: players)
             if (p.getToken() == token)
                 p.setOnline(false);
     }
 
+    /**
+     * Check if a player can perform a Regular Action
+     * @param token is the token of the player
+     * @return true if the state of the player says that he can perform it
+     */
     public boolean canPerformRegularAction(long token) {
         return state.canPerformRegularAction(token);
     }
 
+    
+    /**
+     * Check if a player can sell an item
+     * @param token is the token of the player
+     * @return true if the state of the player says that he can sell, otherwise false
+     */
     public boolean canSell(long token) {
         return state.canSell(token);
     }
 
+    
+    /**
+     * Check if a player can buy an item
+     * @param token is the token of the player
+     * @return true if the state of the player says that he can buy, otherwise false
+     */
     public boolean canBuy(long token) {
         return state.canBuy(token);
     }
 
+    /**
+     * Set the state of the match as regular action performed
+     */
     public void regularActionPerformed() {
         state = state.regularActionPerformed();
     }
 
+    
+    /**
+     * Set the state of the match as fold sell
+     */
     public void foldSell() {
         state = state.sellFolded();
     }
 
+    
+    /**
+     * Set the state of the match as fold buy
+     */
     public void foldedBuy() {
         state = state.buyFolded();
     }
 
+    
+    /**
+     * Setter of the state
+     * @param state of the game
+     */
     public void setState(State state) {
         this.state = state;
     }

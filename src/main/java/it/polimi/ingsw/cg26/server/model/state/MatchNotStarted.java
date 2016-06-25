@@ -10,6 +10,10 @@ import java.util.List;
  */
 public class MatchNotStarted extends State {
 
+	/**
+	 * Default constructor
+	 * @param gameBoard is the game board
+	 */
     public MatchNotStarted(GameBoard gameBoard) {
         super(gameBoard);
     }

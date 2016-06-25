@@ -19,12 +19,28 @@ public class MarketBuy extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The list of players
+     */
     private List<Player> players;
 
+    /**
+     * The list of players in a random order for the buy market phase 
+     */
     private List<Player> shuffled;
 
+    
+    /**
+     * The number of the current player
+     */
     private int current;
 
+    
+    /**
+     * default constructor
+     * @param players is the list of players
+     * @param gameBoard is the game board
+     */
     public MarketBuy(List<Player> players, GameBoard gameBoard) {
         super(gameBoard);
         this.players = players;

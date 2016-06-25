@@ -12,8 +12,18 @@ import java.util.List;
  */
 public class MatchEnded extends State {
 
+	
+	/**
+	 * The list of players
+	 */
     private List<Player> players;
 
+    
+    /**
+     * Default constructor
+     * @param players is the list of players
+     * @param gameBoard is the game board
+     */
     public MatchEnded(List<Player> players, GameBoard gameBoard) {
         super(gameBoard);
         this.players = players;

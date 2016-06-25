@@ -20,12 +20,30 @@ public class LastRound extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The list of players
+     */
     private List<Player> players;
 
+    
+    /**
+     * The number of the current player
+     */
     private int current;
 
+    
+    /**
+     * The number of the match winner
+     */
     private int winner;
 
+    
+    /**
+     * Default constructor
+     * @param players is the list of players
+     * @param winner The number of the match winner
+     * @param gameBoard is the game board
+     */
     public LastRound(List<Player> players, int winner, GameBoard gameBoard) {
         super(gameBoard);
         this.players = players;

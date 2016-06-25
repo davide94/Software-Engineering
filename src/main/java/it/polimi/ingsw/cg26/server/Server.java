@@ -43,27 +43,69 @@ public class Server {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The starting delay
+     */
     private final static int START_DELAY = 5 * 1000;
 
+    
+    /**
+     * The number of socket Port
+     */
     private final static int SOCKET_PORT = 29999;
 
+    
+    /**
+     * The number of RMI Port
+     */
     private final static int RMI_PORT = 52365;
 
+    
+    /**
+     * The controller
+     */
     private Controller controller;
 
+    
+    /**
+     * The model of the game
+     */
     private GameBoard model;
 
+    
+    /**
+     * All the clients
+     */
     private Map<Long, View> clients;
 
+    
+    /**
+     * the scheduler of the gameboard
+     */
     private Scheduler scheduler;
 
+    
+    /**
+     * The executor
+     */
     private final ExecutorService executor;
 
+    
+    /**
+     * Server constructor 
+     * @throws IOException 
+     */
     private Server() throws IOException {
         clients = new LinkedHashMap<>();
         this.executor = Executors.newCachedThreadPool();
     }
 
+    
+    /**
+     * Create a new game
+     * @throws BadInputFileException
+     * @throws ParserErrorException
+     */
     private void newGame() throws BadInputFileException, ParserErrorException {
         clients = new LinkedHashMap<>();
         model = Creator.createGame("maps/1.xml");
@@ -72,6 +114,11 @@ public class Server {
         log.info("New match created.");
     }
 
+    
+    
+    /**
+     * Start the match if there are at least two players
+     */
     private void start() {
         log.info("It's time to start the match.");
         for (Map.Entry e: clients.entrySet()) {
@@ -107,6 +154,12 @@ public class Server {
         }
     }
 
+    
+    /**
+     * Start Server Socket connections
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void startSocket() throws IOException, ClassNotFoundException {
         ServerSocket serverSocket = new ServerSocket(SOCKET_PORT);
 
@@ -124,6 +177,12 @@ public class Server {
         }
     }
 
+    
+    /**
+     * Start RMI connections
+     * @throws RemoteException
+     * @throws AlreadyBoundException
+     */
     private void startRMI() throws RemoteException, AlreadyBoundException {
         Registry registry = LocateRegistry.createRegistry(RMI_PORT);
 
@@ -136,6 +195,13 @@ public class Server {
         log.info("SERVER RMI READY ON PORT " + RMI_PORT);
     }
 
+    
+    /**
+     * Register a new player that is connected through socket
+     * @param socket the socket connection of a player
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void registerSocketPlayer(Socket socket) throws IOException, ClassNotFoundException {
         ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
@@ -171,6 +237,14 @@ public class Server {
         }
     }
 
+    
+    /**
+     * Register a new player that is connected through RMI
+     * @param client the client RMI View Interface of the new player
+     * @param name the name of the player
+     * @return
+     * @throws RemoteException
+     */
     public ServerRMIViewInterface registerRMIPlayer(ClientRMIViewInterface client, String name) throws RemoteException {
         Player player;
         try {

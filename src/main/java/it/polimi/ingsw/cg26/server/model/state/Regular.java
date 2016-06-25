@@ -21,10 +21,23 @@ public class Regular extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    
+    /**
+     * The list of players
+     */
     private List<Player> players;
 
+    /**
+     * the number of the current player
+     */
     private int current;
 
+    
+    /**
+     * Default Constructor
+     * @param players the list of players
+     * @param gameBoard is the game board
+     */
     public Regular(List<Player> players, GameBoard gameBoard) {
         super(gameBoard);
         this.players = players;
