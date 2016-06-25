@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
+import it.polimi.ingsw.cg26.client.view.ui.CityPane;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
@@ -41,6 +42,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.KeyStore.Entry;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -70,7 +72,7 @@ public class GUIClient extends Application {
 
     private Controller controller;
 
-    private Map<CityDTO, Pane> citiesPanes = new LinkedHashMap<>();
+    private Map<CityDTO, CityPane> citiesPanes = new LinkedHashMap<>();
 
     private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
@@ -114,6 +116,8 @@ public class GUIClient extends Application {
         constructCoveredBPT(root);
         
         constructBalconies(root);
+        
+        moveKing(model.getKing());
 
         constructActionsPane(root);
         constructStatePane(root);
@@ -335,57 +339,10 @@ public class GUIClient extends Application {
     }
 
     private void createCity(Pane root, Point2D origin, CityDTO city) {
-        AnchorPane pane = new AnchorPane();
+    	CityPane pane = new CityPane(root, city);
         AnchorPane.setLeftAnchor(pane, origin.getX() * root.getWidth());
         AnchorPane.setTopAnchor(pane, origin.getY() * root.getHeight());
         pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
-
-        DropShadow shadow = new DropShadow();
-        shadow.setRadius(2.0);
-        shadow.setColor(Color.BLACK);
-
-        Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight());
-        Label nameLabel = new Label(city.getName().substring(0, 1).toUpperCase() + city.getName().substring(1));
-        nameLabel.setEffect(shadow);
-        nameLabel.setFont(goudyMedieval);
-        nameLabel.setTextFill(Color.rgb(137, 135, 143));
-        nameLabel.setRotate(45.0);
-        AnchorPane.setRightAnchor(nameLabel, 10.0);
-        AnchorPane.setTopAnchor(nameLabel, 10.0);
-        pane.getChildren().add(nameLabel);
-
-        String style = "-fx-background-image: url(" + getClass().getResource("/img/cities/violet.png") + ");";
-        if (city.getColor().equals(new CityColorDTO("iron"))) {
-            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/iron.png") + ");";
-            nameLabel.setTextFill(Color.rgb(62, 171, 182));
-        }
-        if (city.getColor().equals(new CityColorDTO("bronze"))) {
-            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/bronze.png") + ");";
-            nameLabel.setTextFill(Color.rgb(196, 112, 81));
-        }
-        if (city.getColor().equals(new CityColorDTO("silver"))) {
-            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/silver.png") + ");";
-            nameLabel.setTextFill(Color.rgb(150, 155, 159));
-        }
-        if (city.getColor().equals(new CityColorDTO("gold"))) {
-            style = "-fx-background-image: url(" + getClass().getResource("/img/cities/gold.png") + ");";
-            nameLabel.setTextFill(Color.rgb(186, 148, 38));
-        }
-
-        style += "-fx-background-position: center;-fx-background-size: 100% 100%;";
-        pane.setStyle(style);
-
-        root.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            AnchorPane.setLeftAnchor(pane, origin.getX() * newSceneWidth.doubleValue());
-            pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
-            nameLabel.setFont(Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight()));
-        });
-        root.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
-            AnchorPane.setTopAnchor(pane, origin.getY() * newSceneHeight.doubleValue());
-            pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
-            nameLabel.setFont(Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight()));
-        });
-
         // create city bonus
         if (!city.getBonuses().toString().isEmpty()) {
             Pane bonusPane = constructBonus(0.04 * root.getHeight(), 0.04 * root.getHeight(), city.getBonuses());
@@ -552,6 +509,15 @@ public class GUIClient extends Application {
     	}
     	
     	return balconyBox;
+    }
+    
+    private void moveKing(KingDTO king) {
+    	for(Map.Entry<CityDTO, CityPane> c : citiesPanes.entrySet()){
+    		if(c.getKey().getName().equals(king.getCurrentCity()))
+    			c.getValue().getKing().setVisible(true);
+    		else c.getValue().getKing().setVisible(false);
+    	}
+    	king.getCurrentCity();
     }
     
     private void constructActionsPane(Pane root) {
