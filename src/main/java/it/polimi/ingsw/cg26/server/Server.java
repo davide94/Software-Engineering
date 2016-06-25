@@ -48,19 +48,16 @@ public class Server {
      */
     private final static int START_DELAY = 5 * 1000;
 
-    
     /**
      * The number of socket Port
      */
     private final static int SOCKET_PORT = 29999;
 
-    
     /**
      * The number of RMI Port
      */
     private final static int RMI_PORT = 52365;
 
-    
     /**
      * The controller
      */
@@ -72,24 +69,20 @@ public class Server {
      */
     private GameBoard model;
 
-    
     /**
      * All the clients
      */
     private Map<Long, View> clients;
 
-    
     /**
      * the scheduler of the gameboard
      */
     private Scheduler scheduler;
 
-    
     /**
      * The executor
      */
     private final ExecutorService executor;
-
     
     /**
      * Server constructor 
@@ -99,7 +92,6 @@ public class Server {
         clients = new LinkedHashMap<>();
         this.executor = Executors.newCachedThreadPool();
     }
-
     
     /**
      * Create a new game
@@ -114,8 +106,6 @@ public class Server {
         log.info("New match created.");
     }
 
-    
-    
     /**
      * Start the match if there are at least two players
      */
@@ -153,7 +143,6 @@ public class Server {
             log.error("Error creating game, parser error.", e);
         }
     }
-
     
     /**
      * Start Server Socket connections
@@ -177,7 +166,6 @@ public class Server {
         }
     }
 
-    
     /**
      * Start RMI connections
      * @throws RemoteException
@@ -194,7 +182,6 @@ public class Server {
 
         log.info("SERVER RMI READY ON PORT " + RMI_PORT);
     }
-
     
     /**
      * Register a new player that is connected through socket
@@ -237,7 +224,6 @@ public class Server {
         }
     }
 
-    
     /**
      * Register a new player that is connected through RMI
      * @param client the client RMI View Interface of the new player

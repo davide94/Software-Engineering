@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.client.view.ui;
 
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
@@ -18,12 +19,24 @@ public class CityPane extends AnchorPane {
 	
 	private HBox emporiums;
 	
-	public CityPane(Pane root, CityDTO city) {
+	public CityPane(Point2D origin, double size, CityDTO city) {
+        AnchorPane.setLeftAnchor(this, origin.getX());
+        AnchorPane.setTopAnchor(this, origin.getY());
+        this.setPrefSize(size, size);
+        // create city bonus
+        if (!city.getBonuses().toString().isEmpty()) {
+            Pane bonusPane = new BonusPane(0.3 * size, city.getBonuses());//constructBonus(0.04 * root.getHeight(), 0.04 * root.getHeight(), city.getBonuses());
+            AnchorPane.setLeftAnchor(bonusPane, 0.150 * size);
+            AnchorPane.setTopAnchor(bonusPane, 0.075 * size);
+            //bonusPane.setRotate((new Random().nextDouble() - 0.5) * 60.0);
+            this.getChildren().add(bonusPane);
+        }
+
 		//add name
 		DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
         shadow.setColor(Color.BLACK);
-		Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * root.getHeight());
+		Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * size);
 		nameLabel = new Label(city.getName().substring(0, 1).toUpperCase() + city.getName().substring(1));
 		nameLabel.setEffect(shadow);
 		nameLabel.setFont(goudyMedieval);
@@ -40,7 +53,7 @@ public class CityPane extends AnchorPane {
                 "-fx-background-size: 100% 100%;");
         AnchorPane.setRightAnchor(king, 15.0);
         AnchorPane.setBottomAnchor(king, 45.0);
-        king.setPrefSize(0.04 * root.getHeight(), 0.04 * root.getHeight());
+        king.setPrefSize(0.04 * size, 0.04 * size);
         king.setVisible(false);
         this.getChildren().add(king);
         

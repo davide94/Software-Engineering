@@ -7,9 +7,10 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
+import it.polimi.ingsw.cg26.client.view.ui.BPTPane;
+import it.polimi.ingsw.cg26.client.view.ui.BalconyPane;
 import it.polimi.ingsw.cg26.client.view.ui.CityPane;
 import it.polimi.ingsw.cg26.common.dto.*;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import javafx.application.Application;
@@ -28,7 +29,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -42,7 +42,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.security.KeyStore.Entry;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -105,7 +104,7 @@ public class GUIClient extends Application {
         int i = 0;
         for (RegionDTO r: model.getRegions()) {
             for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
-                Pane bpt = constructBPT(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
+                Pane bpt = new BPTPane(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
                 AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
                 AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
                 root.getChildren().add(bpt);
@@ -259,7 +258,9 @@ public class GUIClient extends Application {
         cities.addAll(model.getRegions().get(2).getCities());
 
         for (CityDTO city: cities) {
-            createCity(root, citiesOrigins.get(cities.indexOf(city)), cities.get(cities.indexOf(city)));
+            //createCity(root, citiesOrigins.get(cities.indexOf(city)), cities.get(cities.indexOf(city)));
+            Point2D origin = citiesOrigins.get(cities.indexOf(city));
+            citiesPanes.put(city, new CityPane(new Point2D(origin.getX() * root.getWidth(), origin.getY() * root.getHeight()), 0.15 * root.getHeight(), city));
         }
 
         Collection<String> alreadyVisited = new LinkedList<>();
@@ -279,20 +280,6 @@ public class GUIClient extends Application {
                     double offset = 0.075 * root.getHeight();
                     final Shape[] line = {createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset)};
                     root.getChildren().add(line[0]);
-                    /*root.widthProperty().addListener(new ChangeListener<Number>() {
-                        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                            root.getChildren().remove(line[0]);
-                            line[0] = createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset);
-                            root.getChildren().add(line[0]);
-                        }
-                    });
-                    root.heightProperty().addListener(new ChangeListener<Number>() {
-                        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                            root.getChildren().remove(line[0]);
-                            line[0] = createRoute(p1.getX() * root.getWidth() + offset, p1.getY() * root.getHeight() + offset, p2.getX() * root.getWidth() + offset, p2.getY() * root.getHeight() + offset);
-                            root.getChildren().add(line[0]);
-                        }
-                    });*/
                 }
             }
             alreadyVisited.add(city.getName());
@@ -337,111 +324,6 @@ public class GUIClient extends Application {
         path.setStrokeType(StrokeType.CENTERED);
         return path;
     }
-
-    private void createCity(Pane root, Point2D origin, CityDTO city) {
-    	CityPane pane = new CityPane(root, city);
-        AnchorPane.setLeftAnchor(pane, origin.getX() * root.getWidth());
-        AnchorPane.setTopAnchor(pane, origin.getY() * root.getHeight());
-        pane.setPrefSize(0.15 * root.getHeight(), 0.15 * root.getHeight());
-        // create city bonus
-        if (!city.getBonuses().toString().isEmpty()) {
-            Pane bonusPane = constructBonus(0.04 * root.getHeight(), 0.04 * root.getHeight(), city.getBonuses());
-            AnchorPane.setLeftAnchor(bonusPane, 0.030 * root.getHeight());
-            AnchorPane.setTopAnchor(bonusPane, 0.020 * root.getHeight());
-            //bonusPane.setRotate((new Random().nextDouble() - 0.5) * 60.0);
-            pane.getChildren().add(bonusPane);
-        }
-        citiesPanes.put(city, pane);
-        //root.getChildren().add(pane);
-    }
-
-    private Pane constructBonus(double width, double height, BonusDTO bonus) {
-        GridPane pane = new GridPane();
-        pane.setPrefWidth(width);
-        pane.setPrefHeight(height);
-        List<String> bonusesStrings = Arrays.asList(bonus.toString().split(","));
-        int i = 0;
-        for (String bonusString: bonusesStrings) {
-            AnchorPane bonusPane = new AnchorPane();
-            double bonusSize = bonusesStrings.size() == 1 ? width * 0.75 : width /(double) bonusesStrings.size();
-            bonusPane.setPrefSize(bonusSize, bonusSize);
-            String styleString = "";
-            if (bonusString.contains("Assistants"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/assistants.png") + ");";
-            if (bonusString.contains("Cards"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/cards.png") + ");";
-            if (bonusString.contains("Coins"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/coins.png") + ");";
-            if (bonusString.contains("Main"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/main.png") + ");";
-            if (bonusString.contains("Nobility"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/nobility.png") + ");";
-            if (bonusString.contains("Take BPT"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeTileBonus.png") + ");";
-            if (bonusString.contains("Take Player"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCityBonus.png") + ");";
-            if (bonusString.contains("Take Your"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/takeYour.png") + ");";
-            if (bonusString.contains("Victory"))
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/victory.png") + ");";
-            styleString += "-fx-background-position: center;-fx-background-size: 100%; -fx-background-repeat: no-repeat;";
-            //System.out.println(bonusString);
-            int j = 0;
-            while (true) {
-                if (bonusString.charAt(j) > 47 && bonusString.charAt(j) < 58)
-                    break;
-                j++;
-            }
-            bonusPane.setStyle(styleString);
-            Label multiplicityLabel = new Label();
-            AnchorPane.setLeftAnchor(multiplicityLabel, bonusSize / 3.0);
-            AnchorPane.setTopAnchor(multiplicityLabel, bonusSize / 4.0);
-            multiplicityLabel.setTextFill(Color.WHITE);
-            multiplicityLabel.setText(new String(new char[]{bonusString.charAt(j)}));
-            bonusPane.getChildren().add(multiplicityLabel);
-            pane.add(bonusPane, i, 1);
-            i++;
-        }
-        return pane;
-    }
-
-    private Pane constructBPT(double width, double height, BusinessPermissionTileDTO tile) {
-        AnchorPane pane = new AnchorPane();
-        //pane.setRotate((new Random().nextDouble() - 0.5) * 15.0);
-        DropShadow shadow = new DropShadow();
-        shadow.setRadius(4.0);
-        shadow.setColor(Color.BLACK);
-        pane.setEffect(shadow);
-
-        pane.setPrefSize(width, height);
-        pane.setMaxSize(width, height);
-        pane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/cards/bpt.png") + ");" +
-                      "-fx-background-position: center;" +
-                      "-fx-background-size: 100% 100%;");
-        //System.out.println(tile.toString());
-        String cities = "";
-        for(String city: tile.getCities()) {
-            cities += new String(new char[]{city.charAt(0)}).toUpperCase() + "/";
-        }
-
-        if (cities.length() > 0) {
-            cities = cities.substring(0, cities.length()-1);
-        }
-
-        Label label = new Label(cities);
-        Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.25 * width);
-        label.setFont(goudyMedieval);
-        AnchorPane.setLeftAnchor(label, width / 2.0 - tile.getCities().size() * width / 8.0);
-        AnchorPane.setTopAnchor(label, height / 6.0);
-        pane.getChildren().add(label);
-
-        Pane bonusPane = constructBonus(width / 2.0, width / 2, tile.getBonuses());
-        AnchorPane.setLeftAnchor(bonusPane, width / 4.0);
-        AnchorPane.setBottomAnchor(bonusPane, 0.0);
-        pane.getChildren().add(bonusPane);
-
-        return pane;
-    }
     
     private void constructCoveredBPT(Pane root) {
     	List<Point2D> coveredBPTOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.364, 0.587), new Point2D(0.698, 0.587));
@@ -464,51 +346,14 @@ public class GUIClient extends Application {
     }
     
     private void constructBalconies(Pane root) {
-    	HBox kingBalcony = createSingleBalcony(model.getKingBalcony(), 0.105 * root.getWidth(), 0.058 * root.getHeight());
-    	AnchorPane.setLeftAnchor(kingBalcony, 0.630 * root.getWidth());
-    	AnchorPane.setTopAnchor(kingBalcony, 0.721 * root.getHeight());
+    	HBox kingBalcony = new BalconyPane(new Point2D(0.630 * root.getWidth(), 0.721 * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model.getKingBalcony());
     	root.getChildren().add(kingBalcony);
     	int i = 0;
     	for(RegionDTO r : model.getRegions()) {
-    		HBox balcony = createSingleBalcony(r.getBalcony(), 0.105 * root.getWidth(), 0.058 * root.getHeight());
-    		AnchorPane.setLeftAnchor(balcony, balconiesOrigins.get(i).getX() * root.getWidth());
-    		AnchorPane.setTopAnchor(balcony, balconiesOrigins.get(i).getY() * root.getHeight());
+    		HBox balcony = new BalconyPane(new Point2D(balconiesOrigins.get(i).getX() * root.getWidth(), balconiesOrigins.get(i).getY() * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), r.getBalcony());
     		root.getChildren().add(balcony);
     		i++;
     	}
-    }
-
-    private HBox createSingleBalcony(BalconyDTO balcony, double width, double height) {
-    	HBox balconyBox = new HBox();
-    	balconyBox.setPrefSize(width, height);
-		balconyBox.setMaxSize(width, height);
-    	for(CouncillorDTO c : balcony.getCouncillors()) {
-    		Pane councillor = new Pane();
-    		councillor.setPrefSize(width/4, height);
-    		String resource = null;
-    		switch (c.getColor().getColor()) {
-    		case "white": resource = "White_Councillor.png";
-    			break;
-    		case "violet": resource = "Violet_Councillor.png";
-    			break;
-    		case "blue": resource = "Blue_Councillor.png";
-    			break;
-    		case "orange": resource = "Orange_Councillor.png";
-    			break;
-    		case "black": resource = "Black_Councillor.png";
-    			break;
-    		case "pink": resource = "Pink_Councillor.png";
-    			break;
-    		default:
-    			break;
-    		}
-    		councillor.setStyle("-fx-background-image: url(" + getClass().getResource("/img/councillors/" + resource) + ");" +
-    				"-fx-background-position: center;" +
-    				"-fx-background-size: 100% 100%;");
-    		balconyBox.getChildren().add(councillor);
-    	}
-    	
-    	return balconyBox;
     }
     
     private void moveKing(KingDTO king) {
