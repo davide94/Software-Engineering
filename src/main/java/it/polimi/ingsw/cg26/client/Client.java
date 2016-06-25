@@ -9,10 +9,12 @@ import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.client.view.ui.BPTPane;
 import it.polimi.ingsw.cg26.client.view.ui.BalconyPane;
+import it.polimi.ingsw.cg26.client.view.ui.CLI;
 import it.polimi.ingsw.cg26.client.view.ui.CityPane;
 import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
+import it.polimi.ingsw.cg26.common.update.Update;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
@@ -37,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -49,7 +52,7 @@ import java.util.concurrent.Executors;
 /**
  *
  */
-public class GUIClient extends Application {
+public class Client extends Application implements it.polimi.ingsw.cg26.common.observer.Observer<Update> {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -81,106 +84,13 @@ public class GUIClient extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {
-        initialConfiguration();
-
-        AnchorPane root = new AnchorPane();
-
-        root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
-                      "-fx-background-position: center;" +
-                      "-fx-background-size: 100% 100%;");
-
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        double maxWidth = RATIO * primaryScreenBounds.getHeight();
-        double maxHeight = primaryScreenBounds.getHeight();
-
-        primaryStage.setMaxWidth(maxWidth);
-        primaryStage.setMaxHeight(maxHeight);
-        primaryStage.setResizable(false);
-        Scene scene = new Scene(root, maxWidth, maxHeight);
-
-        constructCities(root);
-
-        int i = 0;
-        for (RegionDTO r: model.getRegions()) {
-            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
-                Pane bpt = new BPTPane(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
-                AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
-                AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
-                root.getChildren().add(bpt);
-                i++;
-            }
-        }
-        
-        constructCoveredBPT(root);
-        
-        constructBalconies(root);
-        
-        moveKing(model.getKing());
-
-        constructActionsPane(root);
-        constructStatePane(root);
-        constructChatPane(root);
-
-        primaryStage.setTitle("Council of Four");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        if (establishConnection())
+            createGUI(primaryStage);
     }
 
-    private void initialConfiguration() {
-        class Conf {
-            String name;
-            boolean socket;
-            String ip;
+    private boolean establishConnection() {
 
-            public Conf(String name, boolean socket, String ip) {
-                this.name = name;
-                this.socket = socket;
-                this.ip = ip;
-            }
-        }
-
-        Dialog<Conf> dialog = new Dialog<>();
-        dialog.setTitle("Welcome to Council of Four");
-        dialog.setHeaderText("Select game configuration");
-
-        Label label1 = new Label("Name: ");
-        Label label2 = new Label("ip: ");
-        Label label3 = new Label("Connection type: ");
-
-        TextField text1 = new TextField();
-        TextField text2 = new TextField();
-        text2.setText(DEFAULT_IP);
-
-        ToggleGroup group = new ToggleGroup();
-        RadioButton rb1 = new RadioButton("Socket");
-        rb1.setToggleGroup(group);
-        rb1.setSelected(true);
-        RadioButton rb2 = new RadioButton("RMI");
-        rb2.setToggleGroup(group);
-
-        GridPane grid = new GridPane();
-        grid.setHgap(25.0);
-        grid.setVgap(10.0);
-        grid.add(label1, 1, 1);
-        grid.add(text1, 2, 1, 2, 1);
-        grid.add(label2, 1, 2);
-        grid.add(text2, 2, 2, 2, 1);
-        grid.add(label3, 1, 3);
-        grid.add(rb1, 2, 3);
-        grid.add(rb2, 3, 3);
-        dialog.getDialogPane().setContent(grid);
-
-        ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-
-        dialog.setResultConverter(b -> {
-            if (b == buttonTypeOk)
-                return new Conf(text1.getText(), rb1.isSelected(), text2.getText());
-            return null;
-        });
-
-        Optional<Conf> result = dialog.showAndWait();
+        Optional<Conf> result = constructDialog().showAndWait();
 
         if (!result.isPresent()) {
             Platform.exit();
@@ -212,6 +122,71 @@ public class GUIClient extends Application {
                 result.get().ip = res.get();
             }
         }
+
+        if(!result.get().gui) {
+            CLI cli = new CLI(new Scanner(System.in), new PrintWriter(System.out), outView, model);
+            model.registerObserver(cli);
+            executor.submit(cli);
+            return false;
+        }
+        model.registerObserver(this);
+        return true;
+    }
+
+    private Dialog<Conf> constructDialog() {
+
+        Dialog<Conf> dialog = new Dialog<>();
+        dialog.setTitle("Welcome to Council of Four");
+        dialog.setHeaderText("Select game configuration");
+
+        Label label1 = new Label("UI: ");
+        Label label2 = new Label("Name: ");
+        Label label3 = new Label("ip: ");
+        Label label4 = new Label("Connection type: ");
+
+        TextField text1 = new TextField();
+        TextField text2 = new TextField();
+        text2.setText(DEFAULT_IP);
+
+        ToggleGroup group1 = new ToggleGroup();
+        RadioButton rb1 = new RadioButton("GUI");
+        rb1.setToggleGroup(group1);
+        rb1.setSelected(true);
+        RadioButton rb2 = new RadioButton("CLI");
+        rb2.setToggleGroup(group1);
+
+        ToggleGroup group2 = new ToggleGroup();
+        RadioButton rb3 = new RadioButton("Socket");
+        rb3.setToggleGroup(group2);
+        rb3.setSelected(true);
+        RadioButton rb4 = new RadioButton("RMI");
+        rb4.setToggleGroup(group2);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(25.0);
+        grid.setVgap(10.0);
+        grid.add(label1, 1, 0);
+        grid.add(rb1, 2, 0);
+        grid.add(rb2, 3, 0);
+        grid.add(label2, 1, 1);
+        grid.add(text1, 2, 1, 2, 1);
+        grid.add(label3, 1, 2);
+        grid.add(text2, 2, 2, 2, 1);
+        grid.add(label4, 1, 3);
+        grid.add(rb3, 2, 3);
+        grid.add(rb4, 3, 3);
+        dialog.getDialogPane().setContent(grid);
+
+        ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+
+        dialog.setResultConverter(b -> {
+            if (b == buttonTypeOk)
+                return new Conf(rb1.isSelected(), text1.getText(), rb3.isSelected(), text2.getText());
+            return null;
+        });
+
+        return dialog;
     }
 
     private OutView startSocketClient(String ip, int port, String name) throws IOException, ClassNotFoundException {
@@ -243,6 +218,51 @@ public class GUIClient extends Application {
         log.info("Connection created, waiting to start...");
 
         return new ClientRMIOutView(server);
+    }
+
+    private void createGUI(Stage primaryStage) {
+        AnchorPane root = new AnchorPane();
+
+        root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
+                "-fx-background-position: center;" +
+                "-fx-background-size: 100% 100%;");
+
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+        double maxWidth = RATIO * primaryScreenBounds.getHeight();
+        double maxHeight = primaryScreenBounds.getHeight();
+
+        primaryStage.setMaxWidth(maxWidth);
+        primaryStage.setMaxHeight(maxHeight);
+        primaryStage.setResizable(false);
+        Scene scene = new Scene(root, maxWidth, maxHeight);
+
+        constructCities(root);
+
+        int i = 0;
+        for (RegionDTO r: model.getRegions()) {
+            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
+                Pane bpt = new BPTPane(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
+                AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
+                AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
+                root.getChildren().add(bpt);
+                i++;
+            }
+        }
+
+        constructCoveredBPT(root);
+
+        constructBalconies(root);
+
+        moveKing(model.getKing());
+
+        constructActionsPane(root);
+        constructStatePane(root);
+        constructChatPane(root);
+
+        primaryStage.setTitle("Council of Four");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     private void constructCities(Pane root) {
@@ -573,5 +593,24 @@ public class GUIClient extends Application {
     
     public static void main(String[] args) {
     	launch(args);
+    }
+
+    @Override
+    public void update(Update o) {
+
+    }
+
+    class Conf {
+        boolean gui;
+        String name;
+        boolean socket;
+        String ip;
+
+        public Conf(boolean gui, String name, boolean socket, String ip) {
+            this.gui = gui;
+            this.name = name;
+            this.socket = socket;
+            this.ip = ip;
+        }
     }
 }
