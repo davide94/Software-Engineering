@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg26.client.ui;
 
-import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
-import it.polimi.ingsw.cg26.common.dto.NobilityTrackDTO;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -19,11 +17,13 @@ import java.util.List;
 /**
  *
  */
-public class NobilityTrackPane extends HBox {
+public class CoinsTrack extends HBox {
+
+    private static  final int len = 21;
 
     private List<GridPane> cells;
 
-    public NobilityTrackPane(Point2D origin, double width, double height, NobilityTrackDTO nobilityTrack, List<PlayerDTO> players) {
+    public CoinsTrack(Point2D origin, double width, double height, List<PlayerDTO> players) {
         setPrefSize(width, height);
         setMinSize(width, height);
         setMaxSize(width, height);
@@ -32,25 +32,22 @@ public class NobilityTrackPane extends HBox {
 
         //setStyle("-fx-background-color: red;-fx-opacity: 0.5;");
 
-        double cellSize = width / nobilityTrack.getCells().size();
+        double cellSize = width / len;
         cells = new LinkedList<>();
-        for (NobilityCellDTO cell: nobilityTrack.getCells()) {
-            GridPane cellPane = new GridPane();
-            cellPane.setAlignment(Pos.CENTER);
-            cellPane.add(new BonusPane(cellSize, cell.getBonuses()), 0, 0);
+        for (int i = 0; i < len; i++) {
             GridPane pedinePane = new GridPane();
+            pedinePane.setPrefSize(cellSize, height);
             pedinePane.setHgap(3.0);
             pedinePane.setVgap(3.0);
             pedinePane.setAlignment(Pos.CENTER);
             cells.add(pedinePane);
-            cellPane.add(pedinePane, 0, 0);
-            getChildren().add(cellPane);
+            getChildren().add(pedinePane);
         }
 
         List<String> colors = Arrays.asList("dodgerblue", "orangered", "limegreen", "yellow");
         for (PlayerDTO player: players) {
             Pane pedina = new Pane();
-            pedina.setPrefSize(0.5 * cellSize, 0.5 * cellSize);
+            pedina.setMinSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setMaxSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setStyle("-fx-background-color: " + colors.get(players.indexOf(player) % 4) + ";-fx-background-radius: 50%;");
             DropShadow shadow = new DropShadow();
@@ -60,7 +57,7 @@ public class NobilityTrackPane extends HBox {
             shadow.setOffsetX(-1.0);
             this.setEffect(shadow);
             pedina.setEffect(shadow);
-            GridPane cell = cells.get(player.getNobilityCell());
+            GridPane cell = cells.get(player.getCoins());
             cell.add(pedina, (cell.getChildren().size() / 2) % 2, cell.getChildren().size() % 2);
         }
     }

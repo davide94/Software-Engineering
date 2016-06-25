@@ -78,7 +78,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private static final List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
     
     private static final List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
-   
+
     private static final List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -270,6 +270,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildBalconies(root);
         buildNobilityTrack(root);
         buildColorBonuses(root);
+        buildCoinsTrack(root);
 
         buildActionsPane(root);
         buildStatePane(root);
@@ -430,7 +431,13 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private void buildNobilityTrack(Pane root) {
         Point2D origin = new Point2D(0.0475 * root.getWidth(), 0.81 * root.getHeight());
-        Pane track = new NobilityTrackPane(origin, 0.69 * root.getWidth(), 0.05 * root.getHeight(), model.getNobilityTrack());
+        Pane track = new NobilityTrackPane(origin, 0.69 * root.getWidth(), 0.05 * root.getHeight(), model.getNobilityTrack(), model.getPlayers());
+        root.getChildren().add(track);
+    }
+
+    private void buildCoinsTrack(Pane root) {
+        Point2D origin = new Point2D(0.035 * root.getWidth(), 0.875 * root.getHeight());
+        Pane track = new CoinsTrack(origin, 0.72 * root.getWidth(), 0.05 * root.getHeight(), model.getPlayers());
         root.getChildren().add(track);
     }
 
@@ -474,7 +481,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     		root.getChildren().add(rewardTile);
     	}
     }
-    
+
     /**
      * Updates the position of the king's visual representation to the actual king's position
      * @param king is a KingDTO

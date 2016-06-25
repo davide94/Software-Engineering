@@ -45,7 +45,7 @@ public class BPTPane extends GridPane {
 
         this.add(label, 0, 0);
 
-        Pane bonusPane = new BonusPane(width / 2.0, tile.getBonuses());
+        Pane bonusPane = new BonusPane(0.6 * width, tile.getBonuses());
         this.add(bonusPane, 0, 1);
     }
 }
