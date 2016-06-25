@@ -44,17 +44,18 @@ public class CoinsTrack extends HBox {
             getChildren().add(pedinePane);
         }
 
+        DropShadow shadow = new DropShadow();
+        shadow.setRadius(2.0);
+        shadow.setColor(Color.rgb(0, 0, 0, 0.7));
+        shadow.setOffsetY(3.0);
+        shadow.setOffsetX(-1.0);
+
         List<String> colors = Arrays.asList("dodgerblue", "orangered", "limegreen", "yellow");
         for (PlayerDTO player: players) {
             Pane pedina = new Pane();
             pedina.setMinSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setMaxSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setStyle("-fx-background-color: " + colors.get(players.indexOf(player) % 4) + ";-fx-background-radius: 50%;");
-            DropShadow shadow = new DropShadow();
-            shadow.setRadius(2.0);
-            shadow.setColor(Color.rgb(0, 0, 0, 0.7));
-            shadow.setOffsetY(3.0);
-            shadow.setOffsetX(-1.0);
             this.setEffect(shadow);
             pedina.setEffect(shadow);
             GridPane cell = cells.get(player.getCoins());

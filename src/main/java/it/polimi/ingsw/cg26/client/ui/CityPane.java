@@ -36,7 +36,7 @@ public class CityPane extends AnchorPane {
 		DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
         shadow.setColor(Color.BLACK);
-		Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.025 * size);
+		Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 0.175 * size);
 		nameLabel = new Label(city.getName().substring(0, 1).toUpperCase() + city.getName().substring(1));
 		nameLabel.setEffect(shadow);
 		nameLabel.setFont(goudyMedieval);

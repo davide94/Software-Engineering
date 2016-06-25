@@ -265,6 +265,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         primaryStage.setResizable(false);
         Scene scene = new Scene(root, maxWidth, maxHeight);
 
+        buildVictoryTrack(root);
         buildCities(root);
         buildBPT(root);
         buildBalconies(root);
@@ -438,6 +439,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private void buildCoinsTrack(Pane root) {
         Point2D origin = new Point2D(0.035 * root.getWidth(), 0.875 * root.getHeight());
         Pane track = new CoinsTrack(origin, 0.72 * root.getWidth(), 0.05 * root.getHeight(), model.getPlayers());
+        root.getChildren().add(track);
+    }
+
+    private void buildVictoryTrack(Pane root) {
+        Pane track = new VictoryTrack(root.getWidth(), root.getHeight(), 0.035 * root.getWidth(), model.getPlayers());
         root.getChildren().add(track);
     }
 
