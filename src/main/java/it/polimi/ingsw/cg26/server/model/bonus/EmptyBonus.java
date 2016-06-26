@@ -45,4 +45,9 @@ public class EmptyBonus implements Bonus {
 			return false;
 		return true;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

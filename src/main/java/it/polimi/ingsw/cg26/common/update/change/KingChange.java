@@ -33,5 +33,4 @@ public class KingChange extends ChangeDecorator {
 		super.apply(model);
 		model.setKing(kingDTO);
 	}
-
 }

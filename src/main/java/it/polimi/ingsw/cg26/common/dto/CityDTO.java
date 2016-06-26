@@ -23,11 +23,11 @@ public class CityDTO implements Serializable {
     private final Collection<String> nearCities;
 
     /**
-     * Constructs a City DTO object
+     * Constructs a CityDTO object
      * @param name is the name string
-     * @param color is a City Color DTO
-     * @param reward is a Reward Tile DTO
-     * @param emporiums is a collection of Emporiums DTO
+     * @param color is a CityColorDTO
+     * @param bonuses is a BonusDTO
+     * @param emporiums is a collection of EmporiumDTO
      * @param nearCities is a collection of strings that identifies the near cities
      * @throws NullPointerException if any of the parameters is null
      * @throws IllegalArgumentException if name is empty

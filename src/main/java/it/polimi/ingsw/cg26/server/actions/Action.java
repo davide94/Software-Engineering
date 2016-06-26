@@ -56,5 +56,4 @@ public abstract class Action {
     			gameBoard.notifyObservers(r);
     	}
     }
-
 }

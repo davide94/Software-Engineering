@@ -18,6 +18,8 @@ import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
  * 
  */
 public class GameBoard extends Observable<Update> {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private final PoliticDeck politicDeck;
 
@@ -51,8 +55,6 @@ public class GameBoard extends Observable<Update> {
 
 	private final Scheduler scheduler;
 
-	
-	
 	/**
 	 * Create a Board for the game
 	 * @param deck is collection of politic cards
@@ -82,7 +84,6 @@ public class GameBoard extends Observable<Update> {
 
 	}
 
-	
 	/**
 	 * Create a Board for the game
 	 * @param deck is collection of politic cards
@@ -100,8 +101,6 @@ public class GameBoard extends Observable<Update> {
 		return new GameBoard(deck, new LinkedList<>(councillorsPool), kingBalcony, new LinkedList<>(regions), nobilityTrack, king, market, kingDeck, colorBonuses);
 	}
 
-	
-	
 	/**
 	 * Get the State of the Game board
      * @return GameBoard DTO of the Game board
@@ -118,9 +117,6 @@ public class GameBoard extends Observable<Update> {
         }
 		return new GameBoardDTO(playersState, scheduler.getCurrentPlayer() == null ? null: scheduler.getCurrentPlayer().getState(), politicDeck.getState(), councillorsState, kingBalcony.getState(), regionsState, nobilityTrack.getState(), king.getState(), market.getState(), kingDeck.getState(), colorBonusesDTO);
 	}
-	
-	
-	
 
 	/**
 	 * Get the scheduler that rules the turn logic of the game
@@ -130,7 +126,6 @@ public class GameBoard extends Observable<Update> {
         return scheduler;
     }
 
-    
     /**
      * It is the procedure to start the game
      */
@@ -148,14 +143,13 @@ public class GameBoard extends Observable<Update> {
         try {
             scheduler.start();
         } catch (NoRemainingCardsException e) {
-            e.printStackTrace(); // TODO: handle
+            log.error("Not enough cards", e); // TODO: handle
         }
 
         notifyObservers(new FullStateChange(new BasicChange(), getState()));
         for (PlayerDTO player : getFullPlayers())
             notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), player), player.getToken()));
     }
-
 	
 	/**
 	 * Returns a collection that represents the DTO of all the players
@@ -165,7 +159,6 @@ public class GameBoard extends Observable<Update> {
 		return scheduler.getPlayersFullState();
 	}
 
-	
 	/**
 	 * Registers a new player
 	 * @param name is the name of the player that have to be registered
@@ -176,8 +169,6 @@ public class GameBoard extends Observable<Update> {
 		return scheduler.registerPlayer(name);
 	}
 
-
-	
 	/**
 	 * Returns the current Player
 	 * @return the current Player
@@ -186,7 +177,6 @@ public class GameBoard extends Observable<Update> {
 		return scheduler.getCurrentPlayer();
 	}
 
-	
 	/**
 	 * Get the region of the board
 	 * @return all the regions of the board
@@ -195,7 +185,6 @@ public class GameBoard extends Observable<Update> {
         return new LinkedList<>(regions);
     }
 
-    
     /**
      * 
      * @param requiredRegion is a region DTO 
@@ -216,7 +205,6 @@ public class GameBoard extends Observable<Update> {
 		return this.kingBalcony;
 	}
 
-	
 	/**
 	 * Get king's deck of Business Permission Tiles
 	 * @return king's deck of Business Permission Tiles
@@ -225,7 +213,6 @@ public class GameBoard extends Observable<Update> {
 		return this.kingDeck;
 	}
 
-	
 	/**
 	 * get the councillors' pool
 	 * @return the councillors' pool
@@ -234,7 +221,6 @@ public class GameBoard extends Observable<Update> {
 		return this.councillorsPool;
 	}
 
-	
 	/**
 	 * Get the king
 	 * @return the king
@@ -243,7 +229,6 @@ public class GameBoard extends Observable<Update> {
 		return this.king;
 	}
 
-	
 	/**
 	 * 
 	 * @param requiredCity is a city DTO
@@ -259,7 +244,6 @@ public class GameBoard extends Observable<Update> {
 		throw new CityNotFoundException();
 	}
 
-	
 	/**
 	 * Get the deck of politic cards
 	 * @return the deck of politic cards
@@ -268,7 +252,6 @@ public class GameBoard extends Observable<Update> {
 		return this.politicDeck;
 	}
 
-	
 	/**
 	 * Get the nobility Track
 	 * @return the nobility Track
@@ -277,8 +260,6 @@ public class GameBoard extends Observable<Update> {
 		return this.nobilityTrack;
 	}
 
-	
-	
 	@Override
 	public String toString() {
 		return "GameBoard{" +
@@ -298,7 +279,6 @@ public class GameBoard extends Observable<Update> {
 		return market;
 	}
 
-	
 	/**
 	 * Apply all the bonuses if the player has his emporiums in all the cities with the same color or of the same region 
 	 * @param player is the player that has just built an emporium
@@ -330,8 +310,6 @@ public class GameBoard extends Observable<Update> {
         }
     }
 
-	
-	
 	/**
 	 * Check if the player has his emporiums in all the cities with the same color
 	 * @param player is the player that has just built an emporium
@@ -349,7 +327,6 @@ public class GameBoard extends Observable<Update> {
         return true;
     }
 
-    
     /**
      * Get a bonus associated to the color of a group of cities
      * @param color is the color of a group of cities in the map

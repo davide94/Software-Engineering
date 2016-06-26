@@ -29,12 +29,10 @@ public class MarketBuy extends State {
      */
     private List<Player> shuffled;
 
-    
     /**
      * The number of the current player
      */
     private int current;
-
     
     /**
      * default constructor

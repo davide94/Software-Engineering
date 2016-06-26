@@ -73,5 +73,4 @@ public abstract class Corrupt extends Action {
         if (!currentPlayer.hasCards(this.politicCards))
             throw new InvalidCardsException();
     }
-
 }

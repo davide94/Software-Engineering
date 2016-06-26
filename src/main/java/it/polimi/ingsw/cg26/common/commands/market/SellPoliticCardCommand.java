@@ -37,5 +37,4 @@ public class SellPoliticCardCommand extends SellCommand {
 	public PoliticCardDTO getPoliticCard() {
 		return politicCard;
 	}
-
 }

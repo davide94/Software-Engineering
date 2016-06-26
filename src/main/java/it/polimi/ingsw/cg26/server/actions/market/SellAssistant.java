@@ -31,5 +31,4 @@ public class SellAssistant extends Sell {
 		sell(gameBoard, assistantToAdd);
 		notifyChange(gameBoard);
 	}
-
 }

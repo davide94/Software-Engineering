@@ -66,5 +66,4 @@ public abstract class RemainingActions {
             throw new IllegalArgumentException();
         this.remaining += increment;
     }
-
 }

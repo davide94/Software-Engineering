@@ -28,5 +28,4 @@ public class MarketChange extends ChangeDecorator {
 		super.apply(model);
 		model.setMarket(marketDTO);
 	}
-
 }

@@ -10,7 +10,6 @@ public class Councillor {
      *the color of the councillor
      */
     private PoliticColor color;
-
     
     /**
      * Default constructor
@@ -22,7 +21,6 @@ public class Councillor {
             throw new NullPointerException();
         this.color = color;
     }
-
     
     /**
      * Create a councillor
@@ -33,7 +31,6 @@ public class Councillor {
         return new Councillor(color);
     }
 
-    
     /**
      * Create a councillor DTO
      * @return the DTO of the councillor
@@ -42,8 +39,6 @@ public class Councillor {
         return new CouncillorDTO(color.getState());
     }
 
-    
-    
     /**
      * Get the color of the councillor
      * @return the color of the councillor
@@ -56,11 +51,8 @@ public class Councillor {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Councillor that = (Councillor) o;
-
         return color != null ? color.equals(that.color) : that.color == null;
-
     }
 
     @Override
@@ -74,5 +66,4 @@ public class Councillor {
                 "color=" + color +
                 '}';
     }
-    
 }

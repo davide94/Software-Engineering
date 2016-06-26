@@ -32,5 +32,4 @@ public abstract class SellCommand implements Command {
 	public int getPrice() {
 		return price;
 	}
-
 }

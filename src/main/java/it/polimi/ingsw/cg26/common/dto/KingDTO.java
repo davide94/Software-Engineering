@@ -80,7 +80,4 @@ public class KingDTO implements Serializable {
 			return false;
 		return true;
 	}
-    
-    
-    
 }

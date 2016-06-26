@@ -47,5 +47,4 @@ public class CityChange extends ChangeDecorator {
 			throw new InvalidCityException();
 		city.setEmporiums(this.cityDTO.getEmporiums());
 	}
-
 }

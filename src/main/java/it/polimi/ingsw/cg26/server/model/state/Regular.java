@@ -21,7 +21,6 @@ public class Regular extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    
     /**
      * The list of players
      */
@@ -32,7 +31,6 @@ public class Regular extends State {
      */
     private int current;
 
-    
     /**
      * Default Constructor
      * @param players the list of players
@@ -54,12 +52,13 @@ public class Regular extends State {
 
     @Override
     public boolean canPerformRegularAction(long token) {
-        return players.get(current).getToken() == token && (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction());
+        return getCurrentPlayer().getToken() == token && (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction());
     }
 
     @Override
     public State regularActionPerformed() {
         if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction()) {
+
             //check if someone built 10 emporiums
             int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
                     c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);

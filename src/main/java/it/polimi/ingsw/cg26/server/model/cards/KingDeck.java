@@ -52,4 +52,9 @@ public class KingDeck extends Deck<RewardTile> {
 
         return cards != null ? cards.equals(deck.cards) : deck.cards == null;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

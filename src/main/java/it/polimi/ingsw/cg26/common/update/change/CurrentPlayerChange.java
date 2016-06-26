@@ -32,5 +32,4 @@ public class CurrentPlayerChange extends ChangeDecorator {
 		super.apply(model);
 		model.setCurrentPlayer(currentPlayer);
 	}
-
 }

@@ -159,6 +159,4 @@ public class RegionDTO implements Serializable {
 			return false;
 		return true;
 	}
-    
-    
 }

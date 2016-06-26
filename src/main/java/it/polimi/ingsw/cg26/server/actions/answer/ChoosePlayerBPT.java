@@ -1,8 +1,5 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.request.PlayerBPTRequest;
@@ -14,6 +11,9 @@ import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChoosePlayerBPT extends Action {
 
@@ -57,5 +57,4 @@ public class ChoosePlayerBPT extends Action {
 	public void notifyChange(GameBoard gameBoard) {
 		notifyDecoratingPlayersChange(gameBoard, new BasicChange());
 	}
-
 }

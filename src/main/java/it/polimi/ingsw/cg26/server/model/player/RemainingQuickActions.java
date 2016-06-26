@@ -11,5 +11,4 @@ public class RemainingQuickActions extends RemainingActions {
     public RemainingQuickActions() {
         // Nothing to do here
     }
-
 }

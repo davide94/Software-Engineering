@@ -46,7 +46,6 @@ public class PoliticCard extends Sellable {
         return this.color;
     }
 
-
     @Override
     public void backToOwner() {
     	this.getOwner().addPoliticCard(this);

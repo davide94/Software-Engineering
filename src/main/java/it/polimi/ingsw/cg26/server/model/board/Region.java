@@ -39,8 +39,6 @@ public class Region {
 	 */
 	private Bonus bonus;
 
-	
-	
 	/**
 	 * Default constructor
 	 * @param name of the region
@@ -60,7 +58,6 @@ public class Region {
 		this.bonus = bonus;
 	}
 
-	
 	/**
 	 * Create a region
 	 * @param name of the region
@@ -74,7 +71,6 @@ public class Region {
 		return new Region(name, new LinkedList<>(cities), deck, balcony, bonus);
 	}
 
-	
 	/**
 	 * Create a region DTO
 	 * @return the DTO of the region
@@ -85,8 +81,6 @@ public class Region {
 			citiesState.add(c.getState());
 		return new RegionDTO(name, citiesState, deck.getState(), balcony.getState(), bonus.getState());
 	}
-	
-	
 
     /**
      * Check if player has all his emporium in the cities of the region
@@ -101,8 +95,7 @@ public class Region {
     	}
     	return true;
     }
-    
-    
+
     /**
      * Get the bonus of the region and set empty the bonus because it has just been taken
      * @return the bonus of the region
@@ -112,9 +105,7 @@ public class Region {
     	this.bonus = new EmptyBonus();
     	return ret;
     }
-   
-    
-    
+
     /**
      * Get the collection of cities in the region
      * @return the collection of cities in the region
@@ -123,10 +114,9 @@ public class Region {
 		return cities;
 	}
 
-
 	/**
 	 * Get a city in the region if it's present
-     * @param the DTO of a city
+     * @param requiredCity is the DTO of the required city
      * @return the city in region that matches with requiredCity or null if it's not present in region
      */
     public City getCity(CityDTO requiredCity) {
@@ -136,7 +126,6 @@ public class Region {
         return null;
     }
 
-    
     /**
      * Get the balcony of the region
      * @return the balcony of the region
@@ -144,7 +133,6 @@ public class Region {
     public Balcony getBalcony(){
     	return this.balcony;
     }
-    
     
     /**
      * Get the deck of BPT of the region
@@ -190,5 +178,4 @@ public class Region {
 				", bonus=" + bonus +
 				'}';
 	}
-
 }

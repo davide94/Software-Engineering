@@ -26,7 +26,7 @@ public class BuildKingCommand implements Command {
     /**
      * Construct a Command to build an emporium with the help of the king
      * @param city the city to use in the command
-     * @param tile the tile to use in the command
+     * @param cards is a list of PoliticCardDTO to use in the command
      * @throws NullPointerException if one or more arguments are null
      */
     public BuildKingCommand(CityDTO city, List<PoliticCardDTO> cards) {

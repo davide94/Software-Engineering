@@ -47,5 +47,4 @@ public class ChooseBPT extends Action {
     	Change bPTChange = new BPTDeckChange(new BasicChange(), realRegion.getBPTDeck().getState(), realRegion.getState());
     	notifyDecoratingPlayersChange(gameBoard, bPTChange);
 	}
-
 }

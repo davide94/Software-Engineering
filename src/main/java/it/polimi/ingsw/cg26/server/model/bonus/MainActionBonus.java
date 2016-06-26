@@ -61,5 +61,4 @@ public class MainActionBonus extends BonusDecorator {
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }
-
 }

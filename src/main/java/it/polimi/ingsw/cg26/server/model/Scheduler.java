@@ -158,7 +158,7 @@ public class Scheduler {
                 try {
                     p.removeCoins(-delta);
                 } catch (NotEnoughMoneyException e) {
-                    e.printStackTrace();
+                    log.error("Should never happen", e);
                 }
             }
             for (int j = 0; j < i + 1; j++)

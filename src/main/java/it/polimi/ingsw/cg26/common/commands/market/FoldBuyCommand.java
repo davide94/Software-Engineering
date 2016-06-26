@@ -11,5 +11,4 @@ public class FoldBuyCommand implements Command {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}
-
 }

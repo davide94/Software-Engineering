@@ -32,5 +32,4 @@ public class BuyCommand implements Command {
 	public SellableDTO getSellable() {
 		return sellable;
 	}
-
 }

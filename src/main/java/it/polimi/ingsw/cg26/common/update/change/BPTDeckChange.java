@@ -49,5 +49,4 @@ public class BPTDeckChange extends ChangeDecorator {
 		if(bPTDeckState != null)
 			throw new InvalidRegionException();
 	}
-
 }

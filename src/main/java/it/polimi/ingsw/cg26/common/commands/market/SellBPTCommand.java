@@ -37,5 +37,4 @@ public class SellBPTCommand extends SellCommand {
 	public BusinessPermissionTileDTO getTile() {
 		return tile;
 	}
-
 }

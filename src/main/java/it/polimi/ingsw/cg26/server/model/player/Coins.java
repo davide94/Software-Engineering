@@ -54,5 +54,4 @@ public class Coins {
     public int getValue() {
         return this.value;
     }
-
 }

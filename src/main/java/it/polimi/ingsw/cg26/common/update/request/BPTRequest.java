@@ -40,5 +40,4 @@ public class BPTRequest implements Request {
 			return false;
 		return true;
 	}
-
 }

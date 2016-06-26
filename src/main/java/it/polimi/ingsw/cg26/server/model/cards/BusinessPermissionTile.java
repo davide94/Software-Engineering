@@ -29,7 +29,7 @@ public class BusinessPermissionTile extends Sellable {
     /**
      * Constructs a Business Permit Tile
      * @param cities is a collection of cities in which the tile permits to build
-     * @param reward is reward tile that the tile makes you earn
+     * @param bonuses is the bonus that the tile makes you earn
      * @throws NullPointerException if cities or bonuses are null
      */
     public BusinessPermissionTile(Collection<City> cities, Bonus bonuses) {
@@ -67,7 +67,6 @@ public class BusinessPermissionTile extends Sellable {
         return false;
     }
 
-    
     /**
      * Get the cities on the BPT
      * @return the cities on the BPT
@@ -75,7 +74,6 @@ public class BusinessPermissionTile extends Sellable {
     public Collection<City> getCities() {
         return new LinkedList<>(cities);
     }
-
     
     /**
      * Apply the bonus to the player
@@ -85,8 +83,7 @@ public class BusinessPermissionTile extends Sellable {
     public void getReward(Player p) throws NoRemainingCardsException {
         bonuses.apply(p);
     }
-    
-    
+
     /**
      * Get the bonuses of the BPT
      * @return the bonuses of the BPT
@@ -102,8 +99,7 @@ public class BusinessPermissionTile extends Sellable {
     public void backToOwner() {
     	this.getOwner().addPermissionTile(this);
     }
-    
-    
+
     /**
      * Add the BPT to the new player
      */

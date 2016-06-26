@@ -71,7 +71,7 @@ public class MatchEnded extends State {
         }
 
         Collections.sort(players, bptComparator);
-        if (players.get(0).getBPTNumber() > players.get(2).getBPTNumber())
+        if (players.get(0).getBPTNumber() > players.get(1).getBPTNumber())
             players.get(0).addVictoryPoints(3);
 
         Collections.sort(players, victoryComparator);

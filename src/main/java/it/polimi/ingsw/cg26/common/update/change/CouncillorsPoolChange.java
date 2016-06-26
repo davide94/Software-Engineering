@@ -35,5 +35,4 @@ public class CouncillorsPoolChange extends ChangeDecorator {
 		super.apply(model);
 		model.setCouncillorsPool(councillorsPoolState);
 	}
-
 }

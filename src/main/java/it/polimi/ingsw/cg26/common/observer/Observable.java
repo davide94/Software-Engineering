@@ -35,7 +35,6 @@ public abstract class Observable<C> {
         this.observers.remove(o);
     }
 
-    
     /**
      * Send a notify to all the observers about a change
      * @param c is the change that has to be notified to the observers

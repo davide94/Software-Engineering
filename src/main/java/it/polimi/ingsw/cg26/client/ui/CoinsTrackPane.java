@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.client.ui;
 
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -10,20 +11,23 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
  */
-public class CoinsTrack extends HBox {
+public class CoinsTrackPane extends HBox implements Observer {
+
+    private Model model;
 
     private static  final int len = 21;
 
     private List<GridPane> cells;
 
-    public CoinsTrack(Point2D origin, double width, double height, List<PlayerDTO> players) {
+    private double cellSize;
+
+    public CoinsTrackPane(Point2D origin, double width, double height, Model model) {
+        this.model = model;
         setPrefSize(width, height);
         setMinSize(width, height);
         setMaxSize(width, height);
@@ -32,7 +36,7 @@ public class CoinsTrack extends HBox {
 
         //setStyle("-fx-background-color: red;-fx-opacity: 0.5;");
 
-        double cellSize = width / len;
+        cellSize = width / len;
         cells = new LinkedList<>();
         for (int i = 0; i < len; i++) {
             GridPane pedinePane = new GridPane();
@@ -44,22 +48,36 @@ public class CoinsTrack extends HBox {
             getChildren().add(pedinePane);
         }
 
+        draw();
+    }
+
+    private void draw() {
         DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
         shadow.setColor(Color.rgb(0, 0, 0, 0.7));
         shadow.setOffsetY(3.0);
         shadow.setOffsetX(-1.0);
 
+        for(Pane cell: cells)
+            cell.getChildren().clear();
+
         List<String> colors = Arrays.asList("dodgerblue", "orangered", "limegreen", "yellow");
-        for (PlayerDTO player: players) {
+        int i = 0;
+        for (PlayerDTO player: model.getPlayers()) {
             Pane pedina = new Pane();
             pedina.setMinSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setMaxSize(0.5 * cellSize, 0.5 * cellSize);
-            pedina.setStyle("-fx-background-color: " + colors.get(players.indexOf(player) % 4) + ";-fx-background-radius: 50%;");
+            pedina.setStyle("-fx-background-color: " + colors.get(i % 4) + ";-fx-background-radius: 50%;");
             this.setEffect(shadow);
             pedina.setEffect(shadow);
             GridPane cell = cells.get(player.getCoins());
             cell.add(pedina, (cell.getChildren().size() / 2) % 2, cell.getChildren().size() % 2);
+            i++;
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        draw();
     }
 }

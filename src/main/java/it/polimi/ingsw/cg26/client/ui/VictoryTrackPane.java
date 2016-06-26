@@ -1,20 +1,20 @@
 package it.polimi.ingsw.cg26.client.ui;
 
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
  */
-public class VictoryTrack extends AnchorPane {
+public class VictoryTrackPane extends AnchorPane implements Observer {
+
+    private Model model;
 
     private static  final int w = 27;
 
@@ -22,7 +22,11 @@ public class VictoryTrack extends AnchorPane {
 
     private List<GridPane> cells;
 
-    public VictoryTrack(double width, double height, double thickness, List<PlayerDTO> players) {
+    private double cellSize;
+
+    public VictoryTrackPane(double width, double height, double thickness, Model model) {
+        this.model = model;
+
         setPrefSize(width, height - 0.5 * thickness);
 
         HBox top = new HBox();
@@ -54,7 +58,7 @@ public class VictoryTrack extends AnchorPane {
         getChildren().addAll(top, right, bottom, left);
 
         cells = new LinkedList<>();
-        double cellSize = width / w;
+        cellSize = width / w;
         for (int i = 0; i <= w; i++) {
             GridPane pedinePane = new GridPane();
             //pedinePane.setStyle("-fx-border-width: 1px;-fx-border-color: black;");
@@ -108,23 +112,36 @@ public class VictoryTrack extends AnchorPane {
         Collections.reverse(tmp);
         left.getChildren().addAll(tmp);
 
+        draw();
+    }
+
+    private void draw() {
         DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
         shadow.setColor(Color.rgb(0, 0, 0, 0.7));
         shadow.setOffsetY(3.0);
         shadow.setOffsetX(-1.0);
 
-        List<String> colors = Arrays.asList("dodgerblue", "orangered", "limegreen", "yellow");
+        for (Pane c: cells)
+            c.getChildren().clear();
 
-        for (PlayerDTO player: players) {
+        List<String> colors = Arrays.asList("dodgerblue", "orangered", "limegreen", "yellow");
+        int i = 0;
+        for (PlayerDTO player: model.getPlayers()) {
             Pane pedina = new Pane();
             pedina.setMinSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setMaxSize(0.5 * cellSize, 0.5 * cellSize);
-            pedina.setStyle("-fx-background-color: " + colors.get(players.indexOf(player) % 4) + ";-fx-background-radius: 50%;");
+            pedina.setStyle("-fx-background-color: " + colors.get(i % 4) + ";-fx-background-radius: 50%;");
             this.setEffect(shadow);
             pedina.setEffect(shadow);
             GridPane cell = cells.get(player.getNobilityCell());
             cell.add(pedina, (cell.getChildren().size() / 2) % 2, cell.getChildren().size() % 2);
+            i++;
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        draw();
     }
 }

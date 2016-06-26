@@ -21,7 +21,7 @@ public class BonusDTODecorator implements BonusDTO {
 
 	/**
 	 * Constructs a Bonus DTO object
-	 * @param kind is the kind of bonus
+	 * @param decoratedBonusDTO is the bonus to decorate
 	 * @param multiplicity is the multiplicity
 	 * @throws NullPointerException decoratedBonus is null
 	 * @throws IllegalArgumentException if kind is empty or multiplicity is negative

@@ -7,8 +7,6 @@ import java.io.Serializable;
  */
 public class EmporiumDTO implements Serializable {
 
-    
-
 	private static final long serialVersionUID = -5222349655829280833L;
 
     private String player;
@@ -39,7 +37,6 @@ public class EmporiumDTO implements Serializable {
                 "player='" + player + '\'' +
                 '}';
     }
-    
     
     @Override
 	public int hashCode() {

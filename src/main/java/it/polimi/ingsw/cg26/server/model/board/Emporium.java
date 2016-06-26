@@ -10,7 +10,6 @@ public class Emporium {
 	 * The owner of the emporium
 	 */
 	private Player player;
-	
 
     /**
      * Default constructor
@@ -20,7 +19,6 @@ public class Emporium {
 			throw new NullPointerException();
     	this.player=player;
     }
-
     
     /**
      * Create a player's emporium
@@ -30,7 +28,6 @@ public class Emporium {
 	public static Emporium createEmporium(Player player) {
 		return new Emporium(player);
 	}
-
 	
 	/**
 	 * Create an emporium DTO
@@ -79,6 +76,4 @@ public class Emporium {
 			return false;
 		return true;
 	}
-	
-	
 }

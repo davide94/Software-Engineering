@@ -16,21 +16,18 @@ public abstract class State {
 	 * The timeout of each turn
 	 */
     private static final int TURN_TIMEOUT = 5 * 60 * 1000;
-
     
     /**
      * The game board
      */
     protected GameBoard gameBoard;
 
-    
     /**
      * The timer
      */
     private Timer timer = new Timer();
 
     private TimerTask toggleNextPlayer;
-
     
     /**
      * the Constructor of the state machine of the game 
@@ -45,7 +42,6 @@ public abstract class State {
             }
         };
     }
-
     
     /**
      * Get the current player
@@ -55,7 +51,6 @@ public abstract class State {
         return null;
     }
 
-    
     /**
      * 
      * @param players is the list of players
@@ -65,7 +60,6 @@ public abstract class State {
         return this;
     }
 
-    
     /**
      * check if a player can perform a regular action
      * @param token of the player 
@@ -74,7 +68,6 @@ public abstract class State {
     public boolean canPerformRegularAction(long token) {
         return false;
     }
-
     
     /**
      * check if a player can sell an item
@@ -85,7 +78,6 @@ public abstract class State {
         return false;
     }
 
-    
     /**
      * check if a player can buy an item
      * @param token is the token of the player
@@ -95,7 +87,6 @@ public abstract class State {
         return false;
     }
 
-    
     /**
      * 
      * @return the state regularActionPerformed
@@ -103,7 +94,6 @@ public abstract class State {
     public State regularActionPerformed() {
         return this;
     }
-
     
     /**
      * The state when all the players have finished to sell
@@ -113,7 +103,6 @@ public abstract class State {
         return this;
     }
 
-    
     /**
      * The state when all the players have finished to buy
      * @return the state buyFolded
@@ -130,7 +119,6 @@ public abstract class State {
         return this;
     }
 
-    
     /**
      * Start the timer
      */

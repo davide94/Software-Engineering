@@ -41,5 +41,4 @@ public interface ClientModel {
     void setMarket(MarketDTO market);
     
     void setColorBonuses(Map<CityColorDTO, BonusDTO> colorBonuses);
-
 }

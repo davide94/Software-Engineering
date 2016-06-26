@@ -1,11 +1,11 @@
 package it.polimi.ingsw.cg26.common.dto;
 
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 /**
  *
@@ -227,7 +227,6 @@ public class GameBoardDTO implements Serializable {
     public void setMarket(MarketDTO market) {
         this.market = market;
     }
-    
 
 	/**
 	 * @return the colorBonuses

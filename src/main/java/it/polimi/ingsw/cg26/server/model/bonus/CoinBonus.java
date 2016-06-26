@@ -60,5 +60,4 @@ public class CoinBonus extends BonusDecorator {
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }
-
 }

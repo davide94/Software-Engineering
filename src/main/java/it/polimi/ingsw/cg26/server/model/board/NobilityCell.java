@@ -23,7 +23,6 @@ public class NobilityCell {
      */
     private Bonus bonuses;
 
-
     /**
      * Default constructor
      */
@@ -37,7 +36,6 @@ public class NobilityCell {
         this.bonuses = bonuses;
     }
 
-    
     /**
      * Create a nobility cell
      * @param index is the index of the cell
@@ -49,7 +47,6 @@ public class NobilityCell {
         return new NobilityCell(index, next, bonuses);
     }
 
-    
     /**
      * Create a nobility cell DTO
      * @return the DTO of the nobility cell
@@ -59,7 +56,6 @@ public class NobilityCell {
         return new NobilityCellDTO(this.index, this.bonuses.getState());
     }
 
-    
     /**
      * Get the following nobility cell
      * @return the following nobility cell
@@ -75,7 +71,6 @@ public class NobilityCell {
     public Boolean hasNext() {
         return this.next != null;
     }
-    
 
     /**
      *Get the index of the cell
@@ -85,7 +80,6 @@ public class NobilityCell {
         return this.index;
     }
 
-    
     /**
      * Apply the bonuses on the cell to the player that is on it
      * @param player is the player on the nobility cell

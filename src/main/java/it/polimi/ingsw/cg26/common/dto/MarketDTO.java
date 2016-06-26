@@ -30,7 +30,4 @@ public class MarketDTO implements Serializable {
 	public List<SellableDTO> getOnSale() {
 		return new LinkedList<>(onSale);
 	}
-    
-    
-
 }

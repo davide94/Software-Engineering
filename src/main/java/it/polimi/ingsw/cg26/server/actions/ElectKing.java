@@ -34,5 +34,4 @@ public abstract class ElectKing extends Elect {
 		Change change = new KingBalconyChange(new BasicChange(), gameBoard.getKingBalcony().getState());
 		notifyDecoratingPlayersChange(gameBoard, change);
 	}
-
 }

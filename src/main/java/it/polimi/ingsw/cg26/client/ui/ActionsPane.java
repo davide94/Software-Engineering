@@ -1,14 +1,14 @@
 package it.polimi.ingsw.cg26.client.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ActionsPane extends AnchorPane {
 
@@ -28,10 +28,11 @@ public class ActionsPane extends AnchorPane {
         shadow.setRadius(50.0);
         shadow.setColor(Color.BLACK);
         
-        this.setPrefWidth(400.0);
-        this.setPrefHeight(310.0);
-        this.setVisible(false);
-        this.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actions.jpg") + ");" +
+        setPrefWidth(400.0);
+        setPrefHeight(310.0);
+        setVisible(false);
+		setEffect(shadow);
+        setStyle("-fx-background-image: url(" + getClass().getResource("/img/actions.jpg") + ");" +
                       "-fx-background-position: center;" +
                       "-fx-background-size: 100% 100%;");
         this.addEventHandler(MouseEvent.MOUSE_EXITED, e -> this.setVisible(false));

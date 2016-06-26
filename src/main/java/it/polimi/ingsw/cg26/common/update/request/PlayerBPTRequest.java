@@ -15,5 +15,4 @@ public class PlayerBPTRequest extends RequestWithMultiplicity {
 		// TODO Auto-generated method stub
 
 	}
-
 }

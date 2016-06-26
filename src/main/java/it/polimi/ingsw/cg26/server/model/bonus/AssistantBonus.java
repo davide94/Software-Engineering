@@ -62,5 +62,4 @@ public class AssistantBonus extends BonusDecorator {
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }
-
 }

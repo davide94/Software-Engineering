@@ -19,8 +19,6 @@ public class Balcony {
 
 	private Queue<Councillor> councillors;
 
-	
-	
 	/**
 	 * Create a Balcony
 	 * @param capacity of the balcony
@@ -36,9 +34,6 @@ public class Balcony {
 		this.capacity = capacity;
 		this.councillors = councillors;
 	}
-	
-	
-	
 
 	/**
 	 * Create a Balcony
@@ -48,9 +43,7 @@ public class Balcony {
 	public static Balcony createBalcony(int capacity) {
 		return new Balcony(capacity, new LinkedList<>());
 	}
-	
-	
- 
+
 	/**
 	 * This method get the state of the balcony
 	 * @return balcony DTO that is a copy of the balcony and the councillors on the balcony
@@ -64,7 +57,7 @@ public class Balcony {
 
     /**
      * elect a councillor on the balcony
-     * @param the councillor you want to elect
+     * @param c is the councillor you want to elect
      * @return the councillor that is dropped or null if the balcony is not full
      * @throws NullPointerException if someone elect a null councillor
      */
@@ -77,8 +70,6 @@ public class Balcony {
 		return null;
     }
 
-    
-    
     /**
      * A comparison with a collection of cards that player is using and the color of the councillors on the balcony 
      * @param requiredCards is a collection of Politic Cards DTO
@@ -116,7 +107,6 @@ public class Balcony {
 				'}';
 	}
 
-	
 	/**
 	 * This method get the councillors on the balcony
 	 * @return the collection of councillors on the balcony
@@ -124,8 +114,6 @@ public class Balcony {
 	public Queue<Councillor> getCouncillors() {
 		return councillors;
 	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -154,10 +142,4 @@ public class Balcony {
 			return false;
 		return true;
 	}
-	
-	
-
-		
-	
-	
 }

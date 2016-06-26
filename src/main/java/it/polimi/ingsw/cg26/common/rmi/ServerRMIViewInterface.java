@@ -11,5 +11,4 @@ import java.rmi.RemoteException;
 public interface ServerRMIViewInterface extends Remote {
 
     void performAction(Command c) throws RemoteException;
-
 }

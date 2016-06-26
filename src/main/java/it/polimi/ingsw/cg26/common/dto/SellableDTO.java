@@ -72,6 +72,4 @@ public abstract class SellableDTO implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 }

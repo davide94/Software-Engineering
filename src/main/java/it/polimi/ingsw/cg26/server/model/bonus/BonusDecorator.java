@@ -94,6 +94,4 @@ public abstract class BonusDecorator implements Bonus{
 	public String toString() {
 		return decoratedBonus.toString();
 	}
-	
-	
 }

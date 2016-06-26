@@ -23,7 +23,6 @@ public class NobilityTrack {
 		this.firstCell = firstCell;
 	}
 
-	
 	/**
 	 * Create a nobility track
 	 * @param firstCell is the first nobility cell of the track
@@ -32,7 +31,6 @@ public class NobilityTrack {
 	public static NobilityTrack createNobilityTrack(NobilityCell firstCell) {
 		return new NobilityTrack(firstCell);
 	}
-
 	
 	/**
 	 * Create a nobility track DTO
@@ -49,8 +47,6 @@ public class NobilityTrack {
 		}
 		return new NobilityTrackDTO(cellsState);
 	}
-
-	
 	
 	/**
 	 *Get the first nobility cell of the track

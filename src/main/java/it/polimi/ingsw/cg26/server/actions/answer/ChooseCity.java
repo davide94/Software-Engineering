@@ -61,5 +61,4 @@ public class ChooseCity extends Action {
 	public void notifyChange(GameBoard gameBoard) {
 		notifyDecoratingPlayersChange(gameBoard, new BasicChange());
 	}
-
 }

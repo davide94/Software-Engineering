@@ -17,7 +17,7 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
 
     private static final long serialVersionUID = 1988554106153678366L;
 
-    private List<Observer<Update>> observers;
+    private transient List<Observer<Update>> observers;
 
     public ClientRMIInView() throws RemoteException {
         super();

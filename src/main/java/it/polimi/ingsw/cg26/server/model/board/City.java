@@ -21,20 +21,17 @@ public class City {
      * the name of the city
      */
     private String name;
-    
-    
+
     /**
      * the color of the city
      */
     private CityColor color;
 
-    
     /**
      * the list of emporiums that have been built in the city by the players
      */
     private List<Emporium> emporiums;
-    
-    
+
     /**
      * the bonus that every player takes if he builds an emporium in the city
      */
@@ -45,7 +42,6 @@ public class City {
      */
     private List<City> nearCities;
 
-    
     /**
      * Default constructor
      * @param name of the city
@@ -65,20 +61,16 @@ public class City {
         this.nearCities = nearCities;
     }
 
-    
     /**
      * Create a city
      * @param name of the city
      * @param color of the city
      * @param bonuses that every player takes if he builds an emporium in the city
-     * @param emporiums is the list of emporiums that have been built in the city by the players
-     * @param nearCities is the list of cities that are linked directly with the city
      * @return a new city
      */
     public static City createCity(String name, CityColor color, Bonus bonuses) {
         return new City(name, color, bonuses, new ArrayList<>(), new LinkedList<>());
     }
-
     
     /**
      * Create a city DTO
@@ -92,13 +84,11 @@ public class City {
         return new CityDTO(name, color.getState(), bonuses.getState(), emporiumsState, nearCitiesState);
     }
 
-    
-    
     /**
      * Build an emporium in the city
      * @param p is the player that wants to build an emporium in city
      * @throws ExistingEmporiumException if a player has already built an emporium in the city
-     * @throws NoRemainingCardsExceptionif there are more politic cards in the deck
+     * @throws NoRemainingCardsException if there are more politic cards in the deck
      */
     public void build(Player p) throws ExistingEmporiumException, NoRemainingCardsException {
     	for(Emporium x:emporiums)
@@ -107,8 +97,7 @@ public class City {
         emporiums.add(Emporium.createEmporium(p));
         takeRecursivelyBonus(p);
     }
-    
-    
+
     /**
      * Get the name of the city
      * @return the name of the city
@@ -117,7 +106,6 @@ public class City {
         return this.name;
     }
 
-    
     /**
      * Get the color of the city
      * @return the color of the city
@@ -125,7 +113,6 @@ public class City {
     public CityColor getColor() {
 		return color;
 	}
-
 
    /**
     * Get the collecction of emporium that have been built in the city
@@ -135,7 +122,6 @@ public class City {
 		return emporiums;
 	}
 
-
 	/**
 	 * Get the bonus that every player takes if he builds an emporium in the city
 	 * @return the bonus that every player takes if he builds an emporium in the city
@@ -144,7 +130,6 @@ public class City {
 		return bonuses;
 	}
 
-	
 	/**
 	 * Get the number of emporiums in the city
 	 * @return the number of emporiums in the city
@@ -153,7 +138,6 @@ public class City {
         return this.emporiums.size();
     }
 
-    
     /**
      * Check if a player has an emporium in the city
      * @param p is a player of the game
@@ -165,7 +149,6 @@ public class City {
                 return true;
         return false;
     }
-	
 
 	/**
 	 * Apply the bonus to a player
@@ -203,9 +186,6 @@ public class City {
             }
         }
     }
-    
-    
-    
 
     /**
      * Add a city to nearCities
@@ -269,8 +249,8 @@ public class City {
     }
 
     /* (non-Javadoc)
-         * @see java.lang.Object#hashCode()
-         */
+     * @see java.lang.Object#hashCode()
+     */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -304,6 +284,4 @@ public class City {
 			return false;
 		return true;
 	}
-    
-    
 }

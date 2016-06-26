@@ -18,9 +18,9 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
     private BonusDTO bonuses;
 
     /**
-     * Constructs a  Business Permit Tile DTO object
+     * Constructs a BusinessPermissionTileDTO object
      * @param cities is a collection of names of the Cities where the tile can build
-     * @param reward is RewardTileDTO DTO
+     * @param bonuses is a BonusDTO
      * @param price is the price of the tile if the tile is in the store
      * @param owner is a string that identifies the player who owns the tile if the tile is in the store
      * @throws NullPointerException if cities or bonuses are null

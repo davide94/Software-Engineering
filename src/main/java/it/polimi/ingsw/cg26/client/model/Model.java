@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.Update;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +24,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     private PlayerDTO currentPlayer;
 
-    private List<PlayerDTO> players;
+    private ObservableList<PlayerDTO> players;
 
     private PoliticDeckDTO politicDeck;
 
@@ -44,6 +46,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     public Model() {
         state = new StateContext();
+        players = FXCollections.observableArrayList();
     }
 
     public StateContext getState() {
@@ -58,7 +61,7 @@ public class Model extends Observable<Update> implements ClientModel {
         return currentPlayer;
     }
 
-    public List<PlayerDTO> getPlayers() {
+    public ObservableList<PlayerDTO> getPlayers() {
         return players;
     }
 
@@ -109,8 +112,9 @@ public class Model extends Observable<Update> implements ClientModel {
     }
 
     @Override
-    public void setPlayers(List<PlayerDTO> players) {
-        this.players = players;
+    public synchronized void setPlayers(List<PlayerDTO> players) {
+        this.players.clear();
+        this.players.addAll(players);
     }
 
     @Override

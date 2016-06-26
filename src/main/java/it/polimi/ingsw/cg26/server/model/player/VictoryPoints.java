@@ -35,5 +35,4 @@ public class VictoryPoints {
     public int getValue() {
         return this.value;
     }
-
 }

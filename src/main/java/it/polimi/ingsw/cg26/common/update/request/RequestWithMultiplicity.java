@@ -51,7 +51,4 @@ public abstract class RequestWithMultiplicity implements Request {
 			return false;
 		return true;
 	}
-	
-	
-
 }

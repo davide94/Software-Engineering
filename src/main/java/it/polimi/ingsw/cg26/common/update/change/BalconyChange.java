@@ -49,5 +49,4 @@ public class BalconyChange extends ChangeDecorator {
 		if(balconyDTO != null)
 			throw new InvalidRegionException();
 	}
-	
 }

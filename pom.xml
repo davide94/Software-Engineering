@@ -10,7 +10,8 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.language>java</sonar.language>
-		<sonar.host.url> http://localhost:9000/ </sonar.host.url>
+		<sonar.host.url>http://localhost:9000/</sonar.host.url>
+		<sonar.coverage.exclusions>**/client/**/*, **/server/view/**/*</sonar.coverage.exclusions>
 	</properties>
 
     <description>Prova Finale Ingegneria del software</description>

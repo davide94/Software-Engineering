@@ -24,5 +24,4 @@ public abstract class ChangeDecorator implements Change {
 	public void apply(ClientModel model) throws InvalidRegionException, InvalidCityException, PlayerNotFoundException {
 		decoratedChange.apply(model);
 	}
-
 }

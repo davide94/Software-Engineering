@@ -39,5 +39,4 @@ public class AdditionalMainAction extends Action {
 	public void notifyChange(GameBoard gameBoard) {
 		notifyDecoratingPlayersChange(gameBoard, new BasicChange());
 	}
-
 }

@@ -82,5 +82,4 @@ public class PoliticColorDTO implements Serializable {
             return "\u001B[31mm\u001B[32mu\u001B[33ml\u001B[34mt\u001B[35mi\u001B[36mc\u001B[37mo\u001B[38ml\u001B[31mo\u001B[32mr\u001B[0m";
         return ansiString + color + "\u001B[0m";
     }
-
 }

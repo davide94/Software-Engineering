@@ -83,5 +83,4 @@ public class CardBonus extends BonusDecorator {
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }
-
 }

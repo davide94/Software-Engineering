@@ -28,4 +28,9 @@ public class EmptyBonusDTO implements BonusDTO{
 			return false;
 		return true;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

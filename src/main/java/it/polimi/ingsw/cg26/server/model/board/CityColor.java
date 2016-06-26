@@ -9,7 +9,6 @@ public class CityColor {
 	 *The name of the color
 	 */
 	private String color;
-
 	
 	/**
 	 * Default constructor
@@ -22,7 +21,6 @@ public class CityColor {
 		this.color = color;
 	}
 
-	
 	/**
 	 * Create a city color
 	 * @param color is the name of the color
@@ -32,7 +30,6 @@ public class CityColor {
 		return new CityColor(color);
 	}
 
-	
 	/**
 	 * Create a city color DTO 
 	 * @return the DTO of the city color
@@ -78,5 +75,4 @@ public class CityColor {
 	public String toString() {
 		return  "CityColor='" + color + '\'';
 	}
-
 }

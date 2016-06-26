@@ -60,5 +60,4 @@ public class Buy extends Action {
 		Change privateOldOwnerChange = new LocalPlayerChange(new BasicChange(), oldOwner.getFullState());
 		gameBoard.notifyObservers(new PrivateUpdate(privateOldOwnerChange, oldOwner.getToken()));
 	}
-
 }

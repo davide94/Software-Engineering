@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class BalconyDTO implements Serializable {
      * @return a list of councillors
      */
     public List<CouncillorDTO> getCouncillors() {
-        return councillors;
+        return new LinkedList<>(councillors);
     }
 
     @Override

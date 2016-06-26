@@ -1,27 +1,28 @@
 package it.polimi.ingsw.cg26.server.model;
 
 import it.polimi.ingsw.cg26.server.creator.Creator;
+import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
+import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  *
  */
 public class SchedulerTest {
 
+    private GameBoard gameBoard;
     private Scheduler scheduler;
     private Player gigi;
     private Player ugo;
 
     @Before
     public void setUp() throws Exception {
-        GameBoard gameBoard = Creator.createGame("maps/1.xml");
+        gameBoard = Creator.createGame("maps/1.xml");
         scheduler = gameBoard.getScheduler();
         scheduler.registerPlayer("Gigi");
         scheduler.registerPlayer("Ugo");
@@ -75,20 +76,20 @@ public class SchedulerTest {
 
     @Test
     public void testGetCurrentPlayer() throws Exception {
-        assertEquals(scheduler.getCurrentPlayer().getName(), gigi.getName());
+        assertEquals(scheduler.getCurrentPlayer(), gigi);
 
         scheduler.regularActionPerformed();
-        assertEquals(scheduler.getCurrentPlayer().getName(), gigi.getName());
+        assertEquals(scheduler.getCurrentPlayer(), gigi);
 
         scheduler.foldedBuy();
 
         gigi.performMainAction();
         scheduler.regularActionPerformed();
-        assertEquals(scheduler.getCurrentPlayer().getName(), gigi.getName());
+        assertEquals(scheduler.getCurrentPlayer(), gigi);
 
         gigi.performQuickAction();
         scheduler.regularActionPerformed();
-        assertEquals(scheduler.getCurrentPlayer().getName(), ugo.getName());
+        assertEquals(scheduler.getCurrentPlayer(), ugo);
 
         ugo.performQuickAction();
         ugo.performMainAction();
@@ -96,16 +97,38 @@ public class SchedulerTest {
 
         assertTrue(scheduler.canSell(gigi.getToken()));
 
-        assertEquals(scheduler.getCurrentPlayer().getName(), gigi.getName());
+        assertEquals(scheduler.getCurrentPlayer(), gigi);
         scheduler.foldSell();
 
-        assertEquals(scheduler.getCurrentPlayer().getName(), ugo.getName());
+        assertEquals(scheduler.getCurrentPlayer(), ugo);
         scheduler.foldSell();
 
         scheduler.foldedBuy();
         scheduler.foldedBuy();
 
         assertTrue(scheduler.canPerformRegularAction(gigi.getToken()));
-        assertEquals(scheduler.getCurrentPlayer().getName(), gigi.getName());
+        assertEquals(scheduler.getCurrentPlayer(), gigi);
+
+        int i = 0;
+        for (Region r: gameBoard.getRegions()) {
+            for(City c: r.getCities()) {
+                c.build(gigi);
+                i++;
+                if (i == 10)
+                    break;
+            }
+            if (i == 10)
+                break;
+        }
+        gigi.performQuickAction();
+        gigi.performMainAction();
+        scheduler.regularActionPerformed();
+        assertEquals(scheduler.getCurrentPlayer(), ugo);
+
+        ugo.performQuickAction();
+        ugo.performMainAction();
+        scheduler.regularActionPerformed();
+
+        // TODO: check if points calculation is right
     }
 }

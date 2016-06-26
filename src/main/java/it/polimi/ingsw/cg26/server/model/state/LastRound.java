@@ -48,17 +48,18 @@ public class LastRound extends State {
         super(gameBoard);
         this.players = players;
         this.winner = winner;
-
+        current = winner;
+        nextPlayer();
     }
 
     @Override
     public Player getCurrentPlayer() {
-        return null;
+        return players.get(current);
     }
 
     @Override
     public boolean canPerformRegularAction(long token) {
-        return players.get(current).getToken() == token;
+        return getCurrentPlayer().getToken() == token;
     }
 
     @Override

@@ -10,5 +10,4 @@ public class BasicChange implements Change {
 	public void apply(ClientModel model) {
 		//nothing to do here
 	}
-
 }

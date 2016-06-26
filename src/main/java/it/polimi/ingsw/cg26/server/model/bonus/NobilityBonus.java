@@ -63,5 +63,4 @@ public class NobilityBonus extends BonusDecorator {
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }
-
 }

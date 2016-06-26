@@ -61,5 +61,4 @@ public class VictoryBonus extends BonusDecorator {
                 "multiplicity=" + super.getMultiplicity() +
                 "}";
     }
-
 }

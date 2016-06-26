@@ -80,5 +80,4 @@ public class Acquire extends Corrupt {
     	Change bPTChange = new BPTDeckChange(new BasicChange(), realRegion.getBPTDeck().getState(), realRegion.getState());
     	notifyDecoratingPlayersChange(gameBoard, bPTChange);
     }
-
 }

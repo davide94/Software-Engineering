@@ -41,5 +41,4 @@ public class SellBPT extends Sell {
 		sell(gameBoard, bpTile);
 		notifyChange(gameBoard);
 	}
-
 }

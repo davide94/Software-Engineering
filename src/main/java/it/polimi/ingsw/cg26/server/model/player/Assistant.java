@@ -38,5 +38,4 @@ public class Assistant extends Sellable {
 	public void giveToNewOwner(Player player) {
 		player.addAssistant(this);
 	}
-
 }

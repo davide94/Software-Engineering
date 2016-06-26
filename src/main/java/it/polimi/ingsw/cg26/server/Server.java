@@ -33,6 +33,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -46,7 +47,7 @@ public class Server {
     /**
      * The starting delay
      */
-    private final static int START_DELAY = 20 * 1000;
+    private final static int START_DELAY = 5 * 1000;
 
     /**
      * The Socket Port number
@@ -83,7 +84,8 @@ public class Server {
      * The executor
      */
     private final ExecutorService executor;
-    
+
+    boolean quit = false;
     /**
      * Server constructor 
      * @throws IOException 
@@ -91,6 +93,12 @@ public class Server {
     private Server() throws IOException {
         clients = new LinkedHashMap<>();
         this.executor = Executors.newCachedThreadPool();
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (!scanner.nextLine().equalsIgnoreCase("quit"));
+            quit = true;
+            executor.shutdown();
+        }).start();
     }
     
     /**
@@ -154,7 +162,7 @@ public class Server {
 
         log.info("SERVER SOCKET READY ON PORT " + SOCKET_PORT);
 
-        while (true) {
+        while (!quit) {
             Socket socket = serverSocket.accept();
             new Thread(() -> {
                 try {
@@ -164,6 +172,7 @@ public class Server {
                 }
             }).start();
         }
+        serverSocket.close();
     }
 
     /**

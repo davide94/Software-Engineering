@@ -45,5 +45,4 @@ public class PlayersChange extends ChangeDecorator {
 			throw new PlayerNotFoundException();
 		players.set(i, this.playerDTO);
 	}
-	
 }

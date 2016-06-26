@@ -13,7 +13,7 @@ public class TakeYourCityBonus extends BonusDecorator {
 	/**
      * Create a Bonus that allows the player to choose and take another bonus placed on a city in which he has an emporium 
      * @param decoratedBonus the bonus to be decorated
-     * @param multilplicity of the bonus
+     * @param multiplicity of the bonus
      * @throws IllegalArgumentException if the multiplicity is less than 1
      * @throws NullPointerException if the bonus to decorate is null
      */

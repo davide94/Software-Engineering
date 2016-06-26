@@ -29,5 +29,4 @@ public class FoldSell extends Action {
 	public void notifyChange(GameBoard gameBoard) {
 		//nothing to do here
 	}
-
 }

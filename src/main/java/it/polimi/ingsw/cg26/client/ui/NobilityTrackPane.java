@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg26.client.ui;
 
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
-import it.polimi.ingsw.cg26.common.dto.NobilityTrackDTO;
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -12,18 +12,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
  */
-public class NobilityTrackPane extends HBox {
+public class NobilityTrackPane extends HBox implements Observer {
+
+    private Model model;
 
     private List<GridPane> cells;
 
-    public NobilityTrackPane(Point2D origin, double width, double height, NobilityTrackDTO nobilityTrack, List<PlayerDTO> players) {
+    private double cellSize;
+
+    public NobilityTrackPane(Point2D origin, double width, double height, Model model) {
+        this.model = model;
+
         setPrefSize(width, height);
         setMinSize(width, height);
         setMaxSize(width, height);
@@ -32,9 +36,9 @@ public class NobilityTrackPane extends HBox {
 
         //setStyle("-fx-background-color: red;-fx-opacity: 0.5;");
 
-        double cellSize = width / nobilityTrack.getCells().size();
+        cellSize = width / model.getNobilityTrack().getCells().size();
         cells = new LinkedList<>();
-        for (NobilityCellDTO cell: nobilityTrack.getCells()) {
+        for (NobilityCellDTO cell: model.getNobilityTrack().getCells()) {
             GridPane cellPane = new GridPane();
             cellPane.setAlignment(Pos.CENTER);
             cellPane.add(new BonusPane(cellSize, cell.getBonuses()), 0, 0);
@@ -47,22 +51,36 @@ public class NobilityTrackPane extends HBox {
             getChildren().add(cellPane);
         }
 
+        draw();
+    }
+
+    private void draw() {
         DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
         shadow.setColor(Color.rgb(0, 0, 0, 0.7));
         shadow.setOffsetY(3.0);
         shadow.setOffsetX(-1.0);
 
+        for (Pane c: cells)
+            c.getChildren().clear();
+
         List<String> colors = Arrays.asList("dodgerblue", "orangered", "limegreen", "yellow");
-        for (PlayerDTO player: players) {
+        int i = 0;
+        for (PlayerDTO player: model.getPlayers()) {
             Pane pedina = new Pane();
             pedina.setPrefSize(0.5 * cellSize, 0.5 * cellSize);
             pedina.setMaxSize(0.5 * cellSize, 0.5 * cellSize);
-            pedina.setStyle("-fx-background-color: " + colors.get(players.indexOf(player) % 4) + ";-fx-background-radius: 50%;");
+            pedina.setStyle("-fx-background-color: " + colors.get(i % 4) + ";-fx-background-radius: 50%;");
             this.setEffect(shadow);
             pedina.setEffect(shadow);
             GridPane cell = cells.get(player.getNobilityCell());
             cell.add(pedina, (cell.getChildren().size() / 2) % 2, cell.getChildren().size() % 2);
+            i++;
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        draw();
     }
 }

@@ -15,19 +15,16 @@ import java.util.List;
 public class MarketSell extends State {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     
     /**
      * The list of players
      */
     private List<Player> players;
-
     
     /**
      * The number of the current player
      */
     private int current;
-
     
     /**
      * Default constructor

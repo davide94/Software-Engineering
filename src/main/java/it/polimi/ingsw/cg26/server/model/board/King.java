@@ -5,18 +5,15 @@ import it.polimi.ingsw.cg26.common.dto.KingDTO;
 
 public class King {
 
-	
 	/**
 	 * the cost to move the king between two cities that are adjacent
 	 */
     private static final int LINK_PRICE = 2;
-
     
     /**
      * the city in which the king is located 
      */
     private City currentCity;
-
     
     /**
      * Default constructor
@@ -27,7 +24,6 @@ public class King {
         this.currentCity = currentCity;
     }
 
-    
     /**
      * Create the king
      * @param currentCity is the city in which should be created the king
@@ -36,7 +32,6 @@ public class King {
     public static King createKing(City currentCity) {
         return new King(currentCity);
     }
-
     
     /**
      * Create a king DTO
@@ -45,12 +40,10 @@ public class King {
     public KingDTO getState() {
         return new KingDTO(currentCity.getName());
     }
-    
-    
 
     /**
      * Move the king from a city to another
-     * @param City is the city in which the king should be moved
+     * @param city is the city in which the king should be moved
      * @throws NullPointerException if the city in which the king should be moved is null
      */
     public void move(City city) {
@@ -59,7 +52,6 @@ public class King {
         this.currentCity = city;
     }
 
-    
     /**
      * Get the price to move the king to another city
      * @param city is the city in which the king should be moved
@@ -68,8 +60,6 @@ public class King {
     public int priceToMove(City city) {
         return this.currentCity.distanceFrom(city) * LINK_PRICE;
     }
-    
-    
 
     /**
      * Get the city in which there is the king
@@ -112,5 +102,4 @@ public class King {
                 "currentCity='" + currentCity.getName() + "\'" +
                 '}';
     }
-
 }

@@ -82,5 +82,4 @@ public class BuildKing extends Corrupt {
         }
         notifyDecoratingPlayersChange(gameBoard, change);
     }
-
 }

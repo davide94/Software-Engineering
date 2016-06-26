@@ -39,7 +39,6 @@ public class CouncillorDTO implements Serializable {
         CouncillorDTO that = (CouncillorDTO) o;
 
         return color != null ? color.equals(that.color) : that.color == null;
-
     }
 
     @Override

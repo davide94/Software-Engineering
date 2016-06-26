@@ -18,7 +18,7 @@ public class NobilityCellDTO implements Serializable {
     /**
      * Constructs a Nobility Cell DTO object
      * @param index is the index of the cell in the Nobility Track
-     * @param reward is a RewardTileDTO
+     * @param bonuses is a BonusDTO
      * @throws NullPointerException if bonuses is null
      * @throws IllegalArgumentException if index is negative
      */

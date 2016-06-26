@@ -32,5 +32,4 @@ public class KingBalconyChange extends ChangeDecorator {
 		super.apply(model);
 		model.setKingBalcony(kingBalcony);
 	}
-
 }

@@ -51,7 +51,7 @@ public class ServerSocketView extends View {
     @Override
     public void run() {
 
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 Object object = socketIn.readObject();
 

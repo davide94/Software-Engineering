@@ -51,5 +51,4 @@ public abstract class Sell extends Action {
 		Change change = new MarketChange(new BasicChange(), gameBoard.getMarket().getState());
 		notifyDecoratingPlayersChange(gameBoard, change);
 	}
-
 }

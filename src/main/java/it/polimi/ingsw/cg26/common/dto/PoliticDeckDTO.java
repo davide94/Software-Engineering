@@ -8,5 +8,4 @@ import java.io.Serializable;
 public class PoliticDeckDTO implements Serializable {
 
     private static final long serialVersionUID = -7770348823224951816L;
-
 }
