@@ -86,7 +86,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private static final List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
     
-    private static final int kingDeckSize = 5;
+    private static final int KINGDECKSIZE = 5;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -281,6 +281,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildColorBonuses(root);
         buildKingRewardTile(root);
         buildCoinsTrack(root);
+        buildRegionTileBonuses(root);
 
         buildActionsPane(root);
         buildStatePane(root);
@@ -441,18 +442,30 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	}
     }
 
+    /**
+     * Builds and displays the position of the players on the Nobility track
+     * @param root is the root Pane
+     */
     private void buildNobilityTrack(Pane root) {
         Point2D origin = new Point2D(0.0475 * root.getWidth(), 0.81 * root.getHeight());
         Pane track = new NobilityTrackPane(origin, 0.69 * root.getWidth(), 0.05 * root.getHeight(), model.getNobilityTrack(), model.getPlayers());
         root.getChildren().add(track);
     }
 
+    /**
+     * Builds and displays the position of the players on the Coin track
+     * @param root is the root Pane
+     */
     private void buildCoinsTrack(Pane root) {
         Point2D origin = new Point2D(0.035 * root.getWidth(), 0.875 * root.getHeight());
         Pane track = new CoinsTrack(origin, 0.72 * root.getWidth(), 0.05 * root.getHeight(), model.getPlayers());
         root.getChildren().add(track);
     }
 
+    /**
+     * Builds and displays the position of the players on the Victory track
+     * @param root is the root Pane
+     */
     private void buildVictoryTrack(Pane root) {
         Pane track = new VictoryTrack(root.getWidth(), root.getHeight(), 0.035 * root.getWidth(), model.getPlayers());
         root.getChildren().add(track);
@@ -466,6 +479,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
     		String resource = null;
     		RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.035 * root.getHeight(), t.getValue());
+    		rewardTile.setRotate(45);
     		switch (t.getKey().getColor()) {
 			case "iron":
 				resource ="ironCityTile.png";
@@ -497,9 +511,14 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	}
     }
     
+    /**
+     * Build and displays the king tiles
+     * @param root is the root pane
+     */
     private void buildKingRewardTile(Pane root) {
-    	int index = kingDeckSize - model.getKingDeck().getTiles().size() + 1;
+    	int index = KINGDECKSIZE - model.getKingDeck().getTiles().size() + 1;
     	RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.037 * root.getHeight(), model.getKingDeck().getTiles().get(0).getBonuses());
+    	rewardTile.setRotate(45);
     	AnchorPane.setLeftAnchor(rewardTile, 0.884 * root.getWidth());
     	AnchorPane.setTopAnchor(rewardTile, 0.751 * root.getHeight());
     	rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/kingTile.png") + ");" +
@@ -513,6 +532,38 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         AnchorPane.setBottomAnchor(indexLabel, 0.2 * rewardTile.getPrefHeight());
         rewardTile.getChildren().add(indexLabel);
     	root.getChildren().add(rewardTile);
+    }
+    
+    private void buildRegionTileBonuses(Pane root) {
+    	for(RegionDTO r : model.getRegions()) {
+    		String resource = null;
+    		double offset = 0;
+    		RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.037 * root.getHeight(), r.getBonus());
+    		if(r.getBonus().toString().isEmpty())
+    			rewardTile.setVisible(false);
+    		switch (r.getName()) {
+			case "coast":
+				resource = "coast";
+				offset = 0;
+				break;
+			case "hills":
+				resource = "hills";
+				offset = 0.3;
+				break;
+			case "mountains":
+				resource = "mountains";
+				offset = 0.63;
+				break;
+			default:
+				break;
+			}
+    		AnchorPane.setLeftAnchor(rewardTile, (0.250 + offset) * root.getWidth());
+    		AnchorPane.setTopAnchor(rewardTile, 0.51 * root.getHeight());
+    		rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/"+ resource +"RewardTile.png") + ");" +
+                    "-fx-background-position: center;" +
+                    "-fx-background-size: 100% 100%;");
+    		root.getChildren().add(rewardTile);
+    	}
     }
 
     /**
