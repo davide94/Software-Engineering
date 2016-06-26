@@ -15,7 +15,9 @@ import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -26,8 +28,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -80,6 +85,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private static final List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
 
     private static final List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
+    
+    private static final int kingDeckSize = 5;
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         if (establishConnection())
@@ -271,6 +279,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildBalconies(root);
         buildNobilityTrack(root);
         buildColorBonuses(root);
+        buildKingRewardTile(root);
         buildCoinsTrack(root);
 
         buildActionsPane(root);
@@ -447,45 +456,61 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(track);
     }
 
+    /**
+     * Build and displays the colorBonuses tiles
+     * @param root is the root pane
+     */
     private void buildColorBonuses(Pane root) {
     	for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
-    		AnchorPane rewardTile = new AnchorPane();
-    		rewardTile.setPrefSize(0.058 * root.getWidth(), 0.035 * root.getHeight());
-			rewardTile.setRotate(45);
+    		String resource = null;
+    		RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.035 * root.getHeight(), t.getValue());
     		switch (t.getKey().getColor()) {
 			case "iron":
-				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/ironCityTile.png") + ");" +
-	                    "-fx-background-position: center;" +
-	                    "-fx-background-size: 100% 100%;");
+				resource ="ironCityTile.png";
 				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(0).getX() * root.getWidth());
 				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(0).getY() * root.getHeight());
 				break;
-			case "silver":
-				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/bronzeCityTile.png") + ");" +
-	                    "-fx-background-position: center;" +
-	                    "-fx-background-size: 100% 100%;");
+			case "bronze":
+				resource = "bronzeCityTile.png";
 				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(1).getX() * root.getWidth());
 				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(1).getY() * root.getHeight());
 				break;
-			case "bronze":
-				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/silverCityTile.png") + ");" +
-	                    "-fx-background-position: center;" +
-	                    "-fx-background-size: 100% 100%;");
+			case "silver":
+				resource = "silverCityTile.png";
 				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(2).getX() * root.getWidth());
 				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(2).getY() * root.getHeight());
 				break;
 			case "gold":
-				rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/goldCityTile.png") + ");" +
-	                    "-fx-background-position: center;" +
-	                    "-fx-background-size: 100% 100%;");
+				resource = "goldCityTile.png";
 				AnchorPane.setLeftAnchor(rewardTile, colorBonusesOrigins.get(3).getX() * root.getWidth());
 				AnchorPane.setTopAnchor(rewardTile, colorBonusesOrigins.get(3).getY() * root.getHeight());
 				break;
 			default:
 				break;
 			}
+    		rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/" + resource) + ");" +
+                    "-fx-background-position: center;" +
+                    "-fx-background-size: 100% 100%;");
     		root.getChildren().add(rewardTile);
     	}
+    }
+    
+    private void buildKingRewardTile(Pane root) {
+    	int index = kingDeckSize - model.getKingDeck().getTiles().size() + 1;
+    	RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.037 * root.getHeight(), model.getKingDeck().getTiles().get(0).getBonuses());
+    	AnchorPane.setLeftAnchor(rewardTile, 0.884 * root.getWidth());
+    	AnchorPane.setTopAnchor(rewardTile, 0.751 * root.getHeight());
+    	rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/kingTile.png") + ");" +
+                "-fx-background-position: center;" +
+                "-fx-background-size: 100% 100%;");
+		Label indexLabel = new Label();
+        indexLabel.setTextFill(Color.WHITE);
+        indexLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 25.0));
+        indexLabel.setText(Integer.toString(index) + "°");
+        AnchorPane.setLeftAnchor(indexLabel, 0.2 * rewardTile.getPrefWidth());
+        AnchorPane.setBottomAnchor(indexLabel, 0.2 * rewardTile.getPrefHeight());
+        rewardTile.getChildren().add(indexLabel);
+    	root.getChildren().add(rewardTile);
     }
 
     /**
