@@ -2,22 +2,27 @@ package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CityPane extends AnchorPane {
 	
 	private Label nameLabel;
 	
 	private Pane king;
-	
-	private HBox emporiums;
+
+    private List<Pane> emporiums;
+
+    private List<Point2D> emporiumsOrigins = Arrays.asList(new Point2D(0.2, 0.7), new Point2D(0.35, 0.725), new Point2D(0.5, 0.75), new Point2D(0.65, 0.775));
 	
 	public CityPane(Point2D origin, double size, CityDTO city) {
         AnchorPane.setLeftAnchor(this, origin.getX());
@@ -32,7 +37,7 @@ public class CityPane extends AnchorPane {
             this.getChildren().add(bonusPane);
         }
 
-		//add name
+        //add name
 		DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
         shadow.setColor(Color.BLACK);
@@ -55,8 +60,22 @@ public class CityPane extends AnchorPane {
         AnchorPane.setBottomAnchor(king, 45.0);
         king.setPrefSize(0.25 * size, 0.25 * size);
         king.setVisible(false);
-        this.getChildren().add(king);
-        
+        getChildren().add(king);
+
+        //emporiums
+        int i = 0;
+        for (EmporiumDTO e: city.getEmporiums()) {
+            Pane emporiumPane = new Pane();
+            AnchorPane.setLeftAnchor(emporiumPane, size * emporiumsOrigins.get(i).getX());
+            AnchorPane.setTopAnchor(emporiumPane, size * emporiumsOrigins.get(i).getY());
+            emporiumPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/emporiums/emporium" + (i+1) + ".png") + ");" +
+                    "-fx-background-position: center;" +
+                    "-fx-background-size: cover");
+            emporiumPane.setPrefSize(0.15 * size, 0.15 * size);
+            getChildren().add(emporiumPane);
+            i = (i + 1) % 4;
+        }
+
         //add background
         addBackground(city);
 	}
@@ -81,6 +100,7 @@ public class CityPane extends AnchorPane {
         }
 
         style += "-fx-background-position: center;-fx-background-size: 100% 100%;";
+        //style += "-fx-background-color: red;-fx-opacity: 0.5;";
         this.setStyle(style);
 	}
 	

@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.model;
 
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -44,8 +45,6 @@ public class Scheduler {
      */
     private final GameBoard gameBoard;
 
-    
-    
     /**
      * Constructs a Scheduler
      *
@@ -59,7 +58,6 @@ public class Scheduler {
         this.gameBoard = gameBoard;
         state = new MatchNotStarted(gameBoard);
     }
-
     
     /**
      * Get the numbers of players
@@ -70,8 +68,6 @@ public class Scheduler {
     }
 
     /* ---------- ONLY FOR TESTING ---------- */
-
-    
     /**
      * Get the list of players
      * @return the list of players
@@ -79,7 +75,6 @@ public class Scheduler {
     public List<Player> getPlayers() {
         return players;
     }
-
     /* -------------------------------------- */
 
     /**
@@ -114,17 +109,6 @@ public class Scheduler {
     public Player getCurrentPlayer() {
         return state.getCurrentPlayer();
     }
-    /*public Player getCurrentPlayer() {
-        if (players.isEmpty())
-            return null;
-        if (market) {
-            if (sell)
-                return players.get(currentInMarket);
-            return buyTurn.get(currentInMarket);
-        }
-        return players.get(current);
-
-    }*/
 
     /**
      * Adds a Player to the list of players
@@ -136,7 +120,6 @@ public class Scheduler {
         //buyTurn.add(player);
         return player;
     }
-
     
     /**
      * Create a new player
@@ -148,9 +131,8 @@ public class Scheduler {
         if (name.equals(""))
             name = "Player_" + players.size();
         long token = new BigInteger(64, new SecureRandom()).longValue();
-        return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), 10, new LinkedList<>(), new LinkedList<>());
+        return new Player(token, name, gameBoard.getNobilityTrack().getFirstCell(), 10 + playersNumber(), new LinkedList<>(), new LinkedList<>());
     }
-
     
     /**
      * Start the match and change state
@@ -161,7 +143,6 @@ public class Scheduler {
         state = state.startMatch(new LinkedList<>(players));
     }
 
-    
     /**
      * Add all the items to the players to start the match
      * @throws NoRemainingCardsException if there aren't enough politic cards in the deck
@@ -170,16 +151,23 @@ public class Scheduler {
 
         for (int i = 0; i < playersNumber(); i++) {
             Player p = players.get(i);
-            p.addCoins(i);
+            int delta = 10 + i - p.getCoinsNumber();
+            if (delta > 0)
+                p.addCoins(delta);
+            else {
+                try {
+                    p.removeCoins(-delta);
+                } catch (NotEnoughMoneyException e) {
+                    e.printStackTrace();
+                }
+            }
             for (int j = 0; j < i + 1; j++)
                 p.addAssistant(new Assistant());
             for (int j = 0; j < INITIAL_CARDS_NUMBER; j++)
                 p.addPoliticCard(gameBoard.getPoliticDeck().draw());
         }
-
     }
 
-    
     /**
      * Remove a player from the match 
      * @param token is the token of the player that has to be removed
@@ -196,7 +184,6 @@ public class Scheduler {
         log.info("Player " + token + " killed.");
     }
 
-    
     /**
      * Set Offline the state of a player
      * @param token is the token of the player
@@ -216,7 +203,6 @@ public class Scheduler {
         return state.canPerformRegularAction(token);
     }
 
-    
     /**
      * Check if a player can sell an item
      * @param token is the token of the player
@@ -225,7 +211,6 @@ public class Scheduler {
     public boolean canSell(long token) {
         return state.canSell(token);
     }
-
     
     /**
      * Check if a player can buy an item
@@ -243,14 +228,12 @@ public class Scheduler {
         state = state.regularActionPerformed();
     }
 
-    
     /**
      * Set the state of the match as fold sell
      */
     public void foldSell() {
         state = state.sellFolded();
     }
-
     
     /**
      * Set the state of the match as fold buy
@@ -259,7 +242,6 @@ public class Scheduler {
         state = state.buyFolded();
     }
 
-    
     /**
      * Setter of the state
      * @param state of the game
@@ -267,163 +249,4 @@ public class Scheduler {
     public void setState(State state) {
         this.state = state;
     }
-
-    /*
-    public void deactivatePlayer(long token) {
-        int activePlayers = 0;
-        for (Player p: players) {
-            if (p.isOnline())
-                activePlayers++;
-            if (p.getToken() == token)
-                p.setOnline(false);
-        }
-        log.info("Player " + token + " deactivated.");
-        if (activePlayers < 2)
-            endMatch();
-    }
-
-    /**
-     * Checks if the player can perform more actions and if not, the turn passes tu the next player.
-     * Also checks if someone won.
-     */
-/*    public void actionPerformed() {
-
-        if (market || getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction())
-            return;
-
-        nextPlayer();
-    }
-
-    private void nextPlayer() {
-        if (!lastTurn) {
-            int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
-                    c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
-            if (count >= 10) {
-                getCurrentPlayer().addVictoryPoints(3);
-                lastTurn = true;
-                winner = current;
-            }
-        }
-
-        gameBoard.notifyObservers(new PrivateUpdate(new RegulaTurnEnded(), getCurrentPlayer().getToken()));
-
-        current = (current + 1) % playersNumber();
-        while (!players.get(current).isOnline())
-            current = (current + 1) % playersNumber();
-
-        if (current == players.size())
-            current = 0;
-
-        if (lastTurn && current == winner) {
-            endMatch();
-            return;
-        }
-
-        if (!market && current == 0) {
-            startMarket();
-            return;
-        }
-
-        getCurrentPlayer().setRemainingMainActions(1);
-        getCurrentPlayer().setRemainingQuickActions(1);
-        try {
-            getCurrentPlayer().addPoliticCard(gameBoard.getPoliticDeck().draw());
-        } catch (NoRemainingCardsException e) {
-            log.error("Player can't draw from politic deck", e);
-        }
-        gameBoard.notifyObservers(new PrivateUpdate(new LocalPlayerChange(new BasicChange(), getCurrentPlayer().getFullState()), getCurrentPlayer().getToken()));
-        gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnStarted(), getCurrentPlayer().getToken()));
-    }
-
-    private void startMarket() {
-        market = true;
-        sell = true;
-        currentInMarket = 0;
-
-        gameBoard.notifyObservers(new MarketStarted());
-        gameBoard.notifyObservers(new PrivateUpdate(new SellTurnStarted(), getCurrentPlayer().getToken()));
-    }
-
-    public void foldSell() {
-        if (!market || !sell)
-            return;
-        gameBoard.notifyObservers(new PrivateUpdate(new SellTurnEnded(), getCurrentPlayer().getToken()));
-
-        currentInMarket++;
-        if (currentInMarket == players.size()) {
-            sell = false;
-            currentInMarket = 0;
-            Collections.shuffle(buyTurn);
-
-            gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
-        } else {
-            gameBoard.notifyObservers(new PrivateUpdate(new SellTurnStarted(), getCurrentPlayer().getToken()));
-        }
-    }
-
-    public void foldBuy() {
-        if (!market || sell)
-            return;
-        gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnEnded(), getCurrentPlayer().getToken()));
-
-        currentInMarket++;
-        if (currentInMarket == players.size()) {
-            market = false;
-
-            gameBoard.notifyObservers(new MarketEnded());
-            gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnStarted(), getCurrentPlayer().getToken()));
-        } else {
-            gameBoard.notifyObservers(new PrivateUpdate(new BuyTurnStarted(), getCurrentPlayer().getToken()));
-        }
-    }
-*/
-    /*private Comparator<Player> nobilityComparator = (x, y) ->
-            x.getNobilityCell().getIndex() < y.getNobilityCell().getIndex() ? -1 :
-                    x.getNobilityCell().getIndex() == y.getNobilityCell().getIndex() ? 0 : 1;
-
-    private Comparator<Player> bptComparator = (x, y) ->
-            x.getBPTNumber() < y.getBPTNumber() ? -1 :
-                    x.getBPTNumber() == y.getBPTNumber() ? 0 : 1;
-
-    private Comparator<Player> victoryComparator = (x, y) ->
-            x.getBPTNumber() < y.getBPTNumber() ? -1 :
-                    x.getBPTNumber() == y.getBPTNumber() ? 0 : 1;
-
-    private Comparator<Player> assistantsPlusCardsComparator = (x, y) ->
-            x.getAssistantsNumber() + x.getPoliticCardsNumber() < y.getAssistantsNumber() + y.getPoliticCardsNumber() ? -1 :
-                    x.getAssistantsNumber() + x.getPoliticCardsNumber() == y.getAssistantsNumber() + y.getPoliticCardsNumber() ? 0 : 1;
-
-    private void endMatch() {
-
-        // first nobility -> 5 victory
-        // second nobility -> 2 victory (only if the first is unique)
-        // first bpt -> 3 (only if unique)
-
-        Collections.sort(players, nobilityComparator);
-        if (players.get(0).getNobilityCell().getIndex() != players.get(1).getNobilityCell().getIndex()) {
-            players.get(0).addVictoryPoints(5);
-            players.stream().skip(1)
-                    .filter(p -> p.getNobilityCell().getIndex() == players.get(1).getNobilityCell().getIndex())
-                    .forEach(p -> p.addVictoryPoints(2));
-        } else {
-            players.stream()
-                    .filter(p -> p.getNobilityCell().getIndex() == players.get(0).getNobilityCell().getIndex())
-                    .forEach(p -> p.addVictoryPoints(5));
-        }
-
-        Collections.sort(players, bptComparator);
-        if (players.get(0).getBPTNumber() > players.get(2).getBPTNumber())
-            players.get(0).addVictoryPoints(3);
-
-        Collections.sort(players, victoryComparator);
-        int a = (int)players.stream().filter(p -> p.getVictoryPoints() == players.get(0).getVictoryPoints()).count();
-        if (a != 0)
-            Collections.sort(players.subList(0, a), assistantsPlusCardsComparator);
-
-        //if (assistantsPlusCardsComparator.compare(players.get(0), players.get(1)) == 0)
-            // no one wins :(
-        // players.gat(0) is the winner
-
-        gameBoard.notifyObservers(new MatchEnded()); // TODO: put inside final ranking
-    }*/
 }

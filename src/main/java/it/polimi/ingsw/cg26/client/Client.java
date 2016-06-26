@@ -282,6 +282,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         primaryStage.show();
     }
 
+
+
     /**
      * Builds the cities
      * @param root is the root Pane

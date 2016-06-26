@@ -29,13 +29,17 @@ public class BonusPane extends GridPane {
             //double bonusSize = bonusesStrings.size() == 1 ? size * 0.75 : size /(double) bonusesStrings.size();
             bonusPane.setPrefSize(bonusSize, bonusSize);
 
+            String multiplicity = "";
             int j = 0;
+            boolean found = false;
             while (true) {
-                if (bonusString.charAt(j) > 47 && bonusString.charAt(j) < 58)
+                if (bonusString.charAt(j) > 47 && bonusString.charAt(j) < 58) {
+                    found = true;
+                    multiplicity += new String(new char[]{bonusString.charAt(j)});
+                } else if (found)
                     break;
                 j++;
             }
-            String multiplicity = new String(new char[]{bonusString.charAt(j)});
 
             String styleString = "";
             if (bonusString.contains("Assistants"))

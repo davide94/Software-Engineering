@@ -49,23 +49,23 @@ public class Server {
     private final static int START_DELAY = 20 * 1000;
 
     /**
-     * The number of socket Port
+     * The Socket Port number
      */
     private final static int SOCKET_PORT = 29999;
 
     /**
-     * The number of RMI Port
+     * The RMI Port number
      */
     private final static int RMI_PORT = 52365;
 
     /**
-     * The controller
+     * The Controller
      */
     private Controller controller;
 
     
     /**
-     * The model of the game
+     * The Model of the game
      */
     private GameBoard model;
 
@@ -75,7 +75,7 @@ public class Server {
     private Map<Long, View> clients;
 
     /**
-     * the scheduler of the gameboard
+     * The Scheduler of the GameBoard
      */
     private Scheduler scheduler;
 
