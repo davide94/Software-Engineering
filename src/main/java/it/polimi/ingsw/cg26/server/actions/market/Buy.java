@@ -12,8 +12,15 @@ import it.polimi.ingsw.cg26.server.model.player.Player;
 
 public class Buy extends Action {
 
+	/**
+	 * The DTO of the item on sale
+	 */
 	private SellableDTO sellable;
 	
+	
+	/**
+	 * The old owner of the item
+	 */
 	private Player oldOwner;
 	
 	/**

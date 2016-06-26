@@ -5,10 +5,19 @@ import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 public class FoldSell extends Action {
 
+	
+	/**
+	 * Finish to sell
+	 * @param token is the token of the player
+	 */
 	public FoldSell(long token) {
 		super(token);
 	}
 
+	
+	/**
+	 * Apply the choice to fold the sale
+	 */
 	@Override
 	public void apply(GameBoard gameBoard) {
 		if(!gameBoard.getScheduler().canSell(getToken()))

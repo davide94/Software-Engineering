@@ -27,6 +27,10 @@ public class SellBPT extends Sell {
 		this.bpTileDTO = bpTileState;
 	}
 
+	
+	/**
+	 * Apply the sale
+	 */
 	@Override
 	public void apply(GameBoard gameBoard) throws InvalidTileException {
 		if(!gameBoard.getScheduler().canSell(getToken()))

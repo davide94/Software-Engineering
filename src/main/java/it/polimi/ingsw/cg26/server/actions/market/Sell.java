@@ -40,7 +40,9 @@ public abstract class Sell extends Action {
 		sellable.setPrice(this.price);
 		gameBoard.getMarket().addToMarket(sellable);
 	}
-	
+	/**
+	 * Apply the sale
+	 */
 	@Override
 	public abstract void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, InvalidCardsException, InvalidTileException;
 	

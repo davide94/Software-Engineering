@@ -16,6 +16,10 @@ public class SellAssistant extends Sell {
 		super(price, token);
 	}
 
+	
+	/**
+	 * Apply the sale
+	 */
 	@Override
 	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException {
 		if(!gameBoard.getScheduler().canSell(getToken()))

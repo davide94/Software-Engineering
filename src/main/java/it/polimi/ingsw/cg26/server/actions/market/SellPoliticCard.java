@@ -27,6 +27,10 @@ public class SellPoliticCard extends Sell {
 		this.politicCard = politicCard;
 	}
 
+	
+	/**
+	 * Apply the sale
+	 */
 	@Override
 	public void apply(GameBoard gameBoard) throws InvalidCardsException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
