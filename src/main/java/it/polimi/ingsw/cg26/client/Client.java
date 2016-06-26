@@ -584,22 +584,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root Pane
      */
     private void buildActionsPane(Pane root) {
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetY(3.0f);
-        shadow.setRadius(50.0);
-        shadow.setColor(Color.BLACK);
-
-        AnchorPane pane = new AnchorPane();
-        pane.setEffect(shadow);
+        ActionsPane pane = new ActionsPane();
         AnchorPane.setTopAnchor(pane, 50.0);
         AnchorPane.setRightAnchor(pane, 50.0);
-        pane.setPrefWidth(400.0);
-        pane.setPrefHeight(310.0);
-        pane.setVisible(false);
-        pane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actions.jpg") + ");" +
-                      "-fx-background-position: center;" +
-                      "-fx-background-size: 100% 100%;");
-        pane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> pane.setVisible(false));
 
         Pane showHidePane = new Pane();
         AnchorPane.setTopAnchor(showHidePane, 50.0);
@@ -608,65 +595,15 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         showHidePane.setStyle("-fx-background-color: azure");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
 
-        Button p1 = new Button();
-        p1.setPrefWidth(200);
-        p1.setPrefHeight(60);
-        p1.setStyle("-fx-background-color: transparent");
-        p1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> acquire());
-        Button p2 = new Button();
-        p2.setPrefWidth(200);
-        p2.setPrefHeight(60);
-        p2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buildKing());
-        p2.setStyle("-fx-background-color: transparent");
-        Button p3 = new Button();
-        p3.setPrefWidth(200);
-        p3.setPrefHeight(60);
-        p3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> electAsMainAction());
-        p3.setStyle("-fx-background-color: transparent");
-        Button p4 = new Button();
-        p4.setPrefWidth(200);
-        p4.setPrefHeight(60);
-        p4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> build());
-        p4.setStyle("-fx-background-color: transparent");
-        Button s1 = new Button();
-        s1.setPrefWidth(200);
-        s1.setPrefHeight(60);
-        s1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> engageAssistant());
-        s1.setStyle("-fx-background-color: transparent");
-        Button s2 = new Button();
-        s2.setPrefWidth(200);
-        s2.setPrefHeight(60);
-        s2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeBPT());
-        s2.setStyle("-fx-background-color: transparent");
-        Button s3 = new Button();
-        s3.setPrefWidth(200);
-        s3.setPrefHeight(60);
-        s3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> electAsQuickAction());
-        s3.setStyle("-fx-background-color: transparent");
-        Button s4 = new Button();
-        s4.setPrefWidth(200);
-        s4.setPrefHeight(60);
-        s4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> additionalMainAction());
-        s4.setStyle("-fx-background-color: transparent");
-
-        AnchorPane.setLeftAnchor(p4, 0.0);
-        AnchorPane.setBottomAnchor(p4, 0.0);
-        AnchorPane.setLeftAnchor(p3, 0.0);
-        AnchorPane.setBottomAnchor(p3, 60.0);
-        AnchorPane.setLeftAnchor(p2, 0.0);
-        AnchorPane.setBottomAnchor(p2, 120.0);
-        AnchorPane.setLeftAnchor(p1, 0.0);
-        AnchorPane.setBottomAnchor(p1, 180.0);
-        AnchorPane.setRightAnchor(s4, 0.0);
-        AnchorPane.setBottomAnchor(s4, 0.0);
-        AnchorPane.setRightAnchor(s3, 0.0);
-        AnchorPane.setBottomAnchor(s3, 60.0);
-        AnchorPane.setRightAnchor(s2, 0.0);
-        AnchorPane.setBottomAnchor(s2, 120.0);
-        AnchorPane.setRightAnchor(s1, 0.0);
-        AnchorPane.setBottomAnchor(s1, 180.0);
-
-        pane.getChildren().addAll(p1, p2, p3, p4, s1, s2, s3, s4);
+        pane.getAcquire().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> acquire());
+        pane.getBuildKing().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buildKing());
+        pane.getElectAsMainAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> electAsMainAction());
+        pane.getBuild().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> build());
+        pane.getEngageAssistant().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> engageAssistant());
+        pane.getChangeBPT().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeBPT());
+        pane.getElectAsQuickAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> electAsQuickAction());
+        pane.getAdditionalMainAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> additionalMainAction());
+        
         root.getChildren().add(showHidePane);
         root.getChildren().add(pane);
     }
