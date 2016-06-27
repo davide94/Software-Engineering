@@ -1,19 +1,18 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import static org.junit.Assert.*;
-
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import static org.junit.Assert.*;
 
 public class BalconyTest {
 	private int capacity;
@@ -59,7 +58,7 @@ public class BalconyTest {
 		councillors2.add(c3);
 		councillors2.add(c4);
 		councillors2.add(c5);
-		(balcony1.getCouncillors()).add(c1);
+		balcony1.elect(c1);
 		
 		Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new EmptyBonus()), 11, new LinkedList<>(), new LinkedList<>());
 		

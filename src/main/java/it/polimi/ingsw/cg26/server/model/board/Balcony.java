@@ -112,7 +112,7 @@ public class Balcony {
 	 * @return the collection of councillors on the balcony
 	 */
 	public Queue<Councillor> getCouncillors() {
-		return councillors;
+		return new LinkedList<>(councillors);
 	}
 
 	@Override

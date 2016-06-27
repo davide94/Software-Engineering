@@ -25,8 +25,8 @@ public abstract class ElectKing extends Elect {
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException {
 		Councillor realCouncillor = getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
 		Councillor droppedCouncillor = gameBoard.getKingBalcony().elect(realCouncillor);
-		gameBoard.getCouncillorsPool().remove(realCouncillor);
-		gameBoard.getCouncillorsPool().add(droppedCouncillor);
+		gameBoard.removeCouncillor(realCouncillor);
+		gameBoard.addCouncillor(droppedCouncillor);
 	}
 
 	@Override

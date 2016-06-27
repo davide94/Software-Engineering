@@ -42,8 +42,8 @@ public abstract class ElectRegion extends Elect {
     public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException {
 		Councillor realCouncillor = getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
     	Councillor droppedCouncillor = gameBoard.getRegion(region).getBalcony().elect(realCouncillor);
-		gameBoard.getCouncillorsPool().remove(realCouncillor);
-		gameBoard.getCouncillorsPool().add(droppedCouncillor);
+		gameBoard.removeCouncillor(realCouncillor);
+		gameBoard.addCouncillor(droppedCouncillor);
     }
     
     @Override

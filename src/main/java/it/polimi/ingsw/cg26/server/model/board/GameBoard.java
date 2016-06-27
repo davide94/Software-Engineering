@@ -81,7 +81,6 @@ public class GameBoard extends Observable<Update> {
 		this.kingDeck = kingDeck;
 		this.colorBonuses = colorBonuses;
 		this.scheduler = new Scheduler(this);
-
 	}
 
 	/**
@@ -218,10 +217,22 @@ public class GameBoard extends Observable<Update> {
 	 * @return the councillors' pool
 	 */
 	public Collection<Councillor> getCouncillorsPool() {
-		return this.councillorsPool;
+		return new LinkedList<>(councillorsPool);
 	}
 
-	/**
+    public boolean addCouncillor(Councillor c) {
+        if (c == null)
+            throw new NullPointerException();
+        return councillorsPool.add(c);
+    }
+
+    public boolean removeCouncillor(Councillor c) {
+        if (c == null)
+            throw new NullPointerException();
+        return councillorsPool.remove(c);
+    }
+
+    /**
 	 * Get the king
 	 * @return the king
 	 */

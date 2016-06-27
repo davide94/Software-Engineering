@@ -1,36 +1,21 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import static org.junit.Assert.*;
-
-import java.util.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
-import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
-import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
-import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.model.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
-import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class GameBoardTest {
 	
@@ -115,28 +100,28 @@ public class GameBoardTest {
 		Councillor consOrange= Councillor.createCouncillor(new PoliticColor("orange"));
 		Councillor consPurple= Councillor.createCouncillor(new PoliticColor("purple"));
 		
-		(sudBalcony.getCouncillors()).add(consBlue);
-		(sudBalcony.getCouncillors()).add(consPink);
-		(sudBalcony.getCouncillors()).add(consBlue);
-		(sudBalcony.getCouncillors()).add(consWhite);
+		sudBalcony.elect(consBlue);
+		sudBalcony.elect(consPink);
+		sudBalcony.elect(consBlue);
+		sudBalcony.elect(consWhite);
 		
 		
-		(centroBalcony.getCouncillors()).add(consBlack);
-		(centroBalcony.getCouncillors()).add(consPurple);
-		(centroBalcony.getCouncillors()).add(consOrange);
-		(centroBalcony.getCouncillors()).add(consBlue);
+		centroBalcony.elect(consBlack);
+		centroBalcony.elect(consPurple);
+		centroBalcony.elect(consOrange);
+		centroBalcony.elect(consBlue);
 		
 		
-		(nordBalcony.getCouncillors()).add(consBlue);
-		(nordBalcony.getCouncillors()).add(consBlack);
-		(nordBalcony.getCouncillors()).add(consPurple);
-		(nordBalcony.getCouncillors()).add(consWhite);
+		nordBalcony.elect(consBlue);
+		nordBalcony.elect(consBlack);
+		nordBalcony.elect(consPurple);
+		nordBalcony.elect(consWhite);
 		
 		
-		(kingBalcony.getCouncillors()).add(consBlack);
-		(kingBalcony.getCouncillors()).add(consOrange);
-		(kingBalcony.getCouncillors()).add(consPink);
-		(kingBalcony.getCouncillors()).add(consOrange);
+		kingBalcony.elect(consBlack);
+		kingBalcony.elect(consOrange);
+		kingBalcony.elect(consPink);
+		kingBalcony.elect(consOrange);
 		
 		
 		councillorsPool= new LinkedList<>();
@@ -363,10 +348,10 @@ public class GameBoardTest {
 		Councillor consOrange= Councillor.createCouncillor(new PoliticColor("orange"));
 		
 		
-		(kBalc.getCouncillors()).add(consBlack);
-		(kBalc.getCouncillors()).add(consOrange);
-		(kBalc.getCouncillors()).add(consPink);
-		(kBalc.getCouncillors()).add(consOrange);
+		kBalc.elect(consBlack);
+		kBalc.elect(consOrange);
+		kBalc.elect(consPink);
+		kBalc.elect(consOrange);
 		
 		assertEquals(board.getKingBalcony(), kBalc);
 		assertFalse((board.getKingBalcony()).equals(kBalc2));

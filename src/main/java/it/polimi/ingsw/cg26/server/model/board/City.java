@@ -119,7 +119,7 @@ public class City {
     * @return the emporiums built in the city
     */
 	public List<Emporium> getEmporiums() {
-		return emporiums;
+		return new LinkedList<>(emporiums);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class City {
      * @return the list of cities linked with the city
      */
     public List<City> getNearCities() {
-		return nearCities;
+		return new LinkedList<>(nearCities);
 	}
 
 	/**
@@ -195,8 +195,8 @@ public class City {
     public void link(City c){
     	if (c == null)
     		throw new NullPointerException();
-        if (!this.nearCities.contains(c))
-            this.nearCities.add(c);
+        if (!nearCities.contains(c))
+            nearCities.add(c);
     }
 
     /**

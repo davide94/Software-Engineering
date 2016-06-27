@@ -111,7 +111,7 @@ public class Region {
      * @return the collection of cities in the region
      */
     public Collection<City> getCities() {
-		return cities;
+		return new LinkedList<>(cities);
 	}
 
 	/**
