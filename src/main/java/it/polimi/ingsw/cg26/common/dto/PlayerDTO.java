@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
@@ -64,9 +65,9 @@ public class PlayerDTO implements Serializable {
         this.remainingQuickActions = remainingQuickActions;
         this.nobilityCell = nobilityCell;
         this.assistantsNumber = assistantsNumber;
-        this.cards = cards;
-        this.tiles = tiles;
-        this.discardedTiles = discardedTiles;
+        this.cards = new LinkedList<>(cards);
+        this.tiles = new LinkedList<>(tiles);
+        this.discardedTiles = new LinkedList<>(discardedTiles);
     }
 
     /**
@@ -142,7 +143,7 @@ public class PlayerDTO implements Serializable {
      * @return a collection of Politic Cards DTO owned by the Player
      */
     public Collection<PoliticCardDTO> getCards() {
-        return cards;
+        return new LinkedList<>(cards);
     }
 
     /**
@@ -150,7 +151,7 @@ public class PlayerDTO implements Serializable {
      * @return a collection of Business Permit Tiles DTO owned by the Player and not used yet
      */
     public Collection<BusinessPermissionTileDTO> getTiles() {
-        return tiles;
+        return new LinkedList<>(tiles);
     }
 
     /**
@@ -158,6 +159,6 @@ public class PlayerDTO implements Serializable {
      * @return a collection of Business Permit Tiles DTO owned by the Player and already used
      */
     public Collection<BusinessPermissionTileDTO> getDiscardedTiles() {
-        return discardedTiles;
+        return new LinkedList<>(discardedTiles);
     }
 }

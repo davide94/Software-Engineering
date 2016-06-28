@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
@@ -40,8 +41,8 @@ public class CityDTO implements Serializable {
         this.name = name;
         this.color = color;
         this.bonuses = bonuses;
-        this.emporiums = emporiums;
-        this.nearCities = nearCities;
+        this.emporiums = new LinkedList<>(emporiums);
+        this.nearCities = new LinkedList<>(nearCities);
     }
 
     /**
@@ -65,7 +66,7 @@ public class CityDTO implements Serializable {
      * @return a collection of Emporiums DTO
      */
     public Collection<EmporiumDTO> getEmporiums() {
-        return emporiums;
+        return new LinkedList<>(emporiums);
     }
 
     /**
@@ -76,7 +77,7 @@ public class CityDTO implements Serializable {
     public void setEmporiums(Collection<EmporiumDTO> emporiums) {
 		if (emporiums == null)
 			throw new NullPointerException();
-    	this.emporiums = emporiums;
+    	this.emporiums = new LinkedList<>(emporiums);
     }
 
     /**
@@ -92,7 +93,7 @@ public class CityDTO implements Serializable {
      * @return a collection of strings that identifies the near cities
      */
     public Collection<String> getNearCities() {
-        return nearCities;
+        return new LinkedList<>(nearCities);
     }
 
     @Override

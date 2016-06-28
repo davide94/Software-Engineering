@@ -77,6 +77,10 @@ public class Regular extends State {
         current++;
         if (current == players.size())
             return new MarketSell(players, gameBoard);
+
+        /*if (players.stream().filter(Player::isOnline).count() < 2)
+            return new MatchEnded(players, gameBoard);*/
+
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();
         log.info("Player " + getCurrentPlayer().getToken() + " begin his regular turn.");

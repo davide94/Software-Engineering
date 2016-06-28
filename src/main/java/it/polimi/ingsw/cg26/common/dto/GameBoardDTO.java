@@ -3,9 +3,7 @@ package it.polimi.ingsw.cg26.common.dto;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -52,17 +50,17 @@ public class GameBoardDTO implements Serializable {
     public GameBoardDTO(List<PlayerDTO> players, PlayerDTO currentPlayer, PoliticDeckDTO deck, Collection<CouncillorDTO> councillorsPool, BalconyDTO kingBalcony, List<RegionDTO> regions, NobilityTrackDTO nobilityTrack, KingDTO king, MarketDTO market, KingDeckDTO kingDeck, Map<CityColorDTO, BonusDTO> colorBonuses) {
         if (players == null || deck == null || councillorsPool == null || kingBalcony == null || regions == null || nobilityTrack == null || king == null || market == null || kingDeck == null || colorBonuses == null)
             throw new NullPointerException();
-        this.players = players;
+        this.players = new LinkedList<>(players);
         this.currentPlayer = currentPlayer;
         this.politicDeck = deck;
-        this.councillorsPool = councillorsPool;
+        this.councillorsPool = new LinkedList<>(councillorsPool);
         this.kingBalcony = kingBalcony;
-        this.regions = regions;
+        this.regions = new LinkedList<>(regions);
         this.nobilityTrack = nobilityTrack;
         this.king = king;
         this.market = market;
         this.kingDeck = kingDeck;
-        this.colorBonuses = colorBonuses;
+        this.colorBonuses = new HashMap<>(colorBonuses);
     }
 
     /**
@@ -86,7 +84,7 @@ public class GameBoardDTO implements Serializable {
      * @return a list of Player DTO
      */
     public List<PlayerDTO> getPlayers(){
-    	return players;
+    	return new LinkedList<>(players);
     }
 
     /**
@@ -94,7 +92,7 @@ public class GameBoardDTO implements Serializable {
      * @param players
      */
     public void setPlayers(List<PlayerDTO> players) {
-        this.players = players;
+        this.players = new LinkedList<>(players);
     }
 
     /**
@@ -118,7 +116,7 @@ public class GameBoardDTO implements Serializable {
      * @return a collection of Councillors DTO
      */
     public Collection<CouncillorDTO> getCouncillorsPool() {
-        return councillorsPool;
+        return new LinkedList<>(councillorsPool);
     }
 
     /**
@@ -129,7 +127,7 @@ public class GameBoardDTO implements Serializable {
     public void setCouncillorsPool(Collection<CouncillorDTO> councillorsPool){
         if (councillorsPool == null)
             throw new NullPointerException();
-    	this.councillorsPool = councillorsPool;
+    	this.councillorsPool = new LinkedList<>(councillorsPool);
     }
 
     /**
@@ -169,7 +167,7 @@ public class GameBoardDTO implements Serializable {
      * @return a list of Regions DTO
      */
     public List<RegionDTO> getRegions() {
-        return regions;
+        return new LinkedList<>(regions);
     }
 
     /**
@@ -177,7 +175,7 @@ public class GameBoardDTO implements Serializable {
      * @param regions
      */
     public void setRegions(List<RegionDTO> regions) {
-        this.regions = regions;
+        this.regions = new LinkedList<>(regions);
     }
 
     /**
@@ -232,14 +230,14 @@ public class GameBoardDTO implements Serializable {
 	 * @return the colorBonuses
 	 */
 	public Map<CityColorDTO, BonusDTO> getColorBonuses() {
-		return colorBonuses;
+		return new HashMap<>(colorBonuses);
 	}
 
 	/**
 	 * @param colorBonuses the colorBonuses to set
 	 */
 	public void setColorBonuses(Map<CityColorDTO, BonusDTO> colorBonuses) {
-		this.colorBonuses = colorBonuses;
+		this.colorBonuses = new HashMap<>(colorBonuses);
 	}
 
     @Override

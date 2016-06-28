@@ -5,7 +5,7 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.ExistingEmporiumException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
-import it.polimi.ingsw.cg26.server.model.Scheduler;
+import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.*;
 import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.market.Market;

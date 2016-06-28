@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class NobilityTrackDTO implements Serializable {
     public NobilityTrackDTO(List<NobilityCellDTO> cells) {
         if (cells == null)
             throw new NullPointerException();
-        this.cells = cells;
+        this.cells = new LinkedList<>(cells);
     }
 
     /**
@@ -28,7 +29,7 @@ public class NobilityTrackDTO implements Serializable {
      * @return a list of Nobility Cells dtDTOo
      */
     public List<NobilityCellDTO> getCells() {
-        return cells;
+        return new LinkedList<>(cells);
     }
 
     @Override

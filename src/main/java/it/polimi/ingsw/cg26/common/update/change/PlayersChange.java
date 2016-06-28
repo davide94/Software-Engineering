@@ -44,5 +44,6 @@ public class PlayersChange extends ChangeDecorator {
 		if(i<0)
 			throw new PlayerNotFoundException();
 		players.set(i, this.playerDTO);
+		model.setPlayers(players);
 	}
 }

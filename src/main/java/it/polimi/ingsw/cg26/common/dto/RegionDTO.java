@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
@@ -38,7 +39,7 @@ public class RegionDTO implements Serializable {
 		if (cities == null || deck == null || balcony == null || bonus == null)
             throw new NullPointerException();
         this.name = name;
-        this.cities = cities;
+        this.cities = new LinkedList<>(cities);
         this.deck = deck;
         this.balcony = balcony;
         this.bonus = bonus;
@@ -57,7 +58,7 @@ public class RegionDTO implements Serializable {
 	 * @return a collection of Cities DTO
      */
     public Collection<CityDTO> getCities() {
-        return cities;
+        return new LinkedList<>(cities);
     }
 
 	/**

@@ -275,7 +275,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         primaryStage.setResizable(false);
         Scene scene = new Scene(root, maxWidth, maxHeight);
 
-        while (model.getRegions() == null) {
+        while (model.getLocalPlayer() == null) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -686,30 +686,18 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root Pane
      */
     private void buildChatPane(Pane root) {
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetY(3.0f);
-        shadow.setRadius(50.0);
-        shadow.setColor(Color.BLACK);
-
-        AnchorPane pane = new AnchorPane();
-        AnchorPane.setBottomAnchor(pane, 50.0);
-        AnchorPane.setRightAnchor(pane, 50.0);
-        pane.setPrefWidth(400.0);
-        pane.setPrefHeight(root.getHeight() / 2.0);
-        pane.setVisible(false);
-        pane.setEffect(shadow);
-        pane.setStyle("-fx-background-color: azure");
-        pane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> pane.setVisible(false));
+        ChatPane chatPane = new ChatPane(400.0, root.getHeight() / 2.0, model, outView);
+        observers.add(chatPane);
 
         Pane showHidePane = new Pane();
         AnchorPane.setBottomAnchor(showHidePane, 50.0);
         AnchorPane.setRightAnchor(showHidePane, 50.0);
         showHidePane.setPrefSize(20.0, 20.0);
         showHidePane.setStyle("-fx-background-color: azure");
-        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> chatPane.setVisible(true));
 
         root.getChildren().add(showHidePane);
-        root.getChildren().add(pane);
+        root.getChildren().add(chatPane);
     }
 
     private void electAsMainAction() {
