@@ -293,7 +293,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildKingRewardTile(root);
         buildCoinsTrack(root);
         buildRegionTileBonuses(root);
-
+        buildMarket(root);
+        
         buildActionsPane(root);
         buildStatePane(root);
         buildChatPane(root);
@@ -586,6 +587,24 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
                     "-fx-background-size: 100% 100%;");
     		root.getChildren().add(rewardTile);
     	}
+    }
+    
+    private void buildMarket(Pane root) {
+    	MarketPane market = new MarketPane(model);
+    	AnchorPane.setBottomAnchor(market, 50.0);
+        AnchorPane.setLeftAnchor(market, 50.0);
+        market.setVisible(false);
+        
+        Pane showHidePane = new Pane();
+        AnchorPane.setBottomAnchor(showHidePane, 50.0);
+        AnchorPane.setLeftAnchor(showHidePane, 50.0);
+        showHidePane.setPrefSize(20.0, 20.0);
+        showHidePane.setStyle("-fx-background-color: azure");
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> market.setVisible(true));
+        
+        root.getChildren().add(showHidePane);
+        root.getChildren().add(market);
+        observers.add(market);
     }
 
     /**
