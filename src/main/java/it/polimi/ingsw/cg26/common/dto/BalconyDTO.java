@@ -21,7 +21,7 @@ public class BalconyDTO implements Serializable {
     public BalconyDTO(List<CouncillorDTO> councillors) {
         if (councillors == null)
             throw new NullPointerException();
-        this.councillors = councillors;
+        this.councillors = new LinkedList<>(councillors);
     }
 
     /**

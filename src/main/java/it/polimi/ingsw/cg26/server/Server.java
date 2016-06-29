@@ -11,7 +11,7 @@ import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
-import it.polimi.ingsw.cg26.server.model.Scheduler;
+import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;

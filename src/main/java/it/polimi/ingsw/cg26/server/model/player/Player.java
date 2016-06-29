@@ -29,6 +29,9 @@ public class Player {
 	 */
 	private final long token;
 
+	/**
+	 *
+	 */
 	private boolean online;
 
 	/**
@@ -109,13 +112,11 @@ public class Player {
 		this.currentNobilityCell = nobilityCell;
 		this.coins.addCoins(coins);
 		this.cards = new LinkedList<>();
-		for (PoliticCard card : cards) {
-			this.addPoliticCard(card);
-		}
+		for (PoliticCard card : cards)
+			addPoliticCard(card);
 		this.assistants = new LinkedList<>();
-		for (Assistant assistant : assistants) {
-			this.addAssistant(assistant);
-		}
+		for (Assistant assistant : assistants)
+			addAssistant(assistant);
 		this.remainingMainActions = new RemainingMainActions();
 		this.remainingQuickActions = new RemainingQuickActions();
 		this.remainingChooseActions = new RemainingChooseAction();
@@ -161,7 +162,7 @@ public class Player {
 	 * @return the name of the player
      */
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class Player {
 	 * @return the token of the player
      */
 	public long getToken() {
-		return this.token;
+		return token;
 	}
 
     public boolean isOnline() {
@@ -185,7 +186,7 @@ public class Player {
 	 * @return true if the player can perform a main action, false if not
      */
 	public boolean canPerformMainAction() {
-		return this.remainingMainActions.canPerform();
+		return remainingMainActions.canPerform();
 	}
 
 	/**
@@ -193,7 +194,7 @@ public class Player {
 	 * @return true if the player can perform a quick action, false if not
 	 */
 	public boolean canPerformQuickAction() {
-		return this.remainingQuickActions.canPerform();
+		return remainingQuickActions.canPerform();
 	}
 	
 	/**
@@ -201,7 +202,7 @@ public class Player {
 	 * @return true if the player can perform a quick action, false if not
 	 */
 	public boolean canPerformChooseAction() {
-		return this.remainingChooseActions.canPerform();
+		return remainingChooseActions.canPerform();
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class Player {
 	 * @throws NoRemainingActionsException if the player do not have any remaining main commands
 	 */
 	public void performMainAction() throws NoRemainingActionsException {
-		this.remainingMainActions.perform();
+		remainingMainActions.perform();
 	}
 
 	/**
@@ -217,7 +218,7 @@ public class Player {
 	 * @throws NoRemainingActionsException if the player do not have any remaining quick commands
 	 */
 	public void performQuickAction() throws NoRemainingActionsException {
-		this.remainingQuickActions.perform();
+		remainingQuickActions.perform();
 	}
 	
 	/**
@@ -225,7 +226,7 @@ public class Player {
 	 * @throws NoRemainingActionsException if the player do not have any remaining choose commands
 	 */
 	public void performChooseAction() throws NoRemainingActionsException {
-		this.remainingChooseActions.perform();
+		remainingChooseActions.perform();
 	}
 
 	/**
@@ -234,7 +235,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void setRemainingMainActions(int remainingActions) {
-		this.remainingMainActions.setRemaining(remainingActions);
+		remainingMainActions.setRemaining(remainingActions);
 	}
 
 	/**
@@ -243,7 +244,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void setRemainingQuickActions(int remainingActions) {
-		this.remainingQuickActions.setRemaining(remainingActions);
+		remainingQuickActions.setRemaining(remainingActions);
 	}
 
 	/**
@@ -252,7 +253,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the increment is negative
 	 */
 	public void addRemainingMainActions(int increment) {
-		this.remainingMainActions.addActions(increment);
+		remainingMainActions.addActions(increment);
 	}
 
 	/**
@@ -261,7 +262,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the increment is negative
 	 */
 	public void addRemainingQuickActions(int increment) {
-		this.remainingQuickActions.addActions(increment);
+		remainingQuickActions.addActions(increment);
 	}
 	
 	/**
@@ -270,16 +271,16 @@ public class Player {
 	 * @throws IllegalArgumentException if the increment is negative
 	 */
 	public void addRemainingChooseAction(int increment){
-		this.remainingChooseActions.addActions(increment);
+		remainingChooseActions.addActions(increment);
 	}
 
 	/**
 	 * Gains a position in the nobility track
 	 */
 	public void incrementNobility() throws NoRemainingCardsException {
-		if (this.currentNobilityCell.hasNext()) {
-			this.currentNobilityCell = this.currentNobilityCell.next();
-			this.currentNobilityCell.apply(this);
+		if (currentNobilityCell.hasNext()) {
+			currentNobilityCell = currentNobilityCell.next();
+			currentNobilityCell.apply(this);
 		}
 	}
 
@@ -288,7 +289,7 @@ public class Player {
 	 * @return the nobility track's cell where the player currently is
 	 */
 	public NobilityCell getNobilityCell() {
-		return this.currentNobilityCell;
+		return currentNobilityCell;
 	}
 
 	/**
@@ -296,7 +297,7 @@ public class Player {
 	 * @return the number of assistants owned by the player
 	 */
 	public int getAssistantsNumber() {
-		return this.assistants.size();
+		return assistants.size();
 	}
 
 	/**
@@ -305,10 +306,10 @@ public class Player {
 	 * @throws NoRemainingAssistantsException if there are no assistants remaining
 	 */
 	public void takeAssistants(int number) throws NoRemainingAssistantsException {
-		if (this.assistants.size() < number)
+		if (assistants.size() < number)
 			throw new NoRemainingAssistantsException();
 		for (int i = 0; i < number; i++)
-			this.assistants.poll();
+			assistants.poll();
 	}
 
 	/**
@@ -320,7 +321,7 @@ public class Player {
 		if (assistant == null)
 			throw new NullPointerException();
 		assistant.setOwner(this);
-		this.assistants.add(assistant);
+		assistants.add(assistant);
 	}
 
 	/**
@@ -329,7 +330,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void addCoins(int increment) {
-		this.coins.addCoins(increment);
+		coins.addCoins(increment);
 	}
 
 	/**
@@ -339,7 +340,7 @@ public class Player {
 	 * @throws NotEnoughMoneyException if the decrement is greater than the number of coins owned by the player
 	 */
 	public void removeCoins(int decrement) throws NotEnoughMoneyException {
-		this.coins.removeCoins(decrement);
+		coins.removeCoins(decrement);
 	}
 
 	/**
@@ -348,7 +349,7 @@ public class Player {
 	 * @throws IllegalArgumentException if the parameter is negative
 	 */
 	public void addVictoryPoints(int increment) {
-		this.victoryPoints.addPoints(increment);
+		victoryPoints.addPoints(increment);
 	}
 
 	/**
@@ -356,7 +357,7 @@ public class Player {
 	 * @return
      */
 	public int getVictoryPoints() {
-		return this.victoryPoints.getValue();
+		return victoryPoints.getValue();
 	}
 
     /**
@@ -514,7 +515,7 @@ public class Player {
 	 * @return the number of coins owned by the player
 	 */
 	public int getCoinsNumber() {
-		return this.coins.getValue();
+		return coins.getValue();
 	}
 
 	/**
@@ -527,11 +528,15 @@ public class Player {
 	/**
 	 * @param pendingRequest the pendingRequest to add
 	 */
-	public void addPendingRequest(Request pendingRequest) {
-		this.pendingRequests.add(pendingRequest);
+	public boolean addPendingRequest(Request pendingRequest) {
+        if (pendingRequest == null)
+            throw new NullPointerException();
+		return pendingRequests.add(pendingRequest);
 	}
 	
 	public void removePendingRequest(Request request){
-		this.pendingRequests.remove(request);
+        if (request == null)
+            throw new NullPointerException();
+		pendingRequests.remove(request);
 	}
 }

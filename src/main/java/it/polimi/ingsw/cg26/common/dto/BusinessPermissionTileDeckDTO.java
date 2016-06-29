@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class BusinessPermissionTileDeckDTO implements Serializable {
     public BusinessPermissionTileDeckDTO(List<BusinessPermissionTileDTO> openCards) {
         if (openCards == null)
             throw new NullPointerException();
-        this.openCards = openCards;
+        this.openCards = new LinkedList<>(openCards);
     }
 
     /**
@@ -28,7 +29,7 @@ public class BusinessPermissionTileDeckDTO implements Serializable {
      * @return a list of business permit tiles DTO (open cards of the deck)
      */
     public List<BusinessPermissionTileDTO> getOpenCards() {
-        return openCards;
+        return new LinkedList<>(openCards);
     }
 
     @Override

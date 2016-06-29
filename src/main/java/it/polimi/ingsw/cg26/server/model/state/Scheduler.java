@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.server.model;
+package it.polimi.ingsw.cg26.server.model.state;
 
 import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
@@ -6,8 +6,6 @@ import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
-import it.polimi.ingsw.cg26.server.model.state.MatchNotStarted;
-import it.polimi.ingsw.cg26.server.model.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

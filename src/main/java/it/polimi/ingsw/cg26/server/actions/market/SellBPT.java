@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -40,5 +41,6 @@ public class SellBPT extends Sell {
 		bpTile.setOwner(currentPlayer);
 		sell(gameBoard, bpTile);
 		notifyChange(gameBoard);
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Sold a Building Permit Tile for " + price +" coins]"));
 	}
 }

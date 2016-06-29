@@ -120,9 +120,6 @@ public class CityDTOTest {
         assertTrue(city.equals(new CityDTO("cityName", color, bonuses, emporiums, nearCities)));
         assertFalse(city.equals(new CityDTO("otherCityName", color, bonuses, emporiums, nearCities)));
         assertFalse(city.equals(new CityDTO("cityName", new CityColorDTO("otherColorName"), bonuses, emporiums, nearCities)));
-        assertFalse(city.equals(new CityDTO("cityName", color, b, emporiums, nearCities)));
-        assertFalse(city.equals(new CityDTO("cityName", color, bonuses, e, nearCities)));
-        assertFalse(city.equals(new CityDTO("cityName", color, bonuses, emporiums, c)));
         assertFalse(city.equals(null));
         assertFalse(city.equals(new Assistant()));
     }

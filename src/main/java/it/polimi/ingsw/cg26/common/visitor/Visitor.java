@@ -44,6 +44,8 @@ public interface Visitor {
 	public void visit(SellAssistantCommand sellAssistantCommand);
 	
 	public void visit(SellBPTCommand sellBPTCommand);
-	
+
 	public void visit(SellPoliticCardCommand sellPoliticCardCommand);
+
+	public void visit(Message message);
 }

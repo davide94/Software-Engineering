@@ -6,12 +6,8 @@ import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.Update;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -24,7 +20,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     private PlayerDTO currentPlayer;
 
-    private ObservableList<PlayerDTO> players;
+    private List<PlayerDTO> players;
 
     private PoliticDeckDTO politicDeck;
 
@@ -44,9 +40,15 @@ public class Model extends Observable<Update> implements ClientModel {
     
     private Map<CityColorDTO, BonusDTO> colorBonuses;
 
+    private List<String> messages;
+
     public Model() {
         state = new StateContext();
-        players = FXCollections.observableArrayList();
+        players = new LinkedList<>();
+        councillorsPool = new LinkedList<>();
+        regions = new LinkedList<>();
+        colorBonuses = new HashMap<>();
+        messages = new LinkedList<>();
     }
 
     public StateContext getState() {
@@ -61,8 +63,8 @@ public class Model extends Observable<Update> implements ClientModel {
         return currentPlayer;
     }
 
-    public ObservableList<PlayerDTO> getPlayers() {
-        return players;
+    public List<PlayerDTO> getPlayers() {
+        return new LinkedList<>(players);
     }
 
     public PoliticDeckDTO getPoliticDeck() {
@@ -70,7 +72,7 @@ public class Model extends Observable<Update> implements ClientModel {
     }
 
     public Collection<CouncillorDTO> getCouncillorsPool() {
-        return councillorsPool;
+        return new LinkedList<>(councillorsPool);
     }
 
     public KingDeckDTO getKingDeck() {
@@ -82,7 +84,7 @@ public class Model extends Observable<Update> implements ClientModel {
     }
 
     public List<RegionDTO> getRegions() {
-        return regions;
+        return new LinkedList<>(regions);
     }
 
     public NobilityTrackDTO getNobilityTrack() {
@@ -98,7 +100,7 @@ public class Model extends Observable<Update> implements ClientModel {
     }
     
     public Map<CityColorDTO, BonusDTO> getColorBonuses() {
-    	return colorBonuses;
+    	return new HashMap<>(colorBonuses);
     }
 
     @Override
@@ -113,8 +115,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     @Override
     public synchronized void setPlayers(List<PlayerDTO> players) {
-        this.players.clear();
-        this.players.addAll(players);
+        this.players = new LinkedList<>(players);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     @Override
     public void setCouncillorsPool(Collection<CouncillorDTO> councillorsPool) {
-        this.councillorsPool = councillorsPool;
+        this.councillorsPool = new LinkedList<>(councillorsPool);
     }
 
     @Override
@@ -139,7 +140,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     @Override
     public void setRegions(List<RegionDTO> regions) {
-        this.regions = regions;
+        this.regions = new LinkedList<>(regions);
     }
 
     @Override
@@ -159,6 +160,15 @@ public class Model extends Observable<Update> implements ClientModel {
 
 	@Override
 	public void setColorBonuses(Map<CityColorDTO, BonusDTO> colorBonuses) {
-		this.colorBonuses = colorBonuses;
+		this.colorBonuses = new HashMap<>(colorBonuses);
 	}
+
+    @Override
+    public void addMessage(String sender, String body) {
+        messages.add((sender.equals(localPlayer.getName()) ? "<You>" : ("<" + sender + ">")) + ": " + body);
+    }
+
+    public List<String> getMessages() {
+        return new LinkedList<>(messages);
+    }
 }

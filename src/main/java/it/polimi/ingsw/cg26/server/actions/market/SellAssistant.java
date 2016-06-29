@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -30,5 +31,6 @@ public class SellAssistant extends Sell {
 		assistantToAdd.setOwner(currentPlayer);
 		sell(gameBoard, assistantToAdd);
 		notifyChange(gameBoard);
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Sold an Assistant for " + price +" coins]"));
 	}
 }

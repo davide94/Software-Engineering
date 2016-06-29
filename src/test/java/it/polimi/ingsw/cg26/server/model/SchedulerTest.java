@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.server.model.board.City;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import org.junit.Before;
 import org.junit.Test;
 

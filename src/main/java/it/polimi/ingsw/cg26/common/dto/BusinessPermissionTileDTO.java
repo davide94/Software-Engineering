@@ -38,7 +38,7 @@ public class BusinessPermissionTileDTO extends SellableDTO implements Serializab
      * @return a collection of names of the cities where the tile can build
      */
     public Collection<String> getCities() {
-        return cities;
+        return new LinkedList<>(cities);
     }
 
     /**

@@ -10,7 +10,7 @@ import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
-import it.polimi.ingsw.cg26.server.model.Scheduler;
+import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;

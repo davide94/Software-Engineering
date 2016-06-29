@@ -21,7 +21,7 @@ public class MarketDTO implements Serializable {
     public MarketDTO(List<SellableDTO> onSale){
     	if(onSale == null)
     		throw new NullPointerException();
-    	this.onSale = onSale;
+    	this.onSale = new LinkedList<>(onSale);
     }
 
 	/**

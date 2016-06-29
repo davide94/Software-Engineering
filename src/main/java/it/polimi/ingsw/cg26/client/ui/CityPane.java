@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -122,6 +123,10 @@ public class CityPane extends AnchorPane implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        for (RegionDTO r: model.getRegions())
+            for (CityDTO c: r.getCities())
+                if (c.equals(city))
+                    city = c;
         draw();
     }
 }

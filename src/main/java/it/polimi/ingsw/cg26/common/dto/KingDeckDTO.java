@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.common.dto;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class KingDeckDTO implements Serializable {
     public KingDeckDTO(List<RewardTileDTO> tiles) {
         if (tiles == null)
             throw new NullPointerException();
-        this.tiles = tiles;
+        this.tiles = new LinkedList<>(tiles);
     }
 
     /**
@@ -28,7 +29,7 @@ public class KingDeckDTO implements Serializable {
      * @return a list of Reward Tiles DTO
      */
     public List<RewardTileDTO> getTiles() {
-        return tiles;
+        return new LinkedList<>(tiles);
     }
 
     @Override

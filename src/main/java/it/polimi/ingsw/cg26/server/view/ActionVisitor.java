@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.commands.market.*;
 import it.polimi.ingsw.cg26.common.visitor.Visitor;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.actions.MessageAction;
 import it.polimi.ingsw.cg26.server.actions.Staccah;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseBPT;
 import it.polimi.ingsw.cg26.server.actions.answer.ChooseCity;
@@ -146,6 +147,12 @@ public class ActionVisitor implements Visitor {
 	@Override
 	public void visit(SellPoliticCardCommand sellPoliticCardCommand) {
 		Action action = new SellPoliticCard(sellPoliticCardCommand.getPrice(), sellPoliticCardCommand.getPoliticCard(), token);
+		this.view.notifyObservers(action);
+	}
+
+	@Override
+	public void visit(Message message) {
+		Action action = new MessageAction(message.getSender(), message.getBody(), token);
 		this.view.notifyObservers(action);
 	}
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -29,6 +30,7 @@ public class FoldQuickAction extends Action {
             throw new NoRemainingActionsException();
         currentPlayer.performQuickAction();
         notifyChange(gameBoard);
+        gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Folded Quick Action]"));
     }
 
 	@Override

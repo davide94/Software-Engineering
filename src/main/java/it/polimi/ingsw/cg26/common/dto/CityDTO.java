@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  *
@@ -40,8 +41,8 @@ public class CityDTO implements Serializable {
         this.name = name;
         this.color = color;
         this.bonuses = bonuses;
-        this.emporiums = emporiums;
-        this.nearCities = nearCities;
+        this.emporiums = new LinkedList<>(emporiums);
+        this.nearCities = new LinkedList<>(nearCities);
     }
 
     /**
@@ -65,7 +66,7 @@ public class CityDTO implements Serializable {
      * @return a collection of Emporiums DTO
      */
     public Collection<EmporiumDTO> getEmporiums() {
-        return emporiums;
+        return new LinkedList<>(emporiums);
     }
 
     /**
@@ -76,7 +77,7 @@ public class CityDTO implements Serializable {
     public void setEmporiums(Collection<EmporiumDTO> emporiums) {
 		if (emporiums == null)
 			throw new NullPointerException();
-    	this.emporiums = emporiums;
+    	this.emporiums = new LinkedList<>(emporiums);
     }
 
     /**
@@ -92,10 +93,10 @@ public class CityDTO implements Serializable {
      * @return a collection of strings that identifies the near cities
      */
     public Collection<String> getNearCities() {
-        return nearCities;
+        return new LinkedList<>(nearCities);
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) 
         	return true;
@@ -123,6 +124,25 @@ public class CityDTO implements Serializable {
         result = 31 * result + (emporiums != null ? emporiums.hashCode() : 0);
         result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
         result = 31 * result + (nearCities != null ? nearCities.hashCode() : 0);
+        return result;
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityDTO cityDTO = (CityDTO) o;
+
+        if (name != null ? !name.equals(cityDTO.name) : cityDTO.name != null) return false;
+        return color != null ? color.equals(cityDTO.color) : cityDTO.color == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (color != null ? color.hashCode() : 0);
         return result;
     }
 
