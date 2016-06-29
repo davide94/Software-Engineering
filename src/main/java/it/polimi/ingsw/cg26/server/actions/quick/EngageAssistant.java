@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
@@ -34,7 +35,8 @@ public class EngageAssistant extends Action {
     	currentPlayer.addAssistant(new Assistant());
     	currentPlayer.performQuickAction();
     	notifyChange(gameBoard);
-    }
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Engaged an assistant]"));
+	}
 
 	@Override
 	public void notifyChange(GameBoard gameBoard) {

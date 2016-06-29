@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.ElectKing;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -35,5 +36,6 @@ public class ElectKingAsQuickAction extends ElectKing {
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
     	notifyChange(gameBoard);
-    }
+        gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Elected a " + councillor.getColor().getColor() + " Councillor in the King's Balcony as Quick Action]"));
+	}
 }

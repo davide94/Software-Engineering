@@ -46,6 +46,8 @@ public class ChatPane extends VBox implements Observer {
 
         display = new VBox();
         //display.setPrefWidth(width);
+        //display.setSpacing(5.0);
+        display.setPadding(new Insets(0.0, 5.0, 0.0, 5.0));
         display.maxHeight(50.0);
 
         ScrollPane scrollPane = new ScrollPane(display) {

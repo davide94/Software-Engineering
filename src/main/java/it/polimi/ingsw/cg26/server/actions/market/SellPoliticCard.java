@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
@@ -40,5 +41,6 @@ public class SellPoliticCard extends Sell {
 		cardToSell.setOwner(currentPlayer);
 		sell(gameBoard, cardToSell);
 		notifyChange(gameBoard);
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Sold an Politic Card for " + price +" coins]"));
 	}
 }

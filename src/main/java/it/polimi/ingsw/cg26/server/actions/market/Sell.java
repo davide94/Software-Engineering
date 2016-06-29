@@ -17,7 +17,7 @@ public abstract class Sell extends Action {
 	/**
 	 * The price the player wants to set to the sellable to sell 
 	 */
-	private int price;
+	protected int price;
 	
 	/**
 	 * Construct a simple sell action

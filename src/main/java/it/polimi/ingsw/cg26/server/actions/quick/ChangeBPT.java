@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.update.change.BPTDeckChange;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
@@ -52,7 +53,8 @@ public class ChangeBPT extends Action {
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
     	notifyChange(gameBoard);
-    }
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Changed the open Building Permit Tiles in " + region.getName() + "]"));
+	}
 
 	@Override
 	public void notifyChange(GameBoard gameBoard) {

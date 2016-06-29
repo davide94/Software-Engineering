@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.update.change.BPTDeckChange;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -72,7 +73,8 @@ public class Acquire extends Corrupt {
     	currentPlayer.performMainAction();
     	notifyChange(gameBoard);
     	checkPendingRequest(gameBoard);
-    }
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Acquired a Building Permit Tile in " + region.getName() + "]"));
+	}
     
     @Override
     public void notifyChange(GameBoard gameBoard){

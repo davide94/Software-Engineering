@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.server.actions.market;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.change.*;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.exceptions.SellableNotFoundException;
@@ -51,7 +52,8 @@ public class Buy extends Action {
 		realSellable.setPrice(0);
 		realSellable.giveToNewOwner(currentPlayer);
 		notifyChange(gameBoard);
-	}
+        gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Bought something]"));
+    }
 
 	@Override
 	public void notifyChange(GameBoard gameBoard) {

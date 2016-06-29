@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
 import it.polimi.ingsw.cg26.common.update.change.CityChange;
 import it.polimi.ingsw.cg26.common.update.change.KingChange;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Corrupt;
 import it.polimi.ingsw.cg26.server.exceptions.*;
 import it.polimi.ingsw.cg26.server.model.board.City;
@@ -70,6 +71,7 @@ public class BuildKing extends Corrupt {
         currentPlayer.performMainAction();
         notifyChange(gameBoard);
         checkPendingRequest(gameBoard);
+        gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Built an emporium in " + realCity.getName() + " with the help of the King]"));
     }
     
     @Override

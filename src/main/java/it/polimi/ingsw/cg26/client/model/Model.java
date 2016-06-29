@@ -165,7 +165,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     @Override
     public void addMessage(String sender, String body) {
-        messages.add((sender.equals(localPlayer.getName()) ? "You" : sender) + ": " + body);
+        messages.add((sender.equals(localPlayer.getName()) ? "<You>" : ("<" + sender + ">")) + ": " + body);
     }
 
     public List<String> getMessages() {

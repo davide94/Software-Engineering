@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.actions.quick;
 
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.ElectRegion;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -41,5 +42,6 @@ public class ElectAsQuickAction extends ElectRegion {
     	currentPlayer.takeAssistants(1);
     	currentPlayer.performQuickAction();
     	notifyChange(gameBoard);
-    }
+		gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Elected a " + councillor.getColor().getColor() + " Councillor in " + region.getName() + " as Quick Action]"));
+	}
 }

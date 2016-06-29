@@ -96,7 +96,7 @@ public class CityDTO implements Serializable {
         return new LinkedList<>(nearCities);
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) 
         	return true;
@@ -124,6 +124,25 @@ public class CityDTO implements Serializable {
         result = 31 * result + (emporiums != null ? emporiums.hashCode() : 0);
         result = 31 * result + (bonuses != null ? bonuses.hashCode() : 0);
         result = 31 * result + (nearCities != null ? nearCities.hashCode() : 0);
+        return result;
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityDTO cityDTO = (CityDTO) o;
+
+        if (name != null ? !name.equals(cityDTO.name) : cityDTO.name != null) return false;
+        return color != null ? color.equals(cityDTO.color) : cityDTO.color == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (color != null ? color.hashCode() : 0);
         return result;
     }
 
