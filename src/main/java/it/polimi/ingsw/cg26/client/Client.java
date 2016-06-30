@@ -616,11 +616,17 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         AnchorPane.setTopAnchor(pane, 50.0);
         AnchorPane.setRightAnchor(pane, 50.0);
 
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(3.0f);
+        shadow.setRadius(50.0);
+        shadow.setColor(Color.WHITE);
+
         Pane showHidePane = new Pane();
         AnchorPane.setTopAnchor(showHidePane, 50.0);
         AnchorPane.setRightAnchor(showHidePane, 50.0);
-        showHidePane.setPrefSize(20.0, 20.0);
-        showHidePane.setStyle("-fx-background-color: azure");
+        showHidePane.setEffect(shadow);
+        showHidePane.setPrefSize(75.0, 75.0);
+        showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/action.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
 
         pane.getAcquire().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> acquire());
@@ -641,63 +647,19 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root Pane
      */
     private void buildStatePane(Pane root) {
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetY(3.0f);
-        shadow.setRadius(50.0);
-        shadow.setColor(Color.BLACK);
 
-        ScrollPane scrollPane = new ScrollPane();
-        GridPane pane = new GridPane();
-        AnchorPane.setTopAnchor(scrollPane, 50.0);
-        AnchorPane.setLeftAnchor(scrollPane, 50.0);
-        scrollPane.setPrefWidth(400.0);
-        scrollPane.setPrefHeight(root.getHeight() - 100.0);
-        scrollPane.setVisible(false);
-        scrollPane.setEffect(shadow);
-        scrollPane.setStyle("-fx-background-color: azure");
-        scrollPane.addEventHandler(MouseEvent.MOUSE_EXITED, e -> scrollPane.setVisible(false));
+        PlayersPane statePane = new PlayersPane(400.0, root.getHeight() - 100.0, model);
+        observers.add(statePane);
 
         Pane showHidePane = new Pane();
         AnchorPane.setTopAnchor(showHidePane, 50.0);
         AnchorPane.setLeftAnchor(showHidePane, 50.0);
-        showHidePane.setPrefSize(20.0, 20.0);
-        showHidePane.setStyle("-fx-background-color: azure");
-        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> scrollPane.setVisible(true));
+        showHidePane.setPrefSize(30.0, 30.0);
+        showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/user.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> statePane.setVisible(true));
 
-        pane.add(new Label("You: "), 0, 0);
-        pane.add(buildPlayerPane(model.getLocalPlayer()), 1, 1);
-        pane.add(new Label("Other Players: "), 0, 2);
-
-        scrollPane.setContent(pane);
         root.getChildren().add(showHidePane);
-        root.getChildren().add(scrollPane);
-    }
-
-    /**
-     * Builds and returns a pane displaying the Player's state
-     * @param player is a PlayerDTO
-     * @return the pane
-     */
-    private Pane buildPlayerPane(PlayerDTO player) {
-        GridPane playerPane = new GridPane();
-        playerPane.add(new Label("Name: "), 1, 1);
-        playerPane.add(new Label(player.getName()), 2, 1);
-        playerPane.add(new Label("State: "), 1, 2);
-        playerPane.add(new Label(player.isOnline()? "online" : "offline"), 2, 2);
-        playerPane.add(new Label("Victory Points number: "), 1, 3);
-        playerPane.add(new Label(Integer.toString(player.getVictoryPoints())), 2, 3);
-        playerPane.add(new Label("Coins number: "), 1, 4);
-        playerPane.add(new Label(Integer.toString(player.getCoins())), 2, 4);
-        playerPane.add(new Label("Position in Nobility Track: "), 1, 5);
-        playerPane.add(new Label(Integer.toString(player.getNobilityCell())), 2, 5);
-        playerPane.add(new Label("Assistants number: "), 1, 6);
-        playerPane.add(new Label(Integer.toString(player.getAssistantsNumber())), 2, 6);
-        playerPane.add(new Label("Remaining Main Actions: "), 1, 7);
-        playerPane.add(new Label(Integer.toString(player.getRemainingMainActions())), 2, 7);
-        playerPane.add(new Label("Remaining Quick Actions: "), 1, 8);
-        playerPane.add(new Label(Integer.toString(player.getRemainingQuickActions())), 2, 8);
-        // TODO: remaining things
-        return playerPane;
+        root.getChildren().add(statePane);
     }
 
     /**
@@ -705,14 +667,14 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root Pane
      */
     private void buildChatPane(Pane root) {
-        ChatPane chatPane = new ChatPane(400.0, root.getHeight() / 2.0, model, outView);
+        ChatPane chatPane = new ChatPane(400.0, root.getHeight() / 2.0, model, outView, root);
         observers.add(chatPane);
 
         Pane showHidePane = new Pane();
-        AnchorPane.setBottomAnchor(showHidePane, 50.0);
+        AnchorPane.setBottomAnchor(showHidePane, 35.0);
         AnchorPane.setRightAnchor(showHidePane, 50.0);
-        showHidePane.setPrefSize(20.0, 20.0);
-        showHidePane.setStyle("-fx-background-color: azure");
+        showHidePane.setPrefSize(50.0, 50.0);
+        showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/chat.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> chatPane.setVisible(true));
 
         root.getChildren().add(showHidePane);

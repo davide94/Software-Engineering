@@ -11,9 +11,9 @@ import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.exceptions.BadInputFileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.ParserErrorException;
-import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import it.polimi.ingsw.cg26.server.view.ServerRMIView;
 import it.polimi.ingsw.cg26.server.view.ServerRMIWelcomeView;
 import it.polimi.ingsw.cg26.server.view.ServerSocketView;
@@ -31,6 +31,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -119,12 +120,13 @@ public class Server {
      */
     private void start() {
         log.info("It's time to start the match.");
-        for (Map.Entry e: clients.entrySet()) {
-            View view = (View) e.getValue();
-            long token = (Long) e.getKey();
+        for (Iterator<Map.Entry<Long, View>> iterator = clients.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<Long, View> entity = iterator.next();
+            View view = entity.getValue();
+            long token = entity.getKey();
             if (!view.isConnectionAlive()) {
                 log.info(token + " is offline.");
-                clients.remove(token);
+                iterator.remove();
                 scheduler.killPlayer(token);
             }
         }

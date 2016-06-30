@@ -7,6 +7,8 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.Update;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -42,6 +44,8 @@ public class Model extends Observable<Update> implements ClientModel {
 
     private List<String> messages;
 
+    private LinkedHashMap<Instant, String> recentMessages;
+
     public Model() {
         state = new StateContext();
         players = new LinkedList<>();
@@ -49,6 +53,7 @@ public class Model extends Observable<Update> implements ClientModel {
         regions = new LinkedList<>();
         colorBonuses = new HashMap<>();
         messages = new LinkedList<>();
+        recentMessages = new LinkedHashMap<>();
     }
 
     public StateContext getState() {
@@ -165,10 +170,26 @@ public class Model extends Observable<Update> implements ClientModel {
 
     @Override
     public void addMessage(String sender, String body) {
-        messages.add((sender.equals(localPlayer.getName()) ? "<You>" : ("<" + sender + ">")) + ": " + body);
+        String messageString = (sender.equals(localPlayer.getName()) ? "<You>" : ("<" + sender + ">")) + ": " + body;
+        messages.add(messageString);
+        if (!sender.equals(localPlayer.getName()))
+            recentMessages.put(Instant.now(), messageString);
     }
 
     public List<String> getMessages() {
         return new LinkedList<>(messages);
+    }
+
+    public synchronized List<String> getRecentMessages() {
+        int seconds = 5;
+        LinkedList<String> ret = new LinkedList<>();
+        for (Iterator<Map.Entry<Instant, String>> iterator = recentMessages.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<Instant, String> entity = iterator.next();
+            if (entity.getKey().until(Instant.now(), ChronoUnit.SECONDS) < seconds)
+                ret.add(entity.getValue());
+            else
+                iterator.remove();
+        }
+        return ret;
     }
 }

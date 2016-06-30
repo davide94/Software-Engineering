@@ -1,21 +1,9 @@
 package it.polimi.ingsw.cg26.client.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
-import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
-import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -25,6 +13,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MarketPane extends AnchorPane implements Observer{
 	
@@ -38,7 +31,13 @@ public class MarketPane extends AnchorPane implements Observer{
 		this.setPrefSize(1000.0, 700.0);
 		this.setStyle("-fx-background-color: white");
 		this.addEventHandler(MouseEvent.MOUSE_EXITED, e -> this.setVisible(false));
-		
+
+		DropShadow shadow = new DropShadow();
+		shadow.setOffsetY(3.0f);
+		shadow.setRadius(50.0);
+		shadow.setColor(Color.BLACK);
+		setEffect(shadow);
+
 		/*List<SellableDTO> onSale = new ArrayList<>();
 		onSale.add(new PoliticCardDTO(new PoliticColorDTO("orange"), 2, "Marco"));
 		onSale.add(new AssistantDTO(5, "Davide"));
@@ -93,27 +92,7 @@ public class MarketPane extends AnchorPane implements Observer{
 	                    "-fx-background-size: 100% 100%;");
 			}
 			else if(sellable.toString().contains("PoliticCard")) {
-				sellablePane = new Pane();
-				sellablePane.setPrefSize(90, 160);
-				String cardString = sellable.toString();
-				String resource;
-				if(cardString.contains("orange"))
-					resource = "orange.png";
-				else if(cardString.contains("white"))
-					resource = "white.png";
-				else if(cardString.contains("black"))
-					resource = "black.png";
-				else if(cardString.contains("violet"))
-					resource = "violet.png";
-				else if(cardString.contains("blue"))
-					resource = "blue.png";
-				else if(cardString.contains("pink"))
-					resource = "pink.png";
-				else
-					resource = "multicolor.png";
-				sellablePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/politicCards/" + resource) + ");" +
-	                    "-fx-background-position: center;" +
-	                    "-fx-background-size: 100% 100%;");
+				sellablePane = new PoliticCardPane(90.0, 160.0, (PoliticCardDTO) sellable);
 			}
 			else if(sellable.toString().contains("BusinessPermissionTile")) {
 				sellablePane = new BPTPane(100, 100, (BusinessPermissionTileDTO) sellable);

@@ -11,9 +11,11 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,7 +28,9 @@ public class ChatPane extends VBox implements Observer {
 
     private VBox display;
 
-    public ChatPane(double width, double height, Model model, OutView outView) {
+    private VBox preview;
+
+    public ChatPane(double width, double height, Model model, OutView outView, Pane root) {
         this.model = model;
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
@@ -72,15 +76,32 @@ public class ChatPane extends VBox implements Observer {
                 input.clear();
             }
         });
+
+        preview = new VBox();
+        AnchorPane.setBottomAnchor(preview, 50.0);
+        AnchorPane.setRightAnchor(preview, 50.0);
+        preview.setPrefWidth(width);
+        preview.visibleProperty().bind(visibleProperty().not());
+        preview.setStyle("-fx-background-color: azure;-fx-opacity: 0.5;-fx-background-radius: 5px;");
+        root.getChildren().add(preview);
+        preview.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> setVisible(true));
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        display.getChildren().clear();
-        for (String message: model.getMessages()) {
-            Label messageLabel = new Label(message);
-            display.getChildren().add(messageLabel);
+        if (isVisible()) {
+            display.getChildren().clear();
+            for (String message : model.getMessages()) {
+                Label messageLabel = new Label(message);
+                display.getChildren().add(messageLabel);
+            }
+        } else {
+            List<String> messages = model.getRecentMessages();
+            preview.getChildren().clear();
+            for (String message : messages) {
+                Label messageLabel = new Label(message);
+                preview.getChildren().add(messageLabel);
+            }
         }
-
     }
 }
