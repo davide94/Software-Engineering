@@ -1,9 +1,14 @@
 package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -14,7 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,13 +30,18 @@ public class MarketPane extends AnchorPane implements Observer{
 	
 	private Map<Pane, Label> onSalePaneLabels;
 	
+	private List<Pane> playerSellables;
+	
 	private Model model;
 	
 	public MarketPane(Model model) {
 		this.model = model;
-		onSalePaneLabels = new HashMap<>();
-		this.setPrefSize(1000.0, 700.0);
-		this.setStyle("-fx-background-color: white");
+		this.onSalePaneLabels = new HashMap<>();
+		this.playerSellables = new ArrayList<>();
+		this.setPrefSize(1100.0, 700.0);
+		this.setStyle("-fx-background-image: url(" + getClass().getResource("/img/marketBackground.png") + ");" +
+                "-fx-background-position: center;" +
+                "-fx-background-size: 100% 100%;");
 		this.addEventHandler(MouseEvent.MOUSE_EXITED, e -> this.setVisible(false));
 
 		DropShadow shadow = new DropShadow();
@@ -47,20 +59,20 @@ public class MarketPane extends AnchorPane implements Observer{
 		onSale.add(new BusinessPermissionTileDTO(cities, new CoinBonusDTO(new EmptyBonusDTO(), 2), 2, "Luca"));
 		model.setMarket(new MarketDTO(onSale));*/
 		
-		drawTitle();
-		buildSellables();
+		draw();
 	}
 	
 	private void draw() {
 		this.getChildren().clear();
 		drawTitle();
 		buildSellables();
+		buildPlayerSellables();
 	}
 	
 	private void drawTitle() {
 		DropShadow shadow = new DropShadow();
         shadow.setRadius(2.0);
-        shadow.setColor(Color.BLACK);
+        shadow.setColor(Color.WHITE);
 		Font goudyMedieval = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 50.0);
 		Label title = new Label();
 		title.setFont(goudyMedieval);
@@ -68,16 +80,23 @@ public class MarketPane extends AnchorPane implements Observer{
 		title.setTextFill(Color.RED);
 		title.setEffect(shadow);
 		Font goudyMedieval2 = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 25.0);
-		Label subTitle = new Label();
-		subTitle.setFont(goudyMedieval2);
-		subTitle.setText("Objects on sale");
-		subTitle.setTextFill(Color.BLACK);
+		Label subTitle1 = new Label();
+		subTitle1.setFont(goudyMedieval2);
+		subTitle1.setText("Objects on sale");
+		subTitle1.setTextFill(Color.BLACK);
+		Label subTitle2 = new Label();
+		subTitle2.setFont(goudyMedieval2);
+		subTitle2.setText("Your sellable objects");
+		subTitle2.setTextFill(Color.BLACK);
 		AnchorPane.setTopAnchor(title, 0.0);
 		AnchorPane.setLeftAnchor(title, 20.0);
-		AnchorPane.setTopAnchor(subTitle, 70.0);
-		AnchorPane.setLeftAnchor(subTitle, 20.0);
+		AnchorPane.setTopAnchor(subTitle1, 60.0);
+		AnchorPane.setLeftAnchor(subTitle1, 20.0);
+		AnchorPane.setTopAnchor(subTitle2, 395.0);
+		AnchorPane.setLeftAnchor(subTitle2, 20.0);
 		this.getChildren().add(title);
-		this.getChildren().add(subTitle);
+		this.getChildren().add(subTitle1);
+		this.getChildren().add(subTitle2);
 	}
 	
 	private void buildSellables() {
@@ -97,7 +116,7 @@ public class MarketPane extends AnchorPane implements Observer{
 			else if(sellable.toString().contains("BusinessPermissionTile")) {
 				sellablePane = new BPTPane(100, 100, (BusinessPermissionTileDTO) sellable);
 			}
-			double offset = 20.0;
+			double offset = 55.0;
 			for(Map.Entry<Pane, Label> pl : onSalePaneLabels.entrySet()) {
 				offset = offset + Math.max(pl.getKey().getPrefWidth(), pl.getValue().getPrefWidth()) + 25.0;
 			}
@@ -107,6 +126,41 @@ public class MarketPane extends AnchorPane implements Observer{
 			this.getChildren().add(sellablePane);
 			onSalePaneLabels.put(sellablePane, label);
 		}
+	}
+	
+	private void buildPlayerSellables() {
+		playerSellables.clear();
+		for(PoliticCardDTO card : model.getLocalPlayer().getCards()) {
+			playerSellables.add(new PoliticCardPane(90.0, 160.0, card));
+		}
+		for(BusinessPermissionTileDTO tile : model.getLocalPlayer().getTiles()) {
+			playerSellables.add(new BPTPane(100, 100, tile));
+		}
+		AnchorPane assistantPane = new AnchorPane();
+		assistantPane.setPrefSize(60, 100);
+		assistantPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/assistant.png") + ");" +
+			"-fx-background-position: center;" +
+			"-fx-background-size: 100% 100%;");
+		Label multiplicityLabel = new Label();
+        multiplicityLabel.setTextFill(Color.WHITE);
+        multiplicityLabel.setFont(Font.font(15.0));
+        multiplicityLabel.setText(Integer.toString(model.getLocalPlayer().getAssistantsNumber()));
+        AnchorPane.setLeftAnchor(multiplicityLabel, 27.0);
+        AnchorPane.setTopAnchor(multiplicityLabel, 43.0);
+        assistantPane.getChildren().add(multiplicityLabel);
+        playerSellables.add(assistantPane);
+        
+        double offset = 55.0;
+        for(Pane p : playerSellables) {
+        	AnchorPane.setTopAnchor(p, 450.0);
+        	AnchorPane.setLeftAnchor(p, offset);
+        	Button sellButton = new Button("Sell");
+    		AnchorPane.setTopAnchor(sellButton, 450.0 + p.getPrefHeight() + 8.0);
+    		AnchorPane.setLeftAnchor(sellButton, offset);
+    		this.getChildren().add(sellButton);
+        	this.getChildren().add(p);
+        	offset = offset + p.getPrefWidth() + 25.0;
+        }
 	}
 	
 	private Label drawPriceAndOwner(double offsetX, double offsetY, SellableDTO sellable) {
