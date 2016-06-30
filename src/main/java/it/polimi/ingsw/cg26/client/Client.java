@@ -81,12 +81,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
-    private static final List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
-    
-    private static final List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
-
-    private static final List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
-    
     private static final int KINGDECKSIZE = 5;
     
     @Override
@@ -417,31 +411,14 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root Pane
      */
     private void buildBPT(Pane root) {
-        List<String> bptUrls = Arrays.asList("BPTCoast.png", "BPTHills.png", "BPTMountain.png");
-
+        //List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
+        List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.067 * root.getWidth(), 0.595 * root.getHeight()), new Point2D(0.367 * root.getWidth(), 0.595 * root.getHeight()), new Point2D(0.701 * root.getWidth(), 0.595 * root.getHeight()));
         int i = 0;
         for (RegionDTO r: model.getRegions()) {
-            Pane coveredBPT = new Pane();
-            DropShadow shadow = new DropShadow();
-            shadow.setRadius(4.0);
-            shadow.setColor(Color.BLACK);
-            coveredBPT.setEffect(shadow);
-            coveredBPT.setPrefSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
-            coveredBPT.setMaxSize(0.065 * root.getWidth(), 0.075 * root.getWidth());
-            coveredBPT.setStyle("-fx-background-image: url(" + getClass().getResource("/img/coveredBPT/" + bptUrls.get(i / 3)) + ");" +
-                    "-fx-background-position: center;" +
-                    "-fx-background-size: 100% 100%;");
-            AnchorPane.setLeftAnchor(coveredBPT, bptOrigins.get(i).getX() * root.getWidth());
-            AnchorPane.setTopAnchor(coveredBPT, bptOrigins.get(i).getY() * root.getHeight());
-            root.getChildren().add(coveredBPT);
+            BPTDeckPane p = new BPTDeckPane(bptOrigins.get(i), 0.215 * root.getWidth(), 0.085 * root.getHeight(), model, i);
+            root.getChildren().addAll(p);
+            observers.add(p);
             i++;
-            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
-                Pane bpt = new BPTPane(0.065 * root.getWidth(), 0.075 * root.getWidth(), t);
-                AnchorPane.setLeftAnchor(bpt, bptOrigins.get(i).getX() * root.getWidth());
-                AnchorPane.setTopAnchor(bpt, bptOrigins.get(i).getY() * root.getHeight());
-                root.getChildren().add(bpt);
-                i++;
-            }
         }
     }
 
@@ -450,7 +427,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root Pane
      */
     private void buildBalconies(Pane root) {
-    	BalconyPane kingBalcony = new BalconyPane(new Point2D(0.630 * root.getWidth(), 0.721 * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model, 3);
+        List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
+
+        BalconyPane kingBalcony = new BalconyPane(new Point2D(0.630 * root.getWidth(), 0.721 * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model, 3);
     	observers.add(kingBalcony);
         root.getChildren().add(kingBalcony);
     	int i = 0;
@@ -499,7 +478,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param root is the root pane
      */
     private void buildColorBonuses(Pane root) {
-    	for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
+        List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
+
+        for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
     		String resource = null;
     		RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.035 * root.getHeight(), t.getValue());
     		rewardTile.setRotate(45);
