@@ -47,6 +47,8 @@ public class BusinessPermissionTileDeck extends Deck<BusinessPermissionTile> {
     public BusinessPermissionTile draw(int position) {
         if (position < 0 || position >= OPEN_CARDS_NUMBER || position >= cards.size())
             throw new IllegalArgumentException();
+        if (cards.size() >= OPEN_CARDS_NUMBER)
+            return this.cards.remove(position);
         BusinessPermissionTile ret = this.cards.get(position);
         this.cards.set(position, this.cards.remove(OPEN_CARDS_NUMBER));
         return ret;
