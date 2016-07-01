@@ -4,12 +4,16 @@ import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
 import it.polimi.ingsw.cg26.client.ui.actions.AcquireDialog;
+import it.polimi.ingsw.cg26.client.ui.actions.ChangeBPTDialog;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
+import it.polimi.ingsw.cg26.common.commands.AdditionalMainActionCommand;
+import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
+import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
@@ -682,10 +686,28 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void engageAssistant() {
+    	Dialog<EngageAssistantCommand> d = new Dialog<>();
+    	d.setContentText("Are you sure you want to engage an assistant using 3 coins?");
+    	ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeOk);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+        d.setResultConverter(b -> {
+        	if (b == buttonTypeOk)
+                return new EngageAssistantCommand();
+            return null;
+        });
+        Optional<EngageAssistantCommand> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("engageAssistant");
     }
 
     private void changeBPT() {
+    	Dialog<ChangeBPTCommand> d = new ChangeBPTDialog(model);
+    	Optional<ChangeBPTCommand> result = d.showAndWait();
+    	if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("changeBPT");
     }
 
@@ -694,6 +716,20 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void additionalMainAction() {
+    	Dialog<AdditionalMainActionCommand> d = new Dialog<>();
+    	d.setContentText("Are you sure you want to use 3 assistant to have one more main action?");
+    	ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeOk);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+        d.setResultConverter(b -> {
+        	if (b == buttonTypeOk)
+                return new AdditionalMainActionCommand();
+            return null;
+        });
+        Optional<AdditionalMainActionCommand> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("additionalMainAction");
     }
 

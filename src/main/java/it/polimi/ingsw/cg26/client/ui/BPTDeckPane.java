@@ -20,7 +20,7 @@ public class BPTDeckPane extends HBox implements Observer {
 
     private int index;
 
-    private final static List<String> bptUrls = Arrays.asList("BPTCoast.png", "BPTHills.png", "BPTMountain.png");
+    private static final List<String> bptUrls = Arrays.asList("BPTcoast.png", "BPThills.png", "BPTmountains.png");
 
     public BPTDeckPane(Point2D origin, Double width, double height, Model model, int index) {
         this.model = model;
