@@ -12,7 +12,6 @@ import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -34,15 +33,14 @@ public class MarketPane extends AnchorPane implements Observer{
 	
 	private Model model;
 	
-	public MarketPane(Model model) {
+	public MarketPane(double width, double height, Model model) {
 		this.model = model;
 		this.onSalePaneLabels = new HashMap<>();
 		this.playerSellables = new ArrayList<>();
-		this.setPrefSize(1100.0, 700.0);
+		this.setPrefSize(width, height);
 		this.setStyle("-fx-background-image: url(" + getClass().getResource("/img/marketBackground.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
-		this.addEventHandler(MouseEvent.MOUSE_EXITED, e -> this.setVisible(false));
 
 		DropShadow shadow = new DropShadow();
 		shadow.setOffsetY(3.0f);
@@ -89,11 +87,11 @@ public class MarketPane extends AnchorPane implements Observer{
 		subTitle2.setText("Your sellable objects");
 		subTitle2.setTextFill(Color.BLACK);
 		AnchorPane.setTopAnchor(title, 0.0);
-		AnchorPane.setLeftAnchor(title, 20.0);
-		AnchorPane.setTopAnchor(subTitle1, 60.0);
-		AnchorPane.setLeftAnchor(subTitle1, 20.0);
-		AnchorPane.setTopAnchor(subTitle2, 395.0);
-		AnchorPane.setLeftAnchor(subTitle2, 20.0);
+		AnchorPane.setLeftAnchor(title, this.getWidth() * 0.02);
+		AnchorPane.setTopAnchor(subTitle1, this.getHeight() * 0.085);
+		AnchorPane.setLeftAnchor(subTitle1, this.getWidth() * 0.02);
+		AnchorPane.setTopAnchor(subTitle2, this.getHeight() * 0.565);
+		AnchorPane.setLeftAnchor(subTitle2, this.getWidth() * 0.02);
 		this.getChildren().add(title);
 		this.getChildren().add(subTitle1);
 		this.getChildren().add(subTitle2);
@@ -116,13 +114,13 @@ public class MarketPane extends AnchorPane implements Observer{
 			else if(sellable.toString().contains("BusinessPermissionTile")) {
 				sellablePane = new BPTPane(100, 100, (BusinessPermissionTileDTO) sellable);
 			}
-			double offset = 55.0;
+			double offset = this.getWidth() * 0.05;
 			for(Map.Entry<Pane, Label> pl : onSalePaneLabels.entrySet()) {
 				offset = offset + Math.max(pl.getKey().getPrefWidth(), pl.getValue().getPrefWidth()) + 25.0;
 			}
-			AnchorPane.setTopAnchor(sellablePane, 120.0);
+			AnchorPane.setTopAnchor(sellablePane, this.getHeight() * 0.17);
 			AnchorPane.setLeftAnchor(sellablePane, offset);
-			Label label = drawPriceAndOwner(offset, sellablePane.getPrefHeight() + 120.0, sellable);
+			Label label = drawPriceAndOwner(offset, sellablePane.getPrefHeight() + this.getHeight() * 0.17, sellable);
 			this.getChildren().add(sellablePane);
 			onSalePaneLabels.put(sellablePane, label);
 		}
@@ -150,12 +148,12 @@ public class MarketPane extends AnchorPane implements Observer{
         assistantPane.getChildren().add(multiplicityLabel);
         playerSellables.add(assistantPane);
         
-        double offset = 55.0;
+        double offset = this.getWidth() * 0.05;
         for(Pane p : playerSellables) {
-        	AnchorPane.setTopAnchor(p, 450.0);
+        	AnchorPane.setTopAnchor(p, this.getHeight() * 0.65);
         	AnchorPane.setLeftAnchor(p, offset);
         	Button sellButton = new Button("Sell");
-    		AnchorPane.setTopAnchor(sellButton, 450.0 + p.getPrefHeight() + 8.0);
+    		AnchorPane.setTopAnchor(sellButton, this.getHeight() * 0.65 + p.getPrefHeight() + 8.0);
     		AnchorPane.setLeftAnchor(sellButton, offset);
     		this.getChildren().add(sellButton);
         	this.getChildren().add(p);

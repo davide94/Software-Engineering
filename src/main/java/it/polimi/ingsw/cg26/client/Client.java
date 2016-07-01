@@ -22,6 +22,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
@@ -290,12 +291,12 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildKingRewardTile();
         buildCoinsTrack();
         buildRegionTileBonuses();
-        buildMarket();
         
         buildActionsPane();
         buildStatePane();
         buildChatPane();
-
+        buildMarket();
+        
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -565,7 +566,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
     
     private void buildMarket() {
-    	MarketPane market = new MarketPane(model);
+    	ScrollPane market = new ScrollPane();
+    	MarketPane m = new MarketPane(0.91 * root.getWidth(), 0.68 * root.getHeight(), model);
     	AnchorPane.setBottomAnchor(market, 50.0);
         AnchorPane.setLeftAnchor(market, 50.0);
         market.setVisible(false);
@@ -576,10 +578,13 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         showHidePane.setPrefSize(20.0, 20.0);
         showHidePane.setStyle("-fx-background-color: azure");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> market.setVisible(true));
-        
+        market.setContent(m);
+        market.addEventHandler(MouseEvent.MOUSE_EXITED, e -> market.setVisible(false));
+        market.setVbarPolicy(ScrollBarPolicy.NEVER);
+        market.setStyle("-fx-background-color: transparent");
         root.getChildren().add(showHidePane);
         root.getChildren().add(market);
-        observers.add(market);
+        observers.add(m);
     }
 
     /**
