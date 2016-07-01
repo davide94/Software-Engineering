@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
 import it.polimi.ingsw.cg26.client.ui.actions.AcquireDialog;
+import it.polimi.ingsw.cg26.client.ui.actions.BuildKingDialog;
 import it.polimi.ingsw.cg26.client.ui.actions.ChangeBPTDialog;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
 import it.polimi.ingsw.cg26.common.commands.AdditionalMainActionCommand;
+import it.polimi.ingsw.cg26.common.commands.BuildKingCommand;
 import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
 import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
@@ -682,6 +684,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void buildKing() {
+    	Dialog<BuildKingCommand> d = new BuildKingDialog(model);
+    	Optional<BuildKingCommand> result = d.showAndWait();
+    	if(result.isPresent())
+    		outView.writeObject(result.get());
         System.out.println("buildKing");
     }
 
