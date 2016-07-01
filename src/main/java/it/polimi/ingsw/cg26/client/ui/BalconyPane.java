@@ -6,7 +6,6 @@ import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,29 +42,7 @@ public class BalconyPane extends HBox implements Observer {
         List<CouncillorDTO> councillors = balcony.getCouncillors();
         Collections.reverse(councillors);
         for(CouncillorDTO c : councillors) {
-            Pane councillor = new Pane();
-            councillor.setPrefSize(getPrefWidth()/4, getPrefHeight());
-            String resource = null;
-            switch (c.getColor().getColor()) {
-                case "white": resource = "White_Councillor.png";
-                    break;
-                case "violet": resource = "Violet_Councillor.png";
-                    break;
-                case "blue": resource = "Blue_Councillor.png";
-                    break;
-                case "orange": resource = "Orange_Councillor.png";
-                    break;
-                case "black": resource = "Black_Councillor.png";
-                    break;
-                case "pink": resource = "Pink_Councillor.png";
-                    break;
-                default:
-                    break;
-            }
-            councillor.setStyle("-fx-background-image: url(" + getClass().getResource("/img/councillors/" + resource) + ");" +
-                    "-fx-background-position: center;" +
-                    "-fx-background-size: 100% 100%;");
-            getChildren().add(councillor);
+            getChildren().add(new CouncillorPane(getPrefWidth()/4, getPrefHeight(), c));
         }
     }
 
