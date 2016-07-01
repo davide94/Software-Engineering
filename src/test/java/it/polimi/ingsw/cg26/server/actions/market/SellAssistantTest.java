@@ -95,12 +95,22 @@ public class SellAssistantTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
 		token = gameBoard.registerPlayer("Marco").getToken();
+        gameBoard.getPoliticDeck().discard(new PoliticCard(new PoliticColor("verde")));
+        gameBoard.getPoliticDeck().discard(new PoliticCard(new PoliticColor("giallo")));
+        gameBoard.getPoliticDeck().discard(new PoliticCard(new PoliticColor("bianco")));
+        gameBoard.getPoliticDeck().discard(new PoliticCard(new PoliticColor("verde")));
+        gameBoard.getPoliticDeck().discard(new PoliticCard(new PoliticColor("nero")));
+        gameBoard.getPoliticDeck().discard(new PoliticCard(new PoliticColor("viola")));
+		gameBoard.registerPlayer("Luca");
         gameBoard.start();
 		gameBoard.getCurrentPlayer().addAssistant(assistantToSell);
         gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
         gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
-		gameBoard.getScheduler().regularActionPerformed();
-		//gameBoard.registerPlayer("Davide");
+        gameBoard.getScheduler().regularActionPerformed();
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+        gameBoard.getScheduler().regularActionPerformed();
+        //gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
 	}
 	

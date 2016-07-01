@@ -82,6 +82,12 @@ public class SellPoliticCardTest {
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+        politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+        politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+        politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+        politicCards.add(new PoliticCard(new PoliticColor("verde")));
+        politicCards.add(new PoliticCard(new PoliticColor("nero")));
+        politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -93,10 +99,14 @@ public class SellPoliticCardTest {
 		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
-		
+
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.registerPlayer("Vacheeeeee");
 		gameBoard.start();
 		gameBoard.getCurrentPlayer().addPoliticCard(cardToSell);
+		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+		gameBoard.getScheduler().regularActionPerformed();
 		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
 		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
 		gameBoard.getScheduler().regularActionPerformed();

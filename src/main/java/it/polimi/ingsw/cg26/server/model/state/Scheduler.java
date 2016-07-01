@@ -31,7 +31,6 @@ public class Scheduler {
      * List of players
      */
     private final List<Player> players;
-
     
     /**
      * The state of the match

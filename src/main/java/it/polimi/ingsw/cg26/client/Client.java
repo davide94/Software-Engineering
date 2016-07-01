@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg26.client;
 import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
+import it.polimi.ingsw.cg26.client.ui.actions.AcquirePane;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
@@ -81,7 +82,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
-    private static final int KINGDECKSIZE = 5;
+    private static final int KING_DECK_SIZE = 5;
+
+    private Pane root;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -254,7 +257,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      */
     private void buildGUI(Stage primaryStage) {
         observers = new LinkedList<>();
-        AnchorPane root = new AnchorPane();
+        root = new AnchorPane();
         root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
@@ -278,20 +281,20 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
             }
         }
 
-        buildVictoryTrack(root);
-        buildCities(root);
-        buildBPT(root);
-        buildBalconies(root);
-        buildNobilityTrack(root);
-        buildColorBonuses(root);
-        buildKingRewardTile(root);
-        buildCoinsTrack(root);
-        buildRegionTileBonuses(root);
-        buildMarket(root);
+        buildVictoryTrack();
+        buildCities();
+        buildBPT();
+        buildBalconies();
+        buildNobilityTrack();
+        buildColorBonuses();
+        buildKingRewardTile();
+        buildCoinsTrack();
+        buildRegionTileBonuses();
+        buildMarket();
         
-        buildActionsPane(root);
-        buildStatePane(root);
-        buildChatPane(root);
+        buildActionsPane();
+        buildStatePane();
+        buildChatPane();
 
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
@@ -312,9 +315,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds the cities
-     * @param root is the root Pane
      */
-    private void buildCities(Pane root) {
+    private void buildCities() {
         List<CityDTO> cities = new LinkedList<>();
         cities.addAll(model.getRegions().get(0).getCities());
         cities.addAll(model.getRegions().get(1).getCities());
@@ -330,7 +332,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
         //moveKing(model.getKing());
 
-        linkCities(root, cities);
+        linkCities(cities);
 
         for (CityDTO city: citiesPanes.keySet()) {
             root.getChildren().add(citiesPanes.get(city));
@@ -339,10 +341,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Draws the routes between linked cities
-     * @param root is the root Pane
      * @param cities is a list of CityDTO
      */
-    private void linkCities(Pane root, List<CityDTO> cities) {
+    private void linkCities(List<CityDTO> cities) {
         Collection<String> alreadyVisited = new LinkedList<>();
         for (CityDTO city: citiesPanes.keySet()) {
             for (String nearName: city.getNearCities()) {
@@ -408,9 +409,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the Business Permit Tiles
-     * @param root is the root Pane
      */
-    private void buildBPT(Pane root) {
+    private void buildBPT() {
         //List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
         List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.067 * root.getWidth(), 0.595 * root.getHeight()), new Point2D(0.367 * root.getWidth(), 0.595 * root.getHeight()), new Point2D(0.701 * root.getWidth(), 0.595 * root.getHeight()));
         int i = 0;
@@ -424,9 +424,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the Balconies
-     * @param root is the root Pane
      */
-    private void buildBalconies(Pane root) {
+    private void buildBalconies() {
         List<Point2D> balconiesOrigins = Arrays.asList(new Point2D(0.140, 0.676), new Point2D(0.439, 0.676), new Point2D(0.773, 0.676));
 
         BalconyPane kingBalcony = new BalconyPane(new Point2D(0.630 * root.getWidth(), 0.721 * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model, 3);
@@ -443,9 +442,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the position of the players on the Nobility track
-     * @param root is the root Pane
      */
-    private void buildNobilityTrack(Pane root) {
+    private void buildNobilityTrack() {
         Point2D origin = new Point2D(0.0475 * root.getWidth(), 0.81 * root.getHeight());
         NobilityTrackPane track = new NobilityTrackPane(origin, 0.69 * root.getWidth(), 0.05 * root.getHeight(), model);
         observers.add(track);
@@ -454,9 +452,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the position of the players on the Coin track
-     * @param root is the root Pane
      */
-    private void buildCoinsTrack(Pane root) {
+    private void buildCoinsTrack() {
         Point2D origin = new Point2D(0.035 * root.getWidth(), 0.875 * root.getHeight());
         CoinsTrackPane track = new CoinsTrackPane(origin, 0.72 * root.getWidth(), 0.05 * root.getHeight(), model);
         observers.add(track);
@@ -465,9 +462,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the position of the players on the Victory track
-     * @param root is the root Pane
      */
-    private void buildVictoryTrack(Pane root) {
+    private void buildVictoryTrack() {
         VictoryTrackPane track = new VictoryTrackPane(root.getWidth(), root.getHeight(), 0.035 * root.getWidth(), model);
         observers.add(track);
         root.getChildren().add(track);
@@ -475,9 +471,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Build and displays the colorBonuses tiles
-     * @param root is the root pane
      */
-    private void buildColorBonuses(Pane root) {
+    private void buildColorBonuses() {
         List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
 
         for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
@@ -517,10 +512,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     
     /**
      * Build and displays the king tiles
-     * @param root is the root pane
      */
-    private void buildKingRewardTile(Pane root) {
-    	int index = KINGDECKSIZE - model.getKingDeck().getTiles().size() + 1;
+    private void buildKingRewardTile() {
+    	int index = KING_DECK_SIZE - model.getKingDeck().getTiles().size() + 1;
     	RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.037 * root.getHeight(), model.getKingDeck().getTiles().get(0).getBonuses());
     	rewardTile.setRotate(45);
     	AnchorPane.setLeftAnchor(rewardTile, 0.884 * root.getWidth());
@@ -538,7 +532,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	root.getChildren().add(rewardTile);
     }
     
-    private void buildRegionTileBonuses(Pane root) {
+    private void buildRegionTileBonuses() {
     	for(RegionDTO r : model.getRegions()) {
     		String resource = null;
     		double offset = 0;
@@ -570,7 +564,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	}
     }
     
-    private void buildMarket(Pane root) {
+    private void buildMarket() {
     	MarketPane market = new MarketPane(model);
     	AnchorPane.setBottomAnchor(market, 50.0);
         AnchorPane.setLeftAnchor(market, 50.0);
@@ -590,9 +584,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the panel where the user can perform actions
-     * @param root is the root Pane
      */
-    private void buildActionsPane(Pane root) {
+    private void buildActionsPane() {
         ActionsPane pane = new ActionsPane();
         AnchorPane.setTopAnchor(pane, 50.0);
         AnchorPane.setRightAnchor(pane, 50.0);
@@ -625,9 +618,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the panel where the user can see the player's state
-     * @param root is the root Pane
      */
-    private void buildStatePane(Pane root) {
+    private void buildStatePane() {
 
         PlayersPane statePane = new PlayersPane(400.0, root.getHeight() - 100.0, model);
         observers.add(statePane);
@@ -645,9 +637,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     /**
      * Builds and displays the panel where the user chat
-     * @param root is the root Pane
      */
-    private void buildChatPane(Pane root) {
+    private void buildChatPane() {
         ChatPane chatPane = new ChatPane(400.0, root.getHeight() / 2.0, model, outView, root);
         observers.add(chatPane);
 
@@ -667,6 +658,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void acquire() {
+        Pane dialog = new AcquirePane(new Point2D(root.getWidth() * 0.1, root.getHeight() * 0.1),
+                root.getWidth() * 0.8, root.getHeight() * 0.8, root);
+        root.getChildren().add(dialog);
         System.out.println("acquire");
     }
 

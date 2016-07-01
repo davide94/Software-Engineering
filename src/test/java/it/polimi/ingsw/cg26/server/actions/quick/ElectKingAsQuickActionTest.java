@@ -38,13 +38,7 @@ public class ElectKingAsQuickActionTest {
 	@Before
 	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
-		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
-		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("nero")));
-		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.addAll(Collections.nCopies(16, new PoliticCard(new PoliticColor("nero"))));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = createCouncillorsPool();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -62,6 +56,7 @@ public class ElectKingAsQuickActionTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
 	

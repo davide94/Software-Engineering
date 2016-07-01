@@ -33,6 +33,8 @@ public class ChoosePlayerBPTTest {
 	private Region createRegion(){
 		
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
+        tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new CoinBonus(new EmptyBonus(), 5)));
+        tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new AssistantBonus(new EmptyBonus(), 3)));
 		BusinessPermissionTileDeck bPTDeck = new BusinessPermissionTileDeck(tiles);
 		
 		Balcony balcony = Balcony.createBalcony(4);
@@ -46,14 +48,12 @@ public class ChoosePlayerBPTTest {
 	@Before
 	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
-		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
-		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("nero")));
-		politicCards.add(new PoliticCard(new PoliticColor("blu")));
-		PoliticDeck politicDeck = new PoliticDeck(politicCards);
+        politicCards.add(new PoliticCard(new PoliticColor("verde")));
+        politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+        politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+        politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+        politicCards.add(new PoliticCard(new PoliticColor("viola")));
+        PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
 		List<Region> regions = new ArrayList<>();
@@ -69,6 +69,8 @@ public class ChoosePlayerBPTTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
 		token = gameBoard.registerPlayer("Marco").getToken(); //create player with 10 coins, 0 nobility, 1 assistant, 6 politic cards
+        gameBoard.getPoliticDeck().discardAll(Collections.nCopies(16, new PoliticCard(new PoliticColor("nero"))));
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 		tile = new BusinessPermissionTile(new ArrayList<City>(), new CoinBonus(new EmptyBonus(), 5));
 		gameBoard.getCurrentPlayer().addPermissionTile(tile);

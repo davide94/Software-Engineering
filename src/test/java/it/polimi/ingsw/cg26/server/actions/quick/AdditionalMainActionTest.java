@@ -1,28 +1,20 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
-import static org.junit.Assert.*;
-
-import java.util.*;
-
+import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
+import it.polimi.ingsw.cg26.server.model.board.*;
+import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.*;
+import it.polimi.ingsw.cg26.server.model.market.Market;
+import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.server.actions.Action;
-import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
-import it.polimi.ingsw.cg26.server.model.board.Balcony;
-import it.polimi.ingsw.cg26.server.model.board.City;
-import it.polimi.ingsw.cg26.server.model.board.CityColor;
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.board.King;
-import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
-import it.polimi.ingsw.cg26.server.model.board.Region;
-import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
-import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
-import it.polimi.ingsw.cg26.server.model.market.Market;
-import it.polimi.ingsw.cg26.server.model.player.Assistant;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class AdditionalMainActionTest {
 
@@ -31,13 +23,7 @@ public class AdditionalMainActionTest {
 	@Before
 	public void setUp() throws Exception{
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
-		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
-		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("nero")));
-		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.addAll(Collections.nCopies(16, new PoliticCard(new PoliticColor("nero"))));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<Councillor>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -49,8 +35,9 @@ public class AdditionalMainActionTest {
 		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
-		
+
 		gameBoard.registerPlayer("Marco");
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
 	

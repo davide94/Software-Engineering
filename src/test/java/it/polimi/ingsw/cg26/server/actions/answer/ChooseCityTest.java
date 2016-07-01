@@ -46,7 +46,7 @@ public class ChooseCityTest {
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("verde")));
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("blu")));
 		balcony.elect(Councillor.createCouncillor(new PoliticColor("nero")));
-		
+
 		Bonus bonuses = new CoinBonus(new AssistantBonus(new EmptyBonus(), 2), 3);
 		
 		chosenCity = City.createCity("Milano", CityColor.createCityColor("grigio"), bonuses);
@@ -76,6 +76,11 @@ public class ChooseCityTest {
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -94,6 +99,7 @@ public class ChooseCityTest {
 		tileCities.add(chosenCity);
 		BusinessPermissionTile tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);

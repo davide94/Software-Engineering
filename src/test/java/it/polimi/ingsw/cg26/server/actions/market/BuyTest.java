@@ -87,13 +87,7 @@ private GameBoard gameBoard;
 		this.player3 = new Player(2, "Luca", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, new ArrayList<PoliticCard>(), new LinkedList<Assistant>());
 
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
-		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
-		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("nero")));
-		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.addAll(Collections.nCopies(16, new PoliticCard(new PoliticColor("nero"))));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -107,14 +101,18 @@ private GameBoard gameBoard;
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
 		token = gameBoard.registerPlayer("Marco").getToken();
-		//gameBoard.registerPlayer("Davide");
+		gameBoard.registerPlayer("Davide");
 		//gameBoard.registerPlayer("Luca");
 		gameBoard.start();
-		
-		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
-		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
-		gameBoard.getScheduler().regularActionPerformed();
-		gameBoard.getScheduler().foldSell();
+
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+        gameBoard.getScheduler().regularActionPerformed();
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+        gameBoard.getScheduler().regularActionPerformed();
+        gameBoard.getScheduler().foldSell();
+        gameBoard.getScheduler().foldSell();
 	}
 	
 	@Test
@@ -131,7 +129,7 @@ private GameBoard gameBoard;
 	
 	@Test (expected = NotEnoughMoneyException.class)
 	public void testApplyActionWithAPlayerThatTriesToBuyWithoutEnoughMoneyShouldThrowException() throws Exception {
-		Action action = new Buy(this.cardToBuy.getState(), token);
+		Action action = new Buy(this.cardToBuy.getState(), gameBoard.getCurrentPlayer().getToken());
 		gameBoard.getCurrentPlayer().removeCoins(10);
 		
 		action.apply(gameBoard);
@@ -139,37 +137,47 @@ private GameBoard gameBoard;
 
 	@Test
 	public void testApplyActionBuyAssistantCheckChanges() throws Exception {
-		Action action = new Buy(this.assistantToBuy.getState(), token);
+        Player oldOwner = assistantToBuy.getOwner();
+        int coinsToHave = oldOwner.getCoinsNumber() + assistantToBuy.getPrice();
+        int coinsToHaveBuyer = gameBoard.getCurrentPlayer().getCoinsNumber() - assistantToBuy.getPrice();
+        int assistantsToHaveBuyer = gameBoard.getCurrentPlayer().getAssistantsNumber() + 1;
+		Action action = new Buy(this.assistantToBuy.getState(), gameBoard.getCurrentPlayer().getToken());
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), assistantToBuy.getOwner());
-		assertEquals(2, gameBoard.getCurrentPlayer().getAssistantsNumber());
-		assertEquals(8, gameBoard.getCurrentPlayer().getCoinsNumber());
-		assertEquals(2, player2.getCoinsNumber());
+		assertEquals(assistantsToHaveBuyer, gameBoard.getCurrentPlayer().getAssistantsNumber());
+		assertEquals(coinsToHave, oldOwner.getCoinsNumber());
+		assertEquals(coinsToHaveBuyer, gameBoard.getCurrentPlayer().getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(assistantToBuy));
 	}
 	
 	@Test
 	public void testApplyActionBuyBPTCheckChanges() throws Exception {
-		Action action = new Buy(this.bPTToBuy.getState(), token);
+        Player oldOwner = bPTToBuy.getOwner();
+        int coinsToHave = oldOwner.getCoinsNumber() + bPTToBuy.getPrice();
+        int coinsToHaveBuyer = gameBoard.getCurrentPlayer().getCoinsNumber() - bPTToBuy.getPrice();
+        Action action = new Buy(this.bPTToBuy.getState(), gameBoard.getCurrentPlayer().getToken());
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), bPTToBuy.getOwner());
 		assertEquals(this.bPTToBuy, gameBoard.getCurrentPlayer().hasPermissionTile(bPTToBuy.getState()));
-		assertEquals(2, gameBoard.getCurrentPlayer().getCoinsNumber());
-		assertEquals(8, player3.getCoinsNumber());
+		assertEquals(coinsToHaveBuyer, gameBoard.getCurrentPlayer().getCoinsNumber());
+		assertEquals(coinsToHave, oldOwner.getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(bPTToBuy));
 	}
 	
 	@Test
 	public void testApplyActionBuyPoliticCardCheckChanges() throws Exception {
-		Action action = new Buy(this.cardToBuy.getState(), token);
+        Player oldOwner = cardToBuy.getOwner();
+        int coinsToHave = oldOwner.getCoinsNumber() + cardToBuy.getPrice();
+        int coinsToHaveBuyer = gameBoard.getCurrentPlayer().getCoinsNumber() - cardToBuy.getPrice();
+        Action action = new Buy(this.cardToBuy.getState(), gameBoard.getCurrentPlayer().getToken());
 		action.apply(gameBoard);
 		
 		assertEquals(gameBoard.getCurrentPlayer(), cardToBuy.getOwner());
 		assertEquals(cardToBuy, gameBoard.getCurrentPlayer().takeCard(cardToBuy.getState()));
-		assertEquals(5, gameBoard.getCurrentPlayer().getCoinsNumber());
-		assertEquals(5, player2.getCoinsNumber());
+		assertEquals(coinsToHaveBuyer, gameBoard.getCurrentPlayer().getCoinsNumber());
+		assertEquals(coinsToHave, oldOwner.getCoinsNumber());
 		assertFalse(gameBoard.getMarket().getOnSale().contains(cardToBuy));
 	}
 }

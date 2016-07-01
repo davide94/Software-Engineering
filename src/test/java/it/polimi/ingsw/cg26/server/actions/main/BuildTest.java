@@ -77,6 +77,13 @@ public class BuildTest {
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -104,6 +111,7 @@ public class BuildTest {
 		tileToUse = new BusinessPermissionTile(tileCities, new EmptyBonus());
 		//player1.addPermissionTile(tileToUse);
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);

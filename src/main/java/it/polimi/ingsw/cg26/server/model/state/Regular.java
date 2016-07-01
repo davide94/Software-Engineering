@@ -78,8 +78,8 @@ public class Regular extends State {
         if (current == players.size())
             return new MarketSell(players, gameBoard);
 
-        /*if (players.stream().filter(Player::isOnline).count() < 2)
-            return new MatchEnded(players, gameBoard);*/
+        if (players.stream().filter(Player::isOnline).count() < 2)
+            return new MatchEnded(players, gameBoard);
 
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();

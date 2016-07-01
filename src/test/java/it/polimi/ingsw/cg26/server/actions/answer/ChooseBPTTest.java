@@ -51,6 +51,19 @@ public class ChooseBPTTest {
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
+		politicCards.add(new PoliticCard(new PoliticColor("blu")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -67,6 +80,8 @@ public class ChooseBPTTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
 		token = gameBoard.registerPlayer("Marco").getToken(); //create player with 10 coins, 0 nobility, 1 assistant, 6 politic cards
+		gameBoard.registerPlayer("Luca");
+		gameBoard.registerPlayer("Davide");
 		gameBoard.start();
 		Bonus takeBPTBonus = new TakeBPTBonus(new EmptyBonus(), 1);
 		takeBPTBonus.apply(gameBoard.getCurrentPlayer());

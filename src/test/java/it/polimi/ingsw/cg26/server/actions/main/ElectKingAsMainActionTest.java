@@ -44,6 +44,13 @@ public class ElectKingAsMainActionTest {
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
+		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = createCouncillorsPool();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -61,6 +68,7 @@ public class ElectKingAsMainActionTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
 	

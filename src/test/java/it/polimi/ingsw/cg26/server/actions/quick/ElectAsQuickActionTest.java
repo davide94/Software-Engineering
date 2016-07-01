@@ -1,37 +1,22 @@
 package it.polimi.ingsw.cg26.server.actions.quick;
 
-import static org.junit.Assert.*;
-
-import java.util.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
-import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
-import it.polimi.ingsw.cg26.server.model.board.Balcony;
-import it.polimi.ingsw.cg26.server.model.board.City;
-import it.polimi.ingsw.cg26.server.model.board.CityColor;
-import it.polimi.ingsw.cg26.server.model.board.Councillor;
-import it.polimi.ingsw.cg26.server.model.board.GameBoard;
-import it.polimi.ingsw.cg26.server.model.board.King;
-import it.polimi.ingsw.cg26.server.model.board.NobilityCell;
-import it.polimi.ingsw.cg26.server.model.board.NobilityTrack;
-import it.polimi.ingsw.cg26.server.model.board.Region;
+import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
-import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTileDeck;
-import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
-import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
-import it.polimi.ingsw.cg26.server.model.cards.RewardTile;
+import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.market.Market;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class ElectAsQuickActionTest {
 	
@@ -70,13 +55,7 @@ public class ElectAsQuickActionTest {
 	@Before
 	public void setUp() throws Exception{
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
-		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
-		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("nero")));
-		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.addAll(Collections.nCopies(16, new PoliticCard(new PoliticColor("nero"))));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = createCouncillorsPool();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -91,8 +70,9 @@ public class ElectAsQuickActionTest {
 		regions.add(region);
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
-		
+
 		gameBoard.registerPlayer("Marco");
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
 	

@@ -86,6 +86,12 @@ public class SellBPTTest {
 		politicCards.add(new PoliticCard(new PoliticColor("verde")));
 		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("viola")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
+		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
+		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
+		politicCards.add(new PoliticCard(new PoliticColor("verde")));
+		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
 		Balcony kingBalcony = Balcony.createBalcony(4);
@@ -97,13 +103,17 @@ public class SellBPTTest {
 		Map<CityColor, Bonus> map = new HashMap<>();
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
-		
+
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToSell);
-		gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
-		gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
-		gameBoard.getScheduler().regularActionPerformed();
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+        gameBoard.getScheduler().regularActionPerformed();
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingMainActions(0);
+        gameBoard.getScheduler().getCurrentPlayer().setRemainingQuickActions(0);
+        gameBoard.getScheduler().regularActionPerformed();
 	}
 
 	@Test
@@ -133,7 +143,7 @@ public class SellBPTTest {
 	
 	@Test
 	public void testApplyActionCheckChanges() throws Exception {
-		Action action = new SellBPT(10, tileToSell.getState(), token);
+		Action action = new SellBPT(10, tileToSell.getState(), gameBoard.getCurrentPlayer().getToken());
 		action.apply(gameBoard);
 		
 		tileToSell.setPrice(10);

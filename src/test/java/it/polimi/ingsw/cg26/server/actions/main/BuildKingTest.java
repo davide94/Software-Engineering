@@ -76,8 +76,6 @@ public class BuildKingTest {
 		politicCards.add(new PoliticCard(new PoliticColor("giallo")));
 		politicCards.add(new PoliticCard(new PoliticColor("bianco")));
 		politicCards.add(new PoliticCard(new PoliticColor("multicolor")));
-		politicCards.add(new PoliticCard(new PoliticColor("verde")));
-		politicCards.add(new PoliticCard(new PoliticColor("nero")));
 		politicCards.add(new PoliticCard(new PoliticColor("viola")));
 		PoliticDeck politicDeck = new PoliticDeck(politicCards);
 		List<Councillor> pool = new ArrayList<>();
@@ -94,6 +92,8 @@ public class BuildKingTest {
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 		//Player player1 = new Player(1, "Marco", NobilityCell.createNobilityCell(1, null, new EmptyBonus()), 0, cards, new LinkedList<Assistant>());
 		token = gameBoard.registerPlayer("Marco").getToken();
+		gameBoard.getPoliticDeck().discardAll(Collections.nCopies(16, new PoliticCard(new PoliticColor("nero"))));
+		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
 	
