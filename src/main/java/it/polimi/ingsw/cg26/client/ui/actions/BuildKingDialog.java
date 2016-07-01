@@ -12,7 +12,6 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -58,11 +57,11 @@ public class BuildKingDialog extends Dialog<BuildKingCommand> {
         contentView.getChildren().add(cPane);
         
         setResultConverter(b -> {
-        	List<PoliticCardDTO> cards = new ArrayList<>();
-        	for(Map.Entry<CheckBox, PoliticCardDTO> m : cPane.cardsMap.entrySet()) {
+        	List<PoliticCardDTO> cards = cPane.getCards();
+        	/*for(Map.Entry<CheckBox, PoliticCardDTO> m : cPane.cardsMap.entrySet()) {
         		if(m.getKey().isSelected())
         			cards.add(m.getValue());
-        	}
+        	}*/
         	CityDTO chosenCity = null;
         	for(CityChoicePane c : citiesPanes)
         		for(Map.Entry<RadioButton, CityDTO> m : c.mapCities.entrySet()) {
