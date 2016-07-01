@@ -3,13 +3,16 @@ package it.polimi.ingsw.cg26.client;
 import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
-import it.polimi.ingsw.cg26.client.ui.actions.AcquirePane;
+import it.polimi.ingsw.cg26.client.ui.actions.AcquireDialog;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
+import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
@@ -663,9 +666,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void acquire() {
-        Pane dialog = new AcquirePane(new Point2D(root.getWidth() * 0.1, root.getHeight() * 0.1),
-                root.getWidth() * 0.8, root.getHeight() * 0.8, root);
-        root.getChildren().add(dialog);
+        Dialog<AcquireCommand> d = new AcquireDialog(root, model);
+        Optional<AcquireCommand> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("acquire");
     }
 

@@ -46,7 +46,7 @@ public class BPTDeckPane extends HBox implements Observer {
         coveredBPT.setEffect(shadow);
         coveredBPT.setPrefSize(cardW, getPrefHeight());
         coveredBPT.setMaxSize(cardW, getPrefHeight());
-        coveredBPT.setStyle("-fx-background-image: url(" + getClass().getResource("/img/coveredBPT/" + bptUrls.get(index / 3)) + ");" +
+        coveredBPT.setStyle("-fx-background-image: url(" + getClass().getResource("/img/coveredBPT/" + bptUrls.get(index)) + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
         int i = 0;
