@@ -17,9 +17,16 @@ import java.util.*;
  */
 public class BPTChoicePane extends HBox {
 
-    public Map<RadioButton, Integer> tilesMap = new HashMap<>();
+    private List<RadioButton> buttons;
+
+    private List<RegionDTO> regions;
+
+    private List<BusinessPermissionTileDTO> tiles;
 
     public BPTChoicePane(List<RegionDTO> regions) {
+        this.regions = new LinkedList<>(regions);
+        buttons = new LinkedList<>();
+        tiles = new LinkedList<>();
         setAlignment(Pos.CENTER);
         setSpacing(30.0);
         double tileWidth = 100.0;
@@ -29,21 +36,37 @@ public class BPTChoicePane extends HBox {
         for (RegionDTO r: regions) {
             HBox regionPane = new HBox();
             regionPane.setSpacing(10.0);
-            List<Pane> tiles = new LinkedList<>();
+            List<Pane> tilesPanes = new LinkedList<>();
             for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
                 VBox choicePane = new VBox(new BPTPane(tileWidth, tileHeight, t));
                 choicePane.setSpacing(5.0);
                 choicePane.setAlignment(Pos.CENTER);
                 RadioButton radioButton = new RadioButton();
-                tilesMap.put(radioButton, i);
+                buttons.add(radioButton);
+                tiles.add(t);
                 radioButton.setToggleGroup(tilesToggleGroup);
                 choicePane.getChildren().addAll(radioButton);
-                tiles.add(choicePane);
+                tilesPanes.add(choicePane);
                 i++;
             }
-            Collections.reverse(tiles);
-            regionPane.getChildren().addAll(tiles);
+            Collections.reverse(tilesPanes);
+            regionPane.getChildren().addAll(tilesPanes);
             getChildren().add(regionPane);
         }
+    }
+
+    private int selectedIndex() {
+        for (RadioButton b: buttons)
+            if (b.isSelected())
+                return buttons.indexOf(b);
+        return 0;
+    }
+
+    public RegionDTO getSelectedRegion() {
+        return regions.get(selectedIndex() / 2);
+    }
+
+    public int getPosition() {
+        return selectedIndex() % 2;
     }
 }

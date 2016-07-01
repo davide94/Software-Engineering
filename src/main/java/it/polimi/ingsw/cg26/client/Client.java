@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
 import it.polimi.ingsw.cg26.client.ui.actions.AcquireDialog;
 import it.polimi.ingsw.cg26.client.ui.actions.ChangeBPTDialog;
+import it.polimi.ingsw.cg26.client.ui.actions.ElectDialog;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
 import it.polimi.ingsw.cg26.common.commands.AdditionalMainActionCommand;
 import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
 import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
+import it.polimi.ingsw.cg26.common.commands.Command;
 import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
@@ -666,6 +668,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void electAsMainAction() {
+        Dialog<Command> d = new ElectDialog(true, model);
+        Optional<Command> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("electAsMainAction");
     }
 
@@ -712,6 +718,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void electAsQuickAction() {
+        Dialog<Command> d = new ElectDialog(true, model);
+        Optional<Command> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("electAsQuickAction");
     }
 
