@@ -20,6 +20,8 @@ public class FoldQuickActionTest {
 
 	private GameBoard gameBoard;
 	
+	private long token;
+	
 	@Before
 	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
@@ -36,7 +38,7 @@ public class FoldQuickActionTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
@@ -51,13 +53,13 @@ public class FoldQuickActionTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingQuickActionShoulThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
-		Action foldQuickAction = new FoldQuickAction(1);
+		Action foldQuickAction = new FoldQuickAction(token);
 		foldQuickAction.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyAction() throws Exception {
-		Action foldQuickAction = new FoldQuickAction(1);
+		Action foldQuickAction = new FoldQuickAction(token);
 		foldQuickAction.apply(gameBoard);
 		
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());

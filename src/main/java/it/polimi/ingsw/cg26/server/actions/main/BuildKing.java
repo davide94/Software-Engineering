@@ -46,11 +46,13 @@ public class BuildKing extends Corrupt {
     /**
      * @throws NotEnoughMoneyException if the player hasn't got enough money to do the action
      * @throws InvalidCardsException if the cards given by the user don't match the colors of the councillors in the balcony
-     * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action
+     * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action 
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotEnoughMoneyException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotEnoughMoneyException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException,  NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
+        if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
         super.apply(gameBoard);
         int coins = super.necessaryCoins(politicCards);
         City realCity = gameBoard.getCity(city);

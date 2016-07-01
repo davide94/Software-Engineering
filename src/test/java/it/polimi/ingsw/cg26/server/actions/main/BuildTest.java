@@ -119,9 +119,9 @@ public class BuildTest {
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
+		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 372);
 		
-		assertEquals(token, action.getToken());
+		assertEquals(372, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -137,14 +137,14 @@ public class BuildTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
+		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testApplyTryToBuildOnACityWithOneEmporiumWithoutAssistantShouldThrowAnException() throws Exception {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
+		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
 		gameBoard.getCurrentPlayer().takeAssistants(1);
 		
 		action.apply(gameBoard);
@@ -152,14 +152,14 @@ public class BuildTest {
 	
 	@Test (expected = InvalidCityException.class)
 	public void testApplyActionToACityThatIsNotInBPTShouldThrowException() throws Exception {
-		Action action = new Build(cityNotInBPT.getState(), tileToUse.getState(), 1);
+		Action action = new Build(cityNotInBPT.getState(), tileToUse.getState(), token);
 
 		action.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyCheckChanges() throws Exception {
-		Action action = new Build(chosenCity.getState(), tileToUse.getState(), 1);
+		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
 		
 		action.apply(gameBoard);
 		

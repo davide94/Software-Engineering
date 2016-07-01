@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg26.common.update.change.KingBalconyChange;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotYourTurnException;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
@@ -22,7 +23,7 @@ public abstract class ElectKing extends Elect {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException {
+	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException, NotYourTurnException {
 		Councillor realCouncillor = getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
 		Councillor droppedCouncillor = gameBoard.getKingBalcony().elect(realCouncillor);
 		gameBoard.removeCouncillor(realCouncillor);

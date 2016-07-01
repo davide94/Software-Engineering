@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg26.common.update.change.CouncillorsPoolChange;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotYourTurnException;
 import it.polimi.ingsw.cg26.server.model.board.Councillor;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
@@ -36,10 +37,10 @@ public abstract class ElectRegion extends Elect {
     }
 
     /**
-     * @throws CouncillorNotFoundException if the councillor selected by the user doesn't exist in the councillor pool
+     * @throws CouncillorNotFoundException if the councillor selected by the user doesn't exist in the councillor pool 
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException, NotYourTurnException {
 		Councillor realCouncillor = getRealCouncillorFromPool(gameBoard.getCouncillorsPool());
     	Councillor droppedCouncillor = gameBoard.getRegion(region).getBalcony().elect(realCouncillor);
 		gameBoard.removeCouncillor(realCouncillor);

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
-import it.polimi.ingsw.cg26.common.commands.Command;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar;

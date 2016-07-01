@@ -21,6 +21,8 @@ public class ChangeBPTTest {
 
 	private GameBoard gameBoard;
 	
+	private long token;
+	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		List<City> cities1 = new ArrayList<>();
@@ -65,7 +67,7 @@ public class ChangeBPTTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.registerPlayer("Luca");
 		gameBoard.registerPlayer("Davide");
 		gameBoard.start();
@@ -87,20 +89,20 @@ public class ChangeBPTTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionWithoutRemainingQuickActionsShouldThrowAnException() throws Throwable{
 		gameBoard.getCurrentPlayer().performQuickAction();
-		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
+		Action changeBPT = new ChangeBPT(createRegion().getState(), token);
 		changeBPT.apply(gameBoard);
 	}
 
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testApplyActionWithoutAssitantsShouldThrowAnException() throws Throwable{
 		gameBoard.getCurrentPlayer().takeAssistants(3);
-		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
+		Action changeBPT = new ChangeBPT(createRegion().getState(), token);
 		changeBPT.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyActionOnADeckWith4TilesShouldMoveTheThirdTileToFirst() throws Throwable{
-		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
+		Action changeBPT = new ChangeBPT(createRegion().getState(), token);
 		changeBPT.apply(gameBoard);
 		
 		List<City> cities3 = new ArrayList<>();
@@ -115,7 +117,7 @@ public class ChangeBPTTest {
 	
 	@Test
 	public void testApplyActionOnADeckWith4TilesShouldMoveTheFourthTileToSecond() throws Throwable{
-		Action changeBPT = new ChangeBPT(createRegion().getState(), 1);
+		Action changeBPT = new ChangeBPT(createRegion().getState(), token);
 		changeBPT.apply(gameBoard);
 		
 		List<City> cities4 = new ArrayList<>();

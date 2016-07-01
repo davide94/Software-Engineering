@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
 
 public class InvalidCityException extends Exception {
 
-    public InvalidCityException() {
+	private static final long serialVersionUID = 205525068577357148L;
 
+	public InvalidCityException() {
+		//Create simple exception
     }
 
     public InvalidCityException(String message) {

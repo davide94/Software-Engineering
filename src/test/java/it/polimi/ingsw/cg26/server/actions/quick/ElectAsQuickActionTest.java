@@ -28,6 +28,8 @@ public class ElectAsQuickActionTest {
 	
 	private Councillor addedCouncillor = Councillor.createCouncillor(new PoliticColor("arancione"));
 	
+	private long token;
+	
 	private Region createRegion(){
 		List<BusinessPermissionTile> tiles = new ArrayList<>();
 		tiles.add(new BusinessPermissionTile(new ArrayList<City>(), new EmptyBonus()));
@@ -71,7 +73,7 @@ public class ElectAsQuickActionTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
@@ -96,7 +98,7 @@ public class ElectAsQuickActionTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingQickActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), 1);
+		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), token);
 		
 		action.apply(gameBoard);
 	}
@@ -104,21 +106,21 @@ public class ElectAsQuickActionTest {
 	@Test (expected = NoRemainingAssistantsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingAssistantsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().takeAssistants(1);
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("arancione")), 1);
+		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("arancione")), token);
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test (expected = CouncillorNotFoundException.class)
 	public void testApplyActionWithACouncillorThatIsntInThePoolShouldThrowAnException() throws Exception {
-		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), 1);
+		Action action = new ElectAsQuickAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), token);
 		
 		action.apply(gameBoard);
 	}
 
 	@Test
 	public void testApplyCheckChangesOnTheGameBoard() throws Exception {
-		Action action = new ElectAsQuickAction(region.getState(), addedCouncillor.getState(), 1);
+		Action action = new ElectAsQuickAction(region.getState(), addedCouncillor.getState(), token);
 		
 		action.apply(gameBoard);
 		
@@ -130,7 +132,7 @@ public class ElectAsQuickActionTest {
 	
 	@Test
 	public void testApplyCheckChangesOnThePlayer() throws Exception {
-		Action action = new ElectAsQuickAction(region.getState(), addedCouncillor.getState(), 1);
+		Action action = new ElectAsQuickAction(region.getState(), addedCouncillor.getState(), token);
 		
 		action.apply(gameBoard);
 

@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
 
 public class InvalidSellableException extends Exception{
 
-    public InvalidSellableException() {
+	private static final long serialVersionUID = -1166003202602249755L;
 
+	public InvalidSellableException() {
+		//Create simple exception
     }
 
     public InvalidSellableException(String message) {

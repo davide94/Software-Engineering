@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotYourTurnException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.board.Region;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -29,8 +30,10 @@ public class ChooseBPT extends Action {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingCardsException, InvalidTileException {
+	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingCardsException, InvalidTileException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
+		if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
 		BusinessPermissionTile addedBPT = gameBoard.getRegion(this.chosenRegion).getBPTDeck().draw(this.chosenPosition);

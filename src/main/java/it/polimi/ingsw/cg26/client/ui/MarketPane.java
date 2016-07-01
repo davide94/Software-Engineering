@@ -1,14 +1,9 @@
 package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
-import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
-import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;

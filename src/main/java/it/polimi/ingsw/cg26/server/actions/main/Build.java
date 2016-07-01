@@ -53,8 +53,10 @@ public class Build extends Action {
      * @throws InvalidCityException if the city is not in the BPT cities list
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, InvalidCityException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, InvalidCityException, NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
+        if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();
         BusinessPermissionTile tile = currentPlayer.hasPermissionTile(bPTState);

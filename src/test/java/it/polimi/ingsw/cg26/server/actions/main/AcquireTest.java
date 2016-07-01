@@ -76,9 +76,9 @@ public class AcquireTest {
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new Acquire(region.getState(), new ArrayList<PoliticCardDTO>(), 1, token);
+		Action action = new Acquire(region.getState(), new ArrayList<PoliticCardDTO>(), 1, 15);
 		
-		assertEquals(token, action.getToken());
+		assertEquals(15, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -99,7 +99,7 @@ public class AcquireTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
-		Action action = new Acquire(region.getState(), new ArrayList<PoliticCardDTO>(), 0, 1);
+		Action action = new Acquire(region.getState(), new ArrayList<PoliticCardDTO>(), 0, token);
 		
 		action.apply(gameBoard);
 	}
@@ -111,7 +111,7 @@ public class AcquireTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("arancione"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("blu"), 0, "Marco"));
-		Action action = new Acquire(region.getState(), userCards, 0, 1);
+		Action action = new Acquire(region.getState(), userCards, 0, token);
 		
 		action.apply(gameBoard);
 	}
@@ -124,7 +124,7 @@ public class AcquireTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		
 		action.apply(gameBoard);
 	}
@@ -136,7 +136,7 @@ public class AcquireTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		gameBoard.getCurrentPlayer().removeCoins(10);
 		
 		action.apply(gameBoard);
@@ -148,7 +148,7 @@ public class AcquireTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		gameBoard.getCurrentPlayer().removeCoins(6);
 		
 		action.apply(gameBoard);
@@ -159,7 +159,7 @@ public class AcquireTest {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		gameBoard.getCurrentPlayer().removeCoins(4);
 		
 		action.apply(gameBoard);
@@ -169,7 +169,7 @@ public class AcquireTest {
 	public void testApplyNecessaryCoinsNumberWithOneCardAndPlayerWithLessThan10CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		gameBoard.getCurrentPlayer().removeCoins(1);
 		
 		action.apply(gameBoard);
@@ -182,7 +182,7 @@ public class AcquireTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("rosso"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		gameBoard.getCurrentPlayer().addCoins(10);
 		
 		action.apply(gameBoard);
@@ -195,7 +195,7 @@ public class AcquireTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
-		Acquire action = new Acquire(region.getState(), userCards, 0, 1);
+		Acquire action = new Acquire(region.getState(), userCards, 0, token);
 		
 		action.apply(gameBoard);
 		

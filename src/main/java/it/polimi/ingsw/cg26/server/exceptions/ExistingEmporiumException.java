@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
 
 public class ExistingEmporiumException extends Exception {
 
-    public ExistingEmporiumException() {
+	private static final long serialVersionUID = 3873680545650187384L;
 
+	public ExistingEmporiumException() {
+		//Create simple exception
     }
 
     public ExistingEmporiumException(String message) {

@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
 
 public class SellableNotFoundException extends Exception {
 
-    public SellableNotFoundException() {
+	private static final long serialVersionUID = -5779374003077616070L;
 
+	public SellableNotFoundException() {
+		//Create simple exception
     }
 
     public SellableNotFoundException(String message) {

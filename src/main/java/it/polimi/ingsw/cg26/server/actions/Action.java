@@ -34,10 +34,10 @@ public abstract class Action {
 
     /**
      * apply the action into the gameBoard specified to the player specified
-     * @param gameBoard the gameBoard where the action is applied
+     * @param gameBoard the gameBoard where the action is applied 
      * @throws NullPointerException if the parameter is null
      */
-    public abstract void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, NoRemainingActionsException, InvalidCardsException, CouncillorNotFoundException, NotEnoughMoneyException, CityNotFoundException, ExistingEmporiumException, SellableNotFoundException, NoRemainingCardsException, InvalidTileException, InvalidCityException;
+    public abstract void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, NoRemainingActionsException, InvalidCardsException, CouncillorNotFoundException, NotEnoughMoneyException, CityNotFoundException, ExistingEmporiumException, SellableNotFoundException, NoRemainingCardsException, InvalidTileException, InvalidCityException, NotYourTurnException;
     
     public abstract void notifyChange(GameBoard gameBoard);
     

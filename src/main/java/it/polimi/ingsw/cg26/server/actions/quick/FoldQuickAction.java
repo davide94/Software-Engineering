@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotYourTurnException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -24,8 +25,10 @@ public class FoldQuickAction extends Action {
      * @throws NoRemainingActionsException if the player has no more remaining actions to do
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
+        if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
         if (!currentPlayer.canPerformQuickAction())
             throw new NoRemainingActionsException();
         currentPlayer.performQuickAction();

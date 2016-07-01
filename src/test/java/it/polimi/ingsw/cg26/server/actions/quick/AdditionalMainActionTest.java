@@ -20,6 +20,8 @@ public class AdditionalMainActionTest {
 
 	private GameBoard gameBoard;
 	
+	private long token;
+	
 	@Before
 	public void setUp() throws Exception{
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
@@ -36,7 +38,7 @@ public class AdditionalMainActionTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
@@ -51,13 +53,13 @@ public class AdditionalMainActionTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAplayerWithoutRemainingQuickActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
-		AdditionalMainAction action = new AdditionalMainAction(1);
+		AdditionalMainAction action = new AdditionalMainAction(token);
 		action.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyAction() throws Exception {
-		AdditionalMainAction action = new AdditionalMainAction(1);
+		AdditionalMainAction action = new AdditionalMainAction(token);
 		gameBoard.getCurrentPlayer().addAssistant(new Assistant());
 		gameBoard.getCurrentPlayer().addAssistant(new Assistant());
 		action.apply(gameBoard);

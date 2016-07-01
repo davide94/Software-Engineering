@@ -5,8 +5,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
  */
 public class NotEnoughMoneyException extends Exception {
 
-    public NotEnoughMoneyException() {
+	private static final long serialVersionUID = -6162340842578012461L;
 
+	public NotEnoughMoneyException() {
+		//Create simple exception
     }
 
     public NotEnoughMoneyException(String message) {

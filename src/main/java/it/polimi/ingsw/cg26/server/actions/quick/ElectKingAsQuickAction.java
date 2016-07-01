@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg26.server.actions.ElectKing;
 import it.polimi.ingsw.cg26.server.exceptions.CouncillorNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotYourTurnException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -25,8 +26,10 @@ public class ElectKingAsQuickAction extends ElectKing {
 	 * @throws NoRemainingAssistantsException if the player doesn't have enough assistant to perform the action
 	 */
 	@Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
+		if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
 		if (!currentPlayer.canPerformQuickAction())
     		throw new NoRemainingActionsException();
     	if(currentPlayer.getAssistantsNumber()<1){

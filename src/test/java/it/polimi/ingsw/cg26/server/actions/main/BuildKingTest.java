@@ -99,9 +99,9 @@ public class BuildKingTest {
 	
 	@Test
 	public void testBuildActionShouldAssignTheToken() {
-		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), token);
+		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), 312);
 		
-		assertEquals(token, action.getToken());
+		assertEquals(312, action.getToken());
 	}
 	
 	@Test (expected = NullPointerException.class)
@@ -117,7 +117,7 @@ public class BuildKingTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
-		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), 1);
+		Action action = new BuildKing(chosenCity.getState(), new ArrayList<PoliticCardDTO>(), token);
 		
 		action.apply(gameBoard);
 	}
@@ -129,7 +129,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("arancione"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("blu"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		
 		action.apply(gameBoard);
 	}
@@ -142,7 +142,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		
 		action.apply(gameBoard);
 	}
@@ -154,7 +154,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		gameBoard.getCurrentPlayer().removeCoins(8);
 		
 		action.apply(gameBoard);
@@ -166,7 +166,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		gameBoard.getCurrentPlayer().removeCoins(6);
 		
 		action.apply(gameBoard);
@@ -177,7 +177,7 @@ public class BuildKingTest {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("bianco"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		gameBoard.getCurrentPlayer().removeCoins(4);
 		
 		action.apply(gameBoard);
@@ -187,7 +187,7 @@ public class BuildKingTest {
 	public void testApplyNecessaryCoinsNumberWithOneCardAndPlayerWithLessThan10CoinsShouldThrowException() throws Exception {
 		List<PoliticCardDTO> userCards = new ArrayList<>();
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		gameBoard.getCurrentPlayer().removeCoins(1);
 		
 		action.apply(gameBoard);
@@ -200,7 +200,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("nero"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		gameBoard.getCurrentPlayer().addCoins(10);
 		
 		action.apply(gameBoard);
@@ -213,7 +213,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		gameBoard.getCurrentPlayer().takeAssistants(1);
 		
 		action.apply(gameBoard);
@@ -226,7 +226,7 @@ public class BuildKingTest {
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("verde"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("giallo"), 0, "Marco"));
 		userCards.add(new PoliticCardDTO(new PoliticColorDTO("multicolor"), 0, "Marco"));
-		Action action = new BuildKing(chosenCity.getState(), userCards, 1);
+		Action action = new BuildKing(chosenCity.getState(), userCards, token);
 		
 		action.apply(gameBoard);
 		

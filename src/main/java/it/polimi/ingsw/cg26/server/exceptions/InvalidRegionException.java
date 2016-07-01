@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
 
 public class InvalidRegionException extends Exception {
 
-    public InvalidRegionException() {
+	private static final long serialVersionUID = -6249159769785209429L;
 
+	public InvalidRegionException() {
+		//Create simple exception
     }
 
     public InvalidRegionException(String message) {

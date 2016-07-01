@@ -10,6 +10,8 @@ import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.*;
 import it.polimi.ingsw.cg26.server.model.market.Market;
+import it.polimi.ingsw.cg26.server.model.player.Player;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +20,9 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class ElectAsMainActionTest {
-
+	
+	private Player currentPlayer;
+	
 	private GameBoard gameBoard;
 	
 	private Region region;
@@ -84,7 +88,7 @@ public class ElectAsMainActionTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
-		gameBoard.registerPlayer("Marco");
+		currentPlayer = gameBoard.registerPlayer("Marco");
 		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
@@ -109,21 +113,21 @@ public class ElectAsMainActionTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutRemainingMainActionsShouldThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performMainAction();
-		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), 1);
+		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("verde")), currentPlayer.getToken());
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test (expected = CouncillorNotFoundException.class)
 	public void testApplyActionWithACouncillorThatIsntInThePoolShouldThrowAnException() throws Exception {
-		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), 1);
+		Action action = new ElectAsMainAction(createRegion().getState(), new CouncillorDTO(new PoliticColorDTO("bianco")), currentPlayer.getToken());
 		
 		action.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyCheckChangesOnTheGameBoard() throws Exception {
-		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), 1);
+		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), currentPlayer.getToken());
 		
 		action.apply(gameBoard);
 		
@@ -135,7 +139,7 @@ public class ElectAsMainActionTest {
 
 	@Test
 	public void testApplyCheckChangesOnThePlayer() throws Exception {
-		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), 1);
+		Action action = new ElectAsMainAction(region.getState(), addedCouncillor.getState(), currentPlayer.getToken());
 		
 		action.apply(gameBoard);
 

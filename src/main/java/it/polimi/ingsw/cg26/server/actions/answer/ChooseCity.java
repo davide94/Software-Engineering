@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
+import it.polimi.ingsw.cg26.server.exceptions.NotYourTurnException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.player.Player;
@@ -39,9 +40,11 @@ public class ChooseCity extends Action {
 	}
 
 	@Override
-	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, CityNotFoundException, InvalidCityException, NoRemainingCardsException {
+	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, CityNotFoundException, InvalidCityException, NoRemainingCardsException, NotYourTurnException {
 		checkList();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
+		if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
 		for(CityDTO c : chosenCities){

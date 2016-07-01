@@ -56,8 +56,10 @@ public class Acquire extends Corrupt {
      * @throws InvalidCardsException if the cards given by the user don't match the colors of the councillors in the balcony
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, NoRemainingAssistantsException, ExistingEmporiumException, CityNotFoundException, NoRemainingCardsException {
+    public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, NoRemainingAssistantsException, ExistingEmporiumException, CityNotFoundException, NoRemainingCardsException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
+		if(currentPlayer.getToken() != this.getToken())
+			throw new NotYourTurnException();
 		super.apply(gameBoard);
 		int usedCoins = super.necessaryCoins(politicCards);
 		if (currentPlayer.getCoinsNumber() < usedCoins)

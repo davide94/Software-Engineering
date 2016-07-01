@@ -2,8 +2,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
 
 public class PlayerNotFoundException extends Exception {
 
-    public PlayerNotFoundException() {
+	private static final long serialVersionUID = 6781931108908802498L;
 
+	public PlayerNotFoundException() {
+		//Create simple exception
     }
 
     public PlayerNotFoundException(String message) {

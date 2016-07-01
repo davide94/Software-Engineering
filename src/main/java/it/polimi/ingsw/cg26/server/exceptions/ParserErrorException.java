@@ -5,8 +5,10 @@ package it.polimi.ingsw.cg26.server.exceptions;
  */
 public class ParserErrorException extends Exception {
 
-    public ParserErrorException() {
+	private static final long serialVersionUID = -4297690856437637068L;
 
+	public ParserErrorException() {
+		//Create simple exception
     }
 
     public ParserErrorException(String message) {

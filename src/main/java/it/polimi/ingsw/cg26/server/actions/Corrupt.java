@@ -63,10 +63,10 @@ public abstract class Corrupt extends Action {
 
     /**
      * @throws NoRemainingActionsException if the player has no more remaining actions to do
-     * @throws InvalidCardsException if the cards given by the user doesn't match with the real cards of the player
+     * @throws InvalidCardsException if the cards given by the user doesn't match with the real cards of the player 
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException {
+    public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
             throw new NoRemainingActionsException();

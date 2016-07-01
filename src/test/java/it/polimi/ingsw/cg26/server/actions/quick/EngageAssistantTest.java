@@ -19,6 +19,8 @@ public class EngageAssistantTest {
 
 	private GameBoard gameBoard;
 	
+	private long token;
+	
 	@Before
 	public void setUp() throws Exception {
 		LinkedList<PoliticCard> politicCards = new LinkedList<>();
@@ -35,7 +37,7 @@ public class EngageAssistantTest {
 		
 		this.gameBoard = GameBoard.createGameBoard(politicDeck, pool, kingBalcony, regions, track, king, market, kingDeck, map);
 
-		gameBoard.registerPlayer("Marco");
+		token = gameBoard.registerPlayer("Marco").getToken();
 		gameBoard.registerPlayer("Luca");
 		gameBoard.start();
 	}
@@ -50,13 +52,13 @@ public class EngageAssistantTest {
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionToAPlayerWithoutQuickActionsShoulThrowAnException() throws Exception {
 		gameBoard.getCurrentPlayer().performQuickAction();
-		Action engageAssitant = new EngageAssistant(1);
+		Action engageAssitant = new EngageAssistant(token);
 		engageAssitant.apply(gameBoard);
 	}
 	
 	@Test
 	public void testApplyActionToAPlayerWith1AssistantsShouldAddOneMore() throws Exception {
-		Action engageAssitant = new EngageAssistant(1);
+		Action engageAssitant = new EngageAssistant(token);
 		engageAssitant.apply(gameBoard);
 		
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
@@ -65,7 +67,7 @@ public class EngageAssistantTest {
 	
 	@Test
 	public void testApplyActionToAPlayerWith10ShouldHave7Coins() throws Exception {
-		Action engageAssitant = new EngageAssistant(1);
+		Action engageAssitant = new EngageAssistant(token);
 		engageAssitant.apply(gameBoard);
 		
 		assertFalse(gameBoard.getCurrentPlayer().canPerformQuickAction());
