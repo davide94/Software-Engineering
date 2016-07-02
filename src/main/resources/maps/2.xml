@@ -1,0 +1,457 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<game>
+    <cityBonuses>
+        <bonus earn="1" />
+        <bonus earn="2" />
+        <bonus earn="3" />
+        <bonus victory="1" />
+        <bonus victory="2" />
+        <bonus victory="3" />
+        <bonus nobility="1" />
+        <bonus nobility="1" />
+        <bonus draw="1" />
+        <bonus assistants="1" />
+        <bonus assistants="2" />
+        <bonus assistants="1" earn="1" />
+        <bonus assistants="1" draw="1" />
+        <bonus nobility="1" draw="1" />
+    </cityBonuses>
+    <nobilityTrack len="21">
+        <bonus position="2" earn="2" victory="2" />
+        <bonus position="4" takePlayer="1" />
+        <bonus position="6" action="1" />
+        <bonus position="8" draw="1" victory="3" />
+        <bonus position="10" takeYour="1" />
+        <bonus position="12" assistants="1" victory="5" />
+        <bonus position="14" takeBPT="1" />
+        <bonus position="16" takePlayer="2" />
+        <bonus position="18" victory="8" />
+        <bonus position="19" victory="2" />
+        <bonus position="20" victory="3" />
+    </nobilityTrack>
+    <kingDeck>
+        <bonus victory="25" />
+        <bonus victory="18" />
+        <bonus victory="14" />
+        <bonus victory="8" />
+        <bonus victory="5" />
+    </kingDeck>
+    <politic>
+        <color name="multicolor" cards="13" />
+        <color name="white" councillors="4" cards="13" />
+        <color name="black" councillors="4" cards="13" />
+        <color name="blue" councillors="4" cards="13" />
+        <color name="orange" councillors="4" cards="13" />
+        <color name="pink" councillors="4" cards="13" />
+        <color name="violet" councillors="4" cards="13" />
+    </politic>
+    <cityColorsBonuses>
+        <color name="iron"><bonus victory="5" /></color>
+        <color name="bronze"><bonus victory="8" /></color>
+        <color name="silver"><bonus victory="12" /></color>
+        <color name="gold"><bonus victory="20" /></color>
+    </cityColorsBonuses>
+    <regions>
+        <region name="coast">
+            <bonus victory="5" />
+            <cities>
+                <city name="arkon" position="" color="gold">
+                    <near name="castrum" />
+                </city>
+                <city name="burgen" position="" color="bronze">
+                    <near name="esti" />
+                </city>
+                <city name="castrum" position="" color="silver">
+                    <near name="arkon" />
+                    <near name="framek" />
+					<near name="dorful" />
+                </city>
+                <city name="dorful" position="" color="iron">
+                    <near name="castrum" />
+                    <near name="graden" />
+                </city>
+                <city name="esti" position="" color="silver">
+                    <near name="burgen" />
+                    <near name="hellar" />
+                </city>
+            </cities>
+            <permissionTiles>
+                <permissionTile>
+                    <bonus  victory="7" />
+                    <cities>
+                        <city name="dorful" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="1" victory="3" />
+                    <cities>
+                        <city name="castrum" />
+                        <city name="dorful" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="3" victory="3" />
+                    <cities>
+                        <city name="burgen" />
+                        <city name="castrum" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="1" earn="3" />
+                    <cities>
+                        <city name="arkon" />
+                        <city name="burgen" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="1" victory="1" />
+                    <cities>
+                        <city name="burgen" />
+                        <city name="castrum" />
+                        <city name="dorful" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus nobility="2" />
+                    <cities>
+                        <city name="arkon" />
+                        <city name="esti" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="3" />
+                    <cities>
+                        <city name="arkon" />
+                        <city name="burgen" />
+                        <city name="esti" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="2" action="1" />
+                    <cities>
+                        <city name="esti" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="1" victory="2" />
+                    <cities>
+                        <city name="arkon" />
+                        <city name="dorful" />
+                        <city name="esti" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="3" assistants="1" />
+                    <cities>
+                        <city name="burgen" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="3" victory="4" />
+                    <cities>
+                        <city name="arkon" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="2" />
+                    <cities>
+                        <city name="arkon" />
+                        <city name="burgen" />
+                        <city name="castrum" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="1" nobility="1" />
+                    <cities>
+                        <city name="castrum" />
+                        <city name="dorful" />
+                        <city name="esti" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="1" victory="3" />
+                    <cities>
+                        <city name="dorful" />
+                        <city name="esti" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="3" assistants="2" />
+                    <cities>
+                        <city name="castrum" />
+                    </cities>
+                </permissionTile>
+            </permissionTiles>
+        </region>
+        <region name="hills">
+            <bonus victory="5" />
+            <cities>
+                <city name="framek" position="" color="gold">
+                    <near name="castrum" />
+                    <near name="indur" />
+                </city>
+                <city name="graden" position="" color="silver">
+                    <near name="dorful" />
+                    <near name="juvelar" />
+                </city>
+                <city name="hellar" position="" color="gold">
+                    <near name="esti" />
+                    <near name="juvelar" />
+                    <near name="merkatim" />
+                </city>
+                <city name="indur" position="" color="bronze">
+                    <near name="framek" />
+                    <near name="juvelar" />
+                    <near name="kultos" />
+                </city>
+                <city name="juvelar" position="" color="violet">
+                    <near name="indur" />
+                    <near name="lyram" />
+                    <near name="hellar" />
+                    <near name="graden" />
+                    <king />
+                </city>
+            </cities>
+            <permissionTiles>
+                <permissionTile>
+                    <bonus assistants="1" nobility="1" />
+                    <cities>
+                        <city name="framek" />
+                        <city name="indur" />
+                        <city name="juvelar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="2" nobility="1" />
+                    <cities>
+                        <city name="indur" />
+                        <city name="juvelar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="2" victory="1" />
+                    <cities>
+                        <city name="framek" />
+                        <city name="graden" />
+                        <city name="juvelar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus  victory="5" />
+                    <cities>
+                        <city name="hellar" />
+                        <city name="indur" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="2" assistants="2" />
+                    <cities>
+                        <city name="indur" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="2" />
+                    <cities>
+                        <city name="indur" />
+                        <city name="juvelar" />
+                        <city name="hellar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="1" assistants="2" />
+                    <cities>
+                        <city name="framek" />
+                        <city name="juvelar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus  victory="2" action="1" />
+                    <cities>
+                        <city name="juvelar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="3" />
+                    <cities>
+                        <city name="hellar" />
+                        <city name="graden" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="2" nobility="1" victory="2" />
+                    <cities>
+                        <city name="graden" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="2" earn="4" />
+                    <cities>
+                        <city name="framek" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="1" assistants="1" />
+                    <cities>
+                        <city name="osium" />
+                        <city name="hellar" />
+                        <city name="indur" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus assistants="4" />
+                    <cities>
+                        <city name="hellar" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="5" />
+                    <cities>
+                        <city name="framek" />
+                        <city name="osium" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="1" nobility="1" />
+                    <cities>
+                        <city name="framek" />
+                        <city name="osium" />
+                        <city name="hellar" />
+                    </cities>
+                </permissionTile>
+            </permissionTiles>
+        </region>
+        <region name="mountains">
+            <bonus victory="5" />
+            <cities>
+                <city name="kultos" position="" color="gold">
+                    <near name="indur" />
+                    <near name="naris" />
+                </city>
+                <city name="lyram" position="" color="silver">
+                    <near name="juvelar" />
+                    <near name="osium" />
+                </city>
+                <city name="merkatim" position="" color="iron">
+                    <near name="hellar" />
+                    <near name="osium" />
+                </city>
+                <city name="naris" position="" color="bronze">
+                    <near name="kultos" />
+                    <near name="osium" />
+                </city>
+                <city name="osium" position="" color="gold">
+                    <near name="merkatim" />
+                    <near name="lyram" />
+                    <near name="naris" />
+                </city>
+            </cities>
+            <permissionTiles>
+                <permissionTile>
+                    <bonus earn="1" assistants="1" />
+                    <cities>
+                        <city name="kultos" />
+                        <city name="lyram" />
+                        <city name="merkatim" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus nobility="1" victory="1" />
+                    <cities>
+                        <city name="merkatim" />
+                        <city name="naris" />
+                        <city name="osium" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="1" assistants="3" />
+                    <cities>
+                        <city name="lyram" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus nobility="1" victory="5" />
+                    <cities>
+                        <city name="merkatim" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="3" nobility="1" />
+                    <cities>
+                        <city name="osium" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus  action="1" />
+                    <cities>
+                        <city name="merkatim" />
+                        <city name="naris" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus victory="3" />
+                    <cities>
+                        <city name="lyram" />
+                        <city name="merkatim" />
+                        <city name="naris" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="2" nobility="1" />
+                    <cities>
+                        <city name="osium" />
+                        <city name="kultos" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="3" />
+                    <cities>
+                        <city name="merkatim" />
+                        <city name="lyram" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="2" victory="2" />
+                    <cities>
+                        <city name="naris" />
+                        <city name="osium" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="1" victory="1" />
+                    <cities>
+                        <city name="kultos" />
+                        <city name="naris" />
+                        <city name="osium" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="1" assistants="2" />
+                    <cities>
+                        <city name="kultos" />
+                        <city name="lyram" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="4" />
+                    <cities>
+                        <city name="kultos" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus earn="7" />
+                    <cities>
+                        <city name="naris" />
+                    </cities>
+                </permissionTile>
+                <permissionTile>
+                    <bonus draw="1" earn="1" />
+                    <cities>
+                        <city name="kultos" />
+                        <city name="lyram" />
+                        <city name="osium" />
+                    </cities>
+                </permissionTile>
+            </permissionTiles>
+        </region>
+    </regions>
+</game>
