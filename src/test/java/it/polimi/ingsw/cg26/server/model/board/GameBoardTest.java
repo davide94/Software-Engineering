@@ -81,6 +81,18 @@ public class GameBoardTest {
 		cards.add(whiteCard);
 		cards.add(orangeCard);
 		cards.add(purpleCard);
+		cards.add(blueCard);
+		cards.add(pinkCard);
+		cards.add(blackCard);
+		cards.add(whiteCard);
+		cards.add(orangeCard);
+		cards.add(purpleCard);
+		cards.add(blueCard);
+		cards.add(pinkCard);
+		cards.add(blackCard);
+		cards.add(whiteCard);
+		cards.add(orangeCard);
+		cards.add(purpleCard);
 				
 		politicDeck= new PoliticDeck(cards);
 		
@@ -168,6 +180,9 @@ public class GameBoardTest {
 		City catanzaro = City.createCity("Catanzaro", CityColor.createCityColor("bronze"), new NobilityBonus(new EmptyBonus(), 1));
 		City potenza = City.createCity("Potenza", CityColor.createCityColor("iron"), new CardBonus(new EmptyBonus(), 1, politicDeck));
 		
+		
+		 
+		 
 		Collection<City> sudCities= new LinkedList<>();
 		sudCities.add(napoli);
 		sudCities.add(bari);
@@ -183,6 +198,8 @@ public class GameBoardTest {
 		City bologna = City.createCity("Bologna", CityColor.createCityColor("silver"), new CoinBonus(new EmptyBonus(), 5));
 		City cagliari = City.createCity("Cagliari", CityColor.createCityColor("bronze"), new NobilityBonus(new EmptyBonus(), 2));
 		City parma = City.createCity("Parma", CityColor.createCityColor("iron"), new CardBonus(new EmptyBonus(), 2, politicDeck));
+		
+		
 		
 		Collection<City> centroCities= new LinkedList<>();
 		centroCities.add(roma);
@@ -606,6 +623,125 @@ public class GameBoardTest {
 	
 	
 	@Test
+	public void testWhatHappensWhenPlayersTakeAllKingTiles() throws ExistingEmporiumException, NoRemainingCardsException, CityNotFoundException {
+		
+		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
+		
+		Collection<EmporiumDTO> emporiums= new ArrayList<>();
+		Collection<String> nearCities= new ArrayList<>();
+		
+		CityDTO milanoDTO= new CityDTO("Milano", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO torinoDTO= new CityDTO("Torino", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO veneziaDTO= new CityDTO("Venezia", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO genovaDTO= new CityDTO("Genova", new CityColorDTO("silver"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO triesteDTO= new CityDTO("Trieste", new CityColorDTO("bronze"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		CityDTO romaDTO= new CityDTO("Roma", new CityColorDTO("violet"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO firenzeDTO= new CityDTO("Firenze", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO bolognaDTO= new CityDTO("Bologna", new CityColorDTO("silver"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO cagliariDTO= new CityDTO("Cagliari", new CityColorDTO("bronze"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO parmaDTO= new CityDTO("Parma", new CityColorDTO("iron"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		CityDTO napoliDTO= new CityDTO("Napoli", new CityColorDTO("gold"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO bariDTO= new CityDTO("Bari", new CityColorDTO("silver"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO palermoDTO= new CityDTO("Palermo", new CityColorDTO("silver"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO catanzaroDTO= new CityDTO("Catanzaro", new CityColorDTO("bronze"),new EmptyBonusDTO(), emporiums, nearCities );
+		CityDTO potenzaDTO= new CityDTO("Potenza", new CityColorDTO("iron"),new EmptyBonusDTO(), emporiums, nearCities );
+		
+		
+		
+		board.getCity(genovaDTO).build(Marco);
+		board.getCity(potenzaDTO).build(Luca);
+		board.getCity(catanzaroDTO).build(Davide);
+		board.getCity(bolognaDTO).build(Marco);
+		board.getCity(cagliariDTO).build(Davide);
+		board.getCity(bariDTO).build(Marco);
+		board.getCity(parmaDTO).build(Luca);
+		
+		
+		//Luca costruisce nelle due città iron e prende i bonus
+		board.checkBonuses(Luca, CityColor.createCityColor("iron"));
+		assertEquals(Luca.getVictoryPoints(), 55);
+		
+		board.getCity(triesteDTO).build(Davide);
+		
+		//Davide costruisce nelle tre città bronze e prende i bonus
+		board.checkBonuses(Davide, CityColor.createCityColor("bronze"));
+		assertEquals(Davide.getVictoryPoints(), 50);
+		
+		
+        board.getCity(romaDTO).build(Davide);
+		
+		//Davide costruisce nella città viola e non prende bonus speciali ma solo
+        //quello sulla città
+		board.checkBonuses(Davide, CityColor.createCityColor("violet"));
+		assertEquals(Davide.getVictoryPoints(), 51);
+		
+		
+	
+		
+		//Marco costruisce sulle due città iron e non 
+		//prende alcun bonus
+		board.getCity(potenzaDTO).build(Marco);
+		board.getCity(parmaDTO).build(Marco);
+		board.checkBonuses(Marco, CityColor.createCityColor("iron"));
+		assertEquals(Marco.getVictoryPoints(), 0);
+		
+		
+		//Marco costruisce sulle città silver e questa volta prende i bonus
+		board.getCity(palermoDTO).build(Marco);
+		board.checkBonuses(Marco, CityColor.createCityColor("silver"));
+		assertEquals(Marco.getVictoryPoints(), 45);
+		
+		
+		board.getCity(bariDTO).build(Luca);
+		board.getCity(napoliDTO).build(Luca);
+		board.getCity(catanzaroDTO).build(Luca);
+		board.getCity(palermoDTO).build(Luca);
+		
+		
+		//Luca costruisce in tutte le città del sud e prende i bonus
+		board.checkBonuses(Luca, CityColor.createCityColor("silver"));
+		assertEquals(Luca.getVictoryPoints(), 82);
+		
+		
+		//Marco costruisce in tutte le città del sud ma non prende bonus
+		//speciali perchè sono già stati presi
+		board.getCity(catanzaroDTO).build(Marco);
+		board.getCity(napoliDTO).build(Marco);
+		board.checkBonuses(Marco, CityColor.createCityColor("gold"));
+		assertEquals(Marco.getVictoryPoints(), 47);
+		
+		
+		//Davide costruisce in tutte le città del sud e prende i bonus
+		//tra cui l'ultimo king tile
+		board.getCity(firenzeDTO).build(Davide);
+		board.getCity(bolognaDTO).build(Davide);
+		board.getCity(parmaDTO).build(Davide);
+		board.checkBonuses(Davide, CityColor.createCityColor("iron"));
+		assertEquals(Davide.getVictoryPoints(), 66);
+		
+		
+		//Marco costruisce in tutte le città del nord e prende solo i bonus
+	    //città e regione ma non il king tile perchè finito
+		board.getCity(torinoDTO).build(Marco);
+		board.getCity(veneziaDTO).build(Marco);
+		board.getCity(triesteDTO).build(Marco);
+		board.getCity(milanoDTO).build(Marco);
+		board.checkBonuses(Marco, CityColor.createCityColor("gold"));
+		assertEquals(Marco.getVictoryPoints(), 55);
+		
+		
+				
+		
+		
+		
+		
+	}
+	
+	
+	
+	@Test
 	public void testCheckNordRegionBonusAndKingBonusHaveBeenAppliedToPlayer() throws ExistingEmporiumException, NoRemainingCardsException, CityNotFoundException {
 		
 		GameBoard board= GameBoard.createGameBoard(politicDeck, councillorsPool, kingBalcony, regions, nobilityTrack, king, market, kingDeck, colorBonuses);
@@ -859,29 +995,7 @@ public class GameBoardTest {
 	
 	
 	
-	/*
 	
-	
-	@Test
-	public void testGetFullPlayers() {}
-	
-	
-
-	@Test
-	public void testRegisterPlayer() {}
-	
-	
-
-	@Test
-	public void testActionPerformed() {}
-	
-	
-
-	@Test
-	public void testGetCurrentPlayer() {}
-	
-	
-*/
 	
 
 }
