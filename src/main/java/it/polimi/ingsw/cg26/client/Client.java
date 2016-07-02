@@ -91,6 +91,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private Controller controller;
 
     private Map<CityDTO, CityPane> citiesPanes = new LinkedHashMap<>();
+    
+    private List<RewardTilePane> tilesPanes = new ArrayList<>();
 
     private Collection<Observer> observers;
 
@@ -300,10 +302,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildBPT();
         buildBalconies();
         buildNobilityTrack();
-        buildColorBonuses();
-        buildKingRewardTile();
         buildCoinsTrack();
-        buildRegionTileBonuses();
+        buildTiles();
         
         buildActionsPane();
         buildStatePane();
@@ -323,6 +323,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void refreshScene() {
+    	buildTiles();
         for (Observer o: observers)
             o.update(null, null);
     }
@@ -487,7 +488,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Build and displays the colorBonuses tiles
      */
     private void buildColorBonuses() {
-        List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.749, 0.85), new Point2D(0.798, 0.842), new Point2D(0.847, 0.836), new Point2D(0.895, 0.83));
+        List<Point2D> colorBonusesOrigins = Arrays.asList(new Point2D(0.751, 0.876), new Point2D(0.8, 0.87), new Point2D(0.849, 0.863), new Point2D(0.897, 0.858));
 
         for(Map.Entry<CityColorDTO, BonusDTO> t : model.getColorBonuses().entrySet()) {
     		String resource = null;
@@ -520,7 +521,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     		rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/" + resource) + ");" +
                     "-fx-background-position: center;" +
                     "-fx-background-size: 100% 100%;");
-    		root.getChildren().add(rewardTile);
+    		tilesPanes.add(rewardTile);
     	}
     }
     
@@ -531,8 +532,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	int index = KING_DECK_SIZE - model.getKingDeck().getTiles().size() + 1;
     	RewardTilePane rewardTile = new RewardTilePane(0.058 * root.getWidth(), 0.037 * root.getHeight(), model.getKingDeck().getTiles().get(0).getBonuses());
     	rewardTile.setRotate(45);
-    	AnchorPane.setLeftAnchor(rewardTile, 0.884 * root.getWidth());
-    	AnchorPane.setTopAnchor(rewardTile, 0.751 * root.getHeight());
+    	AnchorPane.setLeftAnchor(rewardTile, 0.885 * root.getWidth());
+    	AnchorPane.setTopAnchor(rewardTile, 0.773 * root.getHeight());
     	rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/kingTile.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
@@ -543,7 +544,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         AnchorPane.setLeftAnchor(indexLabel, 0.2 * rewardTile.getPrefWidth());
         AnchorPane.setBottomAnchor(indexLabel, 0.2 * rewardTile.getPrefHeight());
         rewardTile.getChildren().add(indexLabel);
-    	root.getChildren().add(rewardTile);
+        tilesPanes.add(rewardTile);
     }
     
     private void buildRegionTileBonuses() {
@@ -570,12 +571,21 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 				break;
 			}
     		AnchorPane.setLeftAnchor(rewardTile, (0.250 + offset) * root.getWidth());
-    		AnchorPane.setTopAnchor(rewardTile, 0.51 * root.getHeight());
+    		AnchorPane.setTopAnchor(rewardTile, 0.53 * root.getHeight());
     		rewardTile.setStyle("-fx-background-image: url(" + getClass().getResource("/img/rewardTiles/"+ resource +"RewardTile.png") + ");" +
                     "-fx-background-position: center;" +
                     "-fx-background-size: 100% 100%;");
-    		root.getChildren().add(rewardTile);
+    		tilesPanes.add(rewardTile);
     	}
+    }
+    
+    private void buildTiles() {
+    	root.getChildren().removeAll(tilesPanes);
+    	tilesPanes.clear();
+    	buildColorBonuses();
+        buildKingRewardTile();
+        buildRegionTileBonuses();
+    	root.getChildren().addAll(tilesPanes);
     }
     
     private void buildMarket() {

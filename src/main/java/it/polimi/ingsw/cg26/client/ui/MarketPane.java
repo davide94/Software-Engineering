@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg26.client.ui;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.actions.PriceDialog;
 import it.polimi.ingsw.cg26.client.view.OutView;
+import it.polimi.ingsw.cg26.common.commands.Command;
+import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
 import it.polimi.ingsw.cg26.common.commands.market.BuyCommand;
 import it.polimi.ingsw.cg26.common.commands.market.FoldBuyCommand;
 import it.polimi.ingsw.cg26.common.commands.market.FoldSellCommand;
@@ -18,6 +20,8 @@ import it.polimi.ingsw.cg26.common.dto.SellableDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -65,14 +69,14 @@ public class MarketPane extends AnchorPane implements Observer{
 		shadow.setColor(Color.BLACK);
 		setEffect(shadow);
 
-		List<SellableDTO> onSale = new ArrayList<>();
+		/*List<SellableDTO> onSale = new ArrayList<>();
 		onSale.add(new PoliticCardDTO(new PoliticColorDTO("orange"), 2, "Marco"));
 		onSale.add(new AssistantDTO(5, "Davide"));
 		List<String> cities = new ArrayList<>();
 		cities.add("Milano");
 		cities.add("Ancona");
 		onSale.add(new BusinessPermissionTileDTO(cities, new CoinBonusDTO(new EmptyBonusDTO(), 2), 2, "Luca"));
-		model.setMarket(new MarketDTO(onSale));
+		model.setMarket(new MarketDTO(onSale));*/
 		draw();
 	}
 	
@@ -113,9 +117,9 @@ public class MarketPane extends AnchorPane implements Observer{
 		this.getChildren().add(subTitle2);
 		
 		Button foldBuyButton = new Button("Fold Sell");
-		foldBuyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new FoldSellCommand()));
+		foldBuyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> foldActionDialog("Are you sure you want to finish your sell phase?", true));
 		Button foldSellButton = new Button("Fold Buy");
-		foldSellButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new FoldBuyCommand()));
+		foldSellButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> foldActionDialog("Are you sure you want to finish your buy phase?", false));
 		AnchorPane.setTopAnchor(foldBuyButton, this.getHeight() * 0.07);
 		AnchorPane.setTopAnchor(foldSellButton, this.getHeight() * 0.07);
 		AnchorPane.setLeftAnchor(foldBuyButton, this.getWidth() * 0.2);
@@ -223,6 +227,27 @@ public class MarketPane extends AnchorPane implements Observer{
 		if(result.isPresent())
 			return result.get().intValue();
 		return 0;
+	}
+	
+	private void foldActionDialog(String s, boolean sell) {
+		Dialog<Command> d = new Dialog<>();
+		d.setContentText(s);
+    	ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeOk);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+        d.setResultConverter(b -> {
+        	if (b == buttonTypeOk) {
+        		if(sell)	
+        			return new FoldSellCommand();
+        		else
+        			return new FoldBuyCommand();
+        	}
+            return null;
+        });
+        Optional<Command> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
 	}
 
 	@Override
