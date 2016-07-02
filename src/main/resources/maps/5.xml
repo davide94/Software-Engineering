@@ -198,6 +198,7 @@
 					<near name="framek" />
                     <near name="indur" />
 					<near name="hellar" />
+					<king />
                 </city>
                 <city name="hellar" position="" color="gold">
                     <near name="esti" />
@@ -213,7 +214,6 @@
                     <near name="lyram" />
                     <near name="hellar" />
                     <near name="merkatim" />
-                    <king />
                 </city>
             </cities>
             <permissionTiles>
