@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.ColorBonusChange;
 import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
@@ -303,8 +304,9 @@ public class GameBoard extends Observable<Update> {
                 return;
             bonus.apply(player);
             colorBonuses.remove(color);
-            if (kingDeck.hasNext())
+            if (kingDeck.hasNext()) {
                 this.kingDeck.draw().apply(player);
+            }
         }
 
         for (Region r: regions) {
@@ -319,6 +321,7 @@ public class GameBoard extends Observable<Update> {
                
             }
         }
+        this.notifyObservers(new FullStateChange(new BasicChange(), this.getState()));
     }
 
 	/**
