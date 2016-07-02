@@ -14,17 +14,17 @@ public class EmporiumDTOTest {
 
     @Before
     public void setUp() throws Exception {
-        emporium = new EmporiumDTO("aPlayerName");
+        emporium = EmporiumDTO.createEmporium("aPlayerName");
     }
 
     @Test (expected = NullPointerException.class)
     public void testConstrunctorShouldFail1() throws Exception {
-        new EmporiumDTO(null);
+        EmporiumDTO.createEmporium(null);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstrunctorShouldFai2l() throws Exception {
-        new EmporiumDTO("");
+        EmporiumDTO.createEmporium("");
     }
 
     @Test

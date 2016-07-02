@@ -29,7 +29,7 @@ public class CityDTOTest {
         color = new CityColorDTO("colorName");
         bonuses = new VictoryBonusDTO(new EmptyBonusDTO(), 4);
         emporiums = new LinkedList<>();
-        emporiums.add(new EmporiumDTO("aPlayerName"));
+        emporiums.add(EmporiumDTO.createEmporium("aPlayerName"));
         nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
         city = new CityDTO("cityName", color, bonuses, emporiums, nearCities);
@@ -88,8 +88,8 @@ public class CityDTOTest {
     @Test
     public void testSetEmporiums() throws Exception {
         LinkedList<EmporiumDTO> e = new LinkedList<>();
-        e.add(new EmporiumDTO("player1Name"));
-        e.add(new EmporiumDTO("player2Name"));
+        e.add(EmporiumDTO.createEmporium("player1Name"));
+        e.add(EmporiumDTO.createEmporium("player2Name"));
         city.setEmporiums(e);
         assertEquals(city.getEmporiums(), e);
     }
@@ -113,7 +113,7 @@ public class CityDTOTest {
     public void testEquals() throws Exception {
         BonusDTO b = new NobilityBonusDTO(new EmptyBonusDTO(), 5);
         LinkedList<EmporiumDTO> e = new LinkedList<>();
-        e.add(new EmporiumDTO("otherPlayerName"));
+        e.add(EmporiumDTO.createEmporium("otherPlayerName"));
         LinkedList<String> c = new LinkedList<>();
         c.add("otherNearCityName");
         assertTrue(city.equals(city));

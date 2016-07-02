@@ -15,9 +15,7 @@ public class Emporium {
      * Default constructor
      */
     private Emporium(Player player) {
-		if (player == null)
-			throw new NullPointerException();
-    	this.player=player;
+    	this.player = player;
     }
     
     /**
@@ -26,54 +24,51 @@ public class Emporium {
      * @return a new player's emporium
      */
 	public static Emporium createEmporium(Player player) {
+        if (player == null)
+            throw new NullPointerException();
 		return new Emporium(player);
 	}
-	
+
+	public static Emporium createPlaceholderEmporium() {
+		return new Emporium(null);
+	}
+
 	/**
 	 * Create an emporium DTO
 	 * @return the DTO of the emporium
 	 */
 	public EmporiumDTO getState() {
-		return new EmporiumDTO(player.getName());
+		return (player != null ? EmporiumDTO.createEmporium(player.getName()) : EmporiumDTO.createPlaceholderEmporium());
 	}
 
 	/**
 	 * Get the player of the emporium 
 	 * @return the owner of the emporium
 	 */
-    public Player getPlayer(){
-    	return this.player;
+    public boolean belongsTo(Player p){
+    	return player != null && player.equals(p);
     }
 
 	@Override
 	public String toString() {
 		return "Emporium{" +
-				"player=" + player.getName() +
+				"player=" + (player != null ? player.getName() : "placeholder") +
 				'}';
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((player == null) ? 0 : player.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Emporium other = (Emporium) obj;
-		if (player == null) {
-			if (other.player != null)
-				return false;
-		} else if (!player.equals(other.player))
-			return false;
-		return true;
-	}
+        Emporium emporium = (Emporium) o;
+
+        return player != null ? player.equals(emporium.player) : emporium.player == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return player != null ? player.hashCode() : 0;
+    }
 }

@@ -105,21 +105,29 @@ public class CityPane extends AnchorPane implements Observer {
 
         int i = 0;
         for (EmporiumDTO e: city.getEmporiums()) {
-            Pane emporiumPane = new Pane();
-            AnchorPane.setLeftAnchor(emporiumPane, getPrefWidth() * emporiumsOrigins.get(i).getX());
-            AnchorPane.setTopAnchor(emporiumPane, getPrefWidth() * emporiumsOrigins.get(i).getY());
-            int playerNumber = 0;
-            for (PlayerDTO p: model.getPlayers())
-                if (p.getName().equals(e.getPlayer()))
-                    playerNumber = model.getPlayers().indexOf(p);
-            emporiumPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/emporiums/emporium" + (playerNumber + 1) + ".png") + ");" +
-                    "-fx-background-position: center;" +
-                    "-fx-background-size: cover");
-            emporiumPane.setPrefSize(0.15 * getPrefWidth(), 0.15 * getPrefWidth());
-            emporiums.add(emporiumPane);
-            getChildren().add(emporiumPane);
+            getChildren().add(buildEmporium(e, i));
             i = (i + 1) % 4;
         }
+    }
+
+    private Pane buildEmporium(EmporiumDTO e, int i) {
+        Pane emporiumPane = new Pane();
+        AnchorPane.setLeftAnchor(emporiumPane, getPrefWidth() * emporiumsOrigins.get(i).getX());
+        AnchorPane.setTopAnchor(emporiumPane, getPrefWidth() * emporiumsOrigins.get(i).getY());
+        int playerNumber = 0;
+        if (e.isPlaceholder())
+            playerNumber = 2;
+        else
+            for (PlayerDTO p : model.getPlayers())
+                if (p.getName().equals(e.getPlayer()))
+                    playerNumber = model.getPlayers().indexOf(p);
+
+        emporiumPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/emporiums/emporium" + (playerNumber + 1) + ".png") + ");" +
+                "-fx-background-position: center;" +
+                "-fx-background-size: cover");
+        emporiumPane.setPrefSize(0.15 * getPrefWidth(), 0.15 * getPrefWidth());
+        emporiums.add(emporiumPane);
+        return emporiumPane;
     }
 
     @Override

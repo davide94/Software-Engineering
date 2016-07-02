@@ -92,10 +92,14 @@ public class City {
      */
     public void build(Player p) throws ExistingEmporiumException, NoRemainingCardsException {
     	for(Emporium x:emporiums)
-    	    if(x.getPlayer() == p)
+    	    if(x.belongsTo(p))
     		    throw new ExistingEmporiumException();
         emporiums.add(Emporium.createEmporium(p));
         takeRecursivelyBonus(p);
+    }
+
+    public void buildPlaceholderEmporium() {
+        emporiums.add(Emporium.createPlaceholderEmporium());
     }
 
     /**
@@ -145,7 +149,7 @@ public class City {
      */
     public boolean hasEmporium(Player p) {
         for (Emporium e: this.emporiums)
-            if (e.getPlayer().equals(p))
+            if (e.belongsTo(p))
                 return true;
         return false;
     }

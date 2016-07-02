@@ -17,10 +17,22 @@ public class EmporiumDTO implements Serializable {
      * @throws NullPointerException if player is null
      * @throws IllegalArgumentException if player is empty
      */
-    public EmporiumDTO(String player) {
+    private EmporiumDTO(String player) {
+        this.player = player;
+    }
+
+    public static EmporiumDTO createEmporium(String player) {
         if (player.isEmpty())
             throw new IllegalArgumentException();
-        this.player = player;
+        return new EmporiumDTO(player);
+    }
+
+    public static EmporiumDTO createPlaceholderEmporium() {
+        return new EmporiumDTO(null);
+    }
+
+	public boolean isPlaceholder() {
+        return player == null;
     }
 
     /**
@@ -28,13 +40,13 @@ public class EmporiumDTO implements Serializable {
      * @return a String that identifies a Player
      */
     public String getPlayer() {
-        return player;
+        return player != null ? player : "placeholder";
     }
 
     @Override
     public String toString() {
         return "EmporiumDTO{" +
-                "player='" + player + '\'' +
+                "player='" + getPlayer() + '\'' +
                 '}';
     }
     

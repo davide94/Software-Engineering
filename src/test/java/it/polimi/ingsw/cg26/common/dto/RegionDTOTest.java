@@ -32,7 +32,7 @@ public class RegionDTOTest {
         CityColorDTO color = new CityColorDTO("colorName");
         BonusDTO cityBonuses = new AssistantBonusDTO(new EmptyBonusDTO(), 2);
         LinkedList<EmporiumDTO> emporiums = new LinkedList<>();
-        emporiums.add(new EmporiumDTO("aPlayerName"));
+        emporiums.add(EmporiumDTO.createEmporium("aPlayerName"));
         LinkedList<String> nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
         cities.add(new CityDTO("cityName", color, cityBonuses, emporiums, nearCities));
@@ -147,7 +147,7 @@ public class RegionDTOTest {
         CityColorDTO color = new CityColorDTO("colorName");
         BonusDTO cityBonuses = new AssistantBonusDTO(new EmptyBonusDTO(), 2);
         LinkedList<EmporiumDTO> emporiums = new LinkedList<>();
-        emporiums.add(new EmporiumDTO("aPlayerName"));
+        emporiums.add(EmporiumDTO.createEmporium("aPlayerName"));
         LinkedList<String> nearCities = new LinkedList<>();
         nearCities.add("aNearCityName");
         c.add(new CityDTO("othercityName", color, cityBonuses, emporiums, nearCities));

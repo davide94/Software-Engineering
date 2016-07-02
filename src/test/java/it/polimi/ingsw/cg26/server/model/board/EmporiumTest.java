@@ -1,15 +1,14 @@
 package it.polimi.ingsw.cg26.server.model.board;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
-
 import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
+import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
+import it.polimi.ingsw.cg26.server.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
-import it.polimi.ingsw.cg26.server.model.player.Player;
+import java.util.LinkedList;
+
+import static org.junit.Assert.*;
 
 public class EmporiumTest {
 	
@@ -26,7 +25,7 @@ public class EmporiumTest {
 		 Luca=new Player(1235, "Luca", NobilityCell.createNobilityCell(11, null, new EmptyBonus()), 11, new LinkedList<>(), new LinkedList<>());
 		 empDavide= Emporium.createEmporium(Davide);
 		 Gianni=new Player(1234, "Gianni", NobilityCell.createNobilityCell(10, null, new EmptyBonus()), 10, new LinkedList<>(), new LinkedList<>());
-		 state= new EmporiumDTO("Gianni");
+		 state = EmporiumDTO.createEmporium("Gianni");
 	 }
 	
 	 
@@ -61,7 +60,7 @@ public class EmporiumTest {
 
 	@Test
 	public void testGetPlayer() {
-		assertEquals(Emporium.createEmporium(Davide).getPlayer(), Davide);
+		assertTrue(Emporium.createEmporium(Davide).belongsTo(Davide));
 	}
 
 	@Test
@@ -75,7 +74,7 @@ public class EmporiumTest {
 	
 	@Test
 	public void testGetState() {
-		EmporiumDTO state= new EmporiumDTO("Davide");
+		EmporiumDTO state = EmporiumDTO.createEmporium("Davide");
 		
 		assertEquals(state, empDavide.getState());
 		

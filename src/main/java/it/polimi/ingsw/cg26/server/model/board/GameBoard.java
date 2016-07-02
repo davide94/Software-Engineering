@@ -135,7 +135,7 @@ public class GameBoard extends Observable<Update> {
             for (Region r: regions) {
                 BusinessPermissionTile tile = r.getBPTDeck().randomCard();
                 for (City c: tile.getCities()) {
-                    // TODO: add placeholderEmporium
+                    c.buildPlaceholderEmporium();
                 }
             }
         }

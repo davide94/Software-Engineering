@@ -1,36 +1,19 @@
 package it.polimi.ingsw.cg26.common.change;
 
-import static org.junit.Assert.*;
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.common.dto.*;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.Change;
+import it.polimi.ingsw.cg26.common.update.change.CityChange;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.update.change.BasicChange;
-import it.polimi.ingsw.cg26.common.update.change.Change;
-import it.polimi.ingsw.cg26.common.update.change.CityChange;
-import org.junit.Before;
-import org.junit.Test;
-
-import it.polimi.ingsw.cg26.common.dto.BalconyDTO;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDeckDTO;
-import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
-import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
-import it.polimi.ingsw.cg26.common.dto.KingDTO;
-import it.polimi.ingsw.cg26.common.dto.KingDeckDTO;
-import it.polimi.ingsw.cg26.common.dto.MarketDTO;
-import it.polimi.ingsw.cg26.common.dto.NobilityCellDTO;
-import it.polimi.ingsw.cg26.common.dto.NobilityTrackDTO;
-import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
-import it.polimi.ingsw.cg26.common.dto.PoliticDeckDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
-import it.polimi.ingsw.cg26.common.dto.RewardTileDTO;
-import it.polimi.ingsw.cg26.common.dto.SellableDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
+import static org.junit.Assert.assertEquals;
 
 public class CityChangeTest {
 
@@ -85,8 +68,8 @@ public class CityChangeTest {
 		model.setKingDeck(kDeck);
 
 		List<EmporiumDTO> emporiums = new ArrayList<>();
-		emporiums.add(new EmporiumDTO("Marco"));
-		emporiums.add(new EmporiumDTO("Davide"));
+		emporiums.add(EmporiumDTO.createEmporium("Marco"));
+		emporiums.add(EmporiumDTO.createEmporium("Davide"));
 		chosenCity = new CityDTO("Milano", new CityColorDTO("grigio"), new EmptyBonusDTO(), emporiums, new ArrayList<>());
 	}
 	
