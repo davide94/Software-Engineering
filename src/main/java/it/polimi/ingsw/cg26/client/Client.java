@@ -730,7 +730,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void electAsQuickAction() {
-        Dialog<Command> d = new ElectDialog(true, model);
+        Dialog<Command> d = new ElectDialog(false, model);
         Optional<Command> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
