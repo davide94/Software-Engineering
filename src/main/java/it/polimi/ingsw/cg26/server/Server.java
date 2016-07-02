@@ -31,10 +31,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -109,7 +106,7 @@ public class Server {
      */
     private void newGame() throws BadInputFileException, ParserErrorException {
         clients = new LinkedHashMap<>();
-        model = Creator.createGame("maps/1.xml");
+        model = Creator.createGame("maps/" + (new Random().nextInt(8) + 1) + ".xml");
         scheduler = model.getScheduler();
         this.controller = new Controller(model);
         log.info("New match created.");
