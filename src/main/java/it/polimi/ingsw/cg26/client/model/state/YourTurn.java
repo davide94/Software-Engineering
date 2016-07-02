@@ -27,7 +27,7 @@ public class YourTurn implements State {
     }
 
     @Override
-    public boolean yourTurn() {
+    public boolean isYourTurn() {
         return true;
     }
 }

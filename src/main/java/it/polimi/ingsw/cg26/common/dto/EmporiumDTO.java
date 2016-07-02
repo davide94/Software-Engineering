@@ -43,6 +43,10 @@ public class EmporiumDTO implements Serializable {
         return player != null ? player : "placeholder";
     }
 
+    public boolean belongsTo(PlayerDTO p) {
+        return player != null && player.equals(p.getName());
+    }
+
     @Override
     public String toString() {
         return "EmporiumDTO{" +

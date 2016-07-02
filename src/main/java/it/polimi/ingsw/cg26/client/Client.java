@@ -3,27 +3,16 @@ package it.polimi.ingsw.cg26.client;
 import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
-import it.polimi.ingsw.cg26.client.ui.actions.AcquireDialog;
-import it.polimi.ingsw.cg26.client.ui.actions.BuildDialog;
-import it.polimi.ingsw.cg26.client.ui.actions.BuildKingDialog;
-import it.polimi.ingsw.cg26.client.ui.actions.ChangeBPTDialog;
-import it.polimi.ingsw.cg26.client.ui.actions.ElectDialog;
+import it.polimi.ingsw.cg26.client.ui.actions.*;
 import it.polimi.ingsw.cg26.client.view.OutView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIInView;
 import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
-import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
-import it.polimi.ingsw.cg26.common.commands.AdditionalMainActionCommand;
-import it.polimi.ingsw.cg26.common.commands.BuildCommand;
-import it.polimi.ingsw.cg26.common.commands.BuildKingCommand;
-import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
-import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
-import it.polimi.ingsw.cg26.common.commands.Command;
-import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
+import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
@@ -35,7 +24,6 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
@@ -44,8 +32,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -97,6 +83,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
     private Pane root;
+
+    private boolean refresh;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -311,16 +299,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         primaryStage.show();
 
         final Timeline timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, event -> refreshScene()),
+                new KeyFrame(Duration.ZERO, event -> Client.this.refreshScene()),
                 new KeyFrame(Duration.millis(500))
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-    }
-
-    private void refreshScene() {
-        for (Observer o: observers)
-            o.update(null, null);
     }
 
     /**
@@ -670,14 +653,49 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private void foldQuickAction() {
         System.out.println("foldQuickAction");
     }
-    
-    public static void main(String[] args) {
-    	launch(args);
+
+    private void buildBPTBonusRequestDialog() {
+
+    }
+
+    private void buildCityBonusRequestDialog() {
+        List<CityDTO> cities = new LinkedList<>();
+        for (RegionDTO r: model.getRegions())
+            for (CityDTO c: r.getCities())
+                for (EmporiumDTO e: c.getEmporiums())
+                    if (e.belongsTo(model.getLocalPlayer()))
+                        cities.add(c);
+        Dialog<ChooseCityCommand> d = new SelectCityBonusDialog(cities);
+        Optional<ChooseCityCommand> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
+    }
+
+    private void buildPlayerRequestDialog() {
+        // TODO
+    }
+
+    private synchronized void refreshScene() {
+        if (refresh) {
+            if (model.getState().isPendingBPTBonusRequest())
+                buildCityBonusRequestDialog();
+            if (model.getState().isPendingCityBonusRequest())
+                buildCityBonusRequestDialog();
+            if (model.getState().isPendingPlayerBonusRequest())
+                buildCityBonusRequestDialog();
+            for (Observer o : observers)
+                o.update(null, null);
+        }
+        refresh = false;
     }
 
     @Override
     public void update(Update o) {
+        refresh = true;
+    }
 
+    public static void main(String[] args) {
+        launch(args);
     }
 
     /**

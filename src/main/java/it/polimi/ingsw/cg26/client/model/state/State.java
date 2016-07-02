@@ -9,16 +9,27 @@ public interface State {
 
     Map<String, String> commands();
 
-    default boolean yourTurn() {
+    default boolean isYourTurn() {
         return false;
     }
 
-    default boolean yourTurntoBuy() {
+    default boolean isYourTurntoBuy() {
         return false;
     }
 
-    default boolean yourTurnToSell() {
+    default boolean isYourTurnToSell() {
         return false;
     }
 
+    default boolean isPendingBPTBonusRequest() {
+        return false;
+    }
+
+    default boolean isPendingCityBonusRequest() {
+        return false;
+    }
+
+    default boolean isPendingPlayerBonusRequest() {
+        return false;
+    }
 }

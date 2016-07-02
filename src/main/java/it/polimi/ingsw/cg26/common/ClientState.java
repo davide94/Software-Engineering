@@ -26,4 +26,10 @@ public interface ClientState {
     void actionSuccessful();
 
     void actionFailed();
+
+    void pendingBPTRequest(int multiplicity);
+
+    void pendingCityBonusRequest(int multiplicity);
+
+    void pendingPlayerRequest(int multiplicity);
 }

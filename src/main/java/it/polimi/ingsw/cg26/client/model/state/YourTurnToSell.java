@@ -21,7 +21,7 @@ public class YourTurnToSell implements State {
     }
 
     @Override
-    public boolean yourTurnToSell() {
+    public boolean isYourTurnToSell() {
         return true;
     }
 }

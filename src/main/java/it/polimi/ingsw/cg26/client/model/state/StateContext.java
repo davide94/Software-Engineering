@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg26.client.model.state;
 
 import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingBPTRequest;
+import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingCityBonusRequest;
+import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingPlayerRequest;
 import it.polimi.ingsw.cg26.common.ClientState;
 
 import java.util.Map;
@@ -30,15 +33,15 @@ public class StateContext implements ClientState {
     }
 
     public boolean yourTurn() {
-        return state.yourTurn();
+        return state.isYourTurn();
     }
 
     public boolean yourTurntoBuy() {
-        return state.yourTurntoBuy();
+        return state.isYourTurntoBuy();
     }
 
     public boolean yourTurnToSell() {
-        return state.yourTurnToSell();
+        return state.isYourTurnToSell();
     }
     
     /**
@@ -152,4 +155,30 @@ public class StateContext implements ClientState {
         System.out.println("actionFailed");
     }
 
+    @Override
+    public void pendingBPTRequest(int multiplicity) {
+        state = new PendingBPTRequest(model, multiplicity);
+    }
+
+    @Override
+    public void pendingCityBonusRequest(int multiplicity) {
+        state = new PendingCityBonusRequest(model, multiplicity);
+    }
+
+    @Override
+    public void pendingPlayerRequest(int multiplicity) {
+        state = new PendingPlayerRequest(model, multiplicity);
+    }
+
+    public boolean isPendingBPTBonusRequest() {
+        return state.isPendingBPTBonusRequest();
+    }
+
+    public boolean isPendingCityBonusRequest() {
+        return state.isPendingCityBonusRequest();
+    }
+
+    public boolean isPendingPlayerBonusRequest() {
+        return state.isPendingPlayerBonusRequest();
+    }
 }
