@@ -23,7 +23,7 @@ public class CityChoicePane extends HBox {
 		mapCities = new HashMap<>();
 		setAlignment(Pos.CENTER);
         setSpacing(30.0);
-        ToggleGroup tilesToggleGroup = new ToggleGroup();
+        ToggleGroup citiesToggleGroup = new ToggleGroup();
         for(CityDTO c : cities) {
         	AnchorPane ap = new AnchorPane();
         	ap.getChildren().add(new CityPane(new Point2D(0, 0), 130, c, model));
@@ -32,7 +32,7 @@ public class CityChoicePane extends HBox {
             choicePane.setAlignment(Pos.CENTER);
             RadioButton radioButton = new RadioButton();
             mapCities.put(radioButton, c);
-            radioButton.setToggleGroup(tilesToggleGroup);
+            radioButton.setToggleGroup(citiesToggleGroup);
             choicePane.getChildren().add(radioButton);
             this.getChildren().add(choicePane);
         }

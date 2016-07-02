@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg26.client.controller.Controller;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.*;
 import it.polimi.ingsw.cg26.client.ui.actions.AcquireDialog;
+import it.polimi.ingsw.cg26.client.ui.actions.BuildDialog;
 import it.polimi.ingsw.cg26.client.ui.actions.BuildKingDialog;
 import it.polimi.ingsw.cg26.client.ui.actions.ChangeBPTDialog;
 import it.polimi.ingsw.cg26.client.ui.actions.ElectDialog;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
 import it.polimi.ingsw.cg26.common.commands.AdditionalMainActionCommand;
+import it.polimi.ingsw.cg26.common.commands.BuildCommand;
 import it.polimi.ingsw.cg26.common.commands.BuildKingCommand;
 import it.polimi.ingsw.cg26.common.commands.ChangeBPTCommand;
 import it.polimi.ingsw.cg26.common.commands.EngageAssistantCommand;
@@ -686,6 +688,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void build() {
+    	Dialog<BuildCommand> d = new BuildDialog(model);
+    	Optional<BuildCommand> result = d.showAndWait();
+    	if(result.isPresent())
+    		outView.writeObject(result.get());
         System.out.println("build");
     }
 
