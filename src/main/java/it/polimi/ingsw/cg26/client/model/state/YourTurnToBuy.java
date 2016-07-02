@@ -19,4 +19,9 @@ public class YourTurnToBuy implements State {
         map.put("Fold", "foldBuy");
         return map;
     }
+
+    @Override
+    public boolean yourTurntoBuy() {
+        return true;
+    }
 }

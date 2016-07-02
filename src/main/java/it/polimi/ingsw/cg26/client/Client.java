@@ -618,7 +618,13 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         showHidePane.setEffect(shadow);
         showHidePane.setPrefSize(75.0, 75.0);
         showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/action.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
-        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+            if (model.getState().yourTurn())
+                pane.enable();
+            else
+                pane.disable();
+            pane.setVisible(true);
+        });
 
         pane.getAcquire().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> acquire());
         pane.getBuildKing().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> buildKing());

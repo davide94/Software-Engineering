@@ -355,7 +355,7 @@
                         <city name="lyram" />
                         <city name="merkatim" />
                     </cities>
-            <permissionTiles>
+                </permissionTile>
                 <permissionTile>
                     <bonus earn="1" assistants="1" />
                     <cities>

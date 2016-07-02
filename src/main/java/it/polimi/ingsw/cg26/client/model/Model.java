@@ -47,7 +47,7 @@ public class Model extends Observable<Update> implements ClientModel {
     private LinkedHashMap<Instant, String> recentMessages;
 
     public Model() {
-        state = new StateContext();
+        state = new StateContext(this);
         players = new LinkedList<>();
         councillorsPool = new LinkedList<>();
         regions = new LinkedList<>();
@@ -168,12 +168,13 @@ public class Model extends Observable<Update> implements ClientModel {
 		this.colorBonuses = new HashMap<>(colorBonuses);
 	}
 
+    public void addMessage(String message) {
+        messages.add(message);
+    }
+
     @Override
     public void addMessage(String sender, String body) {
-        String messageString = (sender.equals(localPlayer.getName()) ? "<You>" : ("<" + sender + ">")) + ": " + body;
-        messages.add(messageString);
-        if (!sender.equals(localPlayer.getName()))
-            recentMessages.put(Instant.now(), messageString);
+        addMessage((sender.equals(localPlayer.getName()) ? "<You>" : ("<" + sender + ">")) + ": " + body);
     }
 
     public List<String> getMessages() {

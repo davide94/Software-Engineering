@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.client.model.state;
 
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.common.ClientState;
 
 import java.util.Map;
@@ -14,23 +15,38 @@ public class StateContext implements ClientState {
 	 */
     private State state;
 
+    private Model model;
+
     /**
      * Public constructor
      */
-    public StateContext() {
+    public StateContext(Model model) {
         this.state = new GameNotStarted();
+        this.model = model;
     }
 
     public Map<String, String> commands() {
         return state.commands();
     }
 
+    public boolean yourTurn() {
+        return state.yourTurn();
+    }
+
+    public boolean yourTurntoBuy() {
+        return state.yourTurntoBuy();
+    }
+
+    public boolean yourTurnToSell() {
+        return state.yourTurnToSell();
+    }
     
     /**
      * Print a message that a regular match is started
      * and change the state
      */
     public void regularGameStarted() {
+        model.addMessage("The match begun!");
         System.out.println("regularGameStarted");
         state = new NotYourTurn();
     }
@@ -42,6 +58,7 @@ public class StateContext implements ClientState {
      * and change the state
      */
     public void matchEnded() {
+        model.addMessage("The match ended!");
         System.out.println("matchEnded");
         state = new GameEnded();
     }
@@ -52,6 +69,7 @@ public class StateContext implements ClientState {
      * and change the state
      */
     public void turnStarted() {
+        model.addMessage("Your turn started!");
         System.out.println("turnStarted");
         state = new YourTurn();
     }
@@ -62,6 +80,7 @@ public class StateContext implements ClientState {
      * and change the state
      */
     public void turnEnded() {
+        model.addMessage("Your turn ended!");
         System.out.println("turnEnded");
         state = new NotYourTurn();
     }
@@ -81,6 +100,7 @@ public class StateContext implements ClientState {
      * and change the state
      */
     public void sellTurnStarted() {
+        model.addMessage("Now is your turn to sell!");
         System.out.println("sellTurnStarted");
         state = new YourTurnToSell();
     }
@@ -119,6 +139,7 @@ public class StateContext implements ClientState {
      * Print a message if the action has been done successfully
     */
     public void actionSuccessful() {
+        model.addMessage("Action successfully performed!");
         System.out.println("actionSuccessful");
     }
 
@@ -127,6 +148,7 @@ public class StateContext implements ClientState {
      * Print a message if the action is failed
      */
     public void actionFailed() {
+        model.addMessage("Action failed because...");
         System.out.println("actionFailed");
     }
 
