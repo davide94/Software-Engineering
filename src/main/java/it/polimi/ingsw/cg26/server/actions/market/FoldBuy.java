@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.IllegalMarketStateException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 
 public class FoldBuy extends Action {
@@ -19,9 +20,9 @@ public class FoldBuy extends Action {
 	 * Apply the choice to fold purchase
 	 */
 	@Override
-	public void apply(GameBoard gameBoard) {
+	public void apply(GameBoard gameBoard) throws IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canBuy(getToken()))
-			throw new IllegalStateException("FoldBuyAction");
+			throw new IllegalMarketStateException();
 		gameBoard.getScheduler().foldedBuy();
 	}
 

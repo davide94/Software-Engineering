@@ -580,7 +580,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     
     private void buildMarket() {
     	ScrollPane market = new ScrollPane();
-    	MarketPane m = new MarketPane(0.91 * root.getWidth(), 0.68 * root.getHeight(), model);
+    	MarketPane m = new MarketPane(0.91 * root.getWidth(), 0.68 * root.getHeight(), model, outView);
     	AnchorPane.setBottomAnchor(market, 50.0);
         AnchorPane.setLeftAnchor(market, 50.0);
         market.setVisible(false);

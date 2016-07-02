@@ -1,12 +1,27 @@
 package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.client.ui.actions.PriceDialog;
+import it.polimi.ingsw.cg26.client.view.OutView;
+import it.polimi.ingsw.cg26.common.commands.market.BuyCommand;
+import it.polimi.ingsw.cg26.common.commands.market.FoldBuyCommand;
+import it.polimi.ingsw.cg26.common.commands.market.FoldSellCommand;
+import it.polimi.ingsw.cg26.common.commands.market.SellAssistantCommand;
+import it.polimi.ingsw.cg26.common.commands.market.SellBPTCommand;
+import it.polimi.ingsw.cg26.common.commands.market.SellPoliticCardCommand;
+import it.polimi.ingsw.cg26.common.dto.AssistantDTO;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.MarketDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticColorDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.CoinBonusDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.EmptyBonusDTO;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,19 +34,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 public class MarketPane extends AnchorPane implements Observer{
 	
 	private Map<Pane, Label> onSalePaneLabels;
 	
-	private List<Pane> playerSellables;
+	private List<Pane> playerSellablesPane;
+	
+	private List<Button> playerSellablesButtons;
 	
 	private Model model;
 	
-	public MarketPane(double width, double height, Model model) {
+	private OutView outView;
+	
+	public MarketPane(double width, double height, Model model, OutView outView) {
 		this.model = model;
 		this.onSalePaneLabels = new HashMap<>();
-		this.playerSellables = new ArrayList<>();
+		this.playerSellablesPane = new ArrayList<>();
+		this.playerSellablesButtons = new ArrayList<>();
+		this.outView = outView;
 		this.setPrefSize(width, height);
 		this.setStyle("-fx-background-image: url(" + getClass().getResource("/img/marketBackground.png") + ");" +
                 "-fx-background-position: center;" +
@@ -43,15 +65,14 @@ public class MarketPane extends AnchorPane implements Observer{
 		shadow.setColor(Color.BLACK);
 		setEffect(shadow);
 
-		/*List<SellableDTO> onSale = new ArrayList<>();
+		List<SellableDTO> onSale = new ArrayList<>();
 		onSale.add(new PoliticCardDTO(new PoliticColorDTO("orange"), 2, "Marco"));
 		onSale.add(new AssistantDTO(5, "Davide"));
 		List<String> cities = new ArrayList<>();
 		cities.add("Milano");
 		cities.add("Ancona");
 		onSale.add(new BusinessPermissionTileDTO(cities, new CoinBonusDTO(new EmptyBonusDTO(), 2), 2, "Luca"));
-		model.setMarket(new MarketDTO(onSale));*/
-		
+		model.setMarket(new MarketDTO(onSale));
 		draw();
 	}
 	
@@ -90,6 +111,17 @@ public class MarketPane extends AnchorPane implements Observer{
 		this.getChildren().add(title);
 		this.getChildren().add(subTitle1);
 		this.getChildren().add(subTitle2);
+		
+		Button foldBuyButton = new Button("Fold Sell");
+		foldBuyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new FoldSellCommand()));
+		Button foldSellButton = new Button("Fold Buy");
+		foldSellButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new FoldBuyCommand()));
+		AnchorPane.setTopAnchor(foldBuyButton, this.getHeight() * 0.07);
+		AnchorPane.setTopAnchor(foldSellButton, this.getHeight() * 0.07);
+		AnchorPane.setLeftAnchor(foldBuyButton, this.getWidth() * 0.2);
+		AnchorPane.setLeftAnchor(foldSellButton, this.getWidth() * 0.3);
+		this.getChildren().addAll(foldBuyButton, foldSellButton);
+		
 	}
 	
 	private void buildSellables() {
@@ -122,12 +154,19 @@ public class MarketPane extends AnchorPane implements Observer{
 	}
 	
 	private void buildPlayerSellables() {
-		playerSellables.clear();
+		playerSellablesPane.clear();
+		playerSellablesButtons.clear();
 		for(PoliticCardDTO card : model.getLocalPlayer().getCards()) {
-			playerSellables.add(new PoliticCardPane(90.0, 160.0, card));
+			Button button = new Button("Sell");
+			button.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new SellPoliticCardCommand(showPriceDialog(), card)));
+			playerSellablesPane.add(new PoliticCardPane(90.0, 160.0, card));
+			playerSellablesButtons.add(button);
 		}
 		for(BusinessPermissionTileDTO tile : model.getLocalPlayer().getTiles()) {
-			playerSellables.add(new BPTPane(100, 100, tile));
+			Button button = new Button("Sell");
+			button.addEventFilter(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new SellBPTCommand(showPriceDialog(), tile)));
+			playerSellablesPane.add(new BPTPane(100, 100, tile));
+			playerSellablesButtons.add(button);
 		}
 		AnchorPane assistantPane = new AnchorPane();
 		assistantPane.setPrefSize(60, 100);
@@ -141,18 +180,20 @@ public class MarketPane extends AnchorPane implements Observer{
         AnchorPane.setLeftAnchor(multiplicityLabel, 27.0);
         AnchorPane.setTopAnchor(multiplicityLabel, 43.0);
         assistantPane.getChildren().add(multiplicityLabel);
-        playerSellables.add(assistantPane);
+		Button button = new Button("Sell");
+		button.addEventFilter(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new SellAssistantCommand(showPriceDialog())));
+		playerSellablesPane.add(assistantPane);
+		playerSellablesButtons.add(button);
         
         double offset = this.getWidth() * 0.05;
-        for(Pane p : playerSellables) {
-        	AnchorPane.setTopAnchor(p, this.getHeight() * 0.65);
-        	AnchorPane.setLeftAnchor(p, offset);
-        	Button sellButton = new Button("Sell");
-    		AnchorPane.setTopAnchor(sellButton, this.getHeight() * 0.65 + p.getPrefHeight() + 8.0);
-    		AnchorPane.setLeftAnchor(sellButton, offset);
-    		this.getChildren().add(sellButton);
-        	this.getChildren().add(p);
-        	offset = offset + p.getPrefWidth() + 25.0;
+        for(int i = 0; i < playerSellablesPane.size(); i++) {
+        	AnchorPane.setTopAnchor(playerSellablesPane.get(i), this.getHeight() * 0.65);
+        	AnchorPane.setLeftAnchor(playerSellablesPane.get(i), offset);
+    		AnchorPane.setTopAnchor(playerSellablesButtons.get(i), this.getHeight() * 0.65 + playerSellablesPane.get(i).getPrefHeight() + 8.0);
+    		AnchorPane.setLeftAnchor(playerSellablesButtons.get(i), offset);
+        	this.getChildren().add(playerSellablesButtons.get(i));
+    		this.getChildren().add(playerSellablesPane.get(i));
+        	offset = offset + playerSellablesPane.get(i).getPrefWidth() + 25.0;
         }
 	}
 	
@@ -170,9 +211,18 @@ public class MarketPane extends AnchorPane implements Observer{
 		Button buyButton = new Button("Buy");
 		AnchorPane.setTopAnchor(buyButton, offsetY + text.getLayoutBounds().getHeight() + 8.0);
 		AnchorPane.setLeftAnchor(buyButton, offsetX);
+		buyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new BuyCommand(sellable)));
 		this.getChildren().add(buyButton);
 		this.getChildren().add(label);
 		return label;
+	}
+	
+	private int showPriceDialog() {
+		Dialog<Integer> d = new PriceDialog();
+		Optional<Integer> result = d.showAndWait();
+		if(result.isPresent())
+			return result.get().intValue();
+		return 0;
 	}
 
 	@Override

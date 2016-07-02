@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
+import it.polimi.ingsw.cg26.server.exceptions.IllegalMarketStateException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -33,9 +34,9 @@ public class SellBPT extends Sell {
 	 * Apply the sale
 	 */
 	@Override
-	public void apply(GameBoard gameBoard) throws InvalidTileException {
+	public void apply(GameBoard gameBoard) throws InvalidTileException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
-			throw new IllegalStateException();
+			throw new IllegalMarketStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileDTO);
 		bpTile.setOwner(currentPlayer);

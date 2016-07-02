@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
+import it.polimi.ingsw.cg26.server.exceptions.IllegalMarketStateException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
@@ -33,9 +34,9 @@ public class SellPoliticCard extends Sell {
 	 * Apply the sale
 	 */
 	@Override
-	public void apply(GameBoard gameBoard) throws InvalidCardsException {
+	public void apply(GameBoard gameBoard) throws InvalidCardsException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
-			throw new IllegalStateException();
+			throw new IllegalMarketStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		PoliticCard cardToSell = currentPlayer.takeCard(this.politicCard);
 		cardToSell.setOwner(currentPlayer);

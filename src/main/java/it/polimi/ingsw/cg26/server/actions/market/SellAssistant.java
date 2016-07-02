@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg26.server.actions.market;
 
 import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
+import it.polimi.ingsw.cg26.server.exceptions.IllegalMarketStateException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingAssistantsException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Assistant;
@@ -22,9 +23,9 @@ public class SellAssistant extends Sell {
 	 * Apply the sale
 	 */
 	@Override
-	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException {
+	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
-			throw new IllegalStateException();
+			throw new IllegalMarketStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);
 		Assistant assistantToAdd = new Assistant();

@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.change.*;
 import it.polimi.ingsw.cg26.common.update.event.MessageUpdate;
 import it.polimi.ingsw.cg26.server.actions.Action;
+import it.polimi.ingsw.cg26.server.exceptions.IllegalMarketStateException;
 import it.polimi.ingsw.cg26.server.exceptions.NotEnoughMoneyException;
 import it.polimi.ingsw.cg26.server.exceptions.SellableNotFoundException;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -38,9 +39,9 @@ public class Buy extends Action {
 	 * @throws NotEnoughMoneyException if the player hasn't got enough money to buy the sellable
 	 */
 	@Override
-	public void apply(GameBoard gameBoard) throws SellableNotFoundException, NotEnoughMoneyException {
+	public void apply(GameBoard gameBoard) throws SellableNotFoundException, NotEnoughMoneyException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canBuy(getToken()))
-			throw new IllegalStateException();
+			throw new IllegalMarketStateException();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Sellable realSellable = gameBoard.getMarket().getRealSellable(sellable);
 		if(currentPlayer.getCoinsNumber()<realSellable.getPrice())
