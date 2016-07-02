@@ -25,4 +25,9 @@ public class YourTurn implements State {
         map.put("Fold Quick Action", "foldQuickAction");
         return map;
     }
+
+    @Override
+    public boolean yourTurn() {
+        return true;
+    }
 }

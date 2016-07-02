@@ -1,10 +1,7 @@
 package it.polimi.ingsw.cg26.client.ui;
 
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.dto.CityColorDTO;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import it.polimi.ingsw.cg26.common.dto.*;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -111,7 +108,11 @@ public class CityPane extends AnchorPane implements Observer {
             Pane emporiumPane = new Pane();
             AnchorPane.setLeftAnchor(emporiumPane, getPrefWidth() * emporiumsOrigins.get(i).getX());
             AnchorPane.setTopAnchor(emporiumPane, getPrefWidth() * emporiumsOrigins.get(i).getY());
-            emporiumPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/emporiums/emporium" + (i+1) + ".png") + ");" +
+            int playerNumber = 0;
+            for (PlayerDTO p: model.getPlayers())
+                if (p.getName().equals(e.getPlayer()))
+                    playerNumber = model.getPlayers().indexOf(p);
+            emporiumPane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/emporiums/emporium" + (playerNumber + 1) + ".png") + ");" +
                     "-fx-background-position: center;" +
                     "-fx-background-size: cover");
             emporiumPane.setPrefSize(0.15 * getPrefWidth(), 0.15 * getPrefWidth());

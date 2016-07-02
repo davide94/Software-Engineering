@@ -33,11 +33,11 @@ public class Controller implements Observer<Action>, Runnable {
         try {
             action.apply(gameBoard);
             gameBoard.notifyObservers(new PrivateUpdate(new ActionSuccessFul(), action.getToken()));
-            log.info("Action successfully performed");
+            log.info("Action successfully performed", action);
             gameBoard.getScheduler().regularActionPerformed();
         } catch (Exception e) {
-            log.error("Error occurred while executing action", e);
-            gameBoard.notifyObservers(new PrivateUpdate(new ActionFailed(e), action.getToken()));
+            log.error("Error occurred while executing action", action, e);
+            gameBoard.notifyObservers(new PrivateUpdate(new ActionFailed(), action.getToken()));
         }
     }
 

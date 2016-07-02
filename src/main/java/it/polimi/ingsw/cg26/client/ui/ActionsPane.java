@@ -1,11 +1,14 @@
 package it.polimi.ingsw.cg26.client.ui;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ public class ActionsPane extends AnchorPane {
 	private Button changeBPT;
 	private Button electAsQuickAction;
 	private Button additionalMainAction;
+
+    private HBox obscuration;
 	
 	public ActionsPane() {
 		DropShadow shadow = new DropShadow();
@@ -40,6 +45,14 @@ public class ActionsPane extends AnchorPane {
         this.addEventHandler(MouseEvent.MOUSE_EXITED, e -> this.setVisible(false));
         addButtons();
         addButtonsEffects();
+
+        Label l = new Label("You cannot perform an action now.");
+        l.setTextFill(Color.WHITE);
+        obscuration = new HBox(l);
+        obscuration.setAlignment(Pos.CENTER);
+        obscuration.setPrefSize(getPrefWidth(), getPrefHeight());
+        obscuration.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+        getChildren().add(obscuration);
 	}
 	
 	private void addButtons() {
@@ -220,4 +233,13 @@ public class ActionsPane extends AnchorPane {
 	public Button getAdditionalMainAction() {
 		return this.additionalMainAction;
 	}
+
+    public void enable() {
+        obscuration.setVisible(false);
+    }
+
+    public void disable() {
+        obscuration.setVisible(true);
+    }
+
 }
