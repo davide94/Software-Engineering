@@ -30,7 +30,7 @@ public class ElectDialog extends Dialog<Command> {
 
         setResultConverter(b -> {
             if (b == buttonTypeOk) {
-                if (bPane.selectedIndex() <= 3)
+                if (bPane.selectedIndex() < 3)
                     if (asMain)
                         return new ElectAsMainActionCommand(model.getRegions().get(bPane.selectedIndex()), cPane.getSelectedCouncillor());
                     else

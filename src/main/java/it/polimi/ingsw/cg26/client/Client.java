@@ -593,7 +593,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> market.setVisible(true));
         market.setContent(m);
         market.addEventHandler(MouseEvent.MOUSE_EXITED, e -> market.setVisible(false));
-        market.setVbarPolicy(ScrollBarPolicy.NEVER);
         market.setStyle("-fx-background-color: transparent");
         root.getChildren().add(showHidePane);
         root.getChildren().add(market);
