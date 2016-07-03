@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
@@ -28,6 +30,7 @@ public class MatchEnded extends State {
         super(gameBoard);
         this.players = players;
         calculateWinner();
+        gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
         gameBoard.notifyObservers(new it.polimi.ingsw.cg26.common.update.event.MatchEnded());
     }
 
@@ -79,8 +82,6 @@ public class MatchEnded extends State {
         if (a != 0)
             Collections.sort(players.subList(0, a), assistantsPlusCardsComparator);
 
-        //if (assistantsPlusCardsComparator.compare(players.get(0), players.get(1)) == 0)
-        // no one wins :(
-        // players.gat(0) is the winner
+
     }
 }

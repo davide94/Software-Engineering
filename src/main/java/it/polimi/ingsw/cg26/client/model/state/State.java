@@ -26,6 +26,10 @@ public interface State {
         return false;
     }
 
+    default boolean isMatchEnded() {
+        return false;
+    }
+
     default Optional<List<BusinessPermissionTileDTO>> getPendingBPTBonusRequest() {
         return Optional.empty();
     }

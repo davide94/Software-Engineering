@@ -28,7 +28,7 @@ public class StateContext implements ClientState {
      * Public constructor
      */
     public StateContext(Model model) {
-        this.state = new GameNotStarted();
+        this.state = new MatchNotStarted();
         this.model = model;
     }
 
@@ -46,6 +46,10 @@ public class StateContext implements ClientState {
 
     public boolean isYourTurnToSell() {
         return state.isYourTurnToSell();
+    }
+
+    public boolean isMatchEnded() {
+        return state.isMatchEnded();
     }
     
     /**
@@ -65,7 +69,7 @@ public class StateContext implements ClientState {
     public void matchEnded() {
         model.addMessage("The match ended!");
         System.out.println("matchEnded");
-        state = new GameEnded();
+        state = new MatchEnded();
     }
 
     /**

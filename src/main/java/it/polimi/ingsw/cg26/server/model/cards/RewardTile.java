@@ -36,7 +36,7 @@ public class RewardTile {
      * @return a list of bonuses contained by the tile
      */
     public Bonus getBonuses() {
-        return this.bonuses; //TODO prima ritornava una copia verificare
+        return this.bonuses;
     }
 
     /**

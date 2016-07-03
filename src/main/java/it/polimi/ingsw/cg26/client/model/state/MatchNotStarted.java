@@ -4,9 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *In this state the game is over
+ *In this state the game is not started yet
  */
-public class GameEnded implements State {
+public class MatchNotStarted implements State {
 
     @Override
     public Map<String, String> commands() {

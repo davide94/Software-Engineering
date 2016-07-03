@@ -25,8 +25,8 @@ public class PoliticCardsChoicePane extends HBox {
         this.cards = new LinkedList<>(cards);
         setAlignment(Pos.CENTER);
         setSpacing(10.0);
-        double cardWidth = 90.0; // TODO: make this parametric
-        double cardHeight = 160.0;//tileHeight;
+        double cardWidth = 90.0;
+        double cardHeight = 160.0;
         for (PoliticCardDTO c: cards) {
             VBox choicePane = new VBox(new PoliticCardPane(cardWidth, cardHeight, c));
             choicePane.setSpacing(5.0);

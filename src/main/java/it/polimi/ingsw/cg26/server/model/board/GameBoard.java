@@ -6,12 +6,10 @@ import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
 import it.polimi.ingsw.cg26.common.update.Update;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
-import it.polimi.ingsw.cg26.common.update.change.ColorBonusChange;
 import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
 import it.polimi.ingsw.cg26.common.update.change.LocalPlayerChange;
 import it.polimi.ingsw.cg26.server.exceptions.CityNotFoundException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingCardsException;
-import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import it.polimi.ingsw.cg26.server.model.bonus.Bonus;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
@@ -19,14 +17,11 @@ import it.polimi.ingsw.cg26.server.model.cards.KingDeck;
 import it.polimi.ingsw.cg26.server.model.cards.PoliticDeck;
 import it.polimi.ingsw.cg26.server.model.market.Market;
 import it.polimi.ingsw.cg26.server.model.player.Player;
+import it.polimi.ingsw.cg26.server.model.state.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -143,7 +138,7 @@ public class GameBoard extends Observable<Update> {
         try {
             scheduler.start();
         } catch (NoRemainingCardsException e) {
-            log.error("Not enough cards", e); // TODO: handle
+            log.error("Not enough cards", e);
         }
 
         notifyObservers(new FullStateChange(new BasicChange(), getState()));

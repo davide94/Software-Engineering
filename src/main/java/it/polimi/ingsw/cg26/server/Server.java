@@ -212,7 +212,6 @@ public class Server {
             player = model.registerPlayer(name);
         } catch (NoRemainingCardsException e) {
             log.error("Cannot create player because there are no politic cards remaining.", e);
-            // TODO: notify client that player cannot be created
             return;
         }
         new FullStateChange(new BasicChange(), model.getState()).sendSocket(socketOut, 0);
@@ -246,7 +245,6 @@ public class Server {
             player = model.registerPlayer(name);
         } catch (NoRemainingCardsException e) {
             log.error("Cannot create player because there are no politic cards remaining.", e);
-            // TODO: notify client that player cannot be created
             throw new RemoteException();
         }
 

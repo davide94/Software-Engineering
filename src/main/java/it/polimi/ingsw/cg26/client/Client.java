@@ -716,6 +716,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
                 buildPlayerRequestDialog(pendingPlayer.get());
             }
         }
+        if (model.getState().isMatchEnded())
+            new FinalDialog(model).show();
     }
 
     

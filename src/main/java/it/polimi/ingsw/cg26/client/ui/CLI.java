@@ -45,7 +45,7 @@ public class CLI implements Observer<Update>, Runnable {
         e.getCities().forEach(c -> writer.print(c.toUpperCase().charAt(0) + "/"));
         writer.print("\t\t");
         bonusPrinter.accept(e.getBonuses());
-    }; // TODO: fix
+    };
 
     private Consumer<PlayerDTO> playerPrinter = p -> {
         writer.print("\t" + p.getName() +

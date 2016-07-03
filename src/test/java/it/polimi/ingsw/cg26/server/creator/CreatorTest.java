@@ -25,7 +25,6 @@ public class CreatorTest {
 
     @Test
     public void testCreateGame() throws Exception {
-        // TODO
-        //assertEquals(gameBoard, BoardCreator.createBoard(root));
+
     }
 }
