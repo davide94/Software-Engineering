@@ -534,9 +534,7 @@ public class Player {
 		return pendingRequests.add(pendingRequest);
 	}
 	
-	public void removePendingRequest(Request request){
-        if (request == null)
-            throw new NullPointerException();
-		pendingRequests.remove(request);
+	public void removePendingRequest(){
+		pendingRequests.remove(0);
 	}
 }

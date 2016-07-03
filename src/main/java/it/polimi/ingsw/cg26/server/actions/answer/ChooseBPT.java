@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.update.change.BPTDeckChange;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
 import it.polimi.ingsw.cg26.common.update.change.Change;
-import it.polimi.ingsw.cg26.common.update.request.BPTRequest;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -40,7 +39,7 @@ public class ChooseBPT extends Action {
 			addedBPT.getReward(currentPlayer);
 		}
 		currentPlayer.performChooseAction();
-		currentPlayer.removePendingRequest(new BPTRequest());
+		currentPlayer.removePendingRequest();
 		notifyChange(gameBoard);
 	}
 
