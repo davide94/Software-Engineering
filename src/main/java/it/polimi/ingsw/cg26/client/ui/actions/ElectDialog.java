@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg26.client.ui.actions;
 
 import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.client.ui.actions.panes.BalconyChoicePane;
+import it.polimi.ingsw.cg26.client.ui.actions.panes.CouncillorsChoicePane;
 import it.polimi.ingsw.cg26.common.commands.*;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;

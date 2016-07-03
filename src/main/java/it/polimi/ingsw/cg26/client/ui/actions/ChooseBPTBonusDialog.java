@@ -2,22 +2,18 @@ package it.polimi.ingsw.cg26.client.ui.actions;
 
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.actions.panes.BPTChoicePane;
-import it.polimi.ingsw.cg26.client.ui.actions.panes.PoliticCardsChoicePane;
-import it.polimi.ingsw.cg26.common.commands.AcquireCommand;
+import it.polimi.ingsw.cg26.common.commands.ChooseBPTCommand;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
-import java.util.LinkedList;
 
 /**
  *
  */
-public class AcquireDialog extends Dialog<AcquireCommand> {
+public class ChooseBPTBonusDialog extends Dialog<ChooseBPTCommand> {
 
-    public AcquireDialog(Pane root, Model model) {
+    public ChooseBPTBonusDialog(Model model) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 
@@ -30,13 +26,12 @@ public class AcquireDialog extends Dialog<AcquireCommand> {
         getDialogPane().getButtonTypes().add(buttonTypeCancel);
 
         BPTChoicePane tPane = new BPTChoicePane(model.getRegions());
-        PoliticCardsChoicePane cPane = new PoliticCardsChoicePane(new LinkedList<>(model.getLocalPlayer().getCards()));
 
-        contentView.getChildren().addAll(tPane, cPane);
+        contentView.getChildren().add(tPane);
 
         setResultConverter(b -> {
             if (b == buttonTypeOk)
-                return new AcquireCommand(tPane.getSelectedRegion(), cPane.getCards(), tPane.getPosition());
+                return new ChooseBPTCommand(tPane.getSelectedRegion(), tPane.getPosition());
             return null;
         });
     }

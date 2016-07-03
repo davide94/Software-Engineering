@@ -1,21 +1,22 @@
 package it.polimi.ingsw.cg26.client.ui.actions;
 
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.client.ui.actions.panes.CityChoicePane;
+import it.polimi.ingsw.cg26.client.ui.actions.panes.PoliticCardsChoicePane;
+import it.polimi.ingsw.cg26.common.commands.BuildKingCommand;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
+import it.polimi.ingsw.cg26.common.dto.RegionDTO;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.RadioButton;
+import javafx.scene.layout.VBox;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.common.commands.BuildKingCommand;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
-import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
-
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.layout.VBox;
 
 public class BuildKingDialog extends Dialog<BuildKingCommand> {
 

@@ -10,8 +10,6 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.commands.*;
-import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
@@ -25,13 +23,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -58,7 +54,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private static final double RATIO = 2.0d / 1.7d;
+    private static final double RATIO = 2.0 / 1.7;
 
     private static final String DEFAULT_IP = "127.0.0.1";
 
@@ -76,11 +72,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private Controller controller;
 
-    private Map<CityDTO, CityPane> citiesPanes = new LinkedHashMap<>();
-
     private Collection<Observer> observers;
-
-    private static final List<Point2D> citiesOrigins = Arrays.asList(new Point2D(0.050, 0.060), new Point2D(0.035, 0.240), new Point2D(0.210, 0.110), new Point2D(0.200, 0.270), new Point2D(0.100, 0.380), new Point2D(0.350, 0.060), new Point2D(0.335, 0.240), new Point2D(0.400, 0.380), new Point2D(0.510, 0.110), new Point2D(0.500, 0.270), new Point2D(0.700, 0.060), new Point2D(0.680, 0.240), new Point2D(0.680, 0.400), new Point2D(0.810, 0.150), new Point2D(0.800, 0.350));
 
     private Pane root;
 
@@ -260,7 +252,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root = new AnchorPane();
         root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
                 "-fx-background-position: center;" +
-                "-fx-background-size: 100% 100%;");
+                "-fx-background-size: 100% 100%");
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
@@ -281,8 +273,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
             }
         }
 
+        MapPane map = new MapPane(maxWidth, maxHeight, model);
+        root.getChildren().add(map);
+        observers.add(map);
+
         buildVictoryTrack();
-        buildCities();
         buildBPT();
         buildBalconies();
         buildNobilityTrack();
@@ -306,99 +301,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         timeline.play();
     }
 
-    /**
-     * Builds the cities
-     */
-    private void buildCities() {
-        List<CityDTO> cities = new LinkedList<>();
-        cities.addAll(model.getRegions().get(0).getCities());
-        cities.addAll(model.getRegions().get(1).getCities());
-        cities.addAll(model.getRegions().get(2).getCities());
-
-        for (CityDTO city: cities) {
-            Point2D o = citiesOrigins.get(cities.indexOf(city));
-            Point2D origin = new Point2D(o.getX() * root.getWidth(), o.getY() * root.getHeight());
-            CityPane cityPane = new CityPane(origin, 0.15 * root.getHeight(), city, model);
-            citiesPanes.put(city, cityPane);
-            observers.add(cityPane);
-        }
-
-        //moveKing(model.getKing());
-
-        linkCities(cities);
-
-        for (CityDTO city: citiesPanes.keySet()) {
-            root.getChildren().add(citiesPanes.get(city));
-        }
-    }
-
-    /**
-     * Draws the routes between linked cities
-     * @param cities is a list of CityDTO
-     */
-    private void linkCities(List<CityDTO> cities) {
-        Collection<String> alreadyVisited = new LinkedList<>();
-        for (CityDTO city: citiesPanes.keySet()) {
-            for (String nearName: city.getNearCities()) {
-                CityDTO nearCity = null;
-                for (CityDTO c: citiesPanes.keySet()) {
-                    if (c.getName().equalsIgnoreCase(nearName)) {
-                        nearCity = c;
-                        break;
-                    }
-                }
-                if (nearCity != null && !alreadyVisited.contains(nearName)) {
-                    Point2D p1 = citiesOrigins.get(cities.indexOf(city));
-                    Point2D p2 = citiesOrigins.get(cities.indexOf(nearCity));
-                    Point2D startPoint = new Point2D((p1.getX() + 0.075) * root.getWidth(), (p1.getY() + 0.075) * root.getHeight());
-                    Point2D endPoint = new Point2D((p2.getX() + 0.075) * root.getWidth(), (p2.getY() + 0.075) * root.getHeight());
-
-                    final Shape line = buildRoute(startPoint, endPoint);
-                    root.getChildren().add(line);
-                }
-            }
-            alreadyVisited.add(city.getName());
-        }
-    }
-
-    /**
-     * Builds a route between startPoint and endPoint
-     * @param startPoint is the point where the route begins
-     * @param endPoint is the point where the route ends
-     * @return the street created
-     */
-    private Shape buildRoute(Point2D startPoint, Point2D endPoint) {
-
-        double wobble = Math.sqrt((endPoint.getX() - startPoint.getX()) * (endPoint.getX() - startPoint.getX()) + (endPoint.getY() - startPoint.getY()) * (endPoint.getY() - startPoint.getY())) / 25 + 0.5;
-
-        double r1 = Math.random();
-        double r2 = Math.random();
-
-        double xfactor = (Math.random() > 0.5 ? wobble : -wobble) * 3.0;
-        double yfactor = (Math.random() > 0.5 ? wobble : -wobble) * 3.0;
-
-        Point2D control1 = new Point2D((endPoint.getX() - startPoint.getX()) * r1 + startPoint.getX() + xfactor, (endPoint.getY() - startPoint.getY()) * r1 + startPoint.getY() + yfactor);
-        Point2D control2 = new Point2D((endPoint.getX() - startPoint.getX()) * r2 + startPoint.getX() - xfactor, (endPoint.getY() - startPoint.getY()) * r2 + startPoint.getY() - yfactor);
-
-        MoveTo startMove = new MoveTo(startPoint.getX(), startPoint.getY());
-        CubicCurveTo curve = new CubicCurveTo(control1.getX(), control1.getY(),
-                control2.getX(), control2.getY(),
-                endPoint.getX(), endPoint.getY());
-
-        InnerShadow shadow = new InnerShadow();
-        shadow.setRadius(10.0);
-        //shadow.setColor(Color.rgb(137, 122, 92));
-        shadow.setColor(Color.web("#6B5832"));
-
-        Path path = new Path(startMove, curve);
-        path.setStrokeLineCap(StrokeLineCap.ROUND);
-        path.setStroke(Color.rgb(172, 146, 83));
-        path.setEffect(shadow);
-        double strokeWidth = 15.0;
-        path.setStrokeWidth(strokeWidth + (strokeWidth * (Math.random() - 0.5) / 8.0));
-        path.setStrokeType(StrokeType.CENTERED);
-        return path;
-    }
 
     /**
      * Builds and displays the Business Permit Tiles
@@ -655,36 +557,42 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void buildBPTBonusRequestDialog() {
-
+        Dialog<ChooseBPTCommand> d = new ChooseBPTBonusDialog(model);
+        d.setOnHidden(e -> {
+            if (d.getResult() != null)
+                outView.writeObject(d.getResult());
+        });
+        d.show();
     }
 
     private void buildCityBonusRequestDialog() {
-        List<CityDTO> cities = new LinkedList<>();
-        for (RegionDTO r: model.getRegions())
-            for (CityDTO c: r.getCities())
-                for (EmporiumDTO e: c.getEmporiums())
-                    if (e.belongsTo(model.getLocalPlayer()))
-                        cities.add(c);
-        Dialog<ChooseCityCommand> d = new SelectCityBonusDialog(cities);
-        Optional<ChooseCityCommand> result = d.showAndWait();
-        if (result.isPresent())
-            outView.writeObject(result.get());
+        Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(model);
+        d.setOnHidden(e -> {
+            if (d.getResult() != null)
+                outView.writeObject(d.getResult());
+        });
+        d.show();
     }
 
     private void buildPlayerRequestDialog() {
-        // TODO
+        Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(model);
+        d.setOnHidden(e -> {
+            if (d.getResult() != null)
+                outView.writeObject(d.getResult());
+        });
+        d.show();
     }
 
     private synchronized void refreshScene() {
         if (refresh) {
             if (model.getState().isPendingBPTBonusRequest())
-                buildCityBonusRequestDialog();
+                buildBPTBonusRequestDialog();
             if (model.getState().isPendingCityBonusRequest())
                 buildCityBonusRequestDialog();
             if (model.getState().isPendingPlayerBonusRequest())
-                buildCityBonusRequestDialog();
-            for (Observer o : observers)
-                o.update(null, null);
+                buildPlayerRequestDialog();
+
+            observers.forEach(o -> o.update(null, null));
         }
         refresh = false;
     }

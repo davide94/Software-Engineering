@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg26.client.ui.actions;
+package it.polimi.ingsw.cg26.client.ui.actions.panes;
 
 import it.polimi.ingsw.cg26.client.ui.CouncillorPane;
 import it.polimi.ingsw.cg26.common.dto.CouncillorDTO;
