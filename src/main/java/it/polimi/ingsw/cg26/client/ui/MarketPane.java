@@ -80,11 +80,11 @@ public class MarketPane extends AnchorPane implements Observer{
 		drawTitle();
 		buildSellables();
 		buildPlayerSellables();
-		if(model.getState().yourTurnToSell()) {
+		if(model.getState().isYourTurnToSell()) {
 			if("".equals(timerLabel.getText()))
 				addTimer(300);
 		}
-		else if(model.getState().yourTurntoBuy()) {
+		else if(model.getState().isYourTurnToBuy()) {
 			if("".equals(timerLabel.getText()))
 				addTimer(300);
 		}
@@ -138,11 +138,11 @@ public class MarketPane extends AnchorPane implements Observer{
 		this.getChildren().add(timer);
 		
 		Button foldSellButton = new Button("Fold Sell");
-		if(!model.getState().yourTurnToSell())
+		if(!model.getState().isYourTurnToSell())
 			foldSellButton.setVisible(false);
 		foldSellButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> foldActionDialog("Are you sure you want to finish your sell phase?", true));
 		Button foldBuyButton = new Button("Fold Buy");
-		if(!model.getState().yourTurntoBuy())
+		if(!model.getState().isYourTurnToBuy())
 			foldBuyButton.setVisible(false);
 		foldBuyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> foldActionDialog("Are you sure you want to finish your buy phase?", false));
 		AnchorPane.setTopAnchor(foldSellButton, this.getHeight() * 0.05);
@@ -188,7 +188,7 @@ public class MarketPane extends AnchorPane implements Observer{
 		playerSellablesButtons.clear();
 		for(PoliticCardDTO card : model.getLocalPlayer().getCards()) {
 			Button button = new Button("Sell");
-			if(!model.getState().yourTurnToSell())
+			if(!model.getState().isYourTurnToSell())
 				button.setVisible(false);
 			button.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new SellPoliticCardCommand(showPriceDialog(), card)));
 			playerSellablesPane.add(new PoliticCardPane(90.0, 160.0, card));
@@ -196,7 +196,7 @@ public class MarketPane extends AnchorPane implements Observer{
 		}
 		for(BusinessPermissionTileDTO tile : model.getLocalPlayer().getTiles()) {
 			Button button = new Button("Sell");
-			if(!model.getState().yourTurnToSell())
+			if(!model.getState().isYourTurnToSell())
 				button.setVisible(false);
 			button.addEventFilter(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new SellBPTCommand(showPriceDialog(), tile)));
 			playerSellablesPane.add(new BPTPane(100, 100, tile));
@@ -215,7 +215,7 @@ public class MarketPane extends AnchorPane implements Observer{
         AnchorPane.setTopAnchor(multiplicityLabel, 43.0);
         assistantPane.getChildren().add(multiplicityLabel);
 		Button button = new Button("Sell");
-		if(!model.getState().yourTurnToSell())
+		if(!model.getState().isYourTurnToSell())
 			button.setVisible(false);
 		button.addEventFilter(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new SellAssistantCommand(showPriceDialog())));
 		playerSellablesPane.add(assistantPane);
@@ -247,7 +247,7 @@ public class MarketPane extends AnchorPane implements Observer{
 		Button buyButton = new Button("Buy");
 		AnchorPane.setTopAnchor(buyButton, offsetY + text.getLayoutBounds().getHeight() + 8.0);
 		AnchorPane.setLeftAnchor(buyButton, offsetX);
-		if(!model.getState().yourTurntoBuy())
+		if(!model.getState().isYourTurnToBuy())
 			buyButton.setVisible(false);
 		buyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new BuyCommand(sellable)));
 		this.getChildren().add(buyButton);

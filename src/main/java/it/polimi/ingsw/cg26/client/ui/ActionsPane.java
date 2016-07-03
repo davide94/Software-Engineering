@@ -320,7 +320,7 @@ public class ActionsPane extends AnchorPane implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(model.getState().yourTurn()) {
+		if(model.getState().isYourTurn()) {
 			if("".equals(timerLabel.getText()))
 				addTimer(300);
 		}
