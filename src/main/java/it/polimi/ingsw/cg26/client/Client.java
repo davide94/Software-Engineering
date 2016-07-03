@@ -423,7 +423,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Builds and displays the panel where the user can perform actions
      */
     private void buildActionsPane() {
-        ActionsPane pane = new ActionsPane();
+        ActionsPane pane = new ActionsPane(model);
         AnchorPane.setTopAnchor(pane, 50.0);
         AnchorPane.setRightAnchor(pane, 50.0);
 
@@ -458,6 +458,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         
         root.getChildren().add(showHidePane);
         root.getChildren().add(pane);
+        observers.add(pane);
     }
     
     

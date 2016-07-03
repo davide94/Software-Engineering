@@ -42,7 +42,7 @@ public class MarketPane extends AnchorPane implements Observer{
 	
 	private List<Button> playerSellablesButtons;
 	
-	private Model model;
+	private final Model model;
 	
 	private OutView outView;
 	

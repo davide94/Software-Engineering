@@ -1,5 +1,9 @@
 package it.polimi.ingsw.cg26.client.ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,14 +13,23 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ActionsPane extends AnchorPane {
+import it.polimi.ingsw.cg26.client.model.Model;
 
+public class ActionsPane extends AnchorPane implements Observer{
+
+	private final Model model;
 	private List<Button> actions;
 	private Button acquire;
 	private Button buildKing;
@@ -27,11 +40,13 @@ public class ActionsPane extends AnchorPane {
 	private Button electAsQuickAction;
 	private Button additionalMainAction;
 	private Button foldQuickAction;
-	private Button timer;
+	private HBox timer;
+	private Label timerLabel;
 
     private HBox obscuration;
 	
-	public ActionsPane() {
+	public ActionsPane(Model model) {
+		this.model = model;
 		DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
         shadow.setRadius(50.0);
@@ -67,15 +82,29 @@ public class ActionsPane extends AnchorPane {
 		electAsQuickAction = new Button();
 		additionalMainAction = new Button();
 		foldQuickAction = new Button();
-		timer = new Button();
+		timer = new HBox();
 		actions = new ArrayList<>();
-		actions.addAll(Arrays.asList(acquire, buildKing, electAsMainAction, build, timer, engageAssistant, changeBPT, electAsQuickAction, additionalMainAction, foldQuickAction));
+		actions.addAll(Arrays.asList(acquire, buildKing, electAsMainAction, build, engageAssistant, changeBPT, electAsQuickAction, additionalMainAction, foldQuickAction));
 		for(Button b : actions) {
 			b.setPrefWidth(200);
 	        b.setPrefHeight(48);
 	        b.setStyle("-fx-background-color: transparent");
 		}
-
+		timer.setPrefSize(200, 48);
+		timer.setSpacing(7);
+		timer.setStyle("-fx-background-color: transparent");
+		DropShadow shadow = new DropShadow(10, Color.BLACK);
+		timerLabel = new Label("");
+		timerLabel.setTextFill(Color.WHITE);
+		timerLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
+		timerLabel.setVisible(false);
+		timerLabel.setEffect(shadow);
+		Label l = new Label("Time remaining:");
+		l.setTextFill(Color.WHITE);
+		l.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
+		l.setEffect(shadow);
+		timer.setAlignment(Pos.CENTER);
+		timer.getChildren().addAll(l, timerLabel);
 		
 		AnchorPane.setLeftAnchor(timer, 0.0);
         AnchorPane.setBottomAnchor(timer, 0.0);
@@ -105,6 +134,7 @@ public class ActionsPane extends AnchorPane {
 		for(Button b : actions) {
 			b.addEventHandler(MouseEvent.MOUSE_EXITED, e -> b.setStyle("-fx-background-color: transparent"));
 		}
+		timer.addEventHandler(MouseEvent.MOUSE_EXITED, e -> timer.setStyle("-fx-background-color: transparent"));
 
 		EventHandler<InputEvent> acquireHandler = (InputEvent event) ->
 			acquire.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/acquireMousePassing.png") + ");" +
@@ -114,7 +144,7 @@ public class ActionsPane extends AnchorPane {
 		acquire.addEventHandler(MouseEvent.MOUSE_ENTERED, acquireHandler);
 		acquire.addEventHandler(MouseEvent.MOUSE_RELEASED, acquireHandler);
 		acquire.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
-		acquire.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/acquireMousePressed.png") + ");" +
+			acquire.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/acquireMousePressed.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;" + 
                 "-fx-background-color: transparent"));
@@ -163,10 +193,10 @@ public class ActionsPane extends AnchorPane {
 			"-fx-background-position: center;" +
 			"-fx-background-size: 100% 100%;" + 
 			"-fx-background-color: transparent");
-	timer.addEventHandler(MouseEvent.MOUSE_ENTERED, timerHandler);
-	timer.addEventHandler(MouseEvent.MOUSE_RELEASED, timerHandler);
-	timer.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
-		timer.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/timerMousePressed.png") + ");" +
+		timer.addEventHandler(MouseEvent.MOUSE_ENTERED, timerHandler);
+		timer.addEventHandler(MouseEvent.MOUSE_RELEASED, timerHandler);
+		timer.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
+			timer.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/timerMousePressed.png") + ");" +
 			"-fx-background-position: center;" +
 			"-fx-background-size: 100% 100%;" + 
             "-fx-background-color: transparent"));
@@ -216,7 +246,7 @@ public class ActionsPane extends AnchorPane {
 				"-fx-background-position: center;" +
 				"-fx-background-size: 100% 100%;" + 
 				"-fx-background-color: transparent");
-			additionalMainAction.addEventHandler(MouseEvent.MOUSE_ENTERED, additionalMainActionHandler);
+		additionalMainAction.addEventHandler(MouseEvent.MOUSE_ENTERED, additionalMainActionHandler);
 		additionalMainAction.addEventHandler(MouseEvent.MOUSE_RELEASED, additionalMainActionHandler);
 		additionalMainAction.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
 			additionalMainAction.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/additionalMainActionMousePressed.png") + ");" +
@@ -238,6 +268,18 @@ public class ActionsPane extends AnchorPane {
             "-fx-background-color: transparent"));
 	}
 	
+	private void addTimer(int time) {
+		timerLabel.setVisible(true);
+		SimpleIntegerProperty timeProperty = new SimpleIntegerProperty(time);
+		timerLabel.textProperty().bind(timeProperty.asString());
+		final Timeline timeline = new Timeline();
+		 timeline.setCycleCount(1);
+		 timeline.setAutoReverse(true);
+		 timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time),
+				 new KeyValue(timeProperty, 0)));
+		 timeline.playFromStart();
+	}
+	
 	public Button getAcquire() {
 		return this.acquire;
 	}
@@ -254,7 +296,7 @@ public class ActionsPane extends AnchorPane {
 		return this.build;
 	}
 	
-	public Button getTimer() {
+	public Pane getTimer() {
 		return this.timer;
 	}
 	
@@ -286,5 +328,15 @@ public class ActionsPane extends AnchorPane {
     public void disable() {
         obscuration.setVisible(true);
     }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(model.getState().yourTurn()) {
+			if(timerLabel.getText().equals(""))
+				addTimer(300);
+		}
+		else
+			timerLabel.setVisible(false);
+	}
 
 }
