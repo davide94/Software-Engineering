@@ -41,20 +41,22 @@ public class ChooseCity extends Action {
 
 	@Override
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, CityNotFoundException, InvalidCityException, NoRemainingCardsException, NotYourTurnException {
-		checkList();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
 			throw new NotYourTurnException();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
-		for(CityDTO c : chosenCities){
-			Bonus bonuses = gameBoard.getCity(c).getBonuses();
-			if(bonuses.getBonusNames().contains("Nobility") || !gameBoard.getCity(c).hasEmporium(currentPlayer))
-				throw new InvalidCityException();
-			bonusesToApply.add(bonuses);
+		if(!chosenCities.isEmpty()) {
+			checkList();
+			for(CityDTO c : chosenCities){
+				Bonus bonuses = gameBoard.getCity(c).getBonuses();
+				if(bonuses.getBonusNames().contains("Nobility") || !gameBoard.getCity(c).hasEmporium(currentPlayer))
+					throw new InvalidCityException();
+				bonusesToApply.add(bonuses);
+			}
+			for(Bonus b : bonusesToApply)
+				b.apply(currentPlayer);
 		}
-		for(Bonus b : bonusesToApply)
-			b.apply(currentPlayer);
 		currentPlayer.performChooseAction();
 		currentPlayer.removePendingRequest(new CityBonusRequest(chosenCities.size()));
 		notifyChange(gameBoard);

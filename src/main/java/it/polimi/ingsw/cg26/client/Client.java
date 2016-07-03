@@ -69,6 +69,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private Socket socket;
 
     private OutView outView;
+    
+    private MusicPlayer musicPlayer;
 
     private ExecutorService executor;
 
@@ -300,9 +302,12 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildTiles();
         
         buildActionsPane();
+        buildMusicPane();
         buildChatPane();
         buildMarket();
         buildStatePane();
+        
+        musicPlayer= new MusicPlayer();
         
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
@@ -454,6 +459,33 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(showHidePane);
         root.getChildren().add(pane);
     }
+    
+    
+    /**
+     * Builds and displays the panel where the user can play and stop the music
+     */
+    private void buildMusicPane() {
+    	
+    	MusicPane pane= new MusicPane();
+    	AnchorPane.setBottomAnchor(pane, 0.0);
+        AnchorPane.setRightAnchor(pane, 50.0);
+        
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(3.0f);
+        shadow.setRadius(50.0);
+        shadow.setColor(Color.WHITE);
+        
+        pane.getPlay().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> this.musicPlayer.play());
+        pane.getStop().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> this.musicPlayer.stop());
+        
+        root.getChildren().add(pane);
+    	
+        
+    }
+    	
+    	
+    	
+    
 
     /**
      * Builds and displays the panel where the user can see the player's state
