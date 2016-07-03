@@ -15,6 +15,7 @@ public class NotYourTurnMarket implements State {
         map.put("Quit", "quit");
         map.put("Print State", "printFullState");
         map.put("Print market", "printMarket");
+        map.put("Send a message", "sendMessage");
         return map;
     }
 }

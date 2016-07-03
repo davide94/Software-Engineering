@@ -114,7 +114,6 @@ public class Scheduler {
     public Player registerPlayer(String name) throws NoRemainingCardsException {
         Player player = newPlayer(name);
         players.add(player);
-        //buyTurn.add(player);
         return player;
     }
     

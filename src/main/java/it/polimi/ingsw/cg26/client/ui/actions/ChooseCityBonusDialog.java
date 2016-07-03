@@ -1,11 +1,8 @@
 package it.polimi.ingsw.cg26.client.ui.actions;
 
-import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.BonusPane;
 import it.polimi.ingsw.cg26.common.commands.ChooseCityCommand;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.EmporiumDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -22,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class ChooseCityBonusDialog extends Dialog<ChooseCityCommand> {
 
-    public ChooseCityBonusDialog(Model model) {
+    public ChooseCityBonusDialog(List<CityDTO> cities) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 
@@ -38,20 +35,15 @@ public class ChooseCityBonusDialog extends Dialog<ChooseCityCommand> {
         contentView.setAlignment(Pos.CENTER);
         contentView.setSpacing(10.0);
         double cardWidth = 50.0;
-        List<CityDTO> cities = new LinkedList<>();
-        for (RegionDTO r: model.getRegions())
-            for (CityDTO c: r.getCities())
-                for (EmporiumDTO e: c.getEmporiums())
-                    if (e.belongsTo(model.getLocalPlayer()) && !c.getBonuses().toString().contains("obility")) {
-                        VBox choicePane = new VBox(new BonusPane(cardWidth, c.getBonuses()));
-                        choicePane.setSpacing(5.0);
-                        choicePane.setAlignment(Pos.CENTER);
-                        CheckBox checkBox = new CheckBox();
-                        buttons.add(checkBox);
-                        cities.add(c);
-                        choicePane.getChildren().addAll(checkBox);
-                        contentView.getChildren().add(choicePane);
-                    }
+        for (CityDTO c: cities) {
+            VBox choicePane = new VBox(new BonusPane(cardWidth, c.getBonuses()));
+            choicePane.setSpacing(5.0);
+            choicePane.setAlignment(Pos.CENTER);
+            CheckBox checkBox = new CheckBox();
+            buttons.add(checkBox);
+            choicePane.getChildren().addAll(checkBox);
+            contentView.getChildren().add(choicePane);
+        }
 
         setResultConverter(b -> {
             if (b == buttonTypeOk)

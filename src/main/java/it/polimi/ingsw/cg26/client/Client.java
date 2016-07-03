@@ -294,6 +294,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(map);
         observers.add(map);
 
+        musicPlayer = new MusicPlayer();
+
         buildVictoryTrack();
         buildBPT();
         buildBalconies();
@@ -306,9 +308,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildChatPane();
         buildMarket();
         buildStatePane();
-        
-        musicPlayer= new MusicPlayer();
-        
+
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -461,32 +461,47 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         observers.add(pane);
     }
     
-    
     /**
      * Builds and displays the panel where the user can play and stop the music
      */
     private void buildMusicPane() {
-    	
-    	MusicPane pane= new MusicPane();
-    	AnchorPane.setBottomAnchor(pane, 0.0);
-        AnchorPane.setRightAnchor(pane, 50.0);
+    	Button playPauseButton = new Button();
+        playPauseButton.setPrefSize(40.0, 40.0);
+        AnchorPane.setBottomAnchor(playPauseButton, 175.0);
+        AnchorPane.setRightAnchor(playPauseButton, 200.0);
+        root.getChildren().add(playPauseButton);
+        playPauseButton.setStyle("-fx-background-image: url(" + getClass().getResource("/img/musicButtons/mute.png") + ");" +
+                "-fx-background-position: center;-fx-background-size: contain;-fx-background-color: transparent;");
+        playPauseButton.setOnMouseClicked(e -> {
+            if (musicPlayer.toggle())
+                playPauseButton.setStyle("-fx-background-image: url(" + getClass().getResource("/img/musicButtons/volume.png") + ");" +
+                        "-fx-background-position: center;-fx-background-size: contain;-fx-background-color: transparent;");
+            else
+                playPauseButton.setStyle("-fx-background-image: url(" + getClass().getResource("/img/musicButtons/mute.png") + ");" +
+                        "-fx-background-position: center;-fx-background-size: contain;-fx-background-color: transparent;");
+        });
+
+    	/*MusicPane pane = new MusicPane();
         
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
         shadow.setRadius(50.0);
         shadow.setColor(Color.WHITE);
-        
+
+        Pane showHidePane = new Pane();
+        AnchorPane.setTopAnchor(showHidePane, 50.0);
+        AnchorPane.setLeftAnchor(showHidePane, 250.0);
+        showHidePane.setPrefSize(30.0, 30.0);
+        showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/user.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
+
+
         pane.getPlay().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> this.musicPlayer.play());
         pane.getStop().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> this.musicPlayer.stop());
-        
-        root.getChildren().add(pane);
-    	
-        
+
+        root.getChildren().add(showHidePane);
+        root.getChildren().add(pane);*/
     }
-    	
-    	
-    	
-    
 
     /**
      * Builds and displays the panel where the user can see the player's state
@@ -630,48 +645,75 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("foldQuickAction");
     }
 
+    private void buildDialogs() {
+        Optional<List<BusinessPermissionTileDTO>> pendingTiles = model.getState().getPendingBPTBonusRequest();
+        if (pendingTiles.isPresent()) {
+            if (pendingTiles.get().isEmpty()) {
+                model.getState().pendingRequestPerformed();
+                outView.writeObject(new ChooseBPTCommand(null, 0));
+            } else {
+                buildBPTBonusRequestDialog(pendingTiles.get());
+            }
+        }
+        Optional<List<CityDTO>> pendingCities = model.getState().getPendingCityBonusRequest();
+        if (pendingCities.isPresent()) {
+            if (pendingCities.get().isEmpty()) {
+                model.getState().pendingRequestPerformed();
+                outView.writeObject(new ChooseCityCommand(new LinkedList<>()));
+            } else {
+                buildCityBonusRequestDialog(pendingCities.get());
+            }
+        }
+        Optional<List<BusinessPermissionTileDTO>> pendingPlayer = model.getState().getPendingPlayerBonusRequest();
+        if (pendingPlayer.isPresent()) {
+            if (pendingPlayer.get().isEmpty()) {
+                model.getState().pendingRequestPerformed();
+                outView.writeObject(new ChoosePlayerBPTCommand(new LinkedList<>()));
+            } else {
+                buildPlayerRequestDialog(pendingPlayer.get());
+            }
+        }
+    }
+
     private void buildBPTBonusRequestDialog(List<BusinessPermissionTileDTO> pendingTiles) {
-        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(model);
+        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(pendingTiles);
         d.setOnHidden(e -> {
+            model.getState().pendingRequestPerformed();
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
-            //else outView.writeObject(new ChooseBPTCommand());
-            model.getState().pendingRequestPerformed();
+            else
+                outView.writeObject(new ChooseBPTCommand(null, 0));
         });
         d.show();
     }
 
     private void buildCityBonusRequestDialog(List<CityDTO> pendingCities) {
-        Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(model);
+        Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(pendingCities);
         d.setOnHidden(e -> {
+            model.getState().pendingRequestPerformed();
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
-            model.getState().pendingRequestPerformed();
+            else
+                outView.writeObject(new ChooseCityCommand(new LinkedList<>()));
         });
         d.show();
     }
 
     private void buildPlayerRequestDialog(List<BusinessPermissionTileDTO> pendingPlayer) {
-        Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(model);
+        Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(pendingPlayer);
         d.setOnHidden(e -> {
+            model.getState().pendingRequestPerformed();
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
-            model.getState().pendingRequestPerformed();
+            else
+                outView.writeObject(new ChoosePlayerBPTCommand(new LinkedList<>()));
         });
         d.show();
     }
 
     private synchronized void refreshScene() {
         if (refresh) {
-            Optional<List<BusinessPermissionTileDTO>> pendingTiles = model.getState().getPendingBPTBonusRequest();
-            if (pendingTiles.isPresent())
-                buildBPTBonusRequestDialog(pendingTiles.get());
-            Optional<List<CityDTO>> pendingCities = model.getState().getPendingCityBonusRequest();
-            if (pendingCities.isPresent())
-                buildCityBonusRequestDialog(pendingCities.get());
-            Optional<List<BusinessPermissionTileDTO>> pendingPlayer = model.getState().getPendingPlayerBonusRequest();
-            if (pendingPlayer.isPresent())
-                buildPlayerRequestDialog(pendingPlayer.get());
+            buildDialogs();
             observers.forEach(o -> o.update(null, null));
         }
         refresh = false;

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg26.client.ui.actions;
 
-import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.BPTPane;
 import it.polimi.ingsw.cg26.common.commands.ChoosePlayerBPTCommand;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class ChoosePlayerBonusDialog extends Dialog<ChoosePlayerBPTCommand> {
 
-    public ChoosePlayerBonusDialog(Model model) {
+    public ChoosePlayerBonusDialog(List<BusinessPermissionTileDTO> tiles) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 
@@ -31,9 +30,6 @@ public class ChoosePlayerBonusDialog extends Dialog<ChoosePlayerBPTCommand> {
         List<RadioButton> buttons = new LinkedList<>();
         ToggleGroup toggleGroup = new ToggleGroup();
 
-        List<BusinessPermissionTileDTO> tiles = new LinkedList<>();
-        tiles.addAll(model.getLocalPlayer().getTiles());
-        tiles.addAll(model.getLocalPlayer().getDiscardedTiles());
         for (BusinessPermissionTileDTO t: tiles) {
             VBox choicePane = new VBox(new BPTPane(10.0, 10.0, t));
             choicePane.setSpacing(5.0);

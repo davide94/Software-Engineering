@@ -1,23 +1,22 @@
 package it.polimi.ingsw.cg26.client.ui;
 
-import java.io.File;
+import javafx.embed.swing.JFXPanel;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
-import javafx.embed.swing.JFXPanel;
+import java.io.File;
 
 public class MusicPlayer extends JFXPanel{
-	
+
 	private final String path= "src/main/resources/sound/gigi.wav";
+
 	private File file;
 	
 	private AudioInputStream audioInputStream;
 	
 	private Clip clip;
-	
-	
+
 	public MusicPlayer(){
 		
 		
@@ -32,11 +31,10 @@ public class MusicPlayer extends JFXPanel{
 			System.out.println(e.getMessage());
 		}
 		
-		play();
+		//play();
 	}
 	
 	public void play(){
-		
 		try{
 		    clip.start();
 			clip.loop(clip.LOOP_CONTINUOUSLY);
@@ -47,7 +45,6 @@ public class MusicPlayer extends JFXPanel{
 	
 	
 	public void stop(){
-		
 		try{
 			
 			clip.stop();
@@ -59,6 +56,13 @@ public class MusicPlayer extends JFXPanel{
 	public boolean isRunning(){
 		return clip.isRunning();
 	}	
- 
 
+    public boolean toggle() {
+        if (isRunning()) {
+            stop();
+            return false;
+        }
+        play();
+        return true;
+    }
 }

@@ -15,6 +15,7 @@ public class YourTurnToSell implements State {
         map.put("Quit", "quit");
         map.put("Print State", "printFullState");
         map.put("Print market", "printMarket");
+        map.put("Send a message", "sendMessage");
         map.put("Sell something", "sell");
         map.put("Fold", "foldSell");
         return map;

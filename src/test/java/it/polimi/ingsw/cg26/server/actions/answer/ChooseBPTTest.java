@@ -94,11 +94,6 @@ public class ChooseBPTTest {
 		assertEquals(token, action.getToken());
 	}
 	
-	@Test (expected = NullPointerException.class)
-	public void testBuildActionWithRegionNullShouldThrowException() {
-		new ChooseBPT(null, 1, token);
-	}
-	
 	@Test (expected = NoRemainingActionsException.class)
 	public void testApplyActionWithoutRemainingChooseActionShouldThrowException() throws Exception {
 		gameBoard.getCurrentPlayer().performChooseAction();

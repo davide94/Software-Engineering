@@ -13,6 +13,7 @@ public class GameNotStarted implements State {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Quit", "quit");
         map.put("Print State", "printFullState");
+        map.put("Send a message", "sendMessage");
         return map;
     }
 }
