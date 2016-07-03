@@ -426,6 +426,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         pane.getChangeBPT().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> changeBPT());
         pane.getElectAsQuickAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> electAsQuickAction());
         pane.getAdditionalMainAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> additionalMainAction());
+        pane.getFoldQuickAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> foldQuickAction());
         
         root.getChildren().add(showHidePane);
         root.getChildren().add(pane);
@@ -553,6 +554,20 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     }
 
     private void foldQuickAction() {
+    	Dialog<FoldQuickActionCommand> d = new Dialog<>();
+    	d.setContentText("Are you sure you don't want to use your quick action?");
+    	ButtonType buttonTypeOk = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeOk);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        d.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+        d.setResultConverter(b -> {
+        	if (b == buttonTypeOk)
+                return new FoldQuickActionCommand();
+            return null;
+        });
+        Optional<FoldQuickActionCommand> result = d.showAndWait();
+        if (result.isPresent())
+            outView.writeObject(result.get());
         System.out.println("foldQuickAction");
     }
 
