@@ -53,7 +53,7 @@ public abstract class Action {
     		if(requests.isEmpty())
     			throw new IllegalStateException();
     		for(Request r : requests)
-    			gameBoard.notifyObservers(r);
+    			gameBoard.notifyObservers(new PrivateUpdate(r, gameBoard.getCurrentPlayer().getToken()));
     	}
     }
 }

@@ -176,7 +176,6 @@ public class Scheduler {
                 toBeKilled = p;
         if (toBeKilled != null) {
             players.remove(toBeKilled);
-            //buyTurn.remove(toBeKilled);
         }
         log.info("Player " + token + " killed.");
     }

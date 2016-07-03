@@ -54,8 +54,6 @@ public class StateContext implements ClientState {
         state = new NotYourTurn();
     }
 
-    
-    
     /**
      * Print a message that the game is ended
      * and change the state
@@ -66,7 +64,6 @@ public class StateContext implements ClientState {
         state = new GameEnded();
     }
 
-    
     /**
      * Print a message that your turn to play is started
      * and change the state
@@ -77,7 +74,6 @@ public class StateContext implements ClientState {
         state = new YourTurn();
     }
 
-    
     /**
      * Print a message that your turn to play is ended
      * and change the state
@@ -97,7 +93,6 @@ public class StateContext implements ClientState {
         state = new NotYourTurnMarket();
     }
 
-    
     /**
      * Print a message that your turn to sell is started
      * and change the state
@@ -108,7 +103,6 @@ public class StateContext implements ClientState {
         state = new YourTurnToSell();
     }
 
-    
     /**
      * Print a message that your turn to sell is ended
      * and change the state
@@ -117,7 +111,6 @@ public class StateContext implements ClientState {
         System.out.println("sellTurnEnded");
         state = new NotYourTurnMarket();
     }
-
     
     /**
      * Print a message that your turn to buy is started
@@ -137,7 +130,6 @@ public class StateContext implements ClientState {
         state = new NotYourTurnMarket();
     }
 
-    
     /**
      * Print a message if the action has been done successfully
     */
@@ -145,7 +137,6 @@ public class StateContext implements ClientState {
         model.addMessage("Action successfully performed!");
         System.out.println("actionSuccessful");
     }
-
     
     /**
      * Print a message if the action is failed
@@ -157,28 +148,35 @@ public class StateContext implements ClientState {
 
     @Override
     public void pendingBPTRequest(int multiplicity) {
+        System.out.println("pendingBPTRequest");
         state = new PendingBPTRequest(model, multiplicity);
     }
 
     @Override
     public void pendingCityBonusRequest(int multiplicity) {
+        System.out.println("pendingCityBonusRequest");
         state = new PendingCityBonusRequest(model, multiplicity);
     }
 
     @Override
     public void pendingPlayerRequest(int multiplicity) {
+        System.out.println("pendingPlayerRequest");
         state = new PendingPlayerRequest(model, multiplicity);
     }
 
-    public boolean isPendingBPTBonusRequest() {
+    public void pendingRequestPerformed() {
+        state = new YourTurn();
+    }
+
+    public int isPendingBPTBonusRequest() {
         return state.isPendingBPTBonusRequest();
     }
 
-    public boolean isPendingCityBonusRequest() {
+    public int isPendingCityBonusRequest() {
         return state.isPendingCityBonusRequest();
     }
 
-    public boolean isPendingPlayerBonusRequest() {
+    public int isPendingPlayerBonusRequest() {
         return state.isPendingPlayerBonusRequest();
     }
 }

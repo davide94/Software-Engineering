@@ -31,17 +31,17 @@ public class TakeYourCityBonusTest {
 
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreationShouldFailWithMultiplicityLessThan1() {
-		new TakeYourCityBonus(bonus, -2);
+		new TakeCityBonus(bonus, -2);
 	}
 	
 	@Test (expected = NullPointerException.class)
 	public void testCreationShouldFailWithBonusToDecorateNull() {
-		new TakeYourCityBonus(null, 2);
+		new TakeCityBonus(null, 2);
 	}
 	
 	@Test
 	public void testApply() throws Exception {
-		Bonus cityBonus = new TakeYourCityBonus(bonus, 3);
+		Bonus cityBonus = new TakeCityBonus(bonus, 3);
 		
 		assertFalse(player.canPerformChooseAction());
 		assertEquals(0, player.getPendingRequest().size());

@@ -12,7 +12,7 @@ public class PendingBPTRequest extends PendingRequest {
     }
 
     @Override
-    public boolean isPendingBPTBonusRequest() {
-        return true;
+    public int isPendingBPTBonusRequest() {
+        return multiplicity;
     }
 }

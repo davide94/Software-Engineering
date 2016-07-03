@@ -70,7 +70,7 @@ public class CoinsTrackPane extends HBox implements Observer {
             pedina.setStyle("-fx-background-color: " + colors.get(i % 4) + ";-fx-background-radius: 50%;");
             this.setEffect(shadow);
             pedina.setEffect(shadow);
-            GridPane cell = cells.get(player.getCoins());
+            GridPane cell = cells.get(Math.min(player.getCoins(), 20));
             cell.add(pedina, (cell.getChildren().size() / 2) % 2, cell.getChildren().size() % 2);
             i++;
         }

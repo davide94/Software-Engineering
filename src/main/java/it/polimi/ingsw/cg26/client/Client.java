@@ -600,6 +600,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.setOnHidden(e -> {
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
+            //else outView.writeObject(new ChooseBPTCommand());
+            model.getState().pendingRequestPerformed();
         });
         d.show();
     }
@@ -609,6 +611,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.setOnHidden(e -> {
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
+            model.getState().pendingRequestPerformed();
         });
         d.show();
     }
@@ -618,19 +621,19 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.setOnHidden(e -> {
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
+            model.getState().pendingRequestPerformed();
         });
         d.show();
     }
 
     private synchronized void refreshScene() {
         if (refresh) {
-            if (model.getState().isPendingBPTBonusRequest())
+            if (model.getState().isPendingBPTBonusRequest() > 0)
                 buildBPTBonusRequestDialog();
-            if (model.getState().isPendingCityBonusRequest())
+            if (model.getState().isPendingCityBonusRequest() > 0)
                 buildCityBonusRequestDialog();
-            if (model.getState().isPendingPlayerBonusRequest())
+            if (model.getState().isPendingPlayerBonusRequest() > 0)
                 buildPlayerRequestDialog();
-
             observers.forEach(o -> o.update(null, null));
         }
         refresh = false;

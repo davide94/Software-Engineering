@@ -52,12 +52,12 @@ public class Regular extends State {
 
     @Override
     public boolean canPerformRegularAction(long token) {
-        return getCurrentPlayer().getToken() == token && (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction());
+        return getCurrentPlayer().getToken() == token && (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformChooseAction());
     }
 
     @Override
     public State regularActionPerformed() {
-        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || !getCurrentPlayer().getPendingRequest().isEmpty()) {
+        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || getCurrentPlayer().canPerformChooseAction()) {
 
             //check if someone built 10 emporiums
             int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(

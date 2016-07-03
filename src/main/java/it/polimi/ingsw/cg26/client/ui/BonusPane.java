@@ -54,16 +54,16 @@ public class BonusPane extends GridPane {
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/nobility.png") + ");";
             if (bonusString.contains("Take BPT")) {
                 multiplicity = "";
-                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeTileBonus.png") + ");";
+                styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeBPT.png") + ");";
             }
-            if (bonusString.contains("Take Player")) {
+            if (bonusString.contains("Take Your")) {
                 if (multiplicity.equals("1"))
                     styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCityBonus.png") + ");";
                 else
                     styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeCity2.png") + ");";
                 multiplicity = "";
             }
-            if (bonusString.contains("Take Your")) {
+            if (bonusString.contains("Take Player")) {
                 multiplicity = "";
                 styleString += "-fx-background-image: url(" + getClass().getResource("/img/bonuses/TakeYour.png") + ");";
             }

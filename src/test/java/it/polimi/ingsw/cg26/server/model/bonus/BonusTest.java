@@ -40,7 +40,7 @@ public class BonusTest {
 	
 	@Test
 	public void testGetBonusNames2() throws Exception {
-		Bonus bonus = new NobilityBonus(new CardBonus(new TakeYourCityBonus(new MainActionBonus(this.bonus, 1), 2), 5, politicDeck), 2);
+		Bonus bonus = new NobilityBonus(new CardBonus(new TakeCityBonus(new MainActionBonus(this.bonus, 1), 2), 5, politicDeck), 2);
 		List<String> bonusNames = bonus.getBonusNames();
 		
 		assertTrue(bonusNames.contains("Nobility"));

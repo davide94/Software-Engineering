@@ -12,7 +12,6 @@ public class PlayerBPTRequest extends RequestWithMultiplicity {
 	
 	@Override
 	public void apply(ClientModel model) {
-		// TODO Auto-generated method stub
-
+		model.getState().pendingPlayerRequest(getMultiplicity());
 	}
 }

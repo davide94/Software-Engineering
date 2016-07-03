@@ -12,7 +12,6 @@ public class CityBonusRequest extends RequestWithMultiplicity {
 	
 	@Override
 	public void apply(ClientModel model) {
-		// TODO Auto-generated method stub
-
+		model.getState().pendingCityBonusRequest(getMultiplicity());
 	}
 }

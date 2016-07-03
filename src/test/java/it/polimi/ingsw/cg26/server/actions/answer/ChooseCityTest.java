@@ -105,7 +105,7 @@ public class ChooseCityTest {
 		gameBoard.getCurrentPlayer().addPermissionTile(tileToUse);
 		Action action = new Build(chosenCity.getState(), tileToUse.getState(), token);
 		action.apply(gameBoard);
-		Bonus cityBonus = new TakeYourCityBonus(new EmptyBonus(), 1);
+		Bonus cityBonus = new TakeCityBonus(new EmptyBonus(), 1);
 		cityBonus.apply(gameBoard.getCurrentPlayer());
 		chosenCities = new ArrayList<>();
 		chosenCities.add(chosenCity.getState());
@@ -179,7 +179,7 @@ public class ChooseCityTest {
 	public void testApplyActionWithMultiplicity2CheckChanges() throws Exception {
 		gameBoard.getCurrentPlayer().performChooseAction();
 		gameBoard.getCurrentPlayer().removePendingRequest(new CityBonusRequest(1));
-		Bonus cityBonus = new TakeYourCityBonus(new EmptyBonus(), 2);
+		Bonus cityBonus = new TakeCityBonus(new EmptyBonus(), 2);
 		cityBonus.apply(gameBoard.getCurrentPlayer());
 		List<City> tileCities = new ArrayList<>();
 		tileCities.add(otherCity);

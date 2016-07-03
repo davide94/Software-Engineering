@@ -134,7 +134,7 @@ public class VictoryTrackPane extends AnchorPane implements Observer {
             pedina.setStyle("-fx-background-color: " + colors.get(i % 4) + ";-fx-background-radius: 50%;");
             this.setEffect(shadow);
             pedina.setEffect(shadow);
-            GridPane cell = cells.get(player.getVictoryPoints());
+            GridPane cell = cells.get(player.getVictoryPoints() % 100);
             cell.add(pedina, (cell.getChildren().size() / 2) % 2, cell.getChildren().size() % 2);
             i++;
         }

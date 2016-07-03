@@ -10,7 +10,7 @@
 		<xs:attribute name="action" type="xs:integer" />
 		<xs:attribute name="takeBPT" type="xs:integer" />
 		<xs:attribute name="takePlayer" type="xs:integer" />
-		<xs:attribute name="takeYour" type="xs:integer" />
+		<xs:attribute name="takeCity" type="xs:integer" />
 	</xs:complexType>
 
 	<xs:complexType name="region">

@@ -48,6 +48,7 @@ public class ChooseCityBonusDialog extends Dialog<ChooseCityCommand> {
                         choicePane.setAlignment(Pos.CENTER);
                         CheckBox checkBox = new CheckBox();
                         buttons.add(checkBox);
+                        cities.add(c);
                         choicePane.getChildren().addAll(checkBox);
                         contentView.getChildren().add(choicePane);
                     }

@@ -12,8 +12,7 @@ public class BPTRequest implements Request {
 	
 	@Override
 	public void apply(ClientModel model) {
-		// TODO Auto-generated method stub
-
+		model.getState().pendingBPTRequest(1);
 	}
 
 	/* (non-Javadoc)

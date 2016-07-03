@@ -12,7 +12,7 @@ public class PendingCityBonusRequest extends PendingRequest {
     }
 
     @Override
-    public boolean isPendingCityBonusRequest() {
-        return true;
+    public int isPendingCityBonusRequest() {
+        return multiplicity;
     }
 }

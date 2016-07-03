@@ -21,15 +21,15 @@ public interface State {
         return false;
     }
 
-    default boolean isPendingBPTBonusRequest() {
-        return false;
+    default int isPendingBPTBonusRequest() {
+        return 0;
     }
 
-    default boolean isPendingCityBonusRequest() {
-        return false;
+    default int isPendingCityBonusRequest() {
+        return 0;
     }
 
-    default boolean isPendingPlayerBonusRequest() {
-        return false;
+    default int isPendingPlayerBonusRequest() {
+        return 0;
     }
 }

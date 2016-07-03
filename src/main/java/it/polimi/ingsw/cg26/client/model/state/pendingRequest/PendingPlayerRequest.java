@@ -12,7 +12,7 @@ public class PendingPlayerRequest extends PendingRequest {
     }
 
     @Override
-    public boolean isPendingPlayerBonusRequest() {
-        return true;
+    public int isPendingPlayerBonusRequest() {
+        return multiplicity;
     }
 }

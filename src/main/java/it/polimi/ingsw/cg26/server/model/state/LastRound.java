@@ -61,7 +61,7 @@ public class LastRound extends State {
 
     @Override
     public State regularActionPerformed() {
-        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || !getCurrentPlayer().getPendingRequest().isEmpty())
+        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || getCurrentPlayer().canPerformChooseAction())
             return this;
 
         gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnEnded(), getCurrentPlayer().getToken()));

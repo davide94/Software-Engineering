@@ -43,8 +43,8 @@ public class BonusesCreator {
             bonuses = new TakeBPTBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takeBPT")));
         if (Creator.hasAttribute(root, "takePlayer"))
             bonuses = new TakePlayerBPTBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takePlayer")));
-        if (Creator.hasAttribute(root, "takeYour"))
-            bonuses = new TakeYourCityBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takeYour")));
+        if (Creator.hasAttribute(root, "takeCity"))
+            bonuses = new TakeCityBonus(bonuses, Integer.parseInt(Creator.getAttribute(root, "takeCity")));
         return bonuses;
     }
 }
