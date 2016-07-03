@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
-import it.polimi.ingsw.cg26.common.update.request.PlayerBPTRequest;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import it.polimi.ingsw.cg26.server.exceptions.NoRemainingActionsException;
@@ -141,7 +140,7 @@ public class ChoosePlayerBPTTest {
 	@Test
 	public void testApplyActionWith2TilesCheckChanges() throws Exception {
 		gameBoard.getCurrentPlayer().performChooseAction();
-		gameBoard.getCurrentPlayer().removePendingRequest(new PlayerBPTRequest(1));
+		gameBoard.getCurrentPlayer().removePendingRequest();
 		Bonus bonus = new TakePlayerBPTBonus(new EmptyBonus(), 2);
 		bonus.apply(gameBoard.getCurrentPlayer());
 		tiles.add(tile.getState());

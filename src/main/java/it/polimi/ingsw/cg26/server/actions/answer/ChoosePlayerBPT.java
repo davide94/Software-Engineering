@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg26.server.actions.answer;
 
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.update.change.BasicChange;
-import it.polimi.ingsw.cg26.common.update.request.PlayerBPTRequest;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCardsException;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
@@ -54,7 +53,7 @@ public class ChoosePlayerBPT extends Action {
 				b.apply(currentPlayer);
 		}
 		currentPlayer.performChooseAction();
-		currentPlayer.removePendingRequest(new PlayerBPTRequest(this.chosenBPT.size()));
+		currentPlayer.removePendingRequest();
 		notifyChange(gameBoard);
 	}
 

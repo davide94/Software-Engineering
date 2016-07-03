@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg26.server.actions.answer;
 
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.update.request.CityBonusRequest;
 import it.polimi.ingsw.cg26.server.actions.Action;
 import it.polimi.ingsw.cg26.server.actions.main.Build;
 import it.polimi.ingsw.cg26.server.exceptions.InvalidCityException;
@@ -178,7 +177,7 @@ public class ChooseCityTest {
 	@Test
 	public void testApplyActionWithMultiplicity2CheckChanges() throws Exception {
 		gameBoard.getCurrentPlayer().performChooseAction();
-		gameBoard.getCurrentPlayer().removePendingRequest(new CityBonusRequest(1));
+		gameBoard.getCurrentPlayer().removePendingRequest();
 		Bonus cityBonus = new TakeCityBonus(new EmptyBonus(), 2);
 		cityBonus.apply(gameBoard.getCurrentPlayer());
 		List<City> tileCities = new ArrayList<>();
