@@ -56,13 +56,15 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private static final double RATIO = 2.0 / 1.7;
 
-    private static final String DEFAULT_IP = "127.0.0.1";
+    private static final String DEFAULT_IP = "localhost";
 
     private static final int DEFAULT_SOCKET_PORT = 29999;
 
     private static final int DEFAULT_RMI_PORT = 52365;
 
     private static final String INTERFACE_NAME = "WELCOME_VIEW";
+
+    private Socket socket;
 
     private OutView outView;
 
@@ -204,7 +206,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @throws ClassNotFoundException
      */
     private OutView startSocketClient(String ip, int port, String name) throws IOException, ClassNotFoundException {
-        Socket socket = new Socket(ip, port);
+        this.socket = new Socket(ip, port);
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 
         ClientSocketInView inView = new ClientSocketInView(inputStream);
@@ -253,6 +255,17 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.setStyle("-fx-background-image: url(" + getClass().getResource("/img/map.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%");
+
+        primaryStage.setOnCloseRequest(e -> {
+            if (socket != null)
+                try {
+                    socket.close();
+                } catch (IOException e1) {
+                    log.error("An error occurred closing Socket.", e1);
+                }
+            Platform.exit();
+            System.exit(0);
+        });
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 

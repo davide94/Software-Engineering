@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.client.view.socket;
 
+import it.polimi.ingsw.cg26.client.view.InView;
 import it.polimi.ingsw.cg26.common.observer.Observable;
 import it.polimi.ingsw.cg26.common.update.Update;
 import org.slf4j.Logger;
@@ -11,7 +12,7 @@ import java.io.ObjectInputStream;
 /**
  *
  */
-public class ClientSocketInView extends Observable<Update> implements Runnable {
+public class ClientSocketInView extends Observable<Update> implements InView {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 

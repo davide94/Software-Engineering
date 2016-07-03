@@ -22,6 +22,8 @@ public class CLI implements Observer<Update>, Runnable {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    private boolean quit;
+
     private final OutView outView;
 
     private final Scanner scanner;
@@ -115,6 +117,7 @@ public class CLI implements Observer<Update>, Runnable {
     };
 
     public CLI(Scanner scanner, PrintWriter writer, OutView outView, Model model) {
+        quit = false;
         this.outView = outView;
         this.scanner = scanner;
         this.writer = writer;
@@ -130,7 +133,7 @@ public class CLI implements Observer<Update>, Runnable {
     }
 
     private void waitInput() {
-        while (true) {
+        while (!quit) {
             int input = readInt();
             if (input == -1)
                 printCommands();
@@ -205,7 +208,7 @@ public class CLI implements Observer<Update>, Runnable {
         writer.println("Bye.");
         writer.flush();
         outView.writeObject(new StaccahCommand());
-        // TODO: Staccah Staccah Staccah
+        quit = true;
     }
 
     private void electAsMainAction() {

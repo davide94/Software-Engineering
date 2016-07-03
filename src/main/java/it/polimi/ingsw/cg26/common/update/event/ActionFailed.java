@@ -29,14 +29,6 @@ public class ActionFailed implements Event {
         this.exception = exception;
     }
 
-    /**
-     * Rethrows the exception that made the action fail
-     * @throws Exception the exception that made the action fail
-     */
-    public void why() throws Exception {
-        throw exception;
-    }
-
     @Override
     public void apply(ClientModel model) {
         model.getState().actionFailed();
