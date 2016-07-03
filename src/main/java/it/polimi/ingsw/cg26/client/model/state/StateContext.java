@@ -7,7 +7,6 @@ import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingPlayerReque
 import it.polimi.ingsw.cg26.common.ClientState;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -37,15 +36,15 @@ public class StateContext implements ClientState {
         return state.commands();
     }
 
-    public boolean yourTurn() {
+    public boolean isYourTurn() {
         return state.isYourTurn();
     }
 
-    public boolean yourTurntoBuy() {
-        return state.isYourTurntoBuy();
+    public boolean isYourTurnToBuy() {
+        return state.isYourTurnToBuy();
     }
 
-    public boolean yourTurnToSell() {
+    public boolean isYourTurnToSell() {
         return state.isYourTurnToSell();
     }
     
@@ -139,7 +138,6 @@ public class StateContext implements ClientState {
      * Print a message if the action has been done successfully
     */
     public void actionSuccessful() {
-        model.addMessage("Action successfully performed!");
         System.out.println("actionSuccessful");
     }
     
@@ -147,7 +145,6 @@ public class StateContext implements ClientState {
      * Print a message if the action is failed
      */
     public void actionFailed() {
-        model.addMessage("Action failed because...");
         System.out.println("actionFailed");
     }
 

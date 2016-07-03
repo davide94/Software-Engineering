@@ -26,10 +26,6 @@ public class Controller implements Observer<Action>, Runnable {
     @Override
     public synchronized void update(Action action) {
         log.info("Action received: " + action);
-        /*if ((gameBoard.getCurrentPlayer() != null && gameBoard.getCurrentPlayer().getToken() != action.getToken()) && !(action instanceof Staccah)) { // TODO: find alternative to instanceof
-            log.error("Is not the turn of the sender");
-            return;
-        }*/
         try {
             action.apply(gameBoard);
             gameBoard.notifyObservers(new PrivateUpdate(new ActionSuccessFul(), action.getToken()));
