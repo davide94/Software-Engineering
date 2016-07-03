@@ -41,16 +41,18 @@ public class ChoosePlayerBPT extends Action {
 
 	@Override
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidTileException, InvalidCardsException, NoRemainingCardsException, NotYourTurnException {
-		checkList();
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
 			throw new NotYourTurnException();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
-		for(BusinessPermissionTileDTO tile : chosenBPT)
-			bonusesToApply.add(currentPlayer.hasPermissionTileAlsoFaceDown(tile).getBonuses());
-		for(Bonus b : bonusesToApply)
-			b.apply(currentPlayer);
+		if(!chosenBPT.isEmpty()) {
+			checkList();
+			for(BusinessPermissionTileDTO tile : chosenBPT)
+				bonusesToApply.add(currentPlayer.hasPermissionTileAlsoFaceDown(tile).getBonuses());
+			for(Bonus b : bonusesToApply)
+				b.apply(currentPlayer);
+		}
 		currentPlayer.performChooseAction();
 		currentPlayer.removePendingRequest(new PlayerBPTRequest(this.chosenBPT.size()));
 		notifyChange(gameBoard);
