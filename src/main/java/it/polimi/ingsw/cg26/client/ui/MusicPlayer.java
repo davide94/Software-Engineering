@@ -9,7 +9,7 @@ import java.io.File;
 
 public class MusicPlayer extends JFXPanel{
 
-	private final String path= "src/main/resources/sound/gigi.wav";
+	private final String path= "src/main/resources/sound/soundtrack.wav";
 
 	private File file;
 	
@@ -31,7 +31,7 @@ public class MusicPlayer extends JFXPanel{
 			System.out.println(e.getMessage());
 		}
 		
-		//play();
+		play();
 	}
 	
 	public void play(){
