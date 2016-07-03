@@ -48,7 +48,7 @@ public class CLI implements Observer<Update>, Runnable {
 
     private Consumer<PlayerDTO> playerPrinter = p -> {
         writer.print("\t" + p.getName() +
-                "\n\t\tState:                         " + (p.isOnline() ? "\u001B[32monline\u001B[0m" : "\u001B[31moffline\u001B[0m") +
+                "\n\t\tState:                         " + (p.isOnline() ? "online" : "offline") +
                 "\n\t\tVictory Points number:         " + p.getVictoryPoints() +
                 "\n\t\tCoins number:                  " + p.getCoins() +
                 "\n\t\tPosition in Nobility Track:    " + p.getNobilityCell() +

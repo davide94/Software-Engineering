@@ -298,9 +298,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildTiles();
         
         buildActionsPane();
-        buildStatePane();
         buildChatPane();
         buildMarket();
+        buildStatePane();
         
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
