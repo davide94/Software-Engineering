@@ -10,10 +10,16 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.VBox;
 
 /**
- *
+ * Build and displays a dialog to choose what councillor you want to elect
  */
 public class ElectDialog extends Dialog<Command> {
 
+	
+	/**
+	 * Default constructor
+	 * @param asMain is true if you want to do it as main action, false as quick action
+	 * @param model of the client
+	 */
     public ElectDialog(boolean asMain, Model model) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

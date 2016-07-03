@@ -15,10 +15,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Build and displays a dialog to choose a bonus on a city where you have an emporium
  */
 public class ChooseCityBonusDialog extends Dialog<ChooseCityCommand> {
 
+	
+	/**
+	 * Default constructor
+	 * @param cities is the list of cities in which you have an emporium
+	 */
     public ChooseCityBonusDialog(List<CityDTO> cities) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

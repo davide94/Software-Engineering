@@ -16,10 +16,23 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+
+/**
+ * Build and displays a dialog to choose a region where you can change BPT
+ *
+ */
 public class ChangeBPTDialog extends Dialog<ChangeBPTCommand> {
 
+	/**
+	 * Match a region with the button
+	 */
 	private Map<RadioButton, RegionDTO> regionsMap;
 	
+	
+	/**
+	 * Default constructor
+	 * @param model of the client
+	 */
 	public ChangeBPTDialog(Model model) {
 		regionsMap = new HashMap<>();
 		VBox contentView = new VBox();

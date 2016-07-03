@@ -11,10 +11,14 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 /**
- *
+ *Build and displays a dialog to choose a BPT that is uncovered
  */
 public class ChooseBPTDialog extends Dialog<ChooseBPTCommand> {
 
+	/**
+	 * Default constructor
+	 * @param tiles a list of BPT uncovered on the gameboard
+	 */
     public ChooseBPTDialog(List<BusinessPermissionTileDTO> tiles) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

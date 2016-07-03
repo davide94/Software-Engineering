@@ -13,10 +13,16 @@ import javafx.scene.layout.VBox;
 import java.util.LinkedList;
 
 /**
- *
+ *Build and displays a dialog to confirm or cancel the decision to acquire
  */
 public class AcquireDialog extends Dialog<AcquireCommand> {
 
+	
+	/**
+	 * Default constructor
+	 * @param root of the guy
+	 * @param model is the client model
+	 */
     public AcquireDialog(Pane root, Model model) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

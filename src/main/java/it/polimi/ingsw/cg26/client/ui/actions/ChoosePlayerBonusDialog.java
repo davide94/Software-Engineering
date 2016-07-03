@@ -11,10 +11,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Build and displays a dialog to choose a bonus from one of yours BPT
  */
 public class ChoosePlayerBonusDialog extends Dialog<ChoosePlayerBPTCommand> {
 
+	
+	/**
+	 * Default constructor
+	 * @param tiles is the list of tiles that you already have
+	 */
     public ChoosePlayerBonusDialog(List<BusinessPermissionTileDTO> tiles) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

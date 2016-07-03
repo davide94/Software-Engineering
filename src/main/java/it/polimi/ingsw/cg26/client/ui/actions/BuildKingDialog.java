@@ -18,8 +18,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
+/** 
+ * Build and displays a dialog to choose and confirm how to move the king
+ *
+ */
 public class BuildKingDialog extends Dialog<BuildKingCommand> {
 
+	
+	/**
+	 * Default constructor
+	 * @param model is the model of the client
+	 */
 	public BuildKingDialog(Model model) {
 		VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

@@ -384,12 +384,19 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(track);
     }
 
+    /**
+     * Builds and displays the tiles
+     */
     private void buildTiles() {
     	AllTilesPane pane = new AllTilesPane(model, root);
     	root.getChildren().add(pane);
     	observers.add(pane);
     }
     
+    
+    /**
+     * Build and displays the market
+     */
     private void buildMarket() {
     	ScrollPane market = new ScrollPane();
     	MarketPane m = new MarketPane(0.91 * root.getWidth(), 0.68 * root.getHeight(), model, outView);
@@ -543,6 +550,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(chatPane);
     }
 
+    /**
+     * Show the result of the elect as main action
+     */
     private void electAsMainAction() {
         Dialog<Command> d = new ElectDialog(true, model);
         Optional<Command> result = d.showAndWait();
@@ -551,6 +561,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("electAsMainAction");
     }
 
+    
+    /**
+     * Show the result of the acquire action
+     */
     private void acquire() {
         Dialog<AcquireCommand> d = new AcquireDialog(root, model);
         Optional<AcquireCommand> result = d.showAndWait();
@@ -559,6 +573,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("acquire");
     }
 
+    /**
+     * Show the result of the build action
+     */
     private void build() {
     	Dialog<BuildCommand> d = new BuildDialog(model);
     	Optional<BuildCommand> result = d.showAndWait();
@@ -567,6 +584,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("build");
     }
 
+    /**
+     * Show the result of the build king action
+     */
     private void buildKing() {
     	Dialog<BuildKingCommand> d = new BuildKingDialog(model);
     	Optional<BuildKingCommand> result = d.showAndWait();
@@ -575,6 +595,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("buildKing");
     }
 
+    
+    /**
+     * Show the result of the engage assistant action
+     */
     private void engageAssistant() {
     	Dialog<EngageAssistantCommand> d = new Dialog<>();
     	d.setContentText("Are you sure you want to engage an assistant using 3 coins?");
@@ -593,6 +617,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("engageAssistant");
     }
 
+    
+    /**
+     * Show the result of the changeBPT action
+     */
     private void changeBPT() {
     	Dialog<ChangeBPTCommand> d = new ChangeBPTDialog(model);
     	Optional<ChangeBPTCommand> result = d.showAndWait();
@@ -601,6 +629,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("changeBPT");
     }
 
+    
+    /**
+     * Show the result of the elect as quick action
+     */
     private void electAsQuickAction() {
         Dialog<Command> d = new ElectDialog(false, model);
         Optional<Command> result = d.showAndWait();
@@ -609,6 +641,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("electAsQuickAction");
     }
 
+    
+    /**
+     * Show the result of the additional main action
+     */
     private void additionalMainAction() {
     	Dialog<AdditionalMainActionCommand> d = new Dialog<>();
     	d.setContentText("Are you sure you want to use 3 assistant to have one more main action?");
@@ -627,6 +663,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("additionalMainAction");
     }
 
+    
+    /**
+     * Show the result of the fold quick action
+     */
     private void foldQuickAction() {
     	Dialog<FoldQuickActionCommand> d = new Dialog<>();
     	d.setContentText("Are you sure you don't want to use your quick action?");
@@ -645,6 +685,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("foldQuickAction");
     }
 
+    
+    /**
+     * Build and Displays Dialogs for pending requests
+     */
     private void buildDialogs() {
         Optional<List<BusinessPermissionTileDTO>> pendingTiles = model.getState().getPendingBPTBonusRequest();
         if (pendingTiles.isPresent()) {
@@ -675,6 +719,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         }
     }
 
+    
+    /**
+     * Build and displays the dialog for the BPT to choose
+     * @param pendingTiles is the list of BPT that the players can choose
+     */
     private void buildBPTBonusRequestDialog(List<BusinessPermissionTileDTO> pendingTiles) {
         Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(pendingTiles);
         d.setOnHidden(e -> {
@@ -687,6 +736,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.show();
     }
 
+    
+    /**
+     * Build and displays the dialog for the bonus of a city to choose
+     * @param pendingCities is the list of cities in which a player has an emporium
+     */
     private void buildCityBonusRequestDialog(List<CityDTO> pendingCities) {
         Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(pendingCities);
         d.setOnHidden(e -> {
@@ -699,6 +753,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.show();
     }
 
+    
+    /**
+     * Build and displays the dialog for the bonus of one player's BPT to choose
+     * @param pendingPlayer is the list of BPT owned by a player
+     */
     private void buildPlayerRequestDialog(List<BusinessPermissionTileDTO> pendingPlayer) {
         Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(pendingPlayer);
         d.setOnHidden(e -> {
@@ -711,6 +770,9 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.show();
     }
 
+    /**
+     * Refresh the scene
+     */
     private synchronized void refreshScene() {
         if (refresh) {
             buildDialogs();
@@ -719,11 +781,16 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         refresh = false;
     }
 
+    /**
+     * When a new update arrives, in this way the scene can be refreshed
+     * @param o is the update
+     */
     @Override
     public void update(Update o) {
         refresh = true;
     }
 
+    
     public static void main(String[] args) {
         launch(args);
     }

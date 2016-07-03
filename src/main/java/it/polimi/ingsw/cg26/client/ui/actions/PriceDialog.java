@@ -8,8 +8,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
+/**
+ * Build and displays a dialog to set the price of an object
+ *
+ */
 public class PriceDialog extends Dialog<Integer> {
 
+	
+	/**
+	 * Default constructor
+	 */
 	public PriceDialog() {
 		VBox contentView = new VBox();
         getDialogPane().setContent(contentView);

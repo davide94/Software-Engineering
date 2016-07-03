@@ -14,10 +14,25 @@ import java.util.List;
 
 public class MusicPane extends AnchorPane{
 	
+	/**
+	 * The list of buttons
+	 */
 	private List<Button> buttons;
+	
+	/**
+	 * Stop button
+	 */
 	private Button stop;
+	
+	/**
+	 * Play Button
+	 */
 	private Button play;
 	
+	
+	/**
+	 * Default constructor
+	 */
 	public MusicPane() {
 		
 		DropShadow shadow = new DropShadow();
@@ -39,6 +54,9 @@ public class MusicPane extends AnchorPane{
   
 	}
 	
+	/**
+	 * Add button play and stop to the list of buttons
+	 */
 	private void addButtons() {
         
 		play = new Button("Play");
@@ -63,6 +81,10 @@ public class MusicPane extends AnchorPane{
         
 	}
 	
+	
+	/**
+	 * Add Effects when a players press a button
+	 */
 	private void addButtonsEffects() {
 		
 		

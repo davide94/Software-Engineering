@@ -17,8 +17,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Build and displays a dialog to choose and confirm where to build
+ *
+ */
 public class BuildDialog extends Dialog<BuildCommand> {
 	
+	
+	/**
+	 * Default constructor
+	 * @param model is the client model
+	 */
 	public BuildDialog(Model model) {
 		VBox contentView = new VBox();
 		getDialogPane().setContent(contentView);
