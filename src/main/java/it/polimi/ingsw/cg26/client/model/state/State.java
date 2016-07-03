@@ -18,7 +18,7 @@ public interface State {
         return false;
     }
 
-    default boolean isYourTurntoBuy() {
+    default boolean isYourTurnToBuy() {
         return false;
     }
 

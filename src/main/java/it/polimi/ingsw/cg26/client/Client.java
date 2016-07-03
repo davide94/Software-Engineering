@@ -22,6 +22,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -302,12 +303,15 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         buildNobilityTrack();
         buildCoinsTrack();
         buildTiles();
-        
-        buildActionsPane();
         buildMusicPane();
-        buildChatPane();
-        buildMarket();
-        buildStatePane();
+
+        Collection<Node> panes = new LinkedList<>();
+        panes.add(buildActionsPane());
+        panes.add(buildChatPane());
+        panes.add(buildMarket());
+        panes.add(buildStatePane());
+
+        root.getChildren().addAll(panes);
 
         primaryStage.setTitle("Council of Four");
         primaryStage.setScene(scene);
@@ -397,56 +401,48 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     /**
      * Build and displays the market
      */
-    private void buildMarket() {
+    private Node buildMarket() {
     	ScrollPane market = new ScrollPane();
     	MarketPane m = new MarketPane(0.91 * root.getWidth(), 0.68 * root.getHeight(), model, outView);
     	AnchorPane.setBottomAnchor(market, 50.0);
         AnchorPane.setLeftAnchor(market, 50.0);
         market.setVisible(false);
-        
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetY(3.0f);
-        shadow.setRadius(50.0);
-        shadow.setColor(Color.WHITE);
+
         Pane showHidePane = new Pane();
-        AnchorPane.setBottomAnchor(showHidePane, 30.0);
-        AnchorPane.setLeftAnchor(showHidePane, 50.0);
+        AnchorPane.setBottomAnchor(showHidePane, 0.23 * root.getHeight());
+        AnchorPane.setLeftAnchor(showHidePane, 0.04 * root.getWidth());
         showHidePane.setPrefSize(50.0, 50.0);
         showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/marketIcon.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> market.setVisible(true));
-        showHidePane.setEffect(shadow);
+        showHidePane.setEffect(new DropShadow(20.0, Color.rgb(0, 0, 0, 0.95)));
         
         market.setContent(m);
         market.addEventHandler(MouseEvent.MOUSE_EXITED, e -> market.setVisible(false));
         market.setStyle("-fx-background-color: transparent");
         root.getChildren().add(showHidePane);
-        root.getChildren().add(market);
         observers.add(m);
+
+        return market;
     }
 
     /**
      * Builds and displays the panel where the user can perform actions
      */
-    private void buildActionsPane() {
+    private Node buildActionsPane() {
         ActionsPane pane = new ActionsPane(model);
-        AnchorPane.setTopAnchor(pane, 50.0);
-        AnchorPane.setRightAnchor(pane, 50.0);
-
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetY(3.0f);
-        shadow.setRadius(50.0);
-        shadow.setColor(Color.WHITE);
+        AnchorPane.setTopAnchor(pane, 0.05 * root.getHeight());
+        AnchorPane.setRightAnchor(pane, 0.05 * root.getWidth());
 
         Pane showHidePane = new Pane();
-        AnchorPane.setTopAnchor(showHidePane, 50.0);
-        AnchorPane.setRightAnchor(showHidePane, 50.0);
-        showHidePane.setEffect(shadow);
+        AnchorPane.setTopAnchor(showHidePane, 0.05 * root.getHeight());
+        AnchorPane.setRightAnchor(showHidePane, 0.05 * root.getWidth());
+        showHidePane.setEffect(new DropShadow(20.0, Color.rgb(0, 0, 0, 0.95)));
         showHidePane.setPrefSize(75.0, 75.0);
         showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/action.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            if (model.getState().yourTurn())
+            if (model.getState().isYourTurn())
                 pane.enable();
             else
                 pane.disable();
@@ -462,10 +458,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         pane.getElectAsQuickAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> electAsQuickAction());
         pane.getAdditionalMainAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> additionalMainAction());
         pane.getFoldQuickAction().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> foldQuickAction());
-        
         root.getChildren().add(showHidePane);
-        root.getChildren().add(pane);
         observers.add(pane);
+
+        return pane;
     }
     
     /**
@@ -474,10 +470,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     private void buildMusicPane() {
     	Button playPauseButton = new Button();
         playPauseButton.setPrefSize(40.0, 40.0);
-        AnchorPane.setBottomAnchor(playPauseButton, 175.0);
-        AnchorPane.setRightAnchor(playPauseButton, 200.0);
+        playPauseButton.setEffect(new DropShadow(20.0, Color.rgb(0, 0, 0, 0.95)));
+        AnchorPane.setBottomAnchor(playPauseButton, 0.15 * root.getWidth());
+        AnchorPane.setRightAnchor(playPauseButton, 0.2 * root.getHeight());
         root.getChildren().add(playPauseButton);
-        playPauseButton.setStyle("-fx-background-image: url(" + getClass().getResource("/img/musicButtons/mute.png") + ");" +
+        playPauseButton.setStyle("-fx-background-image: url(" + getClass().getResource("/img/musicButtons/volume.png") + ");" +
                 "-fx-background-position: center;-fx-background-size: contain;-fx-background-color: transparent;");
         playPauseButton.setOnMouseClicked(e -> {
             if (musicPlayer.toggle())
@@ -513,41 +510,43 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     /**
      * Builds and displays the panel where the user can see the player's state
      */
-    private void buildStatePane() {
-
+    private Node buildStatePane() {
         PlayersPane statePane = new PlayersPane(400.0, root.getHeight() - 100.0, model);
         observers.add(statePane);
 
         Pane showHidePane = new Pane();
-        AnchorPane.setTopAnchor(showHidePane, 50.0);
-        AnchorPane.setLeftAnchor(showHidePane, 50.0);
+        AnchorPane.setTopAnchor(showHidePane, 0.525 * root.getHeight());
+        AnchorPane.setLeftAnchor(showHidePane, 0.05 * root.getWidth());
+        showHidePane.setEffect(new DropShadow(20.0, Color.rgb(0, 0, 0, 0.95)));
         showHidePane.setPrefSize(30.0, 30.0);
         showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/user.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> statePane.setVisible(true));
-
         root.getChildren().add(showHidePane);
-        root.getChildren().add(statePane);
+
+        return statePane;
     }
 
     /**
      * Builds and displays the panel where the user chat
      */
-    private void buildChatPane() {
+    private Node buildChatPane() {
         ChatPane chatPane = new ChatPane(400.0, root.getHeight() / 2.0, model, outView, root);
         observers.add(chatPane);
 
         Pane showHidePane = new Pane();
         AnchorPane.setBottomAnchor(showHidePane, 35.0);
         AnchorPane.setRightAnchor(showHidePane, 50.0);
+        showHidePane.setEffect(new DropShadow(20.0, Color.rgb(0, 0, 0, 0.95)));
         showHidePane.setPrefSize(50.0, 50.0);
         showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/chat.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             chatPane.update(null, null);
             chatPane.setVisible(true);
+            chatPane.update(null, null);
         });
-
         root.getChildren().add(showHidePane);
-        root.getChildren().add(chatPane);
+
+        return chatPane;
     }
 
     /**
