@@ -1,9 +1,5 @@
 package it.polimi.ingsw.cg26.client.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -11,6 +7,10 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MusicPane extends AnchorPane{
 	
@@ -22,7 +22,6 @@ public class MusicPane extends AnchorPane{
 		
 		DropShadow shadow = new DropShadow();
         shadow.setOffsetY(3.0f);
-        
         shadow.setRadius(50.0);
         shadow.setColor(Color.BLACK);
         
@@ -42,8 +41,8 @@ public class MusicPane extends AnchorPane{
 	
 	private void addButtons() {
         
-		play = new Button();
-		stop = new Button();
+		play = new Button("Play");
+		stop = new Button("stop");
 		
 		buttons = new ArrayList<>();
 		buttons.addAll(Arrays.asList(play, stop));
@@ -99,8 +98,6 @@ public class MusicPane extends AnchorPane{
          "-fx-background-position: center;" +
          "-fx-background-size: 100% 100%;" + 
          "-fx-background-color: transparent"));
-		
-		
 	}
 	
 	public Button getPlay() {

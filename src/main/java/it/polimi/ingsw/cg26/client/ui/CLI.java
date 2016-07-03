@@ -195,9 +195,8 @@ public class CLI implements Observer<Update>, Runnable {
                 .filter(playerDTO -> !playerDTO.getName().equals(model.getLocalPlayer().getName()))
                 .forEach(playerPrinter::accept);
         writer.println("--------------------");
-        writer.println("Chat: (last 5 messages)");
-        List<String> messages = model.getMessages();
-        messages.subList(messages.size() - 5, messages.size()).forEach(m -> writer.println("    " + m));
+        writer.println("Chat:");
+        model.getMessages().forEach(m -> writer.println("    " + m));
         writer.println("--------------------");
         writer.flush();
     }
@@ -387,7 +386,7 @@ public class CLI implements Observer<Update>, Runnable {
     }
 
     private void sendMessage() {
-        writer.printf("Message: ");
+        writer.print("Message: ");
         writer.flush();
         outView.writeObject(new Message(model.getLocalPlayer().getName(), scanner.nextLine()));
     }

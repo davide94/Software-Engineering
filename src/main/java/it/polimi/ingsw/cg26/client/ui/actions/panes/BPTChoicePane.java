@@ -19,35 +19,43 @@ public class BPTChoicePane extends HBox {
 
     private List<RadioButton> buttons;
 
+    private int step;
+
     private List<RegionDTO> regions;
 
-    private List<BusinessPermissionTileDTO> tiles;
+    public static BPTChoicePane bptChoicePaneWithTiles(List<BusinessPermissionTileDTO> tiles) {
+        return new BPTChoicePane(tiles, tiles.size());
+    }
 
-    public BPTChoicePane(List<RegionDTO> regions) {
-        this.regions = new LinkedList<>(regions);
+    public static BPTChoicePane bptChoicePaneWithRegions(List<RegionDTO> regions) {
+        List<BusinessPermissionTileDTO> tiles = new LinkedList<>();
+        regions.forEach(r -> tiles.addAll(r.getDeck().getOpenCards()));
+        BPTChoicePane pane = new BPTChoicePane(tiles, 2);
+        pane.regions = regions;
+        return pane;
+    }
+
+    private BPTChoicePane(List<BusinessPermissionTileDTO> tiles, int step) {
+        this.step = step;
         buttons = new LinkedList<>();
-        tiles = new LinkedList<>();
         setAlignment(Pos.CENTER);
         setSpacing(30.0);
         double tileWidth = 100.0;
         double tileHeight = 100.0;
         ToggleGroup tilesToggleGroup = new ToggleGroup();
-        int i = 0;
-        for (RegionDTO r: regions) {
+        for (int i = 0; i < tiles.size() / step; i++) {
             HBox regionPane = new HBox();
             regionPane.setSpacing(10.0);
             List<Pane> tilesPanes = new LinkedList<>();
-            for (BusinessPermissionTileDTO t: r.getDeck().getOpenCards()) {
-                VBox choicePane = new VBox(new BPTPane(tileWidth, tileHeight, t));
+            for (int j = 0; j < step; j++) {
+                VBox choicePane = new VBox(new BPTPane(tileWidth, tileHeight, tiles.get(i * step + j)));
                 choicePane.setSpacing(5.0);
                 choicePane.setAlignment(Pos.CENTER);
                 RadioButton radioButton = new RadioButton();
                 buttons.add(radioButton);
-                tiles.add(t);
                 radioButton.setToggleGroup(tilesToggleGroup);
                 choicePane.getChildren().addAll(radioButton);
                 tilesPanes.add(choicePane);
-                i++;
             }
             Collections.reverse(tilesPanes);
             regionPane.getChildren().addAll(tilesPanes);
@@ -63,10 +71,10 @@ public class BPTChoicePane extends HBox {
     }
 
     public RegionDTO getSelectedRegion() {
-        return regions.get(selectedIndex() / 2);
+        return (regions == null ? null :regions.get(selectedIndex() / step));
     }
 
     public int getPosition() {
-        return selectedIndex() % 2;
+        return selectedIndex() % step;
     }
 }

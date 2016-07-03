@@ -29,7 +29,7 @@ public class AcquireDialog extends Dialog<AcquireCommand> {
         ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         getDialogPane().getButtonTypes().add(buttonTypeCancel);
 
-        BPTChoicePane tPane = new BPTChoicePane(model.getRegions());
+        BPTChoicePane tPane = BPTChoicePane.bptChoicePaneWithRegions(model.getRegions());
         PoliticCardsChoicePane cPane = new PoliticCardsChoicePane(new LinkedList<>(model.getLocalPlayer().getCards()));
 
         contentView.getChildren().addAll(tPane, cPane);
