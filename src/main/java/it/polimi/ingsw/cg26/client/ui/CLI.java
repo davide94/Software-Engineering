@@ -195,6 +195,10 @@ public class CLI implements Observer<Update>, Runnable {
                 .filter(playerDTO -> !playerDTO.getName().equals(model.getLocalPlayer().getName()))
                 .forEach(playerPrinter::accept);
         writer.println("--------------------");
+        writer.println("Chat: (last 5 messages)");
+        List<String> messages = model.getMessages();
+        messages.subList(messages.size() - 5, messages.size()).forEach(m -> writer.println("    " + m));
+        writer.println("--------------------");
         writer.flush();
     }
 
@@ -380,6 +384,12 @@ public class CLI implements Observer<Update>, Runnable {
             List<BusinessPermissionTileDTO> res = askForList(bonuses.get(), 0, "Which bonus do you want?", t -> bonusPrinter.accept(t.getBonuses()));
             outView.writeObject(new ChoosePlayerBPTCommand(res));
         }
+    }
+
+    private void sendMessage() {
+        writer.printf("Message: ");
+        writer.flush();
+        outView.writeObject(new Message(model.getLocalPlayer().getName(), scanner.nextLine()));
     }
 
     private <T> T askForElement(List<T> list, String title, Consumer<T> printer) {
