@@ -25,16 +25,20 @@ public class PriceDialog extends Dialog<Integer> {
         HBox priceBox = new HBox();
 		Label label = new Label("Price:");
 		TextField priceText = new TextField();
-		//priceText.setPrefSize(10, 5);
 		priceBox.getChildren().addAll(label, priceText);
 		priceBox.setSpacing(10);
 		contentView.getChildren().add(priceBox);
 		
 		setResultConverter(b -> { 
-			Integer price = Integer.parseInt(priceText.getText());
-			if(b == buttonTypeOk)
-				return price;
-			return null;
+			try {
+				Integer price = Integer.parseInt(priceText.getText());
+				if(b == buttonTypeOk)
+					return price;
+				return null;
+			} 
+			catch (NumberFormatException e) {
+				return null;
+			}
 		});
 	}
 }

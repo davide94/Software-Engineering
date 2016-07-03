@@ -377,12 +377,20 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         AnchorPane.setLeftAnchor(market, 50.0);
         market.setVisible(false);
         
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(3.0f);
+        shadow.setRadius(50.0);
+        shadow.setColor(Color.WHITE);
         Pane showHidePane = new Pane();
-        AnchorPane.setBottomAnchor(showHidePane, 50.0);
+        AnchorPane.setBottomAnchor(showHidePane, 30.0);
         AnchorPane.setLeftAnchor(showHidePane, 50.0);
-        showHidePane.setPrefSize(20.0, 20.0);
-        showHidePane.setStyle("-fx-background-color: azure");
+        showHidePane.setPrefSize(50.0, 50.0);
+        showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/marketIcon.png") + ");" +
+                "-fx-background-position: center;" +
+                "-fx-background-size: 100% 100%;");
         showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> market.setVisible(true));
+        showHidePane.setEffect(shadow);
+        
         market.setContent(m);
         market.addEventHandler(MouseEvent.MOUSE_EXITED, e -> market.setVisible(false));
         market.setStyle("-fx-background-color: transparent");
