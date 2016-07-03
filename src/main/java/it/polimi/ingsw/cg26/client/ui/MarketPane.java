@@ -13,6 +13,11 @@ import it.polimi.ingsw.cg26.common.commands.market.SellPoliticCardCommand;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.PoliticCardDTO;
 import it.polimi.ingsw.cg26.common.dto.SellableDTO;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -21,10 +26,12 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +53,8 @@ public class MarketPane extends AnchorPane implements Observer{
 	
 	private OutView outView;
 	
+	private Label timerLabel;
+	
 	public MarketPane(double width, double height, Model model, OutView outView) {
 		this.model = model;
 		this.onSalePaneLabels = new HashMap<>();
@@ -63,14 +72,6 @@ public class MarketPane extends AnchorPane implements Observer{
 		shadow.setColor(Color.BLACK);
 		setEffect(shadow);
 
-		/*List<SellableDTO> onSale = new ArrayList<>();
-		onSale.add(new PoliticCardDTO(new PoliticColorDTO("orange"), 2, "Marco"));
-		onSale.add(new AssistantDTO(5, "Davide"));
-		List<String> cities = new ArrayList<>();
-		cities.add("Milano");
-		cities.add("Ancona");
-		onSale.add(new BusinessPermissionTileDTO(cities, new CoinBonusDTO(new EmptyBonusDTO(), 2), 2, "Luca"));
-		model.setMarket(new MarketDTO(onSale));*/
 		draw();
 	}
 	
@@ -79,6 +80,16 @@ public class MarketPane extends AnchorPane implements Observer{
 		drawTitle();
 		buildSellables();
 		buildPlayerSellables();
+		if(model.getState().yourTurnToSell()) {
+			if("".equals(timerLabel.getText()))
+				addTimer(300);
+		}
+		else if(model.getState().yourTurntoBuy()) {
+			if("".equals(timerLabel.getText()))
+				addTimer(300);
+		}
+		else
+			timerLabel.setVisible(false);
 	}
 	
 	private void drawTitle() {
@@ -110,6 +121,22 @@ public class MarketPane extends AnchorPane implements Observer{
 		this.getChildren().add(subTitle1);
 		this.getChildren().add(subTitle2);
 		
+		HBox timer = new HBox();
+		timer.setPrefSize(300, 48);
+		timer.setSpacing(7);
+		timer.setStyle("-fx-background-color: transparent");
+		timerLabel = new Label("");
+		timerLabel.setTextFill(Color.BLACK);
+		timerLabel.setFont(goudyMedieval2);
+		Label l = new Label("Time remaining:");
+		l.setTextFill(Color.BLACK);
+		l.setFont(goudyMedieval2);
+		timer.setAlignment(Pos.CENTER);
+		timer.getChildren().addAll(l, timerLabel);
+		AnchorPane.setTopAnchor(timer, this.getHeight() * 0.03);
+		AnchorPane.setLeftAnchor(timer, this.getWidth() * 0.2);
+		this.getChildren().add(timer);
+		
 		Button foldSellButton = new Button("Fold Sell");
 		if(!model.getState().yourTurnToSell())
 			foldSellButton.setVisible(false);
@@ -118,10 +145,10 @@ public class MarketPane extends AnchorPane implements Observer{
 		if(!model.getState().yourTurntoBuy())
 			foldBuyButton.setVisible(false);
 		foldBuyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> foldActionDialog("Are you sure you want to finish your buy phase?", false));
-		AnchorPane.setTopAnchor(foldSellButton, this.getHeight() * 0.07);
-		AnchorPane.setTopAnchor(foldBuyButton, this.getHeight() * 0.07);
-		AnchorPane.setLeftAnchor(foldSellButton, this.getWidth() * 0.2);
-		AnchorPane.setLeftAnchor(foldBuyButton, this.getWidth() * 0.3);
+		AnchorPane.setTopAnchor(foldSellButton, this.getHeight() * 0.05);
+		AnchorPane.setTopAnchor(foldBuyButton, this.getHeight() * 0.05);
+		AnchorPane.setLeftAnchor(foldSellButton, this.getWidth() * 0.5);
+		AnchorPane.setLeftAnchor(foldBuyButton, this.getWidth() * 0.5);
 		this.getChildren().addAll(foldSellButton, foldBuyButton);
 		
 	}
@@ -255,6 +282,18 @@ public class MarketPane extends AnchorPane implements Observer{
         Optional<Command> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
+	}
+	
+	private void addTimer(int time) {
+		timerLabel.setVisible(true);
+		SimpleIntegerProperty timeProperty = new SimpleIntegerProperty(time);
+		timerLabel.textProperty().bind(timeProperty.asString());
+		final Timeline timeline = new Timeline();
+		 timeline.setCycleCount(1);
+		 timeline.setAutoReverse(true);
+		 timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time),
+				 new KeyValue(timeProperty, 0)));
+		 timeline.playFromStart();
 	}
 
 	@Override

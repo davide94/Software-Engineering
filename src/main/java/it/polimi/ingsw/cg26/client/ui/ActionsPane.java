@@ -134,7 +134,6 @@ public class ActionsPane extends AnchorPane implements Observer{
 		for(Button b : actions) {
 			b.addEventHandler(MouseEvent.MOUSE_EXITED, e -> b.setStyle("-fx-background-color: transparent"));
 		}
-		timer.addEventHandler(MouseEvent.MOUSE_EXITED, e -> timer.setStyle("-fx-background-color: transparent"));
 
 		EventHandler<InputEvent> acquireHandler = (InputEvent event) ->
 			acquire.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/acquireMousePassing.png") + ");" +
@@ -187,20 +186,6 @@ public class ActionsPane extends AnchorPane implements Observer{
 				"-fx-background-position: center;" +
 				"-fx-background-size: 100% 100%;" + 
                 "-fx-background-color: transparent"));
-		
-		EventHandler<InputEvent> timerHandler = (InputEvent event) ->
-		timer.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/timerMousePassing.png") + ");" +
-			"-fx-background-position: center;" +
-			"-fx-background-size: 100% 100%;" + 
-			"-fx-background-color: transparent");
-		timer.addEventHandler(MouseEvent.MOUSE_ENTERED, timerHandler);
-		timer.addEventHandler(MouseEvent.MOUSE_RELEASED, timerHandler);
-		timer.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
-			timer.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/timerMousePressed.png") + ");" +
-			"-fx-background-position: center;" +
-			"-fx-background-size: 100% 100%;" + 
-            "-fx-background-color: transparent"));
-	
 		
 		EventHandler<InputEvent> engageAssistantHandler = (InputEvent event) ->
 			engageAssistant.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/engageAssistantMousePassing.png") + ");" +
@@ -332,7 +317,7 @@ public class ActionsPane extends AnchorPane implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(model.getState().yourTurn()) {
-			if(timerLabel.getText().equals(""))
+			if("".equals(timerLabel.getText()))
 				addTimer(300);
 		}
 		else
