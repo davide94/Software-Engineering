@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.client.view.rmi;
 
+import it.polimi.ingsw.cg26.client.view.InView;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 import it.polimi.ingsw.cg26.common.rmi.ClientRMIViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  *
  */
-public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIViewInterface, Runnable, Serializable {
+public class ClientRMIInView extends UnicastRemoteObject implements InView, ClientRMIViewInterface, Serializable {
 
     private static final long serialVersionUID = 1988554106153678366L;
 
@@ -22,16 +23,6 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
     public ClientRMIInView() throws RemoteException {
         super();
         observers = new LinkedList<>();
-    }
-
-    @Override
-    public void updateClient(Update u) throws RemoteException {
-        notifyObservers(u);
-    }
-
-    @Override
-    public void run() {
-
     }
 
     public void registerObserver(Observer<Update> o) {
@@ -43,5 +34,15 @@ public class ClientRMIInView extends UnicastRemoteObject implements ClientRMIVie
     public void notifyObservers(Update u) {
         for (Observer<Update> o: this.observers)
             o.update(u);
+    }
+
+    @Override
+    public void updateClient(Update u) throws RemoteException {
+        notifyObservers(u);
+    }
+
+    @Override
+    public void run() {
+
     }
 }

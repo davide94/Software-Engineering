@@ -1,15 +1,15 @@
 package it.polimi.ingsw.cg26.common.update.event;
 
-import static org.junit.Assert.*;
+import it.polimi.ingsw.cg26.client.model.Model;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
+import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.Test;
-
-import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ActionFailedTest {
 	
@@ -25,13 +25,6 @@ public class ActionFailedTest {
 		Event actionFailed = new ActionFailed(new InvalidRegionException());
 		
 		assertNotNull(actionFailed);
-	}
-
-	@Test (expected = InvalidTileException.class)
-	public void testRethrowException() throws Exception {
-		ActionFailed actionFailed = new ActionFailed(new InvalidTileException());
-		
-		actionFailed.why();
 	}
 	
 	@Test

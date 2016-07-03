@@ -138,7 +138,8 @@ public class MarketPane extends AnchorPane implements Observer{
 			}
 			else if(sellable.toString().contains("BusinessPermissionTile")) {
 				sellablePane = new BPTPane(100, 100, (BusinessPermissionTileDTO) sellable);
-			}
+			} else
+				sellablePane = new Pane();
 			double offset = this.getWidth() * 0.05;
 			for(Map.Entry<Pane, Label> pl : onSalePaneLabels.entrySet()) {
 				offset = offset + Math.max(pl.getKey().getPrefWidth(), pl.getValue().getPrefWidth()) + 25.0;
