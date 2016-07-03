@@ -26,6 +26,8 @@ public class ActionsPane extends AnchorPane {
 	private Button changeBPT;
 	private Button electAsQuickAction;
 	private Button additionalMainAction;
+	private Button foldQuickAction;
+	private Button timer;
 
     private HBox obscuration;
 	
@@ -64,32 +66,39 @@ public class ActionsPane extends AnchorPane {
 		changeBPT = new Button();
 		electAsQuickAction = new Button();
 		additionalMainAction = new Button();
+		foldQuickAction = new Button();
+		timer = new Button();
 		actions = new ArrayList<>();
-		actions.addAll(Arrays.asList(acquire, buildKing, electAsMainAction, build, engageAssistant, changeBPT, electAsQuickAction, additionalMainAction));
+		actions.addAll(Arrays.asList(acquire, buildKing, electAsMainAction, build, timer, engageAssistant, changeBPT, electAsQuickAction, additionalMainAction, foldQuickAction));
 		for(Button b : actions) {
 			b.setPrefWidth(200);
-	        b.setPrefHeight(60);
+	        b.setPrefHeight(48);
 	        b.setStyle("-fx-background-color: transparent");
 		}
 
+		
+		AnchorPane.setLeftAnchor(timer, 0.0);
+        AnchorPane.setBottomAnchor(timer, 0.0);
         AnchorPane.setLeftAnchor(build, 0.0);
-        AnchorPane.setBottomAnchor(build, 0.0);
+        AnchorPane.setBottomAnchor(build, 50.0);
         AnchorPane.setLeftAnchor(electAsMainAction, 0.0);
-        AnchorPane.setBottomAnchor(electAsMainAction, 60.0);
+        AnchorPane.setBottomAnchor(electAsMainAction, 100.0);
         AnchorPane.setLeftAnchor(buildKing, 0.0);
-        AnchorPane.setBottomAnchor(buildKing, 120.0);
+        AnchorPane.setBottomAnchor(buildKing, 152.0);
         AnchorPane.setLeftAnchor(acquire, 0.0);
-        AnchorPane.setBottomAnchor(acquire, 186.5);
+        AnchorPane.setBottomAnchor(acquire, 204.5);
+        AnchorPane.setRightAnchor(foldQuickAction, 0.0);
+        AnchorPane.setBottomAnchor(foldQuickAction, 0.0);
         AnchorPane.setRightAnchor(additionalMainAction, 0.0);
-        AnchorPane.setBottomAnchor(additionalMainAction, 0.0);
+        AnchorPane.setBottomAnchor(additionalMainAction, 50.0);
         AnchorPane.setRightAnchor(electAsQuickAction, 0.0);
-        AnchorPane.setBottomAnchor(electAsQuickAction, 60.0);
+        AnchorPane.setBottomAnchor(electAsQuickAction, 100.0);
         AnchorPane.setRightAnchor(changeBPT, 0.0);
-        AnchorPane.setBottomAnchor(changeBPT, 120.0);
+        AnchorPane.setBottomAnchor(changeBPT, 152.0);
         AnchorPane.setRightAnchor(engageAssistant, 0.0);
-        AnchorPane.setBottomAnchor(engageAssistant, 186.5);
+        AnchorPane.setBottomAnchor(engageAssistant, 204.5);
         
-        this.getChildren().addAll(build, electAsMainAction, buildKing, acquire, additionalMainAction, electAsQuickAction, changeBPT, engageAssistant);
+        this.getChildren().addAll(timer, build, electAsMainAction, buildKing, acquire, foldQuickAction, additionalMainAction, electAsQuickAction, changeBPT, engageAssistant);
 	}
 	
 	private void addButtonsEffects() {
@@ -149,6 +158,20 @@ public class ActionsPane extends AnchorPane {
 				"-fx-background-size: 100% 100%;" + 
                 "-fx-background-color: transparent"));
 		
+		EventHandler<InputEvent> timerHandler = (InputEvent event) ->
+		timer.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/timerMousePassing.png") + ");" +
+			"-fx-background-position: center;" +
+			"-fx-background-size: 100% 100%;" + 
+			"-fx-background-color: transparent");
+	timer.addEventHandler(MouseEvent.MOUSE_ENTERED, timerHandler);
+	timer.addEventHandler(MouseEvent.MOUSE_RELEASED, timerHandler);
+	timer.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
+		timer.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/timerMousePressed.png") + ");" +
+			"-fx-background-position: center;" +
+			"-fx-background-size: 100% 100%;" + 
+            "-fx-background-color: transparent"));
+	
+		
 		EventHandler<InputEvent> engageAssistantHandler = (InputEvent event) ->
 			engageAssistant.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/engageAssistantMousePassing.png") + ");" +
 				"-fx-background-position: center;" +
@@ -200,6 +223,19 @@ public class ActionsPane extends AnchorPane {
 				"-fx-background-position: center;" +
 				"-fx-background-size: 100% 100%;" + 
 				"-fx-background-color: transparent"));
+		
+		EventHandler<InputEvent> foldQuickActionHandler = (InputEvent event) ->
+		foldQuickAction.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/foldQuickActionMousePassing.png") + ");" +
+			"-fx-background-position: center;" +
+			"-fx-background-size: 100% 100%;" + 
+			"-fx-background-color: transparent");
+	foldQuickAction.addEventHandler(MouseEvent.MOUSE_ENTERED, foldQuickActionHandler);
+	foldQuickAction.addEventHandler(MouseEvent.MOUSE_RELEASED, foldQuickActionHandler);
+	foldQuickAction.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> 
+		foldQuickAction.setStyle("-fx-background-image: url(" + getClass().getResource("/img/actionsButtons/foldQuickActionMousePressed.png") + ");" +
+			"-fx-background-position: center;" +
+			"-fx-background-size: 100% 100%;" + 
+            "-fx-background-color: transparent"));
 	}
 	
 	public Button getAcquire() {
@@ -218,6 +254,11 @@ public class ActionsPane extends AnchorPane {
 		return this.build;
 	}
 	
+	public Button getTimer() {
+		return this.timer;
+	}
+	
+	
 	public Button getEngageAssistant() {
 		return this.engageAssistant;
 	}
@@ -232,6 +273,10 @@ public class ActionsPane extends AnchorPane {
 	
 	public Button getAdditionalMainAction() {
 		return this.additionalMainAction;
+	}
+	
+	public Button getFoldQuickAction() {
+		return this.foldQuickAction;
 	}
 
     public void enable() {
