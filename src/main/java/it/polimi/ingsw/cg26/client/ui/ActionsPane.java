@@ -82,7 +82,6 @@ public class ActionsPane extends AnchorPane implements Observer{
 		electAsQuickAction = new Button();
 		additionalMainAction = new Button();
 		foldQuickAction = new Button();
-		timer = new HBox();
 		actions = new ArrayList<>();
 		actions.addAll(Arrays.asList(acquire, buildKing, electAsMainAction, build, engageAssistant, changeBPT, electAsQuickAction, additionalMainAction, foldQuickAction));
 		for(Button b : actions) {
@@ -90,21 +89,12 @@ public class ActionsPane extends AnchorPane implements Observer{
 	        b.setPrefHeight(48);
 	        b.setStyle("-fx-background-color: transparent");
 		}
+		timer = new HBox();
 		timer.setPrefSize(200, 48);
 		timer.setSpacing(7);
 		timer.setStyle("-fx-background-color: transparent");
-		DropShadow shadow = new DropShadow(10, Color.BLACK);
-		timerLabel = new Label("");
-		timerLabel.setTextFill(Color.WHITE);
-		timerLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-		timerLabel.setVisible(false);
-		timerLabel.setEffect(shadow);
-		Label l = new Label("Time remaining:");
-		l.setTextFill(Color.WHITE);
-		l.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-		l.setEffect(shadow);
 		timer.setAlignment(Pos.CENTER);
-		timer.getChildren().addAll(l, timerLabel);
+		createTimerLabel();
 		
 		AnchorPane.setLeftAnchor(timer, 0.0);
         AnchorPane.setBottomAnchor(timer, 0.0);
@@ -253,6 +243,20 @@ public class ActionsPane extends AnchorPane implements Observer{
             "-fx-background-color: transparent"));
 	}
 	
+	private void createTimerLabel() {
+		DropShadow shadow = new DropShadow(10, Color.BLACK);
+		timerLabel = new Label("");
+		timerLabel.setTextFill(Color.WHITE);
+		timerLabel.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
+		timerLabel.setVisible(false);
+		timerLabel.setEffect(shadow);
+		Label l = new Label("Time remaining:");
+		l.setTextFill(Color.WHITE);
+		l.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
+		l.setEffect(shadow);
+		timer.getChildren().addAll(l, timerLabel);
+	}
+	
 	private void addTimer(int time) {
 		timerLabel.setVisible(true);
 		SimpleIntegerProperty timeProperty = new SimpleIntegerProperty(time);
@@ -320,8 +324,10 @@ public class ActionsPane extends AnchorPane implements Observer{
 			if("".equals(timerLabel.getText()))
 				addTimer(300);
 		}
-		else
-			timerLabel.setVisible(false);
+		else {
+			timer.getChildren().clear();
+			createTimerLabel();
+		}
 	}
 
 }
