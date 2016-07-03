@@ -38,7 +38,7 @@ public abstract class State {
         toggleNextPlayer = new TimerTask() {
             @Override
             public void run() {
-                gameBoard.getScheduler().setState(nextPlayer());
+                gameBoard.getScheduler().nextPlayer();
             }
         };
     }
@@ -127,7 +127,7 @@ public abstract class State {
         toggleNextPlayer = new TimerTask() {
             @Override
             public void run() {
-                gameBoard.getScheduler().setState(nextPlayer());
+                gameBoard.getScheduler().nextPlayer();
             }
         };
         timer.schedule(toggleNextPlayer, TURN_TIMEOUT);

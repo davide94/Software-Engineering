@@ -69,8 +69,10 @@ public class MarketBuy extends State {
     @Override
     public State nextPlayer() {
         current++;
-        if (current == players.size())
+        if (current == players.size()) {
+            gameBoard.getMarket().endMarket();
             return new Regular(players, gameBoard);
+        }
         if (!getCurrentPlayer().isOnline())
             return nextPlayer();
         log.info("Player " + getCurrentPlayer().getToken() + " begin his Buy turn.");

@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg26.common.dto.*;
 import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 import it.polimi.ingsw.cg26.common.observer.Observer;
 import it.polimi.ingsw.cg26.common.update.Update;
+import javafx.application.Platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -209,6 +210,8 @@ public class CLI implements Observer<Update>, Runnable {
         writer.flush();
         outView.writeObject(new StaccahCommand());
         quit = true;
+        Platform.exit();
+        System.exit(0);
     }
 
     private void electAsMainAction() {

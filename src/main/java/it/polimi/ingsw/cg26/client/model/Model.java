@@ -42,9 +42,9 @@ public class Model extends Observable<Update> implements ClientModel {
     
     private Map<CityColorDTO, BonusDTO> colorBonuses;
 
-    private List<String> messages;
+    private List<Instant> messagesTimes;
 
-    private LinkedHashMap<Instant, String> recentMessages;
+    private List<String> messages;
 
     public Model() {
         state = new StateContext(this);
@@ -52,8 +52,8 @@ public class Model extends Observable<Update> implements ClientModel {
         councillorsPool = new LinkedList<>();
         regions = new LinkedList<>();
         colorBonuses = new HashMap<>();
+        messagesTimes = new LinkedList<>();
         messages = new LinkedList<>();
-        recentMessages = new LinkedHashMap<>();
     }
 
     public StateContext getState() {
@@ -169,6 +169,7 @@ public class Model extends Observable<Update> implements ClientModel {
 	}
 
     public void addMessage(String message) {
+        messagesTimes.add(Instant.now());
         messages.add(message);
     }
 
@@ -183,14 +184,7 @@ public class Model extends Observable<Update> implements ClientModel {
 
     public synchronized List<String> getRecentMessages() {
         int seconds = 5;
-        LinkedList<String> ret = new LinkedList<>();
-        for (Iterator<Map.Entry<Instant, String>> iterator = recentMessages.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry<Instant, String> entity = iterator.next();
-            if (entity.getKey().until(Instant.now(), ChronoUnit.SECONDS) < seconds)
-                ret.add(entity.getValue());
-            else
-                iterator.remove();
-        }
-        return ret;
+        int num = (int) messagesTimes.stream().filter(t -> t.until(Instant.now(), ChronoUnit.SECONDS) < seconds).count();
+        return messages.subList(messages.size() - num, messages.size());
     }
 }

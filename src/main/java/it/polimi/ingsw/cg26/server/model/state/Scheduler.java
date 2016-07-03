@@ -240,10 +240,9 @@ public class Scheduler {
     }
 
     /**
-     * Setter of the state
-     * @param state of the game
+     * Toggle next player
      */
-    public void setState(State state) {
-        this.state = state;
+    public void nextPlayer() {
+        state = state.nextPlayer();
     }
 }

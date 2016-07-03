@@ -484,7 +484,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         AnchorPane.setRightAnchor(showHidePane, 50.0);
         showHidePane.setPrefSize(50.0, 50.0);
         showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/chat.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
-        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> chatPane.setVisible(true));
+        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+            chatPane.update(null, null);
+            chatPane.setVisible(true);
+        });
 
         root.getChildren().add(showHidePane);
         root.getChildren().add(chatPane);

@@ -35,7 +35,7 @@ public class PriceDialog extends Dialog<Integer> {
 				if(b == buttonTypeOk)
 					return price;
 				return null;
-			} 
+			}
 			catch (NumberFormatException e) {
 				return null;
 			}

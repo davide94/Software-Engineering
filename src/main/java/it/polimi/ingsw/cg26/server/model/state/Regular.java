@@ -57,7 +57,7 @@ public class Regular extends State {
 
     @Override
     public State regularActionPerformed() {
-        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction()) {
+        if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || !getCurrentPlayer().getPendingRequest().isEmpty()) {
 
             //check if someone built 10 emporiums
             int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
