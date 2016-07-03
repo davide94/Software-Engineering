@@ -23,8 +23,6 @@ public class ChooseBPT extends Action {
 	
 	public ChooseBPT(RegionDTO chosenRegion, int chosenPosition, long token) {
 		super(token);
-		if(chosenRegion == null)
-			throw new NullPointerException();
 		this.chosenRegion = chosenRegion;
 		this.chosenPosition = chosenPosition;
 	}
@@ -36,9 +34,11 @@ public class ChooseBPT extends Action {
 			throw new NotYourTurnException();
 		if(!currentPlayer.canPerformChooseAction())
 			throw new NoRemainingActionsException();
-		BusinessPermissionTile addedBPT = gameBoard.getRegion(this.chosenRegion).getBPTDeck().draw(this.chosenPosition);
-		currentPlayer.addPermissionTile(addedBPT);
-		addedBPT.getReward(currentPlayer);
+		if(this.chosenRegion != null) {
+			BusinessPermissionTile addedBPT = gameBoard.getRegion(this.chosenRegion).getBPTDeck().draw(this.chosenPosition);
+			currentPlayer.addPermissionTile(addedBPT);
+			addedBPT.getReward(currentPlayer);
+		}
 		currentPlayer.performChooseAction();
 		currentPlayer.removePendingRequest(new BPTRequest());
 		notifyChange(gameBoard);
