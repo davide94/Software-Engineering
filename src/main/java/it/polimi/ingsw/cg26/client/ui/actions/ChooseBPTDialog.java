@@ -11,9 +11,9 @@ import javafx.scene.layout.VBox;
 /**
  *
  */
-public class ChooseBPTBonusDialog extends Dialog<ChooseBPTCommand> {
+public class ChooseBPTDialog extends Dialog<ChooseBPTCommand> {
 
-    public ChooseBPTBonusDialog(Model model) {
+    public ChooseBPTDialog(Model model) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 

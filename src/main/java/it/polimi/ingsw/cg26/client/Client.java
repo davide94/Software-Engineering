@@ -10,6 +10,8 @@ import it.polimi.ingsw.cg26.client.view.rmi.ClientRMIOutView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketInView;
 import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.commands.*;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
 import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
@@ -595,8 +597,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         System.out.println("foldQuickAction");
     }
 
-    private void buildBPTBonusRequestDialog() {
-        Dialog<ChooseBPTCommand> d = new ChooseBPTBonusDialog(model);
+    private void buildBPTBonusRequestDialog(List<BusinessPermissionTileDTO> pendingTiles) {
+        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(model);
         d.setOnHidden(e -> {
             if (d.getResult() != null)
                 outView.writeObject(d.getResult());
@@ -606,7 +608,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.show();
     }
 
-    private void buildCityBonusRequestDialog() {
+    private void buildCityBonusRequestDialog(List<CityDTO> pendingCities) {
         Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(model);
         d.setOnHidden(e -> {
             if (d.getResult() != null)
@@ -616,7 +618,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         d.show();
     }
 
-    private void buildPlayerRequestDialog() {
+    private void buildPlayerRequestDialog(List<BusinessPermissionTileDTO> pendingPlayer) {
         Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(model);
         d.setOnHidden(e -> {
             if (d.getResult() != null)
@@ -628,12 +630,15 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
 
     private synchronized void refreshScene() {
         if (refresh) {
-            if (model.getState().isPendingBPTBonusRequest() > 0)
-                buildBPTBonusRequestDialog();
-            if (model.getState().isPendingCityBonusRequest() > 0)
-                buildCityBonusRequestDialog();
-            if (model.getState().isPendingPlayerBonusRequest() > 0)
-                buildPlayerRequestDialog();
+            Optional<List<BusinessPermissionTileDTO>> pendingTiles = model.getState().getPendingBPTBonusRequest();
+            if (pendingTiles.isPresent())
+                buildBPTBonusRequestDialog(pendingTiles.get());
+            Optional<List<CityDTO>> pendingCities = model.getState().getPendingCityBonusRequest();
+            if (pendingCities.isPresent())
+                buildCityBonusRequestDialog(pendingCities.get());
+            Optional<List<BusinessPermissionTileDTO>> pendingPlayer = model.getState().getPendingPlayerBonusRequest();
+            if (pendingPlayer.isPresent())
+                buildPlayerRequestDialog(pendingPlayer.get());
             observers.forEach(o -> o.update(null, null));
         }
         refresh = false;

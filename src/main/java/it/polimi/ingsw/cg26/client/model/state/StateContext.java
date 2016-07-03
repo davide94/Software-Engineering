@@ -5,8 +5,13 @@ import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingBPTRequest;
 import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingCityBonusRequest;
 import it.polimi.ingsw.cg26.client.model.state.pendingRequest.PendingPlayerRequest;
 import it.polimi.ingsw.cg26.common.ClientState;
+import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
+import it.polimi.ingsw.cg26.common.dto.CityDTO;
+import it.polimi.ingsw.cg26.common.dto.bonusdto.BonusDTO;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A state machine that simulates the client status
@@ -168,15 +173,15 @@ public class StateContext implements ClientState {
         state = new YourTurn();
     }
 
-    public int isPendingBPTBonusRequest() {
-        return state.isPendingBPTBonusRequest();
+    public Optional<List<BusinessPermissionTileDTO>> getPendingBPTBonusRequest() {
+        return state.getPendingBPTBonusRequest();
     }
 
-    public int isPendingCityBonusRequest() {
-        return state.isPendingCityBonusRequest();
+    public Optional<List<CityDTO>> getPendingCityBonusRequest() {
+        return state.getPendingCityBonusRequest();
     }
 
-    public int isPendingPlayerBonusRequest() {
-        return state.isPendingPlayerBonusRequest();
+    public Optional<List<BusinessPermissionTileDTO>> getPendingPlayerBonusRequest() {
+        return state.getPendingPlayerBonusRequest();
     }
 }

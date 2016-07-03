@@ -350,6 +350,38 @@ public class CLI implements Observer<Update>, Runnable {
         outView.writeObject(new FoldBuyCommand());
     }
 
+    private void chooseBPT() {
+        Optional<List<BusinessPermissionTileDTO>> tiles = model.getState().getPendingBPTBonusRequest();
+        if (tiles.isPresent()) {
+            BusinessPermissionTileDTO res = askForElement(tiles.get(), "Which BPT do you want?", bptPrinter);
+            RegionDTO region = null;
+            int index = 0;
+            for (RegionDTO r: model.getRegions()) {
+                if (r.getDeck().getOpenCards().contains(res)) {
+                    region = r;
+                    index = r.getDeck().getOpenCards().indexOf(res);
+                }
+            }
+            outView.writeObject(new ChooseBPTCommand(region, 0));
+        }
+    }
+
+    private void chooseCity() {
+        Optional<List<CityDTO>> bonuses = model.getState().getPendingCityBonusRequest();
+        if (bonuses.isPresent()) {
+            List<CityDTO> res = askForList(bonuses.get(), 0, "Which bonus do you want?", c -> bonusPrinter.accept(c.getBonuses()));
+            outView.writeObject(new ChooseCityCommand(res));
+        }
+    }
+
+    private void choosePlayer() {
+        Optional<List<BusinessPermissionTileDTO>> bonuses = model.getState().getPendingPlayerBonusRequest();
+        if (bonuses.isPresent()) {
+            List<BusinessPermissionTileDTO> res = askForList(bonuses.get(), 0, "Which bonus do you want?", t -> bonusPrinter.accept(t.getBonuses()));
+            outView.writeObject(new ChoosePlayerBPTCommand(res));
+        }
+    }
+
     private <T> T askForElement(List<T> list, String title, Consumer<T> printer) {
         writer.println(title);
         for (int i = 0; i < list.size(); i++) {
