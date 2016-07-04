@@ -5,30 +5,40 @@ import javafx.embed.swing.JFXPanel;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 public class MusicPlayer extends JFXPanel{
 
-	private final String path= "src/main/resources/sound/soundtrack.wav";
+	private static final long serialVersionUID = -4819055617293583362L;
+
+	private static final String PATH = "src/main/resources/sound/soundtrack.wav";
 
 	private File file;
 	
-	private AudioInputStream audioInputStream;
+	private transient AudioInputStream audioInputStream;
 	
-	private Clip clip;
+	private transient Clip clip;
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	private static final String MESSAGE = "Exception thrown in the audio handler";
 
 	public MusicPlayer(){
 		
 		
 		try{
 			
-			file=new File(path);
+			file=new File(PATH);
 			audioInputStream= AudioSystem.getAudioInputStream(file.getAbsoluteFile());
 			
 			clip= AudioSystem.getClip();
 			clip.open(audioInputStream);
 		}catch (Exception e){
-			System.out.println(e.getMessage());
+			logger.error(MESSAGE, e);
 		}
 		
 		play();
@@ -37,9 +47,9 @@ public class MusicPlayer extends JFXPanel{
 	public void play(){
 		try{
 		    clip.start();
-			clip.loop(clip.LOOP_CONTINUOUSLY);
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			logger.error(MESSAGE, e);
 		}
 	}
 	
@@ -49,7 +59,7 @@ public class MusicPlayer extends JFXPanel{
 			
 			clip.stop();
 		}catch (Exception e){
-			System.out.println(e.getMessage());
+			logger.error(MESSAGE, e);
 		}
 	}
 	

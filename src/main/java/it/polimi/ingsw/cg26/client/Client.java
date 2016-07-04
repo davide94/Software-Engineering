@@ -12,7 +12,6 @@ import it.polimi.ingsw.cg26.client.view.socket.ClientSocketOutView;
 import it.polimi.ingsw.cg26.common.commands.*;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import it.polimi.ingsw.cg26.common.dto.CityDTO;
-import it.polimi.ingsw.cg26.common.dto.RegionDTO;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIViewInterface;
 import it.polimi.ingsw.cg26.common.rmi.ServerRMIWelcomeViewInterface;
 import it.polimi.ingsw.cg26.common.update.Update;
@@ -330,14 +329,11 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Builds and displays the Business Permit Tiles
      */
     private void buildBPT() {
-        //List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.065, 0.587), new Point2D(0.140, 0.587), new Point2D(0.215, 0.587), new Point2D(0.364, 0.587), new Point2D(0.439, 0.587), new Point2D(0.513, 0.587), new Point2D(0.698, 0.587), new Point2D(0.773, 0.587), new Point2D(0.847, 0.587));
         List<Point2D> bptOrigins = Arrays.asList(new Point2D(0.067 * root.getWidth(), 0.595 * root.getHeight()), new Point2D(0.367 * root.getWidth(), 0.595 * root.getHeight()), new Point2D(0.701 * root.getWidth(), 0.595 * root.getHeight()));
-        int i = 0;
-        for (RegionDTO r: model.getRegions()) {
+        for (int i = 0; i < model.getRegions().size(); i++) {
             BPTDeckPane p = new BPTDeckPane(bptOrigins.get(i), 0.215 * root.getWidth(), 0.085 * root.getHeight(), model, i);
             root.getChildren().addAll(p);
             observers.add(p);
-            i++;
         }
     }
 
@@ -350,12 +346,10 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         BalconyPane kingBalcony = new BalconyPane(new Point2D(0.630 * root.getWidth(), 0.721 * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model, 3);
     	observers.add(kingBalcony);
         root.getChildren().add(kingBalcony);
-    	int i = 0;
-    	for(RegionDTO r : model.getRegions()) {
+    	for(int i = 0; i < model.getRegions().size(); i++) {
     		BalconyPane balcony = new BalconyPane(new Point2D(balconiesOrigins.get(i).getX() * root.getWidth(), balconiesOrigins.get(i).getY() * root.getHeight()), 0.105 * root.getWidth(), 0.058 * root.getHeight(), model, i);
     		root.getChildren().add(balcony);
             observers.add(balcony);
-    		i++;
     	}
     }
 
@@ -536,7 +530,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         Optional<Command> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("electAsMainAction");
     }
 
     
@@ -548,7 +541,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         Optional<AcquireCommand> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("acquire");
     }
 
     /**
@@ -559,7 +551,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	Optional<BuildCommand> result = d.showAndWait();
     	if(result.isPresent())
     		outView.writeObject(result.get());
-        System.out.println("build");
     }
 
     /**
@@ -570,7 +561,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	Optional<BuildKingCommand> result = d.showAndWait();
     	if(result.isPresent())
     		outView.writeObject(result.get());
-        System.out.println("buildKing");
     }
 
     
@@ -592,7 +582,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         Optional<EngageAssistantCommand> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("engageAssistant");
     }
 
     
@@ -604,7 +593,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
     	Optional<ChangeBPTCommand> result = d.showAndWait();
     	if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("changeBPT");
     }
 
     
@@ -616,7 +604,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         Optional<Command> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("electAsQuickAction");
     }
 
     
@@ -638,7 +625,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         Optional<AdditionalMainActionCommand> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("additionalMainAction");
     }
 
     
@@ -660,7 +646,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         Optional<FoldQuickActionCommand> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
-        System.out.println("foldQuickAction");
     }
 
     

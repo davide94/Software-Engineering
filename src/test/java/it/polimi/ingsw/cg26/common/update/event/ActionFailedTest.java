@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ActionFailedTest {
 	
@@ -36,7 +36,7 @@ public class ActionFailedTest {
 		
 		String stringa = "actionFailed";
 		for(int i=0; i<stringa.length(); i++) {
-			assertEquals(stringa.charAt(i), outContent.toString().charAt(i));
+			assertTrue(outContent.toString().contains(stringa));
 		}
 	}
 }

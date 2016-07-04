@@ -29,7 +29,7 @@ public class ActionSuccessFulTest {
 		
 		String stringa = "actionSuccessful";
 		for(int i=0; i<stringa.length(); i++) {
-			assertEquals(stringa.charAt(i), outContent.toString().charAt(i));
+			assertTrue(outContent.toString().contains(stringa));
 		}
 	}
 

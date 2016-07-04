@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 public class MatchEndedTest {
@@ -30,7 +30,7 @@ public class MatchEndedTest {
 		
 		String stringa = "matchEnded";
 		for(int i=0; i<stringa.length(); i++) {
-			assertEquals(stringa.charAt(i), outContent.toString().charAt(i));
+			assertTrue(outContent.toString().contains(stringa));
 		}
 	}
 }
