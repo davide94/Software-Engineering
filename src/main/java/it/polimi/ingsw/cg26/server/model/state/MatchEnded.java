@@ -82,7 +82,5 @@ public class MatchEnded extends State {
         int a = (int)players.stream().filter(p -> p.getVictoryPoints() == players.get(0).getVictoryPoints()).count();
         if (a != 0)
             Collections.sort(players.subList(0, a), assistantsPlusCardsComparator);
-
-
     }
 }

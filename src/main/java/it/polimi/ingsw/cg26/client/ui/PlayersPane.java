@@ -84,10 +84,12 @@ public class PlayersPane extends Pane implements Observer {
         gridPane.add(new Label(Integer.toString(player.getNobilityCell())), 1, 4);
         gridPane.add(new Label("Assistants number: "), 0, 5);
         gridPane.add(new Label(Integer.toString(player.getAssistantsNumber())), 1, 5);
-        gridPane.add(new Label("Remaining Main Actions: "), 0, 6);
-        gridPane.add(new Label(Integer.toString(player.getRemainingMainActions())), 1, 6);
-        gridPane.add(new Label("Remaining Quick Actions: "), 0, 7);
-        gridPane.add(new Label(Integer.toString(player.getRemainingQuickActions())), 1, 7);
+        gridPane.add(new Label("Used BPT number: "), 0, 6);
+        gridPane.add(new Label(Integer.toString(player.getDiscardedTiles().size())), 1, 6);
+        gridPane.add(new Label("Remaining Main Actions: "), 0, 7);
+        gridPane.add(new Label(Integer.toString(player.getRemainingMainActions())), 1, 7);
+        gridPane.add(new Label("Remaining Quick Actions: "), 0, 8);
+        gridPane.add(new Label(Integer.toString(player.getRemainingQuickActions())), 1, 8);
 
         if(!player.getCards().isEmpty()) {
             playerPane.getChildren().add(new Label("Politic Cards: "));

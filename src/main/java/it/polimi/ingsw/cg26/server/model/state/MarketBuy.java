@@ -70,6 +70,7 @@ public class MarketBuy extends State {
 
     @Override
     public State nextPlayer() {
+        timer.cancel();
         current++;
         if (current == players.size()) {
             current--;

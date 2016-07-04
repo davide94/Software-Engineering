@@ -64,13 +64,13 @@ public class LastRound extends State {
     public State regularActionPerformed() {
         if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || getCurrentPlayer().canPerformChooseAction())
             return this;
-
         gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnEnded(), getCurrentPlayer().getToken()));
         return nextPlayer();
     }
 
     @Override
     public State nextPlayer() {
+        timer.cancel();
         current++;
         if (current == players.size())
             current = 0;

@@ -59,6 +59,7 @@ public class MarketSell extends State {
 
     @Override
     public State nextPlayer() {
+        timer.cancel();
         current++;
         if (current == players.size())
             return new MarketBuy(players, gameBoard);

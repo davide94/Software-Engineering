@@ -25,7 +25,7 @@ public abstract class State {
     /**
      * The timer
      */
-    private Timer timer;
+    protected Timer timer;
 
     /**
      * the Constructor of the state machine of the game 
@@ -33,6 +33,7 @@ public abstract class State {
      */
     public State(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
+        timer = new Timer();
     }
     
     /**
@@ -115,12 +116,8 @@ public abstract class State {
      * Start the timer
      */
     public void startTimer() {
-        if(timer==null){
-            timer=new Timer();
-        } else{
-            timer.cancel();
-            timer=new Timer();
-        }
+        timer.cancel();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
