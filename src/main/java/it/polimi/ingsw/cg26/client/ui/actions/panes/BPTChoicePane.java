@@ -61,6 +61,7 @@ public class BPTChoicePane extends HBox {
             regionPane.getChildren().addAll(tilesPanes);
             getChildren().add(regionPane);
         }
+
     }
 
     private int selectedIndex() {

@@ -58,15 +58,14 @@ public class Regular extends State {
     @Override
     public State regularActionPerformed() {
         if (getCurrentPlayer().canPerformMainAction() || getCurrentPlayer().canPerformQuickAction() || getCurrentPlayer().canPerformChooseAction()) {
-
-            //check if someone built 10 emporiums
-            int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
-                    c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
-            if (count >= 5) {
-                getCurrentPlayer().addVictoryPoints(3);
-                return new LastRound(players, current, gameBoard);
-            }
             return this;
+        }
+        //check if someone built 10 emporiums
+        int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
+                c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
+        if (count >= 5) {
+            getCurrentPlayer().addVictoryPoints(3);
+            return new LastRound(players, current, gameBoard);
         }
         gameBoard.notifyObservers(new PrivateUpdate(new RegularTurnEnded(), getCurrentPlayer().getToken()));
         return nextPlayer();

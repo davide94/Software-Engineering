@@ -121,8 +121,12 @@ public class SchedulerTest {
             if (i == 10)
                 break;
         }
-        gigi.performQuickAction();
-        gigi.performMainAction();
+        while (gigi.canPerformChooseAction())
+            gigi.performChooseAction();
+        while (gigi.canPerformMainAction())
+            gigi.performMainAction();
+        while (gigi.canPerformQuickAction())
+            gigi.performQuickAction();
         scheduler.regularActionPerformed();
         assertEquals(scheduler.getCurrentPlayer(), ugo);
 

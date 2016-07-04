@@ -43,7 +43,10 @@ public class ChatPane extends VBox implements Observer {
         setVisible(false);
         setEffect(shadow);
         setStyle("-fx-background-color: azure;-fx-opacity: 0.5;-fx-background-radius: 5px;");
-        addEventHandler(MouseEvent.MOUSE_EXITED, e -> setVisible(false));
+        addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+            update(null, null);
+            setVisible(false);
+        });
 
         setSpacing(10.0);
         setPadding(new Insets(10.0));
@@ -95,13 +98,12 @@ public class ChatPane extends VBox implements Observer {
                 Label messageLabel = new Label(message);
                 display.getChildren().add(messageLabel);
             }
-        } else {
-            List<String> messages = model.getRecentMessages();
-            preview.getChildren().clear();
-            for (String message : messages) {
-                Label messageLabel = new Label(message);
-                preview.getChildren().add(messageLabel);
-            }
+        }
+        List<String> messages = model.getRecentMessages();
+        preview.getChildren().clear();
+        for (String message : messages) {
+            Label messageLabel = new Label(message);
+            preview.getChildren().add(messageLabel);
         }
     }
 }

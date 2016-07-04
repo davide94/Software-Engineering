@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg26.client.ui.actions;
 
+import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.actions.panes.BPTChoicePane;
 import it.polimi.ingsw.cg26.common.commands.ChooseBPTCommand;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
@@ -19,7 +20,7 @@ public class ChooseBPTDialog extends Dialog<ChooseBPTCommand> {
 	 * Default constructor
 	 * @param tiles a list of BPT uncovered on the gameboard
 	 */
-    public ChooseBPTDialog(List<BusinessPermissionTileDTO> tiles) {
+    public ChooseBPTDialog(Model model) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 
@@ -31,7 +32,7 @@ public class ChooseBPTDialog extends Dialog<ChooseBPTCommand> {
         ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         getDialogPane().getButtonTypes().add(buttonTypeCancel);
 
-        BPTChoicePane tPane = BPTChoicePane.bptChoicePaneWithTiles(tiles);
+        BPTChoicePane tPane = BPTChoicePane.bptChoicePaneWithRegions(model.getRegions());
 
         contentView.getChildren().add(tPane);
 

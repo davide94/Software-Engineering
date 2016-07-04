@@ -35,12 +35,12 @@ public abstract class State {
      */
     public State(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        toggleNextPlayer = new TimerTask() {
+        /*toggleNextPlayer = new TimerTask() {
             @Override
             public void run() {
                 gameBoard.getScheduler().nextPlayer();
             }
-        };
+        };*/
     }
     
     /**
@@ -123,13 +123,13 @@ public abstract class State {
      * Start the timer
      */
     public void startTimer() {
-        toggleNextPlayer.cancel();
+        /*toggleNextPlayer.cancel();
         toggleNextPlayer = new TimerTask() {
             @Override
             public void run() {
                 gameBoard.getScheduler().nextPlayer();
             }
         };
-        timer.schedule(toggleNextPlayer, TURN_TIMEOUT);
+        timer.schedule(toggleNextPlayer, TURN_TIMEOUT);*/
     }
 }

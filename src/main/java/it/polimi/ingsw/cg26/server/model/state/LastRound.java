@@ -43,6 +43,7 @@ public class LastRound extends State {
      */
     public LastRound(List<Player> players, int winner, GameBoard gameBoard) {
         super(gameBoard);
+        System.out.println("aaa");
         this.players = players;
         this.winner = winner;
         current = winner;

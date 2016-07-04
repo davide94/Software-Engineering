@@ -36,5 +36,6 @@ public class CityChoicePane extends HBox {
             choicePane.getChildren().add(radioButton);
             this.getChildren().add(choicePane);
         }
+
 	}
 }

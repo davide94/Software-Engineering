@@ -106,7 +106,7 @@ public class Server {
      */
     private void newGame() throws BadInputFileException, ParserErrorException {
         clients = new LinkedHashMap<>();
-        int mapNumber = new Random().nextInt(8) + 1;
+        int mapNumber = 1;//new Random().nextInt(8) + 1;
         model = Creator.createGame("maps/" + mapNumber + ".xml");
         scheduler = model.getScheduler();
         this.controller = new Controller(model);

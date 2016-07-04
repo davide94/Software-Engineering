@@ -57,7 +57,7 @@ public class StateContext implements ClientState {
      * and change the state
      */
     public void regularGameStarted() {
-        model.addMessage("The match begun!");
+        model.addMessage("Regular game started!");
         System.out.println("regularGameStarted");
         state = new NotYourTurn();
     }
@@ -125,6 +125,7 @@ public class StateContext implements ClientState {
      * and change the state
      */
     public void buyTurnStarted() {
+        model.addMessage("Now is your turn to buy!");
         System.out.println("buyTurnStarted");
         state = new YourTurnToBuy();
     }

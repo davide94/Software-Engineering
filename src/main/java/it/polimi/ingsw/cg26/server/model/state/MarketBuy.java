@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
 import it.polimi.ingsw.cg26.common.update.PrivateUpdate;
+import it.polimi.ingsw.cg26.common.update.change.BasicChange;
+import it.polimi.ingsw.cg26.common.update.change.MarketChange;
 import it.polimi.ingsw.cg26.common.update.event.BuyTurnEnded;
 import it.polimi.ingsw.cg26.common.update.event.BuyTurnStarted;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
@@ -71,6 +73,7 @@ public class MarketBuy extends State {
         current++;
         if (current == players.size()) {
             gameBoard.getMarket().endMarket();
+            gameBoard.notifyObservers(new MarketChange(new BasicChange(), gameBoard.getMarket().getState()));
             return new Regular(players, gameBoard);
         }
         if (!getCurrentPlayer().isOnline())

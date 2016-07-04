@@ -118,7 +118,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
                     outView = startRMIClient(result.get().ip, DEFAULT_RMI_PORT, result.get().name);
                 break;
             } catch (Exception e) {
-                log.error("Connection failed.",e);
+                log.error("Connection failed.", e);
                 TextInputDialog ipDialog = new TextInputDialog();
                 ipDialog.setTitle("Error");
                 ipDialog.setHeaderText("Cannot connect to server, try another address");
@@ -726,7 +726,7 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * @param pendingTiles is the list of BPT that the players can choose
      */
     private void buildBPTBonusRequestDialog(List<BusinessPermissionTileDTO> pendingTiles) {
-        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(pendingTiles);
+        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(model);
         d.setOnHidden(e -> {
             model.getState().pendingRequestPerformed();
             if (d.getResult() != null)
