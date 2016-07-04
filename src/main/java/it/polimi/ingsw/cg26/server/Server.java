@@ -49,7 +49,7 @@ public class Server {
     /**
      * The starting delay
      */
-    private final static int START_DELAY = 5 * 1000;
+    private final static int START_DELAY = 20 * 1000;
 
     /**
      * The Socket Port number
@@ -66,7 +66,6 @@ public class Server {
      */
     private Controller controller;
 
-    
     /**
      * The Model of the game
      */

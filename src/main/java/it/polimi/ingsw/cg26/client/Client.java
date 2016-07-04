@@ -294,7 +294,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
         root.getChildren().add(map);
         observers.add(map);
 
-        musicPlayer = new MusicPlayer();
+        musicPlayer = new MusicPlayer("/sound/soundtrack.wav");
+        musicPlayer.play();
 
         buildVictoryTrack();
         buildBPT();
