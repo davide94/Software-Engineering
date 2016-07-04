@@ -4,6 +4,9 @@ import it.polimi.ingsw.cg26.server.creator.Creator;
 import it.polimi.ingsw.cg26.server.model.board.*;
 import it.polimi.ingsw.cg26.server.model.bonus.EmptyBonus;
 import it.polimi.ingsw.cg26.server.model.cards.BusinessPermissionTile;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticCard;
+import it.polimi.ingsw.cg26.server.model.cards.PoliticColor;
+import it.polimi.ingsw.cg26.server.model.player.Assistant;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 import it.polimi.ingsw.cg26.server.model.state.MatchEnded;
 import it.polimi.ingsw.cg26.server.model.state.Scheduler;
@@ -24,6 +27,8 @@ public class SchedulerTest {
     private Scheduler scheduler;
     private Player gigi;
     private Player ugo;
+
+    //private List<Player> players;
 
     @Before
     public void setUp() throws Exception {
@@ -168,21 +173,21 @@ public class SchedulerTest {
         LinkedList<City> cs8 = new LinkedList<>();
         cs8.add(c8);
         LinkedList<City> cs9 = new LinkedList<>();
-        cs9.add(c8);
+        cs9.add(c9);
         LinkedList<City> cs10 = new LinkedList<>();
-        cs10.add(c8);
+        cs10.add(c10);
 
-        List<BusinessPermissionTile> tiles = new LinkedList<>();
+        LinkedList<BusinessPermissionTile> tiles = new LinkedList<>();
         tiles.add(new BusinessPermissionTile(cs1, new EmptyBonus()));
         tiles.add(new BusinessPermissionTile(cs2, new EmptyBonus()));
         tiles.add(new BusinessPermissionTile(cs3, new EmptyBonus()));
         tiles.add(new BusinessPermissionTile(cs4, new EmptyBonus()));
         tiles.add(new BusinessPermissionTile(cs5, new EmptyBonus()));
-        tiles.add(new BusinessPermissionTile(cs5, new EmptyBonus()));
-        tiles.add(new BusinessPermissionTile(cs5, new EmptyBonus()));
-        tiles.add(new BusinessPermissionTile(cs5, new EmptyBonus()));
-        tiles.add(new BusinessPermissionTile(cs5, new EmptyBonus()));
-        tiles.add(new BusinessPermissionTile(cs5, new EmptyBonus()));
+        tiles.add(new BusinessPermissionTile(cs6, new EmptyBonus()));
+        tiles.add(new BusinessPermissionTile(cs7, new EmptyBonus()));
+        tiles.add(new BusinessPermissionTile(cs8, new EmptyBonus()));
+        tiles.add(new BusinessPermissionTile(cs9, new EmptyBonus()));
+        tiles.add(new BusinessPermissionTile(cs10, new EmptyBonus()));
 
 
         Player p1 = new Player(1, "uno", NobilityCell.createNobilityCell(nob1, null, new EmptyBonus()), 10, new LinkedList<>(), new LinkedList<>());
@@ -194,9 +199,13 @@ public class SchedulerTest {
         players.add(p2);
         players.add(p3);
 
-        int i = 0;
-        for (; i < bpt1; i++)
+        for (int i = 0; i < bpt1; i++)
             p1.addPermissionTile(tiles.get(i));
+        for (int i = 0; i < bpt2; i++)
+            p2.addPermissionTile(tiles.get(i));
+        for (int i = 0; i < bpt3; i++)
+            p3.addPermissionTile(tiles.get(i));
+
 
         p1.addVictoryPoints(vic1);
         p2.addVictoryPoints(vic2);
@@ -208,49 +217,140 @@ public class SchedulerTest {
     @Test
     public void testRankingCalculation1() throws Exception {
         MatchEnded state = new MatchEnded(createPlayers(4, 3, 9 + 3, 2, 2, 3, 2, 1, 6), Creator.createGame("maps/1.xml"));
-        List<Player> result = state.getPlayers();
+        List<Player> players = state.getPlayers();
 
-        assertEquals(result.get(0).getName(), "uno");
-        assertEquals(result.get(1).getName(), "tre");
-        assertEquals(result.get(2).getName(), "due");
+        assertEquals(players.get(0).getName(), "uno");
+        assertEquals(players.get(1).getName(), "tre");
+        assertEquals(players.get(2).getName(), "due");
 
-        assertEquals(result.get(0).getVictoryPoints(), 20);
-        assertEquals(result.get(1).getVictoryPoints(), 6);
-        assertEquals(result.get(2).getVictoryPoints(), 5);
+        assertEquals(players.get(0).getVictoryPoints(), 20);
+        assertEquals(players.get(1).getVictoryPoints(), 6);
+        assertEquals(players.get(2).getVictoryPoints(), 5);
     }
 
 
     @Test
     public void testRankingCalculation2() throws Exception {
-        MatchEnded state = new MatchEnded(createPlayers(5, 3, 8, 3, 3, 10 + 3, 7, 2, 7), Creator.createGame("maps/1.xml"));
-        List<Player> result = state.getPlayers();
+        MatchEnded state = new MatchEnded(createPlayers(5, 3, 8, 3, 3, 10 + 3, 2, 2, 7), Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
 
-        assertEquals(result.get(0).getName(), "due");
-        assertEquals(result.get(1).getName(), "uno");
-        assertEquals(result.get(2).getName(), "tre");
+        assertEquals(players.get(0).getName(), "due");
+        assertEquals(players.get(1).getName(), "uno");
+        assertEquals(players.get(2).getName(), "tre");
 
-        assertEquals(result.get(0).getVictoryPoints(), 18);
-        assertEquals(result.get(1).getVictoryPoints(), 16);
-        assertEquals(result.get(2).getVictoryPoints(), 7);
+        assertEquals(players.get(0).getVictoryPoints(), 18);
+        assertEquals(players.get(1).getVictoryPoints(), 16);
+        assertEquals(players.get(2).getVictoryPoints(), 7);
     }
 
     @Test
     public void testRankingCalculation3() throws Exception {
-        /*MatchEnded state = new MatchEnded(createPlayers(4, 3, 6, 5, 2, 7 + 3, 1, 2, 8), Creator.createGame("maps/1.xml"));
-        List<Player> result = state.getPlayers();
+        MatchEnded state = new MatchEnded(createPlayers(4, 3, 6, 5, 2, 7 + 3, 1, 2, 8), Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
 
-        System.out.println(result.get(0).getVictoryPoints());
-        System.out.println(result.get(1).getVictoryPoints());
-        System.out.println(result.get(2).getVictoryPoints());
+        assertEquals(players.get(0).getName(), "due");
+        assertEquals(players.get(1).getName(), "uno");
+        assertEquals(players.get(2).getName(), "tre");
 
-        assertEquals(result.get(0).getName(), "uno");
-        assertEquals(result.get(1).getName(), "due");
-        assertEquals(result.get(2).getName(), "tre");
-
-        assertEquals(result.get(0).getVictoryPoints(), 15);
-        assertEquals(result.get(1).getVictoryPoints(), 11);
-        assertEquals(result.get(2).getVictoryPoints(), 10);*/
+        assertEquals(players.get(0).getVictoryPoints(), 15);
+        assertEquals(players.get(1).getVictoryPoints(), 11);
+        assertEquals(players.get(2).getVictoryPoints(), 10);
     }
 
+    @Test
+    public void testRankingCalculation4() throws Exception {
+        MatchEnded state = new MatchEnded(createPlayers(5, 3, 6 + 3, 5, 2, 8, 3, 1, 15), Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
+
+        assertEquals(players.get(0).getName(), "tre");
+        assertEquals(players.get(1).getName(), "uno");
+        assertEquals(players.get(2).getName(), "due");
+
+        assertEquals(players.get(0).getVictoryPoints(), 15);
+        assertEquals(players.get(1).getVictoryPoints(), 14);
+        assertEquals(players.get(2).getVictoryPoints(), 10);
+    }
+
+    @Test
+    public void testRankingCalculation5() throws Exception {
+
+        List<Player> pp = createPlayers(3, 3, 2 + 3, 5, 1, 7, 2, 2, 2);
+
+        pp.get(0).addPoliticCard(new PoliticCard(new PoliticColor("c1")));
+        pp.get(0).addPoliticCard(new PoliticCard(new PoliticColor("c2")));
+        pp.get(0).addPoliticCard(new PoliticCard(new PoliticColor("c3")));
+        pp.get(0).addPoliticCard(new PoliticCard(new PoliticColor("c4")));
+        pp.get(0).addPoliticCard(new PoliticCard(new PoliticColor("c5")));
+        pp.get(0).addAssistant(new Assistant());
+        pp.get(0).addAssistant(new Assistant());
+        pp.get(1).addPoliticCard(new PoliticCard(new PoliticColor("c1")));
+        pp.get(1).addPoliticCard(new PoliticCard(new PoliticColor("c2")));
+        pp.get(1).addPoliticCard(new PoliticCard(new PoliticColor("c3")));
+        pp.get(1).addPoliticCard(new PoliticCard(new PoliticColor("c4")));
+        pp.get(1).addAssistant(new Assistant());
+        pp.get(1).addAssistant(new Assistant());
+        pp.get(1).addAssistant(new Assistant());
+        pp.get(1).addAssistant(new Assistant());
+
+        MatchEnded state = new MatchEnded(pp, Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
+
+        assertEquals(players.get(0).getName(), "due");
+        assertEquals(players.get(1).getName(), "uno");
+        assertEquals(players.get(2).getName(), "tre");
+
+        assertEquals(players.get(0).getVictoryPoints(), 10);
+        assertEquals(players.get(1).getVictoryPoints(), 10);
+        assertEquals(players.get(2).getVictoryPoints(), 4);
+    }
+
+    @Test
+    public void testRankingCalculation6() throws Exception {
+        List<Player> pp = createPlayers(5, 3, 3 + 3, 6, 3, 4, 3, 2, 8);
+        pp.add(createPlayers(2, 2, 7, 0, 0, 0, 0, 0, 0).get(0));
+
+        MatchEnded state = new MatchEnded(pp, Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
+
+        assertEquals(players.get(0).getName(), "due");
+        assertEquals(players.get(1).getName(), "uno");
+        assertEquals(players.get(2).getName(), "tre");
+        assertEquals(players.get(3).getName(), "uno");
+
+        assertEquals(players.get(0).getVictoryPoints(), 12);
+        assertEquals(players.get(1).getVictoryPoints(), 11);
+        assertEquals(players.get(2).getVictoryPoints(), 8);
+        assertEquals(players.get(3).getVictoryPoints(), 7);
+    }
+
+    @Test
+    public void testRankingCalculation7() throws Exception {
+        MatchEnded state = new MatchEnded(createPlayers(4, 2, 10 + 3, 5, 3, 10, 0, 0, 0).subList(0, 2), Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
+
+        assertEquals(players.get(0).getName(), "due");
+        assertEquals(players.get(1).getName(), "uno");
+
+        assertEquals(players.get(0).getVictoryPoints(), 18);
+        assertEquals(players.get(1).getVictoryPoints(), 15);
+    }
+
+    @Test
+    public void testRankingCalculation8() throws Exception {
+        List<Player> pp = createPlayers(5, 3, 17, 5, 3, 14 + 3, 0, 0, 0).subList(0, 2);
+        pp.get(0).addPoliticCard(new PoliticCard(new PoliticColor("c1")));
+        pp.get(1).addAssistant(new Assistant());
+        pp.get(1).addAssistant(new Assistant());
+        pp.get(1).addAssistant(new Assistant());
+
+        MatchEnded state = new MatchEnded(pp, Creator.createGame("maps/1.xml"));
+        List<Player> players = state.getPlayers();
+
+        assertEquals(players.get(0).getName(), "due");
+        assertEquals(players.get(1).getName(), "uno");
+
+        assertEquals(players.get(0).getVictoryPoints(), 22);
+        assertEquals(players.get(1).getVictoryPoints(), 22);
+    }
 
 }
