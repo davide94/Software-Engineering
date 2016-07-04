@@ -53,7 +53,11 @@ public class MarketPane extends AnchorPane implements Observer{
 	
 	private OutView outView;
 	
+	private HBox timer;
+	
 	private Label timerLabel;
+	
+	private AnchorPane objectsPane;
 	
 	public MarketPane(double width, double height, Model model, OutView outView) {
 		this.model = model;
@@ -61,22 +65,32 @@ public class MarketPane extends AnchorPane implements Observer{
 		this.playerSellablesPane = new ArrayList<>();
 		this.playerSellablesButtons = new ArrayList<>();
 		this.outView = outView;
+		this.objectsPane = new AnchorPane();
 		this.setPrefSize(width, height);
 		this.setStyle("-fx-background-image: url(" + getClass().getResource("/img/marketBackground.png") + ");" +
                 "-fx-background-position: center;" +
                 "-fx-background-size: 100% 100%;");
-
+		this.objectsPane.setPrefSize(width, height);
+		this.objectsPane.setStyle("-fx-background-color: transparent");
 		DropShadow shadow = new DropShadow();
 		shadow.setOffsetY(3.0f);
 		shadow.setRadius(50.0);
 		shadow.setColor(Color.BLACK);
 		setEffect(shadow);
-
+		this.getChildren().add(objectsPane);
+		timer = new HBox();
+		timer.setPrefSize(300, 48);
+		timer.setSpacing(7);
+		timer.setStyle("-fx-background-color: transparent");
+		timer.setAlignment(Pos.CENTER);
+		AnchorPane.setTopAnchor(timer, this.getHeight() * 0.05);
+		AnchorPane.setLeftAnchor(timer, this.getWidth() * 0.5);
+		this.getChildren().add(timer);
 		draw();
 	}
 	
 	private void draw() {
-		this.getChildren().clear();
+		this.objectsPane.getChildren().clear();
 		drawTitle();
 		buildSellables();
 		buildPlayerSellables();
@@ -88,8 +102,10 @@ public class MarketPane extends AnchorPane implements Observer{
 			if("".equals(timerLabel.getText()))
 				addTimer(300);
 		}
-		else
-			timerLabel.setVisible(false);
+		else {
+			timer.getChildren().clear();
+			createTimerLabel();
+		}
 	}
 	
 	private void drawTitle() {
@@ -117,25 +133,9 @@ public class MarketPane extends AnchorPane implements Observer{
 		AnchorPane.setLeftAnchor(subTitle1, this.getWidth() * 0.02);
 		AnchorPane.setTopAnchor(subTitle2, this.getHeight() * 0.565);
 		AnchorPane.setLeftAnchor(subTitle2, this.getWidth() * 0.02);
-		this.getChildren().add(title);
-		this.getChildren().add(subTitle1);
-		this.getChildren().add(subTitle2);
-		
-		HBox timer = new HBox();
-		timer.setPrefSize(300, 48);
-		timer.setSpacing(7);
-		timer.setStyle("-fx-background-color: transparent");
-		timerLabel = new Label("");
-		timerLabel.setTextFill(Color.BLACK);
-		timerLabel.setFont(goudyMedieval2);
-		Label l = new Label("Time remaining:");
-		l.setTextFill(Color.BLACK);
-		l.setFont(goudyMedieval2);
-		timer.setAlignment(Pos.CENTER);
-		timer.getChildren().addAll(l, timerLabel);
-		AnchorPane.setTopAnchor(timer, this.getHeight() * 0.03);
-		AnchorPane.setLeftAnchor(timer, this.getWidth() * 0.2);
-		this.getChildren().add(timer);
+		this.objectsPane.getChildren().add(title);
+		this.objectsPane.getChildren().add(subTitle1);
+		this.objectsPane.getChildren().add(subTitle2);
 		
 		Button foldSellButton = new Button("Fold Sell");
 		if(!model.getState().isYourTurnToSell())
@@ -149,7 +149,7 @@ public class MarketPane extends AnchorPane implements Observer{
 		AnchorPane.setTopAnchor(foldBuyButton, this.getHeight() * 0.05);
 		AnchorPane.setLeftAnchor(foldSellButton, this.getWidth() * 0.5);
 		AnchorPane.setLeftAnchor(foldBuyButton, this.getWidth() * 0.5);
-		this.getChildren().addAll(foldSellButton, foldBuyButton);
+		this.objectsPane.getChildren().addAll(foldSellButton, foldBuyButton);
 		
 	}
 	
@@ -178,7 +178,7 @@ public class MarketPane extends AnchorPane implements Observer{
 			AnchorPane.setTopAnchor(sellablePane, this.getHeight() * 0.17);
 			AnchorPane.setLeftAnchor(sellablePane, offset);
 			Label label = drawPriceAndOwner(offset, sellablePane.getPrefHeight() + this.getHeight() * 0.17, sellable);
-			this.getChildren().add(sellablePane);
+			this.objectsPane.getChildren().add(sellablePane);
 			onSalePaneLabels.put(sellablePane, label);
 		}
 	}
@@ -227,8 +227,8 @@ public class MarketPane extends AnchorPane implements Observer{
         	AnchorPane.setLeftAnchor(playerSellablesPane.get(i), offset);
     		AnchorPane.setTopAnchor(playerSellablesButtons.get(i), this.getHeight() * 0.65 + playerSellablesPane.get(i).getPrefHeight() + 8.0);
     		AnchorPane.setLeftAnchor(playerSellablesButtons.get(i), offset);
-        	this.getChildren().add(playerSellablesButtons.get(i));
-    		this.getChildren().add(playerSellablesPane.get(i));
+        	this.objectsPane.getChildren().add(playerSellablesButtons.get(i));
+    		this.objectsPane.getChildren().add(playerSellablesPane.get(i));
         	offset = offset + playerSellablesPane.get(i).getPrefWidth() + 25.0;
         }
 	}
@@ -250,8 +250,8 @@ public class MarketPane extends AnchorPane implements Observer{
 		if(!model.getState().isYourTurnToBuy())
 			buyButton.setVisible(false);
 		buyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> outView.writeObject(new BuyCommand(sellable)));
-		this.getChildren().add(buyButton);
-		this.getChildren().add(label);
+		this.objectsPane.getChildren().add(buyButton);
+		this.objectsPane.getChildren().add(label);
 		return label;
 	}
 	
@@ -282,6 +282,17 @@ public class MarketPane extends AnchorPane implements Observer{
         Optional<Command> result = d.showAndWait();
         if (result.isPresent())
             outView.writeObject(result.get());
+	}
+	
+	private void createTimerLabel() {
+		timerLabel = new Label("");
+		timerLabel.setTextFill(Color.BLACK);
+		Font goudyMedieval2 = Font.loadFont(getClass().getResource("/fonts/goudy_medieval/Goudy_Mediaeval_DemiBold.ttf").toExternalForm(), 25.0);
+		timerLabel.setFont(goudyMedieval2);
+		Label l = new Label("Time remaining:");
+		l.setTextFill(Color.BLACK);
+		l.setFont(goudyMedieval2);
+		timer.getChildren().addAll(l, timerLabel);
 	}
 	
 	private void addTimer(int time) {
