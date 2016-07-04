@@ -77,15 +77,16 @@ public class MarketPane extends AnchorPane implements Observer{
 		shadow.setRadius(50.0);
 		shadow.setColor(Color.BLACK);
 		setEffect(shadow);
-		this.getChildren().add(objectsPane);
+		
 		timer = new HBox();
 		timer.setPrefSize(300, 48);
 		timer.setSpacing(7);
 		timer.setStyle("-fx-background-color: transparent");
 		timer.setAlignment(Pos.CENTER);
-		AnchorPane.setTopAnchor(timer, this.getHeight() * 0.05);
-		AnchorPane.setLeftAnchor(timer, this.getWidth() * 0.5);
+		AnchorPane.setTopAnchor(timer, this.getPrefHeight() * 0.04);
+		AnchorPane.setLeftAnchor(timer, this.getPrefWidth() * 0.15);
 		this.getChildren().add(timer);
+		this.getChildren().add(objectsPane);
 		draw();
 	}
 	
@@ -145,10 +146,10 @@ public class MarketPane extends AnchorPane implements Observer{
 		if(!model.getState().isYourTurnToBuy())
 			foldBuyButton.setVisible(false);
 		foldBuyButton.addEventHandler(MouseEvent.MOUSE_RELEASED, b -> foldActionDialog("Are you sure you want to finish your buy phase?", false));
-		AnchorPane.setTopAnchor(foldSellButton, this.getHeight() * 0.05);
-		AnchorPane.setTopAnchor(foldBuyButton, this.getHeight() * 0.05);
-		AnchorPane.setLeftAnchor(foldSellButton, this.getWidth() * 0.5);
-		AnchorPane.setLeftAnchor(foldBuyButton, this.getWidth() * 0.5);
+		AnchorPane.setTopAnchor(foldSellButton, this.getPrefHeight() * 0.05);
+		AnchorPane.setTopAnchor(foldBuyButton, this.getPrefHeight() * 0.05);
+		AnchorPane.setLeftAnchor(foldSellButton, this.getPrefWidth() * 0.4);
+		AnchorPane.setLeftAnchor(foldBuyButton, this.getPrefWidth() * 0.4);
 		this.objectsPane.getChildren().addAll(foldSellButton, foldBuyButton);
 		
 	}
