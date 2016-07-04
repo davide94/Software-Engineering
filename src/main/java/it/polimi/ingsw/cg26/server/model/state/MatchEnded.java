@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg26.server.model.state;
 
-import it.polimi.ingsw.cg26.common.update.change.BasicChange;
-import it.polimi.ingsw.cg26.common.update.change.FullStateChange;
+import it.polimi.ingsw.cg26.common.dto.PlayerDTO;
 import it.polimi.ingsw.cg26.server.model.board.GameBoard;
 import it.polimi.ingsw.cg26.server.model.player.Player;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,8 +30,9 @@ public class MatchEnded extends State {
         super(gameBoard);
         this.players = players;
         calculateWinner();
-        gameBoard.notifyObservers(new FullStateChange(new BasicChange(), gameBoard.getState()));
-        gameBoard.notifyObservers(new it.polimi.ingsw.cg26.common.update.event.MatchEnded());
+        LinkedList<PlayerDTO> playersStetes = new LinkedList<>();
+        players.forEach(p -> playersStetes.add(p.getState()));
+        gameBoard.notifyObservers(new it.polimi.ingsw.cg26.common.update.event.MatchEnded(playersStetes));
     }
 
     @Override

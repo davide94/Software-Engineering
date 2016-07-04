@@ -25,22 +25,14 @@ public abstract class State {
     /**
      * The timer
      */
-    private Timer timer = new Timer();
+    private Timer timer;
 
-    private TimerTask toggleNextPlayer;
-    
     /**
      * the Constructor of the state machine of the game 
      * @param gameBoard is the game board
      */
     public State(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        /*toggleNextPlayer = new TimerTask() {
-            @Override
-            public void run() {
-                gameBoard.getScheduler().nextPlayer();
-            }
-        };*/
     }
     
     /**
@@ -123,13 +115,17 @@ public abstract class State {
      * Start the timer
      */
     public void startTimer() {
-        /*toggleNextPlayer.cancel();
-        toggleNextPlayer = new TimerTask() {
+        if(timer==null){
+            timer=new Timer();
+        } else{
+            timer.cancel();
+            timer=new Timer();
+        }
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 gameBoard.getScheduler().nextPlayer();
             }
-        };
-        timer.schedule(toggleNextPlayer, TURN_TIMEOUT);*/
+        }, TURN_TIMEOUT);
     }
 }
