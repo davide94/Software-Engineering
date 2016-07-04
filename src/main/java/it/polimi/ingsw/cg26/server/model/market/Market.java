@@ -58,7 +58,7 @@ public class Market {
     		if(s.getState().equals(sellableDTO))
     			return s;
     	}
-    	throw new SellableNotFoundException();
+    	throw new SellableNotFoundException("can not find the required item.");
     }
     
     /**

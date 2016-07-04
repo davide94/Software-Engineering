@@ -47,6 +47,6 @@ public class BalconyChange extends ChangeDecorator {
 			}
 		}
 		if(balconyDTO != null)
-			throw new InvalidRegionException();
+			throw new InvalidRegionException("can not find the required balcony.");
 	}
 }

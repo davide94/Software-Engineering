@@ -689,31 +689,34 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Build and Displays Dialogs for pending requests
      */
     private void buildDialogs() {
-        Optional<List<BusinessPermissionTileDTO>> pendingTiles = model.getState().getPendingBPTBonusRequest();
-        if (pendingTiles.isPresent()) {
-            if (pendingTiles.get().isEmpty()) {
-                model.getState().pendingRequestPerformed();
-                outView.writeObject(new ChooseBPTCommand(null, 0));
-            } else {
-                buildBPTBonusRequestDialog(pendingTiles.get());
+        Optional<Integer> pendingrequestsMultiplicity = model.getState().getPendingRequestMultiplicity();
+        if (pendingrequestsMultiplicity.isPresent()) {
+            Optional<List<BusinessPermissionTileDTO>> pendingTiles = model.getState().getPendingBPTBonusRequest();
+            if (pendingTiles.isPresent()) {
+                if (pendingTiles.get().isEmpty()) {
+                    model.getState().pendingRequestPerformed();
+                    outView.writeObject(new ChooseBPTCommand(null, 0));
+                } else {
+                    buildBPTBonusRequestDialog(pendingTiles.get(), pendingrequestsMultiplicity.get());
+                }
             }
-        }
-        Optional<List<CityDTO>> pendingCities = model.getState().getPendingCityBonusRequest();
-        if (pendingCities.isPresent()) {
-            if (pendingCities.get().isEmpty()) {
-                model.getState().pendingRequestPerformed();
-                outView.writeObject(new ChooseCityCommand(new LinkedList<>()));
-            } else {
-                buildCityBonusRequestDialog(pendingCities.get());
+            Optional<List<CityDTO>> pendingCities = model.getState().getPendingCityBonusRequest();
+            if (pendingCities.isPresent()) {
+                if (pendingCities.get().isEmpty()) {
+                    model.getState().pendingRequestPerformed();
+                    outView.writeObject(new ChooseCityCommand(new LinkedList<>()));
+                } else {
+                    buildCityBonusRequestDialog(pendingCities.get(), pendingrequestsMultiplicity.get());
+                }
             }
-        }
-        Optional<List<BusinessPermissionTileDTO>> pendingPlayer = model.getState().getPendingPlayerBonusRequest();
-        if (pendingPlayer.isPresent()) {
-            if (pendingPlayer.get().isEmpty()) {
-                model.getState().pendingRequestPerformed();
-                outView.writeObject(new ChoosePlayerBPTCommand(new LinkedList<>()));
-            } else {
-                buildPlayerRequestDialog(pendingPlayer.get());
+            Optional<List<BusinessPermissionTileDTO>> pendingPlayer = model.getState().getPendingPlayerBonusRequest();
+            if (pendingPlayer.isPresent()) {
+                if (pendingPlayer.get().isEmpty()) {
+                    model.getState().pendingRequestPerformed();
+                    outView.writeObject(new ChoosePlayerBPTCommand(new LinkedList<>()));
+                } else {
+                    buildPlayerRequestDialog(pendingPlayer.get(), pendingrequestsMultiplicity.get());
+                }
             }
         }
         if (model.getState().isMatchEnded())
@@ -725,8 +728,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Build and displays the dialog for the BPT to choose
      * @param pendingTiles is the list of BPT that the players can choose
      */
-    private void buildBPTBonusRequestDialog(List<BusinessPermissionTileDTO> pendingTiles) {
-        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(model);
+    private void buildBPTBonusRequestDialog(List<BusinessPermissionTileDTO> pendingTiles, int multiplicity) {
+        Dialog<ChooseBPTCommand> d = new ChooseBPTDialog(model, multiplicity);
         d.setOnHidden(e -> {
             model.getState().pendingRequestPerformed();
             if (d.getResult() != null)
@@ -742,8 +745,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Build and displays the dialog for the bonus of a city to choose
      * @param pendingCities is the list of cities in which a player has an emporium
      */
-    private void buildCityBonusRequestDialog(List<CityDTO> pendingCities) {
-        Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(pendingCities);
+    private void buildCityBonusRequestDialog(List<CityDTO> pendingCities, int multiplicity) {
+        Dialog<ChooseCityCommand> d = new ChooseCityBonusDialog(pendingCities, multiplicity);
         d.setOnHidden(e -> {
             model.getState().pendingRequestPerformed();
             if (d.getResult() != null)
@@ -759,8 +762,8 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
      * Build and displays the dialog for the bonus of one player's BPT to choose
      * @param pendingPlayer is the list of BPT owned by a player
      */
-    private void buildPlayerRequestDialog(List<BusinessPermissionTileDTO> pendingPlayer) {
-        Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(pendingPlayer);
+    private void buildPlayerRequestDialog(List<BusinessPermissionTileDTO> pendingPlayer, int multiplicity) {
+        Dialog<ChoosePlayerBPTCommand> d = new ChoosePlayerBonusDialog(pendingPlayer, multiplicity);
         d.setOnHidden(e -> {
             model.getState().pendingRequestPerformed();
             if (d.getResult() != null)

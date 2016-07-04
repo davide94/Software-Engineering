@@ -26,12 +26,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,7 +87,10 @@ public class Server {
      */
     private final ExecutorService executor;
 
-    boolean quit = false;
+    private ServerSocket serverSocket;
+
+    private boolean quit = false;
+
     /**
      * Server constructor 
      * @throws IOException 
@@ -94,8 +101,13 @@ public class Server {
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (!scanner.nextLine().equalsIgnoreCase("quit"));
-            quit = true;
-            executor.shutdown();
+            if (serverSocket != null)
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    //log.error("error closing socket", e);
+                }
+            System.exit(0);
         }).start();
     }
     
@@ -158,21 +170,24 @@ public class Server {
      * @throws ClassNotFoundException
      */
     private void startSocket() throws IOException, ClassNotFoundException {
-        ServerSocket serverSocket = new ServerSocket(SOCKET_PORT);
+        serverSocket = new ServerSocket(SOCKET_PORT);
 
         log.info("SERVER SOCKET READY ON PORT " + SOCKET_PORT);
 
         while (!quit) {
-            Socket socket = serverSocket.accept();
-            new Thread(() -> {
-                try {
-                    registerSocketPlayer(socket);
-                } catch (Exception e) {
-                    log.error("Error registering player connected on socket.", e);
-                }
-            }).start();
+            try {
+                Socket socket = serverSocket.accept();
+                new Thread(() -> {
+                    try {
+                        registerSocketPlayer(socket);
+                    } catch (Exception e) {
+                        log.error("Error registering player connected on socket.", e);
+                    }
+                }).start();
+            } catch (SocketException e) {
+                log.info("Socket closed.", e);
+            }
         }
-        serverSocket.close();
     }
 
     /**

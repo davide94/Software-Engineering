@@ -44,7 +44,7 @@ public class CityChange extends ChangeDecorator {
 				break;
 		}
 		if(city == null)
-			throw new InvalidCityException();
+			throw new InvalidCityException("can not find the required city.");
 		city.setEmporiums(this.cityDTO.getEmporiums());
 	}
 }

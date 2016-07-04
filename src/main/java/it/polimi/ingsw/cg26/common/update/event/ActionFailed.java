@@ -12,7 +12,7 @@ public class ActionFailed implements Event {
 	/**
 	 * The exception that made the action fail 
 	 */
-	private Exception exception;
+	private String cause;
 
 	/**
 	 * Construct a simple action failed event
@@ -23,14 +23,14 @@ public class ActionFailed implements Event {
 
     /**
      * Construct an action failed event with the exception that caused it
-     * @param exception the exception that caused the fail
+     * @param cause the description of the cause of failure
      */
-    public ActionFailed(Exception exception) {
-        this.exception = exception;
+    public ActionFailed(String cause) {
+        this.cause = cause;
     }
 
     @Override
     public void apply(ClientModel model) {
-        model.getState().actionFailed();
+        model.getState().actionFailed(cause);
     }
 }

@@ -34,7 +34,7 @@ public class Controller implements Observer<Action>, Runnable {
         } catch (Exception e) {
             log.error("Error occurred while executing action", action, e);
             action.checkPendingRequest(gameBoard);
-            gameBoard.notifyObservers(new PrivateUpdate(new ActionFailed(), action.getToken()));
+            gameBoard.notifyObservers(new PrivateUpdate(new ActionFailed(e.getMessage()), action.getToken()));
         }
     }
 

@@ -22,7 +22,7 @@ public class FoldBuy extends Action {
 	@Override
 	public void apply(GameBoard gameBoard) throws IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canBuy(getToken()))
-			throw new IllegalMarketStateException();
+			throw new IllegalMarketStateException("is not your turn.");
 		gameBoard.getScheduler().foldedBuy();
 	}
 

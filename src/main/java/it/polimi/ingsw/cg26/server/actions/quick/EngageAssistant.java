@@ -31,9 +31,9 @@ public class EngageAssistant extends Action {
     public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotEnoughMoneyException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		if (!currentPlayer.canPerformQuickAction())
-    		throw new NoRemainingActionsException();
+    		throw new NoRemainingActionsException("You can not perform an action now.");
     	currentPlayer.removeCoins(3);
     	currentPlayer.addAssistant(new Assistant());
     	currentPlayer.performQuickAction();

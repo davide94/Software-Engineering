@@ -53,19 +53,19 @@ public class Build extends Action {
      * @throws InvalidCityException if the city is not in the BPT cities list
      */
     @Override
-    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, InvalidCityException, NotYourTurnException {
+    public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, InvalidCityException, NotYourTurnException, InvalidTileException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
         if (!currentPlayer.canPerformMainAction())
-            throw new NoRemainingActionsException();
+            throw new NoRemainingActionsException("You can not perform an action now.");
         BusinessPermissionTile tile = currentPlayer.hasPermissionTile(bPTState);
         if(!tile.canBuildIn(city))
-        	throw new InvalidCityException();
+        	throw new InvalidCityException("the BPT is not valid for this city.");
         City realCity = gameBoard.getCity(city);
         int empNumber = realCity.getEmporiumsNumber();
         if (currentPlayer.getAssistantsNumber() < empNumber)
-            throw new NoRemainingAssistantsException();
+            throw new NoRemainingAssistantsException("You does not own enough assistants.");
         realCity.build(currentPlayer);
         
         CityColor color=realCity.getColor();

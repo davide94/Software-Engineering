@@ -33,7 +33,7 @@ public class ChooseCity extends Action {
 		for(int i = 0; i<chosenCities.size(); i++){
 			for(int j = 0; j<chosenCities.size(); j++){
 				if(chosenCities.get(i).equals(chosenCities.get(j)) && i!=j)
-					throw new InvalidCityException();
+					throw new InvalidCityException("You can not choose the same city twice.");
 			}
 		}
 	}
@@ -42,15 +42,15 @@ public class ChooseCity extends Action {
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, CityNotFoundException, InvalidCityException, NoRemainingCardsException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		if(!currentPlayer.canPerformChooseAction())
-			throw new NoRemainingActionsException();
+			throw new NoRemainingActionsException("You can not perform an action now.");
 		if(!chosenCities.isEmpty()) {
 			checkList();
 			for(CityDTO c : chosenCities){
 				Bonus bonuses = gameBoard.getCity(c).getBonuses();
 				if(bonuses.getBonusNames().contains("Nobility") || !gameBoard.getCity(c).hasEmporium(currentPlayer))
-					throw new InvalidCityException();
+					throw new InvalidCityException("this city is not valid.");
 				bonusesToApply.add(bonuses);
 			}
 			for(Bonus b : bonusesToApply)

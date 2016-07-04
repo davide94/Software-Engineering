@@ -25,7 +25,7 @@ public interface ClientState {
 
     void actionSuccessful();
 
-    void actionFailed();
+    void actionFailed(String cause);
 
     void pendingBPTRequest(int multiplicity);
 

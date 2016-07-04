@@ -71,7 +71,7 @@ public class Regular extends State {
             //check if someone built 10 emporiums
             int count = gameBoard.getRegions().stream().mapToInt(r -> (int) r.getCities().stream().filter(
                     c -> (c.hasEmporium(getCurrentPlayer()))).count()).reduce(0, (a, b) -> a + b);
-            if (count >= 5) {
+            if (count >= 10) {
                 getCurrentPlayer().addVictoryPoints(3);
                 return new LastRound(players, current, gameBoard);
             }

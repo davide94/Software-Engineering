@@ -248,7 +248,7 @@ public class GameBoard extends Observable<Update> {
 			if (city != null)
 				return city;
 		}
-		throw new CityNotFoundException();
+		throw new CityNotFoundException("the required city does not exists.");
 	}
 
 	/**

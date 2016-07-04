@@ -30,9 +30,9 @@ public class AdditionalMainAction extends Action {
     public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		if (!currentPlayer.canPerformQuickAction())
-    		throw new NoRemainingActionsException();
+    		throw new NoRemainingActionsException("You can not perform an action now.");
     	currentPlayer.takeAssistants(3);
     	currentPlayer.addRemainingMainActions(1);
     	currentPlayer.performQuickAction();

@@ -40,7 +40,7 @@ public class PoliticDeck extends Deck<PoliticCard> {
     public PoliticCard draw() throws NoRemainingCardsException {
         if (!hasNext()) {
             if (this.discarded.isEmpty())
-                throw new NoRemainingCardsException();
+                throw new NoRemainingCardsException("not enough cards.");
             this.shuffle();
         }
         return super.draw();

@@ -36,7 +36,7 @@ public class SellBPT extends Sell {
 	@Override
 	public void apply(GameBoard gameBoard) throws InvalidTileException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
-			throw new IllegalMarketStateException();
+			throw new IllegalMarketStateException("is not your turn.");
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		BusinessPermissionTile bpTile = currentPlayer.removeRealBPT(bpTileDTO);
 		bpTile.setOwner(currentPlayer);

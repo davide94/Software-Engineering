@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg26.common.update.event;
 
 import it.polimi.ingsw.cg26.client.model.Model;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidRegionException;
-import it.polimi.ingsw.cg26.server.exceptions.InvalidTileException;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -22,7 +20,7 @@ public class ActionFailedTest {
 	
 	@Test
 	public void testCreationWithException() {
-		Event actionFailed = new ActionFailed(new InvalidRegionException());
+		Event actionFailed = new ActionFailed("aaa");
 		
 		assertNotNull(actionFailed);
 	}
@@ -30,7 +28,7 @@ public class ActionFailedTest {
 	@Test
 	public void test() {
 		Model model = new Model();
-		ActionFailed actionFailed = new ActionFailed(new InvalidTileException());
+		ActionFailed actionFailed = new ActionFailed("aaa");
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	      System.setOut(new PrintStream(outContent));
 		

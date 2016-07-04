@@ -30,9 +30,9 @@ public class ChooseBPT extends Action {
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingCardsException, InvalidTileException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		if(!currentPlayer.canPerformChooseAction())
-			throw new NoRemainingActionsException();
+			throw new NoRemainingActionsException("You can not perform an action now.");
 		if(this.chosenRegion != null) {
 			BusinessPermissionTile addedBPT = gameBoard.getRegion(this.chosenRegion).getBPTDeck().draw(this.chosenPosition);
 			currentPlayer.addPermissionTile(addedBPT);

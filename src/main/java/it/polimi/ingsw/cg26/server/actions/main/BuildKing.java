@@ -52,19 +52,19 @@ public class BuildKing extends Corrupt {
     public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotEnoughMoneyException, InvalidCardsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException,  NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
         super.apply(gameBoard);
         int coins = super.necessaryCoins(politicCards);
         City realCity = gameBoard.getCity(city);
         King king = gameBoard.getKing();
         coins += king.priceToMove(realCity);
         if (currentPlayer.getCoinsNumber() < coins)
-            throw new NotEnoughMoneyException();
+            throw new NotEnoughMoneyException("You does not have enough money.");
         if (!gameBoard.getKingBalcony().checkPoliticCards(politicCards))
-            throw new InvalidCardsException();
+            throw new InvalidCardsException("the cards you provided does not satisfies this balcony.");
         int empNumber = realCity.getEmporiumsNumber();
         if (currentPlayer.getAssistantsNumber() < empNumber)
-            throw new NoRemainingAssistantsException();
+            throw new NoRemainingAssistantsException("You does not own enough assistants.");
         realCity.build(currentPlayer);
         king.move(realCity);
         currentPlayer.removeCoins(coins);

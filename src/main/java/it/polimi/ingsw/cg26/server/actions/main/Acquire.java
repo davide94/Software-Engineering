@@ -59,13 +59,13 @@ public class Acquire extends Corrupt {
     public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, NoRemainingAssistantsException, ExistingEmporiumException, CityNotFoundException, NoRemainingCardsException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		super.apply(gameBoard);
 		int usedCoins = super.necessaryCoins(politicCards);
 		if (currentPlayer.getCoinsNumber() < usedCoins)
-			throw new NotEnoughMoneyException();
+			throw new NotEnoughMoneyException("You does not have enough money.");
 		if (!gameBoard.getRegion(this.region).getBalcony().checkPoliticCards(this.politicCards))
-    		throw new InvalidCardsException();
+    		throw new InvalidCardsException("the cards you provided does not satisfies this balcony.");
     	BusinessPermissionTile addedBPT = gameBoard.getRegion(this.region).getBPTDeck().draw(this.position);
     	currentPlayer.addPermissionTile(addedBPT);
 		addedBPT.getReward(currentPlayer);

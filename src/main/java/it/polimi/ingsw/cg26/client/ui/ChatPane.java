@@ -92,12 +92,10 @@ public class ChatPane extends VBox implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (isVisible()) {
-            display.getChildren().clear();
-            for (String message : model.getMessages()) {
-                Label messageLabel = new Label(message);
-                display.getChildren().add(messageLabel);
-            }
+        display.getChildren().clear();
+        for (String message : model.getMessages()) {
+            Label messageLabel = new Label(message);
+            display.getChildren().add(messageLabel);
         }
         List<String> messages = model.getRecentMessages();
         preview.getChildren().clear();

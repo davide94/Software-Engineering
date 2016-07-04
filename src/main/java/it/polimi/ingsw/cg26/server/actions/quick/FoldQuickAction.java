@@ -28,9 +28,9 @@ public class FoldQuickAction extends Action {
     public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
         if (!currentPlayer.canPerformQuickAction())
-            throw new NoRemainingActionsException();
+            throw new NoRemainingActionsException("You can not perform an action now.");
         currentPlayer.performQuickAction();
         notifyChange(gameBoard);
         gameBoard.notifyObservers(new MessageUpdate(currentPlayer.getName(), "[Folded Quick Action]"));

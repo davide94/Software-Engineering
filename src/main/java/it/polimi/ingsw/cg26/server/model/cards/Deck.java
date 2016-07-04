@@ -48,7 +48,7 @@ public abstract class Deck<E> {
      */
     protected E draw() throws NoRemainingCardsException {
         if (!hasNext())
-            throw new NoRemainingCardsException();
+            throw new NoRemainingCardsException("not enough cards.");
         return this.cards.poll();
     }
 

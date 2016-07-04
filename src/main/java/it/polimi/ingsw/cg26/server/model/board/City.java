@@ -93,7 +93,7 @@ public class City {
     public void build(Player p) throws ExistingEmporiumException, NoRemainingCardsException {
     	for(Emporium x:emporiums)
     	    if(x.belongsTo(p))
-    		    throw new ExistingEmporiumException();
+    		    throw new ExistingEmporiumException("You have already built in this city.");
         emporiums.add(Emporium.createEmporium(p));
         takeRecursivelyBonus(p);
     }

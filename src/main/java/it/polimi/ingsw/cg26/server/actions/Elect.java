@@ -38,6 +38,6 @@ public abstract class Elect extends Action {
 				return c;
 			}
 		}
-		throw new CouncillorNotFoundException();
+		throw new CouncillorNotFoundException("the required councillor does not exists.");
 	}
 }

@@ -307,7 +307,7 @@ public class Player {
 	 */
 	public void takeAssistants(int number) throws NoRemainingAssistantsException {
 		if (assistants.size() < number)
-			throw new NoRemainingAssistantsException();
+			throw new NoRemainingAssistantsException("You does not own enough assistants.");
 		for (int i = 0; i < number; i++)
 			assistants.poll();
 	}
@@ -396,7 +396,7 @@ public class Player {
 		for (BusinessPermissionTile tile : this.tiles)
 			if (tile.getState().equals(bPTState))
 				return tile;
-		throw new InvalidCardsException();
+		throw new InvalidCardsException("You does not own the required cards.");
 	}
 
 	public BusinessPermissionTile hasPermissionTileAlsoFaceDown(BusinessPermissionTileDTO bPTState) throws InvalidCardsException {
@@ -424,7 +424,7 @@ public class Player {
 			}
 		}
 		if(tile == null)
-			throw new InvalidTileException();
+			throw new InvalidTileException("You does not own the required BPT.");
 		this.tiles.remove(tile);
 		tile.setOwner(null);
 		return tile;
@@ -433,13 +433,13 @@ public class Player {
 	/**
 	 * Marks a tile as used
 	 * @param tile is the tile to mark as used
-	 * @throws InvalidCardsException if the player does not owns the tile
+	 * @throws InvalidTileException if the player does not owns the tile
      */
-	public void useBPT(BusinessPermissionTile tile) throws InvalidCardsException {
+	public void useBPT(BusinessPermissionTile tile) throws InvalidTileException {
 		if(this.tiles.remove(tile))
 			this.discardedTiles.add(tile);
 		else
-			throw new InvalidCardsException();
+			throw new InvalidTileException("You does not own the required BPT.");
 	}
 
 	/**
@@ -504,7 +504,7 @@ public class Player {
 			}
 		}
 		if (removedCard == null)
-			throw new InvalidCardsException();
+			throw new InvalidCardsException("You does not own the required cards.");
 		removedCard.setOwner(null);
 		this.cards.remove(removedCard);
 		return removedCard;

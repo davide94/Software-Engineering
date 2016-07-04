@@ -41,11 +41,11 @@ public class Buy extends Action {
 	@Override
 	public void apply(GameBoard gameBoard) throws SellableNotFoundException, NotEnoughMoneyException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canBuy(getToken()))
-			throw new IllegalMarketStateException();
+			throw new IllegalMarketStateException("is not you turn.");
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		Sellable realSellable = gameBoard.getMarket().getRealSellable(sellable);
 		if(currentPlayer.getCoinsNumber()<realSellable.getPrice())
-			throw new NotEnoughMoneyException();
+			throw new NotEnoughMoneyException("You does not have enough money.");
 		oldOwner = realSellable.getOwner();
 		oldOwner.addCoins(realSellable.getPrice());
 		currentPlayer.removeCoins(realSellable.getPrice());

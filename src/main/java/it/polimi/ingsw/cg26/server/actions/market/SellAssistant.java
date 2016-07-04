@@ -25,7 +25,7 @@ public class SellAssistant extends Sell {
 	@Override
 	public void apply(GameBoard gameBoard) throws NoRemainingAssistantsException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
-			throw new IllegalMarketStateException();
+			throw new IllegalMarketStateException("is not your turn.");
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		currentPlayer.takeAssistants(1);
 		Assistant assistantToAdd = new Assistant();

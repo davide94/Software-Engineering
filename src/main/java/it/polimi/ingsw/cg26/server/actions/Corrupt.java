@@ -56,7 +56,7 @@ public abstract class Corrupt extends Action {
                 usedCoins = 0;
                 break;
             default :
-                throw new InvalidCardsException();
+                throw new InvalidCardsException("You can not corrupt a council with this number of cards.");
         }
         return usedCoins + multicolorCardsNumber;
     }
@@ -69,8 +69,8 @@ public abstract class Corrupt extends Action {
     public void apply(GameBoard gameBoard) throws NotEnoughMoneyException, InvalidCardsException, NoRemainingActionsException, CityNotFoundException, NoRemainingAssistantsException, ExistingEmporiumException, NoRemainingCardsException, NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if (!currentPlayer.canPerformMainAction())
-            throw new NoRemainingActionsException();
+            throw new NoRemainingActionsException("You can not perform an action now.");
         if (!currentPlayer.hasCards(this.politicCards))
-            throw new InvalidCardsException();
+            throw new InvalidCardsException("You does not own the required cards.");
     }
 }

@@ -45,11 +45,11 @@ public class ChangeBPT extends Action {
     public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, NoRemainingCardsException, NotYourTurnException {
         Player currentPlayer = gameBoard.getCurrentPlayer();
         if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
         if (!currentPlayer.canPerformQuickAction())
-    		throw new NoRemainingActionsException();
+    		throw new NoRemainingActionsException("You can not perform an action now.");
     	if(currentPlayer.getAssistantsNumber()<1)
-    		throw new NoRemainingAssistantsException();
+    		throw new NoRemainingAssistantsException("You does not own enough assistants.");
     	
     	gameBoard.getRegion(region).getBPTDeck().change();
     	

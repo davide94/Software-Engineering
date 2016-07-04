@@ -149,7 +149,8 @@ public class StateContext implements ClientState {
     /**
      * Print a message if the action is failed
      */
-    public void actionFailed() {
+    public void actionFailed(String cause) {
+        model.addMessage("Action failed because " + cause);
         System.out.println("actionFailed");
     }
 
@@ -185,5 +186,9 @@ public class StateContext implements ClientState {
 
     public Optional<List<BusinessPermissionTileDTO>> getPendingPlayerBonusRequest() {
         return state.getPendingPlayerBonusRequest();
+    }
+
+    public Optional<Integer> getPendingRequestMultiplicity() {
+        return state.getPendingRequestMultiplicity();
     }
 }

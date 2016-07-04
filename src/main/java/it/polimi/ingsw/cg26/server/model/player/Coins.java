@@ -42,7 +42,7 @@ public class Coins {
             throw new IllegalArgumentException();
         }
         if (this.value < decrement) {
-            throw new NotEnoughMoneyException();
+            throw new NotEnoughMoneyException("You does not have enough money.");
         }
         this.value -= decrement;
     }

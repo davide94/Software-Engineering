@@ -41,7 +41,7 @@ public abstract class RemainingActions {
      */
     public void perform() throws NoRemainingActionsException {
         if (this.remaining == 0)
-            throw new NoRemainingActionsException();
+            throw new NoRemainingActionsException("You can not perform an action now.");
         this.remaining --;
     }
 

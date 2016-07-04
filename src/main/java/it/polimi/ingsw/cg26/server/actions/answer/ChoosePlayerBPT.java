@@ -33,7 +33,7 @@ public class ChoosePlayerBPT extends Action {
 		for(int i = 0; i<chosenBPT.size(); i++){
 			for(int j = 0; j<chosenBPT.size(); j++){
 				if(chosenBPT.get(i).equals(chosenBPT.get(j)) && i!=j)
-					throw new InvalidTileException(); 
+					throw new InvalidTileException("this tile is not valid.");
 			}
 		}
 	}
@@ -42,9 +42,9 @@ public class ChoosePlayerBPT extends Action {
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, InvalidTileException, InvalidCardsException, NoRemainingCardsException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		if(!currentPlayer.canPerformChooseAction())
-			throw new NoRemainingActionsException();
+			throw new NoRemainingActionsException("You can not perform an action now.");
 		if(!chosenBPT.isEmpty()) {
 			checkList();
 			for(BusinessPermissionTileDTO tile : chosenBPT)

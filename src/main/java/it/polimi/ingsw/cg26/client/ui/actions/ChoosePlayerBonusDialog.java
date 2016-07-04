@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg26.common.commands.ChoosePlayerBPTCommand;
 import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ public class ChoosePlayerBonusDialog extends Dialog<ChoosePlayerBPTCommand> {
 	 * Default constructor
 	 * @param tiles is the list of tiles that you already have
 	 */
-    public ChoosePlayerBonusDialog(List<BusinessPermissionTileDTO> tiles) {
+    public ChoosePlayerBonusDialog(List<BusinessPermissionTileDTO> tiles, int multiplicity) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 
@@ -36,7 +37,7 @@ public class ChoosePlayerBonusDialog extends Dialog<ChoosePlayerBPTCommand> {
         ToggleGroup toggleGroup = new ToggleGroup();
 
         for (BusinessPermissionTileDTO t: tiles) {
-            VBox choicePane = new VBox(new BPTPane(10.0, 10.0, t));
+            HBox choicePane = new HBox(new BPTPane(100.0, 100.0, t));
             choicePane.setSpacing(5.0);
             choicePane.setAlignment(Pos.CENTER);
             RadioButton radioButton = new RadioButton();

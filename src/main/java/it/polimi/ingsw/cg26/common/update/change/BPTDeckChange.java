@@ -47,6 +47,6 @@ public class BPTDeckChange extends ChangeDecorator {
 			}
 		}
 		if(bPTDeckState != null)
-			throw new InvalidRegionException();
+			throw new InvalidRegionException("can not find the required BPT Deck.");
 	}
 }

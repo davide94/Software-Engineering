@@ -3,13 +3,10 @@ package it.polimi.ingsw.cg26.client.ui.actions;
 import it.polimi.ingsw.cg26.client.model.Model;
 import it.polimi.ingsw.cg26.client.ui.actions.panes.BPTChoicePane;
 import it.polimi.ingsw.cg26.common.commands.ChooseBPTCommand;
-import it.polimi.ingsw.cg26.common.dto.BusinessPermissionTileDTO;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.VBox;
-
-import java.util.List;
 
 /**
  *Build and displays a dialog to choose a BPT that is uncovered
@@ -18,9 +15,9 @@ public class ChooseBPTDialog extends Dialog<ChooseBPTCommand> {
 
 	/**
 	 * Default constructor
-	 * @param tiles a list of BPT uncovered on the gameboard
+	 * @param model is the model
 	 */
-    public ChooseBPTDialog(Model model) {
+    public ChooseBPTDialog(Model model, int multiplicity) {
         VBox contentView = new VBox();
         getDialogPane().setContent(contentView);
 

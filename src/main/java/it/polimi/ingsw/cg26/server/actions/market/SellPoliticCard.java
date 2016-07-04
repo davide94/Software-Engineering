@@ -36,7 +36,7 @@ public class SellPoliticCard extends Sell {
 	@Override
 	public void apply(GameBoard gameBoard) throws InvalidCardsException, IllegalMarketStateException {
 		if(!gameBoard.getScheduler().canSell(getToken()))
-			throw new IllegalMarketStateException();
+			throw new IllegalMarketStateException("is not your turn.");
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		PoliticCard cardToSell = currentPlayer.takeCard(this.politicCard);
 		cardToSell.setOwner(currentPlayer);

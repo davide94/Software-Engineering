@@ -41,4 +41,8 @@ public interface State {
     default Optional<List<BusinessPermissionTileDTO>> getPendingPlayerBonusRequest() {
         return Optional.empty();
     }
+
+    default Optional<Integer> getPendingRequestMultiplicity() {
+        return Optional.empty();
+    }
 }

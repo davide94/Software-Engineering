@@ -30,9 +30,9 @@ public class ElectAsMainAction extends ElectRegion {
 	public void apply(GameBoard gameBoard) throws NoRemainingActionsException, NoRemainingAssistantsException, CouncillorNotFoundException, NotYourTurnException {
 		Player currentPlayer = gameBoard.getCurrentPlayer();
 		if(currentPlayer.getToken() != this.getToken())
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("You can not perform an action now.");
 		if (!currentPlayer.canPerformMainAction())
-    		throw new NoRemainingActionsException();
+    		throw new NoRemainingActionsException("You can not perform an action now.");
     	super.apply(gameBoard);
     	currentPlayer.addCoins(4);
     	currentPlayer.performMainAction();

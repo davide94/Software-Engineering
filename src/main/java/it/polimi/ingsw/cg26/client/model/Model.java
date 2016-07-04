@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg26.common.update.Update;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -56,6 +57,7 @@ public class Model extends Observable<Update> implements ClientModel {
         messages = new LinkedList<>();
     }
 
+    @Override
     public StateContext getState() {
         return state;
     }
@@ -68,6 +70,7 @@ public class Model extends Observable<Update> implements ClientModel {
         return currentPlayer;
     }
 
+    @Override
     public List<PlayerDTO> getPlayers() {
         return new LinkedList<>(players);
     }
@@ -88,6 +91,7 @@ public class Model extends Observable<Update> implements ClientModel {
         return kingBalcony;
     }
 
+    @Override
     public List<RegionDTO> getRegions() {
         return new LinkedList<>(regions);
     }
@@ -185,6 +189,6 @@ public class Model extends Observable<Update> implements ClientModel {
     public synchronized List<String> getRecentMessages() {
         int seconds = 5;
         int num = (int) messagesTimes.stream().filter(t -> t.until(Instant.now(), ChronoUnit.SECONDS) < seconds).count();
-        return messages.subList(messages.size() - num, messages.size());
+        return messages.subList(messages.size() - num, messages.size()).stream().filter(m -> !m.contains("<You>")).collect(Collectors.toList());
     }
 }
