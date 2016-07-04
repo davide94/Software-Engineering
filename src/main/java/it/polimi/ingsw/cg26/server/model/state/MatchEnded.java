@@ -19,7 +19,6 @@ public class MatchEnded extends State {
 	 * The list of players
 	 */
     private List<Player> players;
-
     
     /**
      * Default constructor
@@ -40,20 +39,24 @@ public class MatchEnded extends State {
         return null;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     private Comparator<Player> nobilityComparator = (x, y) ->
-            x.getNobilityCell().getIndex() < y.getNobilityCell().getIndex() ? -1 :
+            x.getNobilityCell().getIndex() > y.getNobilityCell().getIndex() ? -1 :
                     x.getNobilityCell().getIndex() == y.getNobilityCell().getIndex() ? 0 : 1;
 
     private Comparator<Player> bptComparator = (x, y) ->
-            x.getBPTNumber() < y.getBPTNumber() ? -1 :
+            x.getBPTNumber() > y.getBPTNumber() ? -1 :
                     x.getBPTNumber() == y.getBPTNumber() ? 0 : 1;
 
     private Comparator<Player> victoryComparator = (x, y) ->
-            x.getBPTNumber() < y.getBPTNumber() ? -1 :
-                    x.getBPTNumber() == y.getBPTNumber() ? 0 : 1;
+            x.getVictoryPoints() > y.getVictoryPoints() ? -1 :
+                    x.getVictoryPoints() == y.getVictoryPoints() ? 0 : 1;
 
     private Comparator<Player> assistantsPlusCardsComparator = (x, y) ->
-            x.getAssistantsNumber() + x.getPoliticCardsNumber() < y.getAssistantsNumber() + y.getPoliticCardsNumber() ? -1 :
+            x.getAssistantsNumber() + x.getPoliticCardsNumber() > y.getAssistantsNumber() + y.getPoliticCardsNumber() ? -1 :
                     x.getAssistantsNumber() + x.getPoliticCardsNumber() == y.getAssistantsNumber() + y.getPoliticCardsNumber() ? 0 : 1;
 
     private void calculateWinner() {
@@ -80,7 +83,8 @@ public class MatchEnded extends State {
 
         Collections.sort(players, victoryComparator);
         int a = (int)players.stream().filter(p -> p.getVictoryPoints() == players.get(0).getVictoryPoints()).count();
-        if (a != 0)
-            Collections.sort(players.subList(0, a), assistantsPlusCardsComparator);
+        //if (a > 1)
+            //Collections.sort(players.subList(0, a), assistantsPlusCardsComparator);
+
     }
 }

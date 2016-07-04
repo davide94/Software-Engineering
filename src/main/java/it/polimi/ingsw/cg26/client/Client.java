@@ -484,27 +484,6 @@ public class Client extends Application implements it.polimi.ingsw.cg26.common.o
                 playPauseButton.setStyle("-fx-background-image: url(" + getClass().getResource("/img/musicButtons/mute.png") + ");" +
                         "-fx-background-position: center;-fx-background-size: contain;-fx-background-color: transparent;");
         });
-
-    	/*MusicPane pane = new MusicPane();
-        
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetY(3.0f);
-        shadow.setRadius(50.0);
-        shadow.setColor(Color.WHITE);
-
-        Pane showHidePane = new Pane();
-        AnchorPane.setTopAnchor(showHidePane, 50.0);
-        AnchorPane.setLeftAnchor(showHidePane, 250.0);
-        showHidePane.setPrefSize(30.0, 30.0);
-        showHidePane.setStyle("-fx-background-image: url(" + getClass().getResource("/img/user.png") + ");-fx-background-position: center;-fx-background-size: 100%;");
-        showHidePane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> pane.setVisible(true));
-
-
-        pane.getPlay().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> this.musicPlayer.play());
-        pane.getStop().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> this.musicPlayer.stop());
-
-        root.getChildren().add(showHidePane);
-        root.getChildren().add(pane);*/
     }
 
     /**
